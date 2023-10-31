@@ -1,0 +1,78 @@
+.login-container
+{
+  width:100%;
+  margin-top: 5%;
+}
+.btn
+{
+    float: right;
+}
+.btndiv
+{
+    height: 6vh;
+    display: flex;
+  justify-content: center;
+}
+/* Apply these CSS styles to your component's class or ID */
+.my-dropdown1
+{
+    margin-top: 5%;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 16px;
+}
+.my-dropdown
+{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  .my-dropdown option {
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+  }
+  
+@media screen and (max-width: 767px)
+{
+    .my-dropdown1
+    {
+      margin-top: 15%;
+      padding: 8px;
+      font-size: 14px;
+    }
+        .login-container {
+          width: 100%;
+          margin-top: 45%;
+        }
+  
+    .my-dropdown option {
+      font-size: 14px;
+    }
+        .btndiv
+        {
+          height: 7vh;
+          display: flex;
+          justify-content: center;
+        }
+  }
+ @media screen and (max-width: 480px) {
+    .my-dropdown {
+      padding: 6px;
+      font-size: 12px;
+    }
+  
+    .my-dropdown option {
+      font-size: 12px;
+    }
+  }
+  

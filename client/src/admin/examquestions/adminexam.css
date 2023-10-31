@@ -1,0 +1,72 @@
+/* Default styles for all screen sizes */
+.table1
+{
+    width: 70%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.table2
+{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f2f2f2;
+}
+.tdquestion
+{
+    width: 20%;
+}
+textarea
+{
+    width: 100%;
+}
+.textarea
+{
+    width: 100vh;
+}
+input
+{
+    width: 100%;
+}
+tr th
+{
+    background-color: green;
+}
+th
+{
+    background-color: #007acc; 
+    color: white;
+}
+
+thead
+{
+    background-color: #4CAF50; 
+    color: white;
+}
+@media screen and (max-width: 767px)
+{
+    .table1
+    {
+        width: 100%;
+    }
+    th, td {
+        padding: 5px;
+    }
+
+    textarea {
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 480px) {
+    th, td {
+        padding: 3px;
+    }
+
+    textarea {
+        font-size: 12px;
+    }
+}

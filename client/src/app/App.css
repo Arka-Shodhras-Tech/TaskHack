@@ -1,0 +1,38 @@
+/* navbar */
+.navbar
+{
+  margin:3% 0%;
+  font-size: 20px;
+  background-color: white;
+}
+.srkrlogo
+{
+  width: 100px;
+}
+.clgdept
+{
+  margin-top: 1%;
+  text-align: center;
+  font-size: 3.5rem;
+  /* font-family: 'poppins', sans-serif; */
+  background: linear-gradient(180deg, #2900de, #b10f0f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.deptname
+{
+  width: 100%;
+  margin-top: 5%;
+}
+@media screen and (max-width: 767px)
+{
+  .srkrlogo
+  {
+    width: 50px;
+  }
+  .clgdept
+  {
+    margin-top: 4.5%;
+    font-size: 1rem;
+  }
+}
