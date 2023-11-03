@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { NavBar } from "../../navbar/navbar";
-import '../examquestions/adminexam.css'
-import { Button } from 'react-bootstrap';
 import axios from "axios";
+import React, { useState } from "react";
+import { Button } from 'react-bootstrap';
+import { NavBar } from "../../navbar/navbar";
+import '../examquestions/adminexam.css';
 export const Adminexam=()=>
 {
     const[ques,sques]=useState()
@@ -19,7 +19,7 @@ export const Adminexam=()=>
         const theme="Question and Answer";
         if(ques && ans)
         {
-            await axios.post("http://localhost:8000/questions/"+theme+"/"+ques+"/"+ans)
+            await axios.post("http://localhost:9899/questions/"+theme+"/"+ques+"/"+ans)
             .then((res)=>
             {
                 if(res.data)
@@ -45,7 +45,7 @@ export const Adminexam=()=>
         const theme="Choose the correct answer"
         if(ques && ans)
         {
-            await axios.post("http://localhost:8000/chooseanswer/"+theme+"/"+ques+"/"+ans+"/"+ans1+"/"+ans2+"/"+ans3+"/"+ans4)
+            await axios.post("http://localhost:9899/chooseanswer/"+theme+"/"+ques+"/"+ans+"/"+ans1+"/"+ans2+"/"+ans3+"/"+ans4)
             .then((res)=>
             {
                 if(res.data)
@@ -71,7 +71,7 @@ export const Adminexam=()=>
         const theme="fill in the blank"
         if(ques && ans)
         {
-            await axios.post("http://localhost:8000/fillbank/"+theme+"/"+ques+"/"+ans)
+            await axios.post("http://localhost:9899/fillbank/"+theme+"/"+ques+"/"+ans)
             .then((res)=>
             {
                 if(res.data)

@@ -1,32 +1,35 @@
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from "react";
 import { NavBar } from "../../navbar/navbar";
 import "../team/team.css";
-import axios from 'axios';
 export const Team = () =>
 {
   const[data,sdata]=useState([]);
   const [regd, sregd] = useState()
   const[teamname,steamname]=useState()
+  const[btns,sbtns]=useState()
   const Accept=async()=>
   {
-    await axios.post("http://localhost:8000/acceptrequest",{regd})
+    const btn=document.getElementById(btns);
+    btn.innerHTML="Accepting...."
+    await axios.post("http://localhost:9899/acceptrequest/"+regd.index+"/"+regd.val.Registernumber)
     .then((res)=>
     {
       if(res.data)
       {
-        alert("Request Accepted")
+        btn.innerHTML="Accepted";
       }
       else
       {
-        alert("Try again");
+        btn.innerHTML="Try again"
       }
     })
     .catch((e)=>console.log(e))
   }
   useEffect(()=>
   {
-    axios.post("http://localhost:8000/studentdata")
+    axios.post("http://localhost:9899/studentdata")
     .then((res)=>
     {
       sdata(res.data)
@@ -71,8 +74,8 @@ export const Team = () =>
                       <td className="text-center">{val.Name}</td>
                       <td className="text-center">{val.Registernumber}</td>
                       <td className="text-center">
-                        {
-                          val.Request?<button type="button" className="btn btn-success" onClick={Accept} onClickCapture={()=>sregd({val,index})}>{val.Confirm?"Permission Given":"Accept"}</button>:<b/>
+                        {val.Request?
+                          <button id={val.Registernumber} type="button" className="btn btn-success" onClick={Accept} onClickCapture={()=>{sregd({val,index});sbtns(val.Registernumber)}}>{val.Confirm?"Permission Given":"Accept"}</button>:<b/>
                         }
                       </td>
                     </tr>

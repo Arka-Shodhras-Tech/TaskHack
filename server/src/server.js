@@ -2,6 +2,7 @@ import cors from "cors";
 import express from 'express';
 import { connectToDB, db } from './db.js';
 const app=express()
+let stop=false;
 app.use(express.json())
 app.use(cors())
 
@@ -10,6 +11,15 @@ app.get('/',async(req,res)=>
     res.send("Ok continue");
 })
 // **************************************Student Register****************************************//
+app.post("/studentdata",async(req,res)=>
+{
+    await db.collection("Studentdata").find().toArray()
+    .then((details)=>
+    {
+        res.json(details)
+    })
+    .catch((e)=>console.log(e))
+})
 app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(req,res)=>
 {
     await db.collection("Studentdata").findOne({Teamname:req.params.team})
@@ -36,15 +46,6 @@ app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(r
 app.post("/verifyregister/:regd",async(req,res)=>
 {
     await db.collection("Studentdata").findOne({[`Teammembers.Registernumber`]:req.params.regd})
-    .then((details)=>
-    {
-        res.json(details)
-    })
-    .catch((e)=>console.log(e))
-})
-app.post("/studentdata",async(req,res)=>
-{
-    await db.collection("Studentdata").find().toArray()
     .then((details)=>
     {
         res.json(details)
@@ -231,7 +232,6 @@ app.post('/exam/:regd/:index/:ques/:ans/:ans1',async(req,res)=>
             await db.collection("ExamSheet").findOne({Registernumber:req.params.regd,[`Paper.${req.params.index}.Question`]:req.params.ques})
             .then(async(details)=>
             {
-                const details1=null
                 if (details)
                 {
                     await db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.params.regd }, {$set:{[`Paper.${req.params.index}.EnterAnswer`]:req.params.ans1}})
@@ -286,18 +286,18 @@ app.post('/paperdata',async(req,res)=>
 
 
 // ******************************************************Request***********************************************//
-app.post('/request',async(req,res)=>
+app.post('/request/:index/:regd',async(req,res)=>
 {
-    await db.collection("Studentdata").findOneAndUpdate({[`Teammembers.${req.body.regd.index}.Registernumber`]:req.body.regd.val.Registernumber},{$set:{[`Teammembers.${req.body.regd.index}.Request`]:true}})
+    await db.collection("Studentdata").findOneAndUpdate({[`Teammembers.${req.params.index}.Registernumber`]:req.params.regd},{$set:{[`Teammembers.${req.params.index}.Request`]:true}})
     .then((details)=>
     {
         res.json(details)
     })
     .catch((e)=>console.log(e))
 })
-app.post('/acceptrequest',async(req,res)=>
+app.post('/acceptrequest/:index/:regd',async(req,res)=>
 {
-    await db.collection("Studentdata").findOneAndUpdate({[`Teammembers.${req.body.regd.index}.Registernumber`]:req.body.regd.val.Registernumber},{$set:{[`Teammembers.${req.body.regd.index}.Request`]:false,[`Teammembers.${req.body.regd.index}.Confirm`]:true}})
+    await db.collection("Studentdata").findOneAndUpdate({[`Teammembers.${req.params.index}.Registernumber`]:req.params.regd},{$set:{[`Teammembers.${req.params.index}.Request`]:false,[`Teammembers.${req.params.index}.Confirm`]:true}})
     .then((details)=>
     {
         res.json(details)
@@ -307,31 +307,91 @@ app.post('/acceptrequest',async(req,res)=>
 
 
 // *************************************Submit exam********************************************//
-app.post('/sumitexam',async(req,res)=>
+app.post('/sumitexam/:index/:regd/:marks',async(req,res)=>
 {
-    await db.collection("Studentdata").findOne({[`Teammembers.${req.body.ans1.index}.Registernumber`]:req.body.ans1.val.Registernumber})
+    await db.collection("Studentdata").findOne({[`Teammembers.${req.params.index}.Registernumber`]:req.params.regd})
     .then((details)=>
     {
         details.Teammembers.map((val)=>
         {
-            if(val.Registernumber===req.body.ans1.val.Registernumber)
+            if(val.Registernumber===req.params.regd && val.Marks)
             {
-                console.log(val.Marks)
-                const marks=parseInt(val.Marks)+parseInt(req.body.marks)
-                console.log(marks)
-                db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.body.ans1.index}.Registernumber`]: req.body.ans1.val.Registernumber }, { $set: { [`Teammembers.${req.body.ans1.index}.Confirm`]: false ,[`Teammembers.${req.body.ans1.index}.Marks`]:marks} })
+                stop=true;
+                const marks=parseInt(val.Marks)+parseInt(req.params.marks)
+                db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.params.index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${req.params.index}.Confirm`]: false ,[`Teammembers.${req.params.index}.Marks`]:marks} })
                     .then((details) =>
                     {
-                        res.json(details)
+                        return res.json(details)
                     })
                     .catch((e) => console.log(e))
             }
             else
             {
-                db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.body.ans1.index}.Registernumber`]: req.body.ans1.val.Registernumber }, { $set: { [`Teammembers.${req.body.ans1.index}.Confirm`]: false,[`Teammembers.${req.body.ans1.index}.Marks`]:req.body.marks } })
+                if(!stop)
+                {
+                    db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.params.index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${req.params.index}.Confirm`]: false,[`Teammembers.${req.params.index}.Marks`]:req.params.marks } })
                     .then((details) => 
                     {
                         res.json(details)
+                    })
+                    .catch((e) => console.log(e))
+                }
+            }
+        })
+    })
+    .catch((e)=>console.log(e))
+})
+app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
+{
+    await db.collection("ExamSheet").findOne({Registernumber:req.params.regd})
+    .then((details)=>
+    {
+        details.Paper.map((val,index)=>
+        {
+            if(val.Question===req.params.question)
+            {
+                db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd  }, { $set: {[`Paper.${index}.Correction`]: true } })
+                    .then((details) =>
+                    {
+                        if(details)
+                        {
+                            db.collection("Studentdata").findOne({ [`Teammembers.Registernumber`]: req.params.regd })
+                            .then((details) => {
+                                details.Teammembers.map((val, index) => {
+                                    if (val.Registernumber === req.params.regd && val.Marks) {
+                                        const marks = parseInt(val.Marks) + parseInt(req.params.mark)
+                                        db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${index}.Marks`]: marks } })
+                                                .then((details) => {
+                                                    return res.json(details)
+                                                })
+                                                .catch((e) => console.log(e))
+                                    }
+                                })
+                            })
+                            .catch((e) => console.log(e))
+                        }
+                    })
+                    .catch((e) => console.log(e))
+            }
+        })
+    })
+    .catch((e)=>console.log(e))
+})
+app.post('/papercorrection/:regd/:marks',async(req,res)=>
+{
+    await db.collection("Studentdata").findOne({[`Teammembers.Registernumber`]:req.params.regd})
+    .then((details)=>
+    {
+        details.Teammembers.map((val,index)=>
+        {
+            if(val.Registernumber===req.params.regd && val.Marks)
+            {
+                const marks = parseInt(val.Marks) + parseInt(req.params.marks)
+                db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${index}.Registernumber`]: req.params.regd }, { $set: {[`Teammembers.${index}.Marks`]: marks } })&&
+                db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.params.regd }, {$set:{Correction:true}})
+                    .then((details) =>
+                    {
+                        return res.json(details)
                     })
                     .catch((e) => console.log(e))
             }
@@ -341,9 +401,11 @@ app.post('/sumitexam',async(req,res)=>
 })
 
 
+
+
 connectToDB(()=>{
-    app.listen(8000,()=>{
-        console.log('server Running at port 8000')
+    app.listen(9899,()=>{
+        console.log('server Running at port 9899')
     })
 }
 )

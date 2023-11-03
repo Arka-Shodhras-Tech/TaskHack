@@ -19,7 +19,7 @@ export const Register = ()=>
     if(name && mail && number && regd && branch && sec && teamname)
     {
       sload(true)
-      await axios.post("http://localhost:8000/verifyregister/"+regd)
+      await axios.post("http://localhost:9899/verifyregister/"+regd)
       .then(async(res)=>
       {
         console.log(res)
@@ -31,7 +31,7 @@ export const Register = ()=>
         }
         else
         {
-          await axios.post("http://localhost:8000/studentregister/" + name + "/" + mail + "/" + number + "/" + regd + "/" + branch + "/" + sec + "/" + teamname)
+          await axios.post("http://localhost:9899/studentregister/" + name + "/" + mail + "/" + number + "/" + regd + "/" + branch + "/" + sec + "/" + teamname)
             .then((res) => {
               if (res.data) {
                 alert("Register Sucessfully");
@@ -52,7 +52,7 @@ export const Register = ()=>
   }
   useEffect(()=>
   {
-    axios.post("http://localhost:8000/studentdata")
+    axios.post("http://localhost:9899/studentdata")
     .then((res)=>
     {
       sdata(res.data)

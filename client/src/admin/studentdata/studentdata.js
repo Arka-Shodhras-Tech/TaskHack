@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NavBar } from "../../navbar/navbar";
 import { Button } from "react-bootstrap";
+import { NavBar } from "../../navbar/navbar";
 export const Studentdata=()=>
 {
     const[data,sdata]=useState([]);
     const[rmv,srmv]=useState();
     const Remove=async()=>
     {
-        await axios.post("http://localhost:8000/remove",{rmv})
+        await axios.post("http://localhost:9899/remove",{rmv})
         .then((res)=>
         {
             if(res.data)
@@ -24,7 +24,7 @@ export const Studentdata=()=>
     }
     useEffect(()=>
   {
-    axios.post("http://localhost:8000/studentdata")
+    axios.post("http://localhost:9899/studentdata")
     .then((res)=>
     {
       sdata(res.data)

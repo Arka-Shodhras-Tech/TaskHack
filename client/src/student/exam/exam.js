@@ -11,37 +11,40 @@ export const Exam = () =>
     const [ans, sans] = useState()
     const [ans1, sans1] = useState()
     const [marks, smarks] = useState(0)
-    const [ans3, sans3] = useState()
+    const [btns, sbtns] = useState()
     const [ans4, sans4] = useState()
     const[load,sload]=useState(false)
     // console.log(sessionStorage.student)
     const Request=async()=>
   {
-    await axios.post("http://localhost:8000/request",{regd})
+    const btn=document.getElementById(btns);
+    btn.innerHTML="Please wait...."
+    await axios.post("http://localhost:9899/request/"+regd.index+"/"+regd.val.Registernumber)
     .then((res)=>
     {
       if(res.data)
       {
-        alert("Please wait")
+        btn.innerHTML="Request sent";
       }
       else
       {
-        alert("Request failed")
+        btn.innerHTML="Request failed try again";
       }
     })
     .catch((e)=>console.log(e))
   }
     const Submit=async()=>
     {
-        sload(true)
+        const btn=document.getElementById(btns);
         if(ans)
         {
-            await axios.post("http://localhost:8000/exam/"+sessionStorage.student+"/"+ans1.index+"/"+ans1.val.Question+"/"+ans1.val.Answer+"/"+ans)
+            btn.innerHTML="Fill another answer";
+        await axios.post("http://localhost:9899/exam/"+sessionStorage.student+"/"+ans1.index+"/"+ans1.val.Question+"/"+ans1.val.Answer+"/"+ans)
         .then((res)=>
         {
             if(res.data)
             {
-                alert("Answer Submitted")
+                btn.innerHTML="Submitted/also update"
                 sload(false)
             }
             else
@@ -64,7 +67,8 @@ export const Exam = () =>
             {
                 smarks(marks + 1);
             }
-            document.getElementById(ans1.index).style.display = "none";
+            document.getElementById(btns).style.display = "none";
+            sans()
         }
         else
         {
@@ -74,32 +78,32 @@ export const Exam = () =>
     // console.log(marks)
     const Submitexam=async()=>
     {
-        sload(true)
-        await axios.post("http://localhost:8000/sumitexam/",{ans1,marks})
+        document.getElementById(ans1.index).innerHTML="Please wait";
+        await axios.post("http://localhost:9899/sumitexam/"+ans1.index+"/"+ans1.val.Registernumber+"/"+marks)
         .then((res) =>
         {
             if(res.data)
             {
-                alert("Submitted exam");
+                document.getElementById(ans1.index).innerHTML="Submitted exam";
                 sessionStorage.removeItem("student");
                 window.location.reload(5)
             }
             else
             {
-                alert("please again submit")
+                document.getElementById(ans1.index).innerHTML="please again submit";
             }
         })
-        .catch((e) => console.log(e))
+        .catch((e) => document.getElementById(ans1.index).innerHTML="Network Error")
     }
     useEffect(()=>
     {
-        axios.post("http://localhost:8000/studentdata")
+        axios.post("http://localhost:9899/studentdata")
             .then((res) =>
             {
                 sdata1(res.data)
             })
             .catch((e) => console.log(e))
-        axios.post("http://localhost:8000/examdata")
+        axios.post("http://localhost:9899/examdata")
             .then((res) => {
                 sdata(res.data)
             })
@@ -142,7 +146,11 @@ export const Exam = () =>
                       <td className="text-center">{val.Name}</td>
                       <td className="text-center">{val.Registernumber}</td>
                       <td className="text-center">
-                        <button type="button" className="btn btn-success" onClick={Request} onClickCapture={()=>sregd({val,index})}>{val.Confirm?"Accepted":"Request"}</button>
+                        {
+                            val.Confirm?
+                            <button id={val.Registernumber} type="button" className="btn btn-success" >Accepted</button>:
+                            <button id={val.Registernumber} type="button" className="btn btn-success" onClick={Request} onClickCapture={()=>{sregd({val,index});sbtns(val.Registernumber)}}>{val.Confirm?"Accepted":"Request"}</button>
+                        }
                       </td>
                     </tr>
                     ))
@@ -174,7 +182,7 @@ export const Exam = () =>
                                             <th>{val.Section}</th>
                                             <th>
                                                 <div style={{display:'flex',justifyContent:'center'}}>
-                                                <Button style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>sans1({val,index})}>{load?"Submitting Exam":"Submit Exam"}</Button>
+                                                <Button id={index} style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme)}}>{"Submit Exam"}</Button>
                                                 </div>
                                             </th>
                                         </tr>
@@ -227,7 +235,7 @@ export const Exam = () =>
                                                                 <td colSpan={5}>
                                                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                                         {
-                                                                            val.Answer1?<Button id={index} onClick={Choosesubmit} onClickCapture={()=>sans1({val,index})}>{load ? "submitting..." : "Submit"}</Button>:<Button id={val.Question} onClick={Submit} onClickCapture={() => sans1({ val, index })}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            val.Answer1?<Button id={item.Theme+index} onClick={Choosesubmit} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme+index)}}>{load ? "submitting..." : "Submit"}</Button>:<Button id={item.Theme+index} onClick={Submit} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme+index)}}>{load ? "submitting..." : "Submit"}</Button>
                                                                         }
                                                                     </div>
                                                                 </td>
