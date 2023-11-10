@@ -13,7 +13,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "build":"npm i",
+    "start": "node src/server.js"
   },
   "author": "teja ramsai ganesh sanjay",
   "license": "ISC",

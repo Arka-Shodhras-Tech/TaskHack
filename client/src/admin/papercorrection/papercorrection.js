@@ -56,7 +56,7 @@ export const PaperCorrection=()=>
             })
             .catch((e) => console.log(e))
             
-    })
+    },)
     return(
         <>
         <NavBar/>
