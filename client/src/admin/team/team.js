@@ -13,7 +13,7 @@ export const Team = () =>
   {
     const btn=document.getElementById(btns);
     btn.innerHTML="Accepting...."
-    await axios.post("http://localhost:9899/acceptrequest/"+regd.index+"/"+regd.val.Registernumber)
+    await axios.post("https://chemdept.onrender.com/acceptrequest/"+regd.index+"/"+regd.val.Registernumber)
     .then((res)=>
     {
       if(res.data)
@@ -29,7 +29,7 @@ export const Team = () =>
   }
   useEffect(()=>
   {
-    axios.post("http://localhost:9899/studentdata")
+    axios.post("https://chemdept.onrender.com/studentdata")
     .then((res)=>
     {
       sdata(res.data)

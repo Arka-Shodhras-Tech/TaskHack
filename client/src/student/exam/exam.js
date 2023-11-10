@@ -19,7 +19,7 @@ export const Exam = () =>
   {
     const btn=document.getElementById(btns);
     btn.innerHTML="Please wait...."
-    await axios.post("http://localhost:9899/request/"+regd.index+"/"+regd.val.Registernumber)
+    await axios.post("https://chemdept.onrender.com/request/"+regd.index+"/"+regd.val.Registernumber)
     .then((res)=>
     {
       if(res.data)
@@ -39,7 +39,7 @@ export const Exam = () =>
         if(ans)
         {
             btn.innerHTML="Fill another answer";
-        await axios.post("http://localhost:9899/exam/"+sessionStorage.student+"/"+ans1.index+"/"+ans1.val.Question+"/"+ans1.val.Answer+"/"+ans)
+        await axios.post("https://chemdept.onrender.com/exam/"+sessionStorage.student+"/"+ans1.index+"/"+ans1.val.Question+"/"+ans1.val.Answer+"/"+ans)
         .then((res)=>
         {
             if(res.data)
@@ -79,7 +79,7 @@ export const Exam = () =>
     const Submitexam=async()=>
     {
         document.getElementById(ans1.index).innerHTML="Please wait";
-        await axios.post("http://localhost:9899/sumitexam/"+ans1.index+"/"+ans1.val.Registernumber+"/"+marks)
+        await axios.post("https://chemdept.onrender.com/sumitexam/"+ans1.index+"/"+ans1.val.Registernumber+"/"+marks)
         .then((res) =>
         {
             if(res.data)
@@ -97,13 +97,13 @@ export const Exam = () =>
     }
     useEffect(()=>
     {
-        axios.post("http://localhost:9899/studentdata")
+        axios.post("https://chemdept.onrender.com/studentdata")
             .then((res) =>
             {
                 sdata1(res.data)
             })
             .catch((e) => console.log(e))
-        axios.post("http://localhost:9899/examdata")
+        axios.post("https://chemdept.onrender.com/examdata")
             .then((res) => {
                 sdata(res.data)
             })

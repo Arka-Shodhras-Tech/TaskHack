@@ -5,7 +5,7 @@ export const Studentscore=()=>
 {
     const [data, sdata] = useState([]);
     useEffect(() => {
-        axios.post("http://localhost:9899/studentdata")
+        axios.post("https://chemdept.onrender.com/studentdata")
             .then((res) => {
                 sdata(res.data)
                 // console.log(data)
