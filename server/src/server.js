@@ -273,15 +273,7 @@ app.post('/paperdata',async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
-// app.get('/paperdata',async(req,res)=>
-// {
-//     await db.collection("ExamSheet").find().toArray()
-//     .then((details)=>
-//     {
-//         res.json(details)
-//     })
-//     .catch((e)=>console.log(e))
-// })
+
 
 
 
@@ -350,7 +342,7 @@ app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
         {
             if(val.Question===req.params.question)
             {
-                db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd  }, { $set: {[`Paper.${index}.Correction`]: true } })
+                db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:true } })
                     .then((details) =>
                     {
                         if(details)
@@ -377,18 +369,17 @@ app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
-app.post('/papercorrection/:regd/:marks',async(req,res)=>
+
+app.post('/wronganswer/:regd/:question/:mark',async(req,res)=>
 {
-    await db.collection("Studentdata").findOne({[`Teammembers.Registernumber`]:req.params.regd})
+    await db.collection("ExamSheet").findOne({Registernumber:req.params.regd})
     .then((details)=>
     {
-        details.Teammembers.map((val,index)=>
+        details.Paper.map((val,index)=>
         {
-            if(val.Registernumber===req.params.regd && val.Marks)
+            if(val.Question===req.params.question)
             {
-                const marks = parseInt(val.Marks) + parseInt(req.params.marks)
-                db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${index}.Registernumber`]: req.params.regd }, { $set: {[`Teammembers.${index}.Marks`]: marks } })&&
-                db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.params.regd }, {$set:{Correction:true}})
+                db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
                     .then((details) =>
                     {
                         return res.json(details)

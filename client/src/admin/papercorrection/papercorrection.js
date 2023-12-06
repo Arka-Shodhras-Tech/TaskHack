@@ -28,25 +28,24 @@ export const PaperCorrection=()=>
         })
         .catch((e)=>console.log(e))
     }
-    // console.log(mark)
-    const Paperdone=async()=>
+    const Wrong=async()=>
     {
-        // const btn=document.getElementById(ans);
-        // btn.innerHTML="Please wait";
-        // await axios.post("https://chemdept.onrender.com/papercorrection/"+ans.toUpperCase()+"/"+mark)
-        // .then((res) =>
-        // {
-        //     console.log(res)
-        //     if(res)
-        //     {
-        //         btn.innerHTML="Thank you for correction"
-        //     }
-        //     else
-        //     {
-        //         btn.innerHTML="Try again"
-        //     }
-        // })
-        // .catch((e) => btn.innerHTML="Network error Try again")
+        const button=document.getElementById(ans);
+        button.innerHTML="wrong answer..."
+        await axios.post("https://chemdept.onrender.com/wronganswer/"+ans1.item.Registernumber+"/"+ans1.val.Question+"/"+mark)
+        .then((res)=>
+        {
+            if(res)
+            {
+                button.disabled=true;
+                button.innerHTML="Wrong";
+            }
+            else
+            {
+                button.innerHTML="Try again";
+            }
+        })
+        .catch((e)=>console.log(e))
     }
     useEffect(()=>
     {
@@ -94,8 +93,8 @@ export const PaperCorrection=()=>
                                             </tr>
                                             <tr>
                                                 <td colSpan={2}>
-                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                        {/* <Button onClick={Submit} onClickCapture={()=>sans1({val,index})}>Submit</Button> */}
+                                                    <div style={{ display:'flex', justifyContent: 'center' }}>
+                                                        <Button id={item.Registernumber+index} onClick={Wrong} style={{backgroundColor:'red',margin:'0 10%'}} onClickCapture={()=>{sans1({val,item});sans(item.Registernumber+index)}}>Wrong</Button>
                                                         <Button id={item.Registernumber+index} style={{backgroundColor:'green',margin:'0 10%'}} onClick={Right} onClickCapture={()=>{sans1({val,item});sans(item.Registernumber+index)}}>{load?"Please wait":"Correct"}</Button>
                                                     </div>
                                                 </td>
@@ -104,13 +103,6 @@ export const PaperCorrection=()=>
                                     ))
                                 }
                             </tbody>
-                            {/* <tr>
-                                <td colSpan={2}>
-                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <Button id={item.Registernumber} style={{ backgroundColor: 'yellow',color:'blue' }} onClick={Paperdone} onClickCapture={()=>sans(item.Registernumber)}>Done {item.Registernumber.toUpperCase()} Paper</Button>
-                                    </div>
-                                </td>
-                            </tr> */}
                             <br/><br/><br/><br/>
                         </>
                     ))
