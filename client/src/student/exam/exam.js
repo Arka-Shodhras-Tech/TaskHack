@@ -12,8 +12,9 @@ export const Exam = () =>
     const [ans1, sans1] = useState()
     const [marks, smarks] = useState(0)
     const [btns, sbtns] = useState()
-    const [ans4, sans4] = useState()
+    const [i, si] = useState(0)
     const[load,sload]=useState(false)
+    var j;
     // console.log(sessionStorage.student)
     const Request=async()=>
   {
@@ -95,6 +96,26 @@ export const Exam = () =>
         })
         .catch((e) => document.getElementById(ans1.index).innerHTML="Network Error")
     }
+
+    useEffect(()=>
+    {
+        document.addEventListener("visibilitychange", ()=> {
+            if (document.hidden)
+            {
+                axios.post("http://localhost:9899/submitexam1/"+sessionStorage.student)
+                .then((res)=>
+                {
+                    if(res)
+                    {
+                        alert("Exam Submitted Sucessfully");
+                    }
+                })
+                .catch((e)=>console.log(e))
+            }
+            else
+            {}
+        });
+    },[1])
     useEffect(()=>
     {
         axios.post("https://chemdept.onrender.com/studentdata")
@@ -182,7 +203,7 @@ export const Exam = () =>
                                             <th>{val.Section}</th>
                                             <th>
                                                 <div style={{display:'flex',justifyContent:'center'}}>
-                                                <Button id={index} style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme)}}>{"Submit Exam"}</Button>
+                                                <Button id="myButton" style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme)}}>{"Submit Exam"}</Button>
                                                 </div>
                                             </th>
                                         </tr>

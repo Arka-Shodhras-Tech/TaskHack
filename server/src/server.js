@@ -333,6 +333,23 @@ app.post('/sumitexam/:index/:regd/:marks',async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
+app.post('/submitexam1/:registernum',async(req,res)=>
+{
+    await db.collection("Studentdata").findOne({[`Teammembers.Registernumber`]:req.params.registernum})
+    .then((details)=>
+    {
+        details.Teammembers.map(async(val,index)=>
+        (
+           val.Registernumber===req.params.registernum&&
+           await db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${index}.Registernumber`]: req.params.registernum }, { $set: { [`Teammembers.${index}.Confirm`]: false } })
+           .then((details) => {
+               res.json(details);
+           })
+           .catch((e) => console.log(e))
+        ))
+    })
+    
+})
 app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
 {
     await db.collection("ExamSheet").findOne({Registernumber:req.params.regd})
@@ -372,24 +389,25 @@ app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
 
 app.post('/wronganswer/:regd/:question/:mark',async(req,res)=>
 {
+    let i=0;
     await db.collection("ExamSheet").findOne({Registernumber:req.params.regd})
     .then((details)=>
     {
         details.Paper.map((val,index)=>
         {
-            if(val.Question===req.params.question)
-            {
-                db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
-                    .then((details) =>
-                    {
-                        return res.json(details)
-                    })
-                    .catch((e) => console.log(e))
-            }
+            i++;
+            // if(val.Question===req.params.question)
+            // {
+            //     db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
+            //         .then((details) =>
+            //         {
+            //             return res.json(details)
+            //         })
+            //         .catch((e) => console.log(e))
+            // }
+            });
         })
     })
-    .catch((e)=>console.log(e))
-})
 
 
 

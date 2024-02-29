@@ -32,7 +32,7 @@ export const PaperCorrection=()=>
     {
         const button=document.getElementById(ans);
         button.innerHTML="wrong answer..."
-        await axios.post("https://chemdept.onrender.com/wronganswer/"+ans1.item.Registernumber+"/"+ans1.val.Question+"/"+mark)
+        await axios.post("http://localhost:9899/wronganswer/"+ans1.item.Registernumber+"/"+ans1.val.Question+"/"+mark)
         .then((res)=>
         {
             if(res)
