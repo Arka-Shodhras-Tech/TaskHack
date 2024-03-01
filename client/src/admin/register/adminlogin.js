@@ -16,9 +16,9 @@ export const AdminLogin = ()=>
   const[load,sload]=useState(false)
   const Login=async()=>
   {
-    if(process.env.REACT_APP_id===name)
+    if(process.env.REACT_APP_id===`"${name}"`)
     {
-      if(process.env.REACT_APP_Lock===mail)
+      if(process.env.REACT_APP_Lock===`"${mail}"`)
       {
         sessionStorage.lock=true;
         window.location.reload(2);
