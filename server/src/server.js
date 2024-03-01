@@ -70,7 +70,15 @@ app.post("/questions/",async(req,res)=>
     await db.collection("Exam").findOne({Theme:req.body.theme})
     .then(async(details)=>
     {
-        if(details)
+        if(details)// if(val.Question===req.params.question)
+            // {
+            //     db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
+            //         .then((details) =>
+            //         {
+            //             return res.json(details)
+            //         })
+            //         .catch((e) => console.log(e))
+            // }
         {
             await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
@@ -395,7 +403,7 @@ app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
     .catch((e)=>console.log(e))
 })
 
-app.post('/wronganswer/:regd/:question/:mark',async(req,res)=>
+app.post('/wronganswer/:regd/:question',async(req,res)=>
 {
     let i=0;
     await db.collection("ExamSheet").findOne({Registernumber:req.params.regd})
