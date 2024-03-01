@@ -110,20 +110,20 @@ app.post("/questions/",async(req,res)=>
 
 
 // *****************************************************Choose the correct answers*****************************************//
-app.post("/chooseanswer/:theme/:ques/:ans/:ans1/:ans2/:ans3/:ans4",async(req,res)=>
+app.post("/chooseanswer/",async(req,res)=>
 {
-    await db.collection("Exam").findOne({Theme:req.params.theme})
+    await db.collection("Exam").findOne({Theme:req.body.theme})
     .then(async(details)=>
     {
         if(details)
         {
-            await db.collection("Exam").findOne({[`List.Question`]:req.params.ques})
+            await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
             {
                 const details1=null
                 if (details) {
                     details.List.map((val) => {
-                        if (val.Question === req.params.ques)
+                        if (val.Question === req.body.ques)
                         {
                             res.json(details1);
                         }
@@ -131,7 +131,7 @@ app.post("/chooseanswer/:theme/:ques/:ans/:ans1/:ans2/:ans3/:ans4",async(req,res
                 }
                 else
                 {
-                    await db.collection("Exam").findOneAndUpdate({ Theme: req.params.theme }, { $push: { List: { Question: req.params.ques,Answer1:req.params.ans1,Answer2:req.params.ans2,Answer3:req.params.ans3,Answer4:req.params.ans4,Answer: req.params.ans } } })
+                    await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $push: { List: { Question: req.body.ques,Answer1:req.body.ans1,Answer2:req.body.ans2,Answer3:req.body.ans3,Answer4:req.body.ans4,Answer: req.body.ans } } })
                         .then((details) => {
                             res.json(details);
                         })
@@ -142,7 +142,7 @@ app.post("/chooseanswer/:theme/:ques/:ans/:ans1/:ans2/:ans3/:ans4",async(req,res
         }
         else
         {
-            await db.collection("Exam").insertOne({Theme:req.params.theme,List:[{Question:req.params.ques,Answer1:req.params.ans1,Answer2:req.params.ans2,Answer3:req.params.ans3,Answer4:req.params.ans4,Answer:req.params.ans}]})
+            await db.collection("Exam").insertOne({Theme:req.body.theme,List:[{Question:req.body.ques,Answer1:req.body.ans1,Answer2:req.body.ans2,Answer3:req.body.ans3,Answer4:req.body.ans4,Answer:req.body.ans}]})
             .then((details)=>
             {
                 res.json(details);
@@ -165,20 +165,20 @@ app.post('/chooseanswer',async(req,res)=>
 
 
 // *************************************************Fill in the blanks********************************************//
-app.post("/fillbank/:theme/:ques/:ans",async(req,res)=>
+app.post("/fillbank/",async(req,res)=>
 {
-    await db.collection("Exam").findOne({Theme:req.params.theme})
+    await db.collection("Exam").findOne({Theme:req.body.theme})
     .then(async(details)=>
     {
         if(details)
         {
-            await db.collection("Exam").findOne({[`List.Question`]:req.params.ques})
+            await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
             {
                 const details1=null
                 if (details) {
                     details.List.map((val) => {
-                        if (val.Question === req.params.ques)
+                        if (val.Question === req.body.ques)
                         {
                             res.json(details1);
                         }
@@ -186,7 +186,7 @@ app.post("/fillbank/:theme/:ques/:ans",async(req,res)=>
                 }
                 else
                 {
-                    await db.collection("Exam").findOneAndUpdate({ Theme: req.params.theme }, { $push: { List: { Question: req.params.ques, Answer: req.params.ans } } })
+                    await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $push: { List: { Question: req.body.ques, Answer: req.body.ans } } })
                         .then((details) => {
                             res.json(details);
                         })
@@ -197,7 +197,7 @@ app.post("/fillbank/:theme/:ques/:ans",async(req,res)=>
         }
         else
         {
-            await db.collection("Exam").insertOne({Theme:req.params.theme,List:[{Question:req.params.ques,Answer:req.params.ans}]})
+            await db.collection("Exam").insertOne({Theme:req.body.theme,List:[{Question:req.body.ques,Answer:req.body.ans}]})
             .then((details)=>
             {
                 res.json(details);
@@ -222,19 +222,19 @@ app.post('/examdata',async(req,res)=>
 
 
 // ***************************************************After Exam Data**************************************//
-app.post('/exam/:regd/:index/:ques/:ans/:ans1',async(req,res)=>
+app.post('/exam/',async(req,res)=>
 {
-    await db.collection("ExamSheet").findOne({Registernumber:req.params.regd})
+    await db.collection("ExamSheet").findOne({Registernumber:req.body.student})
     .then(async(details)=>
     {
         if(details)
         {
-            await db.collection("ExamSheet").findOne({Registernumber:req.params.regd,[`Paper.${req.params.index}.Question`]:req.params.ques})
+            await db.collection("ExamSheet").findOne({Registernumber:req.body.student,[`Paper.${req.body.index}.Question`]:req.body.question})
             .then(async(details)=>
             {
                 if (details)
                 {
-                    await db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.params.regd }, {$set:{[`Paper.${req.params.index}.EnterAnswer`]:req.params.ans1}})
+                    await db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.body.student }, {$set:{[`Paper.${req.body.index}.EnterAnswer`]:req.body.ans}})
                         .then((details) =>
                         {
                             res.json(details);
@@ -243,7 +243,7 @@ app.post('/exam/:regd/:index/:ques/:ans/:ans1',async(req,res)=>
                 }
                 else
                 {
-                    await db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.params.regd }, { $push: { Paper: { Question:req.params.ques,CorrectAnswer:req.params.ans,EnterAnswer:req.params.ans1 } } })
+                    await db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.body.student}, { $push: { Paper: { Question:req.body.question,CorrectAnswer:req.body.answer,EnterAnswer:req.body.ans } } })
                         .then((details) => {
                             res.json(details);
                         })
@@ -254,7 +254,7 @@ app.post('/exam/:regd/:index/:ques/:ans/:ans1',async(req,res)=>
         }
         else
         {
-            await db.collection("ExamSheet").insertOne({Registernumber:req.params.regd,Paper:[{Question:req.params.ques,CorrectAnswer:req.params.ans,EnterAnswer:req.params.ans1}]})
+            await db.collection("ExamSheet").insertOne({Registernumber:req.body.student,Paper:[{Question:req.body.question,CorrectAnswer:req.body.answer,EnterAnswer:req.body.ans}]})
             .then((details)=>
             {
                 res.json(details);

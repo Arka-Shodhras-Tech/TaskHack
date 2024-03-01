@@ -40,7 +40,11 @@ export const Exam = () =>
         if(ans)
         {
             btn.innerHTML="Fill another answer";
-        await axios.post("https://chemdept.onrender.com/exam/"+sessionStorage.student+"/"+ans1.index+"/"+ans1.val.Question+"/"+ans1.val.Answer+"/"+ans)
+            let student=sessionStorage.student;
+            let index=ans1.index;
+            let question=ans1.val.Question;
+            let answer=ans1.val.Answer;
+        await axios.post("https://chemdept.onrender.com/exam/",{student,index,question,answer,ans})
         .then((res)=>
         {
             if(res.data)

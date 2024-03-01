@@ -71,7 +71,7 @@ export const Adminexam=()=>
         const theme="fill in the blank"
         if(ques && ans)
         {
-            await axios.post("https://chemdept.onrender.com/fillbank/",{theme,ques,ans}))
+            await axios.post("https://chemdept.onrender.com/fillbank/",{theme,ques,ans})
             .then((res)=>
             {
                 if(res.data)
