@@ -207,7 +207,7 @@ export const Exam = () =>
                                             <th>{val.Section}</th>
                                             <th>
                                                 <div style={{display:'flex',justifyContent:'center'}}>
-                                                <Button id="myButton" style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme)}}>{"Submit Exam"}</Button>
+                                                <Button id={index} style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme)}}>{"Submit Exam"}</Button>
                                                 </div>
                                             </th>
                                         </tr>
