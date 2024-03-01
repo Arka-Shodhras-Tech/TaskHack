@@ -65,20 +65,20 @@ app.post('/remove',async(req,res)=>
 
 
 // ******************************************************Question and Answers****************************************//
-app.post("/questions/:theme/:ques/:ans",async(req,res)=>
+app.post("/questions/",async(req,res)=>
 {
-    await db.collection("Exam").findOne({Theme:req.params.theme})
+    await db.collection("Exam").findOne({Theme:req.body.theme})
     .then(async(details)=>
     {
         if(details)
         {
-            await db.collection("Exam").findOne({[`List.Question`]:req.params.ques})
+            await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
             {
                 const details1=null
                 if (details) {
                     details.List.map((val) => {
-                        if (val.Question === req.params.ques)
+                        if (val.Question === req.body.ques)
                         {
                             res.json(details1);
                         }
@@ -86,7 +86,7 @@ app.post("/questions/:theme/:ques/:ans",async(req,res)=>
                 }
                 else
                 {
-                    await db.collection("Exam").findOneAndUpdate({ Theme: req.params.theme }, { $push: { List: { Question: req.params.ques, Answer: req.params.ans } } })
+                    await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $push: { List: { Question: req.body.ques, Answer: req.body.ans } } })
                         .then((details) => {
                             res.json(details);
                         })
@@ -97,7 +97,7 @@ app.post("/questions/:theme/:ques/:ans",async(req,res)=>
         }
         else
         {
-            await db.collection("Exam").insertOne({Theme:req.params.theme,List:[{Question:req.params.ques,Answer:req.params.ans}]})
+            await db.collection("Exam").insertOne({Theme:req.body.theme,List:[{Question:req.body.ques,Answer:req.body.ans}]})
             .then((details)=>
             {
                 res.json(details);
