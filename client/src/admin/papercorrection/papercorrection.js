@@ -9,6 +9,7 @@ export const PaperCorrection=()=>
     const [ans, sans] = useState()
     const [ans1, sans1] = useState()
     const [mark, smark] = useState(1)
+    var teja;
     const Right=async()=>
     {
         const button=document.getElementById(ans);
@@ -65,7 +66,7 @@ export const PaperCorrection=()=>
                 {
                     data.map((item)=>
                     (
-                        <>
+                        teja&&<>
                             <thead>
                                 <th colSpan={2}>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -77,7 +78,7 @@ export const PaperCorrection=()=>
                                 {
                                     item.Paper.map((val,index)=>
                                     (
-                                        !val.Correction?
+                                        !val.Correction && val.EnterAnswer&&teja=true?
                                         <>
                                             <tr>
                                                 <td className="tdquestion"><b>Question</b></td>
