@@ -53,7 +53,7 @@ export const Adminexam=()=>
                 {
                     alert("Question and Answer inserted")
                     sload(false)
-                    window.location.reload(2)
+                    window.location.reload(2);
                 }
                 else
                 {
