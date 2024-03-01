@@ -106,16 +106,16 @@ export const Exam = () =>
         document.addEventListener("visibilitychange", ()=> {
             if (document.hidden)
             {
-                // axios.post("https://chemdept.onrender.com/submitexam1/"+sessionStorage.student)
-                // .then((res)=>
-                // {
-                //     if(res)
-                //     {
-                //         alert("Exam Submitted Sucessfully");
-                //     }
-                // })
-                // .catch((e)=>console.log(e))
-                document.getElementById(ans1.index).click();
+                axios.post("https://chemdept.onrender.com/submitexam1/"+sessionStorage.student)
+                .then((res)=>
+                {
+                    if(res)
+                    {
+                        alert("Exam Submitted Sucessfully");
+                    }
+                })
+                .catch((e)=>console.log(e))
+                // document.getElementById(ans1.index).click();
             }
             else
             {}
