@@ -7,20 +7,16 @@ export const AdminLogin = ()=>
 {
   const[name,sname]=useState()
   const[mail,smail]=useState()
-  const[number,snumber]=useState()
-  const[regd,sregd]=useState()
-  const[sec,ssec]=useState()
-  const[branch,sbranch]=useState()
-  const[data,sdata]=useState([]);
-  const[teamname,steamname]=useState()
   const[load,sload]=useState(false)
   const Login=async()=>
   {
-    if(process.env.REACT_APP_id===`"${name}"`)
+    console.log(process.env.REACT_APP_id===`${name}`)
+    if(process.env.REACT_APP_id===`${name}`)
     {
-      if(process.env.REACT_APP_Lock===`"${mail}"`)
+      if(process.env.REACT_APP_Lock===`${mail}`)
       {
         sessionStorage.lock=true;
+        sload(true);
         window.location.reload(2);
       }
       else
