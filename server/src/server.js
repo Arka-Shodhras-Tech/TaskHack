@@ -89,7 +89,15 @@ app.post("/questions/",async(req,res)=>
                     await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $push: { List: { Question: req.body.ques, Answer: req.body.ans } } })
                         .then((details) => {
                             res.json(details);
-                        })
+                        })// if(val.Question===req.params.question)
+            // {
+            //     db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
+            //         .then((details) =>
+            //         {
+            //             return res.json(details)
+            //         })
+            //         .catch((e) => console.log(e))
+            // }
                         .catch((e) => console.log(e))
                 }
             })
@@ -396,15 +404,15 @@ app.post('/wronganswer/:regd/:question/:mark',async(req,res)=>
         details.Paper.map((val,index)=>
         {
             i++;
-            // if(val.Question===req.params.question)
-            // {
-            //     db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
-            //         .then((details) =>
-            //         {
-            //             return res.json(details)
-            //         })
-            //         .catch((e) => console.log(e))
-            // }
+            if(val.Question===req.params.question)
+            {
+                db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
+                    .then((details) =>
+                    {
+                        return res.json(details)
+                    })
+                    .catch((e) => console.log(e))
+            }
             });
         })
     })
