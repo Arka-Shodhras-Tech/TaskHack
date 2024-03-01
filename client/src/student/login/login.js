@@ -6,7 +6,7 @@ export const Login =()=>
   const[regd,sregd]=useState()
   const Login=async()=>
   {
-    await axios.post("https://chemdept.onrender.com/verifyregister/"+regd)
+    await axios.post(`${process.env.REACT_APP_Server}/verifyregister/`+regd)
     .then((res)=>
     {
       if(res.data)

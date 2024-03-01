@@ -8,7 +8,7 @@ export const Studentdata=()=>
     const[rmv,srmv]=useState();
     const Remove=async()=>
     {
-        await axios.post("https://chemdept.onrender.com/remove",{rmv})
+        await axios.post(`${process.env.REACT_APP_Server}/remove`,{rmv})
         .then((res)=>
         {
             if(res.data)
@@ -24,7 +24,7 @@ export const Studentdata=()=>
     }
     useEffect(()=>
   {
-    axios.post("https://chemdept.onrender.com/studentdata")
+    axios.post(`${process.env.REACT_APP_Server}/studentdata`)
     .then((res)=>
     {
       sdata(res.data)

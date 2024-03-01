@@ -13,7 +13,7 @@ export const PaperCorrection=()=>
     {
         const button=document.getElementById(ans);
         button.innerHTML="Correcting..."
-        await axios.post("https://chemdept.onrender.com/correctionanswer/"+ans1.item.Registernumber+"/"+ans1.val.Question+"/"+mark)
+        await axios.post(`${process.env.REACT_APP_Server}/correctionanswer/`+ans1.item.Registernumber+"/"+ans1.val.Question+"/"+mark)
         .then((res)=>
         {
             if(res)
@@ -32,7 +32,7 @@ export const PaperCorrection=()=>
     {
         const button=document.getElementById(ans);
         button.innerHTML="wrong answer..."
-        await axios.post("https://chemdept.onrender.com/wronganswer/"+ans1.item.Registernumber+"/"+ans1.val.Question)
+        await axios.post(`${process.env.REACT_APP_Server}/wronganswer/`+ans1.item.Registernumber+"/"+ans1.val.Question)
         .then((res)=>
         {
             if(res)
@@ -49,7 +49,7 @@ export const PaperCorrection=()=>
     }
     useEffect(()=>
     {
-        axios.post("https://chemdept.onrender.com/paperdata")
+        axios.post(`${process.env.REACT_APP_Server}/paperdata`)
             .then((res) => {
                 sdata(res.data)
             })

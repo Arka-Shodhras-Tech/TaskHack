@@ -20,7 +20,7 @@ export const Exam = () =>
   {
     const btn=document.getElementById(btns);
     btn.innerHTML="Please wait...."
-    await axios.post("https://chemdept.onrender.com/request/"+regd.index+"/"+regd.val.Registernumber)
+    await axios.post(`${process.env.REACT_APP_Server}/request/`+regd.index+"/"+regd.val.Registernumber)
     .then((res)=>
     {
       if(res.data)
@@ -44,7 +44,7 @@ export const Exam = () =>
             let index=ans1.index;
             let question=ans1.val.Question;
             let answer=ans1.val.Answer;
-        await axios.post("https://chemdept.onrender.com/exam/",{student,index,question,answer,ans})
+        await axios.post(`${process.env.REACT_APP_Server}/exam/`,{student,index,question,answer,ans})
         .then((res)=>
         {
             if(res.data)
@@ -84,7 +84,7 @@ export const Exam = () =>
     const Submitexam=async()=>
     {
         document.getElementById(ans1.index).innerHTML="Please wait";
-        await axios.post("https://chemdept.onrender.com/sumitexam/"+ans1.index+"/"+ans1.val.Registernumber+"/"+marks)
+        await axios.post(`${process.env.REACT_APP_Server}/sumitexam/`+ans1.index+"/"+ans1.val.Registernumber+"/"+marks)
         .then((res) =>
         {
             if(res.data)
@@ -106,7 +106,7 @@ export const Exam = () =>
         document.addEventListener("visibilitychange", ()=> {
             if (document.hidden)
             {
-                axios.post("https://chemdept.onrender.com/submitexam1/"+sessionStorage.student)
+                axios.post(`${process.env.REACT_APP_Server}/submitexam1/`+sessionStorage.student)
                 .then((res)=>
                 {
                     if(res)
@@ -123,13 +123,13 @@ export const Exam = () =>
     },[1])
     useEffect(()=>
     {
-        axios.post("https://chemdept.onrender.com/studentdata")
+        axios.post(`${process.env.REACT_APP_Server}/studentdata`)
             .then((res) =>
             {
                 sdata1(res.data)
             })
             .catch((e) => console.log(e))
-        axios.post("https://chemdept.onrender.com/examdata")
+        axios.post(`${process.env.REACT_APP_Server}/examdata`)
             .then((res) => {
                 sdata(res.data)
             })

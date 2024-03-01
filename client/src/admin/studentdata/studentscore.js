@@ -5,7 +5,7 @@ export const Studentscore=()=>
 {
     const [data, sdata] = useState([]);
     useEffect(() => {
-        axios.post("https://chemdept.onrender.com/studentdata")
+        axios.post(`${process.env.REACT_APP_Server}/studentdata`)
             .then((res) => {
                 sdata(res.data)
                 // console.log(data)
