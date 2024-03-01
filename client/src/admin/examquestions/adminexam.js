@@ -26,6 +26,7 @@ export const Adminexam=()=>
                 {
                     alert("Question and Answer inserted")
                     sload(false)
+                    window.location.reload(2)
                 }
                 else
                 {
@@ -52,6 +53,7 @@ export const Adminexam=()=>
                 {
                     alert("Question and Answer inserted")
                     sload(false)
+                    window.location.reload(2)
                 }
                 else
                 {
@@ -78,6 +80,7 @@ export const Adminexam=()=>
                 {
                     alert("Question and Answer inserted")
                     sload(false)
+                    window.location.reload(2)
                 }
                 else
                 {
