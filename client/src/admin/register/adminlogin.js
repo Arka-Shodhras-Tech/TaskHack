@@ -10,7 +10,6 @@ export const AdminLogin = ()=>
   const[load,sload]=useState(false)
   const Login=async()=>
   {
-    console.log(process.env.REACT_APP_id===`${name}`)
     if(process.env.REACT_APP_id===`${name}`)
     {
       if(process.env.REACT_APP_Lock===`${mail}`)
