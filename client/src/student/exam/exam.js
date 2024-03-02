@@ -10,7 +10,7 @@ export const Exam = () =>
     const [ques, sques] = useState()
     const [ans, sans] = useState()
     const [ans1, sans1] = useState()
-    const [marks, smarks] = useState(5)
+    const [marks, smarks] = useState(0)
     const [btns, sbtns] = useState()
     const [i, si] = useState()
     const[load,sload]=useState(false)
