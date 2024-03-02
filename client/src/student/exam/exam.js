@@ -122,7 +122,6 @@ export const Exam = () =>
                 {
                     buttonref.current.click();
                     alert("Exam Submitted Sucessfully");
-                    window.location.reload(1);
                 }
                 catch(e)
                 {
