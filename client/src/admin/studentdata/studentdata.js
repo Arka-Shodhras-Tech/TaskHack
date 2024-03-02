@@ -29,7 +29,7 @@ export const Studentdata=()=>
             document.getElementById(rmv.data).style.display="none"; 
         const x=setTimeout(async()=>
         {
-            await axios.post(`${process.env.REACT_APP_Server}/droptable/`+rmv)
+            await axios.post(`${process.env.REACT_APP_Server}/droptable/`+rmv.data)
                 .then((res) => {
                     if (res.data)
                     {
