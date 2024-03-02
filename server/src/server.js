@@ -32,6 +32,7 @@ app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(r
             {
                 res.json(details)
             })
+            .catch((e)=>console.log(e))
         }
         else
         {
@@ -40,8 +41,10 @@ app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(r
             {
                 res.json(details)
             })
+            .catch((e)=>console.log(e))
         }
     })
+    .catch((e)=>console.log(e))
 })
 app.post("/verifyregister/:regd",async(req,res)=>
 {
@@ -326,7 +329,7 @@ app.post('/sumitexam/:index/:regd/:marks',async(req,res)=>
             {
                 stop=true;
                 const marks=parseInt(val.Marks)+parseInt(req.params.marks)
-                db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.params.index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${req.params.index}.Confirm`]: false ,[`Teammembers.${req.params.index}.Marks`]:marks} })
+                typeof(marks)==="number" && db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.params.index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${req.params.index}.Confirm`]: false ,[`Teammembers.${req.params.index}.Marks`]:marks} })
                     .then((details) =>
                     {
                         return res.json(details)
@@ -364,6 +367,7 @@ app.post('/submitexam1/:registernum',async(req,res)=>
            .catch((e) => console.log(e))
         ))
     })
+    .catch((e)=>console.log(e))
     
 })
 app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
@@ -423,6 +427,7 @@ app.post('/wronganswer/:regd/:question',async(req,res)=>
             }
             });
         })
+        .catch((e)=>console.log(e))
     })
 app.post('/droptable/:collection',async(req,res)=>
 {

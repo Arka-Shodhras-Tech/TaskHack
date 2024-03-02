@@ -59,24 +59,25 @@ export const Register = ()=>
       // console.log(data)
     })
     .catch((e)=>console.log(e))
-  })
+  },[])
     return(
         <>
         <NavBar/>
         <div className="container register-container">
           <div className="p-4 p-md-5 border rounded-3 bg-body-tertiary">
-            <div className="form-floating mb-3">
-              <input type="text" className="form-control" id="floatingInput" placeholder="Enter your first name"  onChange={(e)=>sname(e.target.value.toUpperCase())}/>
-              <label htmlFor="floatingInput">Full Name</label>
-            </div>
-            <div className=' form-floating d-flex justify-content-between mb-3 align-items-center'>
+          <div className=' form-floating d-flex justify-content-between mb-3 align-items-center'>
               <div className="form-floating  w-100">
                 <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" fdprocessedid="yohq1" onChange={(e)=>smail(e.target.value)}/>
-                <label htmlFor="floatingInput">Email address</label>
+                <label htmlFor="floatingInput">Email Address</label>
               </div>
+            
               {/* <div className='w-25 text-center'>
                 <button type="button" class="btn btn-primary  verify-button" >Verfiy</button>
               </div> */}
+            </div>
+            <div className="form-floating mb-3">
+              <input type="text" className="form-control" id="floatingInput" placeholder="Enter your first name" fdprocessedid="yohq1"  onChange={(e)=>sname(e.target.value.toUpperCase())}/>
+              <label htmlFor="floatingInput">Full Name</label>
             </div>
 
             <div className=' form-floating mb-3'>

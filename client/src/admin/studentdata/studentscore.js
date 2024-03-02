@@ -10,7 +10,7 @@ export const Studentscore=()=>
                 sdata(res.data)
             })
             .catch((e) => console.log(e))
-    })
+    },[])
     return(
         <>
         <NavBar/>

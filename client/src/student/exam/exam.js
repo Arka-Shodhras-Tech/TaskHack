@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 export const Exam = () =>
 {
@@ -10,10 +10,11 @@ export const Exam = () =>
     const [ques, sques] = useState()
     const [ans, sans] = useState()
     const [ans1, sans1] = useState()
-    const [marks, smarks] = useState(0)
+    const [marks, smarks] = useState(5)
     const [btns, sbtns] = useState()
-    const [i, si] = useState(0)
+    const [i, si] = useState()
     const[load,sload]=useState(false)
+    const buttonref = useRef(null);
     var j;
     // console.log(sessionStorage.student)
     const Request=async()=>
@@ -100,22 +101,32 @@ export const Exam = () =>
         })
         .catch((e) => document.getElementById(ans1.index).innerHTML="Network Error")
     }
-
+    
     useEffect(()=>
     {
         document.addEventListener("visibilitychange", ()=> {
             if (document.hidden)
             {
-                axios.post(`${process.env.REACT_APP_Server}/submitexam1/`+sessionStorage.student)
-                .then((res)=>
+                // axios.post(`${process.env.REACT_APP_Server}/submitexam1/`+sessionStorage.student)
+                // .then((res)=>
+                // {
+                //     if(res)
+                //     {
+                //         alert("Exam Submitted Sucessfully");
+                //         window.location.reload(1);
+                //     }
+                // })
+                // .catch((e)=>console.log(e))
+                // document.getElementsByClassName("submit").click("");
+                try
                 {
-                    if(res)
-                    {
-                        alert("Exam Submitted Sucessfully");
-                    }
-                })
-                .catch((e)=>console.log(e))
-                // document.getElementById(ans1.index).click();
+                    buttonref.current.click();
+                    alert("Exam Submitted Sucessfully");
+                }
+                catch(e)
+                {
+                    console.log(e)
+                }
             }
             else
             {}
@@ -134,7 +145,7 @@ export const Exam = () =>
                 sdata(res.data)
             })
             .catch((e) => console.log(e))
-    })
+    },[])
     return(
         <>
         <div className="container team-container">
@@ -208,7 +219,7 @@ export const Exam = () =>
                                             <th>{val.Section}</th>
                                             <th>
                                                 <div style={{display:'flex',justifyContent:'center'}}>
-                                                <Button id={index} style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>{sans1({val,index});sbtns(item.Theme)}}>{"Submit Exam"}</Button>
+                                                <Button id={index} ref={buttonref} style={{background:"orange"}}onClick={Submitexam} onClickCapture={()=>{sans1({val,index});si(index);sbtns(item.Theme)}}>{"Submit Exam"}</Button>
                                                 </div>
                                             </th>
                                         </tr>

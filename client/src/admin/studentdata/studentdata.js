@@ -63,7 +63,7 @@ export const Studentdata=()=>
       // console.log(data)
     })
     .catch((e)=>console.log(e))
-  })
+  },[])
     return(
         <>
         <NavBar/>
