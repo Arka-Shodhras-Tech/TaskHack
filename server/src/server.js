@@ -424,7 +424,17 @@ app.post('/wronganswer/:regd/:question',async(req,res)=>
             });
         })
     })
+app.post('/droptable/:collection',async(req,res)=>
+{
+    await db.collection("Studentdata").deleteOne({Teamname:req.params.collection})
+    .then((details)=>
+    {
+        res.json(details)
+    })
+    .catch((e)=>console.log(e))
 
+//     await db.listCollections().toArray()
+})
 
 
 
