@@ -248,17 +248,22 @@ app.post('/exam/',async(req,res)=>
     {
         if(details)
         {
-            await db.collection("ExamSheet").findOne({Registernumber:req.body.student,[`Paper.${req.body.index}.Question`]:req.body.question})
+            await db.collection("ExamSheet").findOne({Registernumber:req.body.student,[`Paper.Question`]:req.body.question})
             .then(async(details)=>
             {
-                if (details)
+                if(details)
                 {
-                    await db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.body.student }, {$set:{[`Paper.${req.body.index}.EnterAnswer`]:req.body.ans}})
+                    details.Paper.map(async(val,index)=>
+                    (
+                        val.Question===req.body.question&&
+                        await db.collection("ExamSheet").findOneAndUpdate({ Registernumber:req.body.student }, {$set:{[`Paper.${index}.EnterAnswer`]:req.body.ans}})
                         .then((details) =>
                         {
                             res.json(details);
                         })
                         .catch((e) => console.log(e))
+                    ))
+                    
                 }
                 else
                 {
@@ -351,24 +356,6 @@ app.post('/sumitexam/:index/:regd/:marks',async(req,res)=>
         })
     })
     .catch((e)=>console.log(e))
-})
-app.post('/submitexam1/:registernum',async(req,res)=>
-{
-    await db.collection("Studentdata").findOne({[`Teammembers.Registernumber`]:req.params.registernum})
-    .then((details)=>
-    {
-        details.Teammembers.map(async(val,index)=>
-        (
-           val.Registernumber===req.params.registernum&&
-           await db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${index}.Registernumber`]: req.params.registernum }, { $set: { [`Teammembers.${index}.Confirm`]: false } })
-           .then((details) => {
-               res.json(details);
-           })
-           .catch((e) => console.log(e))
-        ))
-    })
-    .catch((e)=>console.log(e))
-    
 })
 app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
 {

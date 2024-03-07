@@ -81,15 +81,15 @@ export const PaperCorrection=()=>
                                         <>
                                             <tr>
                                                 <td className="tdquestion"><b>Question</b></td>
-                                                <td>{val.Question}</td>
+                                                <td>{val.Question?val.Question:<b/>}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Correct Answer</b></td>
-                                                <td><b>{val.CorrectAnswer}</b></td>
+                                                <td><b>{val.CorrectAnswer?val.CorrectAnswer:<b/>}</b></td>
                                             </tr>
                                             <tr>
                                                 <td><b>Entered Answer</b></td>
-                                                <td><b>{val.EnterAnswer}</b></td>
+                                                <td><b>{val.EnterAnswer?val.EnterAnswer:<b/>}</b></td>
                                             </tr>
                                             <tr>
                                                 <td colSpan={2}>

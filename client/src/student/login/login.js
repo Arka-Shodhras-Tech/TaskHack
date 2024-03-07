@@ -4,14 +4,17 @@ import '../login/login.css';
 export const Login =()=>
 {
   const[regd,sregd]=useState()
+  const[load,sload]=useState(false)
   const Login=async()=>
   {
+    sload(true)
     await axios.post(`${process.env.REACT_APP_Server}/verifyregister/`+regd)
     .then((res)=>
     {
       if(res.data)
       {
         sessionStorage.student=regd;
+        sload(false)
         window.location='192.5264.27';
       }
       else
@@ -31,7 +34,7 @@ export const Login =()=>
         </div>
         <hr className="my-2" />
         <div className="btndiv">
-        <button className=" btn btn-lg btn-success " fdprocessedid="ft8f" onClick={Login}>Login</button>
+        <button className=" btn btn-lg btn-success " fdprocessedid="ft8f" onClick={Login}>{!load?"Login":"Loading..."}</button>
         </div>
       </div>
       </div>
