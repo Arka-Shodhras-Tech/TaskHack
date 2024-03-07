@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 export const Exam = () => {
     const [data, sdata] = useState([])
     const [data1, sdata1] = useState([]);
+    const [data2, sdata2] = useState([]);
     const [teamname, steamname] = useState()
     const [regd, sregd] = useState()
     const [ques, sques] = useState(false)
@@ -15,6 +16,7 @@ export const Exam = () => {
     const [marks, smarks] = useState(0)
     const [btns, sbtns] = useState()
     const [i, si] = useState(0)
+    const [j,sj]=useState(0);
     const [load, sload] = useState(false)
     const [all,sall]=useState(true)
     const [nques,snques]=useState()
@@ -66,7 +68,8 @@ export const Exam = () => {
                 smarks(marks + 1);
             }
             si(i+1)
-            document.getElementById(btns).style.display = "none";
+            sj(j+1);
+            // document.getElementById(btns).style.display = "none";
             sans('')
         }
         else {
@@ -95,8 +98,8 @@ export const Exam = () => {
             if (document.hidden)
             {
                 try {
-                    buttonref.current.click();
-                    alert("Exam Submitted Sucessfully");
+                    // buttonref.current.click();
+                    // alert("Exam Submitted Sucessfully");
                 }
                 catch (e) {
                     console.log(e)
@@ -104,6 +107,13 @@ export const Exam = () => {
             }
             else { }
         });
+        axios.post(`${process.env.REACT_APP_Server}/paperdata`)
+            .then((res) => {
+                sdata2(res.data)
+                data2.map((item)=>item.Registernumber===sessionStorage.student?snques(item.Paper.length):snques(0))
+                console.log(nques)
+            })
+            .catch((e) => console.log(e))
     })
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_Server}/studentdata`)
@@ -208,7 +218,7 @@ export const Exam = () => {
                                                 <th>{val.Section}</th>
                                                 <th>
                                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                        <Button id={index} ref={buttonref} style={{ background: "orange" }} onClick={Submitexam} onClickCapture={() => { sans1({ val, index }); sbtns(item.Theme) }}>{"Submit Exam"}</Button>
+                                                        <Button id={index} ref={buttonref} style={{ background: "orange" }} onClick={Submitexam} onClickCapture={() => { sans1({ val, index }); sbtns(item.Theme) }}>{nques+j + " Questions Submit"}</Button>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -279,7 +289,7 @@ export const Exam = () => {
                                                     </tr>
                                                     <tr>
                                                         <td><input id={item.List[i]?.Answer1} name="same" type="radio" value={item.List[i]?.Answer1} onChange={(e) => sans(e.target.value)} /></td>
-                                                        <td colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
+                                                        <td  colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
                                                     </tr>
                                                     <tr>
                                                         <td><input id={item.List[i]?.Answer2} name="same" type="radio" value={item.List[i]?.Answer2} onChange={(e) => sans(e.target.value)} /></td>
@@ -292,10 +302,6 @@ export const Exam = () => {
                                                     <tr>
                                                         <td><input id={item.List[i]?.Answer4} name="same" type="radio" value={item.List[i]?.Answer4} onChange={(e) => sans(e.target.value)} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer4}>{item.List[i]?.Answer4}</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>Answer</b></td>
-                                                        <td colSpan={5}><textarea type="text" value={ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
                                                     </tr>
                                                     <tr>
                                                         <td colSpan={5}>
@@ -328,7 +334,7 @@ export const Exam = () => {
                                                         {item.Theme === "Question and Answer" &&
                                                             <>
                                                                 <tr>
-                                                                    <td className="tdquestion"><b>Question {i+1}</b></td>
+                                                                    <td className="tdquestion"><b>Question {i+1} </b></td>
                                                                     <td colSpan={5}>{item.List[i]?.Question}</td>
                                                                 </tr>
                                                                 <tr>
