@@ -80,8 +80,7 @@ export const Adminexam = () => {
     }
     const DeleteQues=async()=>
     {
-        console.log(ans1,ques,ans)
-        await axios.post(`${process.env.REACT_APP_Server}/deleteques/`, {ans1, ques, ans})
+        await axios.post(`${process.env.REACT_APP_Server}/deleteques`, {ans1, ques, ans})
         .then((res)=>
         {
             if(res)

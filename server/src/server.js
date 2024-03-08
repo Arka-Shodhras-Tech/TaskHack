@@ -409,7 +409,8 @@ app.post('/droptable/:collection',async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
-app.post('/deleteques/',async(req,res)=>
+
+app.post('/deleteques',async(req,res)=>
 {
     await db.collection("Exam").findOneAndUpdate({Theme:req.body.ans1},{$pull:{List:{Question:req.body.ques}}})
             .then((details)=>
