@@ -29,16 +29,29 @@ export const Studentscore=()=>
                         {
                             data.map((item) =>
                             (
-                                    item.Teammembers.map((val) =>
-                                    (
-                                        <tr>
-                                            <td>{val.Name}</td>
-                                            <td>{val.Registernumber}</td>
-                                            <td>{val.Branch}</td>
-                                            <td>{val.Section}</td>
-                                            <td>{val.Marks}</td>
-                                        </tr>
-                                    ))
+                                <>
+                                <tr >
+                                <th colSpan={7} style={{backgroundColor:'skyblue',color:'blue'}}>
+                                    <div style={{ display: 'flex', justifyContent: 'center',alignItems:'center' }}>
+                                        <label><b>{item.Teamname.toUpperCase()}</b></label>
+                                    </div>
+                                </th>
+                            </tr>
+                            <>
+                            {
+                                item.Teammembers.map((val) =>
+                                (
+                                    <tr>
+                                        <td>{val.Name}</td>
+                                        <td>{val.Registernumber}</td>
+                                        <td>{val.Branch}</td>
+                                        <td>{val.Section}</td>
+                                        <td>{val.Marks}</td>
+                                    </tr>
+                                ))
+                            }
+                            </>
+                                </>
                             ))
                         }
                 </tbody>
