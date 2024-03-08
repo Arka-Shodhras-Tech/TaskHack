@@ -73,15 +73,7 @@ app.post("/questions/",async(req,res)=>
     await db.collection("Exam").findOne({Theme:req.body.theme})
     .then(async(details)=>
     {
-        if(details)// if(val.Question===req.params.question)
-            // {
-            //     db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
-            //         .then((details) =>
-            //         {
-            //             return res.json(details)
-            //         })
-            //         .catch((e) => console.log(e))
-            // }
+        if(details)
         {
             await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
@@ -100,15 +92,7 @@ app.post("/questions/",async(req,res)=>
                     await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $push: { List: { Question: req.body.ques, Answer: req.body.ans } } })
                         .then((details) => {
                             res.json(details);
-                        })// if(val.Question===req.params.question)
-            // {
-            //     db.collection("ExamSheet").findOneAndUpdate({Registernumber:req.params.regd}, { $set: {[`Paper.${index}.Correction`]: true,[`Paper.${index}.Correct`]:false } })
-            //         .then((details) =>
-            //         {
-            //             return res.json(details)
-            //         })
-            //         .catch((e) => console.log(e))
-            // }
+                        })
                         .catch((e) => console.log(e))
                 }
             })
@@ -424,8 +408,16 @@ app.post('/droptable/:collection',async(req,res)=>
         res.json(details)
     })
     .catch((e)=>console.log(e))
-
-//     await db.listCollections().toArray()
+})
+app.post('/deleteques/',async(req,res)=>
+{
+    await db.collection("Exam").findOneAndUpdate({Theme:req.body.ans1},{$pull:{List:{Question:req.body.ques}}})
+            .then((details)=>
+            {
+                res.json(details);
+                console.log(details)
+            })
+            .catch((e)=>console.log(e))
 })
 
 

@@ -357,7 +357,7 @@ export const Exam = () => {
                                             ))
                                         }
 
-                                        {
+{
                                             data.map((item) =>
                                             (
                                                 all && <>
