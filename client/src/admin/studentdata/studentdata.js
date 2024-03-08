@@ -15,6 +15,7 @@ export const Studentdata=()=>
             if(res.data)
             {
                 alert("Removed Sucessfully");
+                window.location.reload(3);
             }
             else
             {
@@ -35,7 +36,8 @@ export const Studentdata=()=>
                     {
                         alert("Delete Team");
                         document.getElementById(rmv.data+rmv.index).style.display="none";
-                        document.getElementById(rmv.data).style.display="block"; 
+                        document.getElementById(rmv.data).style.display="block";
+                        window.location.reload(3);
                     }
                     else {
                         alert("Try again")

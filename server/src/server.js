@@ -330,7 +330,7 @@ app.post('/sumitexam/:index/:regd/:marks',async(req,res)=>
     {
         details.Teammembers.map((val)=>
         {
-            if(val.Registernumber===req.params.regd && val.Marks)
+            if(val.Registernumber===req.params.regd)
             {
                 stop=true;
                 const marks=parseInt(val.Marks)+parseInt(req.params.marks)

@@ -6,6 +6,7 @@ export const Exam = () => {
     const [data, sdata] = useState([])
     const [data1, sdata1] = useState([]);
     const [data2, sdata2] = useState([]);
+    const [data3, sdata3] = useState([]);
     const [teamname, steamname] = useState()
     const [regd, sregd] = useState()
     const [ques, sques] = useState(false)
@@ -16,10 +17,10 @@ export const Exam = () => {
     const [marks, smarks] = useState(0)
     const [btns, sbtns] = useState()
     const [i, si] = useState(0)
-    const [j,sj]=useState(0);
+    const [j, sj] = useState(0);
     const [load, sload] = useState(false)
-    const [all,sall]=useState(true)
-    const [nques,snques]=useState()
+    const [all, sall] = useState(true)
+    const [nques, snques] = useState()
     const buttonref = useRef(null);
     const Request = async () => {
         const btn = document.getElementById(btns);
@@ -37,8 +38,7 @@ export const Exam = () => {
     }
     const Submit = async () => {
         sload(true)
-        if (ans)
-        {
+        if (ans) {
             let student = sessionStorage.student;
             let index = i;
             let question = ans1.val.Question;
@@ -46,7 +46,7 @@ export const Exam = () => {
             await axios.post(`${process.env.REACT_APP_Server}/exam/`, { student, index, question, answer, ans })
                 .then((res) => {
                     if (res.data) {
-                        si(i+1)
+                        si(i + 1)
                         sans('')
                         sload(false)
                     }
@@ -63,12 +63,11 @@ export const Exam = () => {
     const Choosesubmit = async () => {
         console.log(ans1.val)
         if (ans && ans1) {
-            if (ans1.val.Answer === ans)
-            {
+            if (ans1.val.Answer === ans) {
                 smarks(marks + 1);
             }
-            si(i+1)
-            sj(j+1);
+            si(i + 1)
+            sj(j + 1);
             // document.getElementById(btns).style.display = "none";
             sans('')
         }
@@ -95,11 +94,10 @@ export const Exam = () => {
 
     useEffect(() => {
         document.addEventListener("visibilitychange", () => {
-            if (document.hidden)
-            {
+            if (document.hidden) {
                 try {
-                    // buttonref.current.click();
-                    // alert("Exam Submitted Sucessfully");
+                    buttonref.current.click();
+                    alert("Exam Submitted Sucessfully");
                 }
                 catch (e) {
                     console.log(e)
@@ -110,8 +108,8 @@ export const Exam = () => {
         axios.post(`${process.env.REACT_APP_Server}/paperdata`)
             .then((res) => {
                 sdata2(res.data)
-                data2.map((item)=>item.Registernumber===sessionStorage.student?snques(item.Paper.length):snques(0))
-                console.log(nques)
+                data2.map((item) => item.Registernumber === sessionStorage.student ? snques(item.Paper.length) : snques(0))
+                data2.map((item) => item.Registernumber === sessionStorage.student ? sdata3(item.Paper) : sdata3(0))
             })
             .catch((e) => console.log(e))
     })
@@ -189,13 +187,13 @@ export const Exam = () => {
                         <thead>
                             <tr>
                                 <td className="text-center">
-                                    <Link className="qtn-btns" id="ques" onClick={() => { sques(true); schoose(false); sblank(false); si(0);sall(false)}}>Questions</Link>
+                                    <Link className="qtn-btns" id="ques" onClick={() => { sques(true); schoose(false); sblank(false); si(0); sall(false) }}>Questions</Link>
                                 </td>
                                 <td className="text-center">
-                                    <Link className="qtn-btns2" id="choose" onClick={() => { sques(false); schoose(true); sblank(false); si(0);sall(false)}}>Choose the correct Answers</Link>
+                                    <Link className="qtn-btns2" id="choose" onClick={() => { sques(false); schoose(true); sblank(false); si(0); sall(false) }}>Choose the correct Answers</Link>
                                 </td>
                                 <td className="text-center">
-                                    <Link className="qtn-btns1" id="blank" onClick={() => { sques(false); schoose(false); sblank(true); si(0);sall(false)}}>Fill in the blanks</Link>
+                                    <Link className="qtn-btns1" id="blank" onClick={() => { sques(false); schoose(false); sblank(true); si(0); sall(false) }}>Fill in the blanks</Link>
                                 </td>
                             </tr>
                         </thead>
@@ -218,7 +216,7 @@ export const Exam = () => {
                                                 <th>{val.Section}</th>
                                                 <th>
                                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                        <Button id={index} ref={buttonref} style={{ background: "orange" }} onClick={Submitexam} onClickCapture={() => { sans1({ val, index }); sbtns(item.Theme) }}>{nques+j + " Questions Submit"}</Button>
+                                                        <Button id={index} ref={buttonref} style={{ background: "orange" }} onClick={Submitexam} onClickCapture={() => { sans1({ val, index }); sbtns(item.Theme) }}>{nques + j + " Questions Submit"}</Button>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -241,18 +239,18 @@ export const Exam = () => {
                                                         {item.Theme === "fill in the blank" &&
                                                             <>
                                                                 <tr>
-                                                                    <td className="tdquestion"><b>Question</b></td>
+                                                                    <td className="tdquestion"><b>Question {i+1}</b></td>
                                                                     <td colSpan={5}>{item.List[i]?.Question}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Answer</b></td>
-                                                                    <td colSpan={5}><textarea type="text" value={ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
+                                                                    <td colSpan={5}><textarea type="text" value={ans || data3.filter(val=>val.Question.includes(item.List[i].Question)).map((val1)=>val1.EnterAnswer)} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("ques").click() : sblank(true) }}>Previous</Button>
-                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index:i }); sbtns(item.Theme) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                             <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>Next</Button>
                                                                         </div>
                                                                     </td>
@@ -289,7 +287,7 @@ export const Exam = () => {
                                                     </tr>
                                                     <tr>
                                                         <td><input id={item.List[i]?.Answer1} name="same" type="radio" value={item.List[i]?.Answer1} onChange={(e) => sans(e.target.value)} /></td>
-                                                        <td  colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
+                                                        <td colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
                                                     </tr>
                                                     <tr>
                                                         <td><input id={item.List[i]?.Answer2} name="same" type="radio" value={item.List[i]?.Answer2} onChange={(e) => sans(e.target.value)} /></td>
@@ -307,7 +305,7 @@ export const Exam = () => {
                                                         <td colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                 <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("blank").click() : schoose(true) }}>Previous</Button>
-                                                                <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index:i }); sbtns(item.Theme + i) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme + i) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                 <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>Next</Button>
                                                             </div>
                                                         </td>
@@ -333,19 +331,19 @@ export const Exam = () => {
                                                     <tbody>
                                                         {item.Theme === "Question and Answer" &&
                                                             <>
-                                                                <tr>
-                                                                    <td className="tdquestion"><b>Question {i+1} </b></td>
-                                                                    <td colSpan={5}>{item.List[i]?.Question}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><b>Answer</b></td>
-                                                                    <td colSpan={5}><textarea type="text" value={ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
-                                                                </tr>
+                                                            <tr>
+                                                                <td className="tdquestion"><b>Question {i + 1} </b></td>
+                                                                <td colSpan={5}>{item.List[i]?.Question}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Answer</b></td>
+                                                                <td colSpan={5}><textarea type="text" value={ans || data3.filter(val=>val.Question.includes(item.List[i].Question)).map((val1)=>val1.EnterAnswer)} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
+                                                            </tr>
                                                                 <tr>
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("choose").click() : sques(true) }}>Previous</Button>
-                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index:i }); sbtns(item.List[i]) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.List[i]) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                             <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true) }}>Next</Button>
                                                                         </div>
                                                                     </td>
@@ -362,7 +360,7 @@ export const Exam = () => {
                                         {
                                             data.map((item) =>
                                             (
-                                                all&&<>
+                                                all && <>
                                                     <thead>
                                                         <th colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
