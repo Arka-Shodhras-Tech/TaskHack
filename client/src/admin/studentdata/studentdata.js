@@ -7,6 +7,7 @@ export const Studentdata=()=>
     const[data,sdata]=useState([]);
     const[rmv,srmv]=useState();
     const[load,sload]=useState();
+    const [load1,sload1]=useState(true)
     const Remove=async()=>
     {
         await axios.post(`${process.env.REACT_APP_Server}/remove`,{rmv})
@@ -62,7 +63,7 @@ export const Studentdata=()=>
     .then((res)=>
     {
       sdata(res.data)
-      // console.log(data)
+      sload1(false)
     })
     .catch((e)=>console.log(e))
   },[])
@@ -81,6 +82,11 @@ export const Studentdata=()=>
                         <th colSpan={2}>Team</th>
                     </tr>
                 </thead>
+                {load1&&<thead>
+                    <tr>
+                        <th colSpan={5} style={{backgroundColor:'white',color:'red',textAlign:'center'}}><h5>please wait.....</h5></th>
+                    </tr>
+                </thead>}
                 <tbody>
                         {
                             data.map((item,index) =>

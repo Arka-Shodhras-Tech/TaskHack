@@ -22,7 +22,6 @@ export const Register = ()=>
       await axios.post(`${process.env.REACT_APP_Server}/verifyregister/`+regd)
       .then(async(res)=>
       {
-        console.log(res)
         if(res.data)
         {
           alert("Already register")
@@ -41,7 +40,6 @@ export const Register = ()=>
                 alert("Try again");
               }
             })
-          console.log(name, mail, number, regd, branch, sec, teamname)
         }
       })
     }
@@ -56,7 +54,6 @@ export const Register = ()=>
     .then((res)=>
     {
       sdata(res.data)
-      // console.log(data)
     })
     .catch((e)=>console.log(e))
   },[])

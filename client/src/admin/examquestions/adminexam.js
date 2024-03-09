@@ -14,20 +14,22 @@ export const Adminexam = () => {
     const [ans3, sans3] = useState()
     const [ans4, sans4] = useState()
     const [load, sload] = useState(false)
-    console.log()
-    const Questions = async () => {
-        sload(true)
+    const Questions = async () =>
+    {
         const theme = "Question and Answer";
         if (ques && ans) {
+            document.getElementById("Question").innerHTML="Submitting..."
             await axios.post(`${process.env.REACT_APP_Server}/questions/`, { theme, ques, ans })
                 .then((res) => {
-                    if (res.data) {
+                    if (res.data)
+                    {
+                        document.getElementById("Question").innerHTML="Submitted"
                         alert("Question and Answer inserted")
-                        sload(false)
                         window.location.reload(2)
                     }
                     else {
                         alert("Question already exist");
+                        document.getElementById("Question").innerHTML="Submit"
                     }
                 })
                 .catch((e) => console.log(e))
@@ -37,18 +39,20 @@ export const Adminexam = () => {
         }
     }
     const ChooseCorrect = async () => {
-        sload(true)
         const theme = "Choose the correct answer"
-        if (ques && ans) {
+        if (ques && ans)
+        {
+            document.getElementById("chooseanswer").innerHTML="Submitting..."
             await axios.post(`${process.env.REACT_APP_Server}/chooseanswer/`, { theme, ques, ans, ans1, ans2, ans3, ans4 })
                 .then((res) => {
                     if (res.data) {
+                        document.getElementById("chooseanswer").innerHTML="Submitted"
                         alert("Question and Answer inserted")
-                        sload(false)
                         window.location.reload(2);
                     }
                     else {
                         alert("Question already exist");
+                        document.getElementById("chooseanswer").innerHTML="Submit"
                     }
                 })
                 .catch((e) => console.log(e))
@@ -73,6 +77,7 @@ export const Adminexam = () => {
                     }
                 })
                 .catch((e) => console.log(e))
+                sload(false)
         }
         else {
             alert("Fill Question and Answer")
@@ -116,7 +121,7 @@ export const Adminexam = () => {
                     {
                         data.map((item) =>
                         (
-                            all && <>
+                            !all && <>
                                 <thead>
                                     <th colSpan={5}>
                                         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -131,7 +136,11 @@ export const Adminexam = () => {
                                             <>
                                                 <tr>
                                                     <td className="tdquestion"><b>Question {index + 1}</b></td>
-                                                    <td colSpan={5}>{val.Question}<Button onClick={DeleteQues} onClickCapture={()=>{sans1(item.Theme);sques(val.Question);sans(index)}} style={{backgroundColor:'red'}}>X</Button></td>
+                                                    <td colSpan={5} style={{color:'red'}}>{val.Question}<Button onClick={DeleteQues} onClickCapture={()=>{sans1(item.Theme);sques(val.Question);sans(index)}} style={{backgroundColor:'red'}}>X</Button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="tdquestion"><b>Answer {index + 1}</b></td>
+                                                    <td colSpan={5} style={{color:'blue'}}>{val.Answer}</td>
                                                 </tr>
                                                 {
                                                     val.Answer1 &&
@@ -151,10 +160,6 @@ export const Adminexam = () => {
                                                         <tr>
                                                             <td><input id={val.Answer4} name="same" type="radio" value={val.Answer4} onChange={(e) => sans(e.target.value)} /></td>
                                                             <td colSpan={5}><label for={val.Answer4}>{val.Answer4}</label></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Correct Answer</td>
-                                                            <td>{val.Answer}</td>
                                                         </tr>
                                                     </>
                                                 }
@@ -187,7 +192,7 @@ export const Adminexam = () => {
                         <tr>
                             <td colSpan={2}>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button id="Question" onClick={Questions}>{load ? "Submitting..." : "Submit"}</Button>
+                                    <Button id="Question" onClick={Questions}>{"Submit"}</Button>
                                 </div>
                             </td>
                         </tr>
@@ -232,7 +237,7 @@ export const Adminexam = () => {
                         <tr>
                             <td colSpan={2}>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button id={"chooseanswer"} onClick={ChooseCorrect}>{load ? "Submitting..." : "Submit"}</Button>
+                                    <Button id="chooseanswer" onClick={ChooseCorrect}>{ "Submit"}</Button>
                                 </div>
                             </td>
                         </tr>

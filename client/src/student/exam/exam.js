@@ -61,21 +61,18 @@ export const Exam = () => {
         }
     }
     const Choosesubmit = async () => {
-        console.log(ans1.val)
         if (ans && ans1) {
             if (ans1.val.Answer === ans) {
                 smarks(marks + 1);
             }
             si(i + 1)
             sj(j + 1);
-            // document.getElementById(btns).style.display = "none";
             sans('')
         }
         else {
             alert("Choose one option")
         }
     }
-    // console.log(marks)
     const Submitexam = async () => {
         document.getElementById(ans1.index).innerHTML = "Please wait";
         await axios.post(`${process.env.REACT_APP_Server}/sumitexam/` + ans1.index + "/" + ans1.val.Registernumber + "/" + marks)
@@ -250,7 +247,7 @@ export const Exam = () => {
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("ques").click() : sblank(true) }}>Previous</Button>
-                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme);item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                             <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>Next</Button>
                                                                         </div>
                                                                     </td>
@@ -280,32 +277,31 @@ export const Exam = () => {
                                                             </div>
                                                         </th>
                                                     </thead>
-                                                    {console.log(item.List.length)}
                                                     <tr>
-                                                        <td className="tdquestion"><b>Question</b></td>
+                                                        <td className="tdquestion"><b>Question {i+1}</b></td>
                                                         <td colSpan={5}>{item.List[i]?.Question}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer1} name="same" type="radio" value={item.List[i]?.Answer1} onChange={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer1} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer1} onClick={(e) => sans(e.target.value)} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer2} name="same" type="radio" value={item.List[i]?.Answer2} onChange={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer2} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer2} onClick={(e) => sans(e.target.value)} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer2}>{item.List[i]?.Answer2}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer3} name="same" type="radio" value={item.List[i]?.Answer3} onChange={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer3} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer3} onClick={(e) => sans(e.target.value)} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer3}>{item.List[i]?.Answer3}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer4} name="same" type="radio" value={item.List[i]?.Answer4} onChange={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer4} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer4} onClick={(e) => sans(e.target.value)} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer4}>{item.List[i]?.Answer4}</label></td>
                                                     </tr>
                                                     <tr>
                                                         <td colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                 <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("blank").click() : schoose(true) }}>Previous</Button>
-                                                                <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme + i) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme + i);i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                 <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>Next</Button>
                                                             </div>
                                                         </td>
@@ -343,7 +339,7 @@ export const Exam = () => {
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("choose").click() : sques(true) }}>Previous</Button>
-                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.List[i]) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.List[i]);i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                             <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true) }}>Next</Button>
                                                                         </div>
                                                                     </td>

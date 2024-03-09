@@ -78,12 +78,15 @@ app.post("/questions/",async(req,res)=>
             await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
             {
-                const details1=null
                 if (details) {
-                    details.List.map((val) => {
+                    details.List.map(async(val,index) => {
                         if (val.Question === req.body.ques)
                         {
-                            res.json(details1);
+                            await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $set: { [`List.${index}.Answer`]: req.body.ans } })
+                            .then((details1) => {
+                                res.json(details1);
+                            })
+                            .catch((e) => console.log(e))
                         }
                     })
                 }
@@ -123,12 +126,15 @@ app.post("/chooseanswer/",async(req,res)=>
             await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
             {
-                const details1=null
                 if (details) {
-                    details.List.map((val) => {
+                    details.List.map(async(val,index) => {
                         if (val.Question === req.body.ques)
                         {
-                            res.json(details1);
+                            await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $set: { [`List.${index}.Answer`]: req.body.ans } })
+                            .then((details1) => {
+                                res.json(details1);
+                            })
+                            .catch((e) => console.log(e))
                         }
                     })
                 }
@@ -160,7 +166,6 @@ app.post('/chooseanswer',async(req,res)=>
     await db.collection("Studentdata").findOne({[`Teammembers.${req.body.ans1.index}.Registernumber`]:req.body.ans1.val.Registernumber})
     .then((details)=>
     {
-        // console.log(details)
         res.json(details)
     })
     .catch((e)=>console.log(e))
@@ -178,12 +183,14 @@ app.post("/fillbank/",async(req,res)=>
             await db.collection("Exam").findOne({[`List.Question`]:req.body.ques})
             .then(async(details)=>
             {
-                const details1=null
                 if (details) {
-                    details.List.map((val) => {
-                        if (val.Question === req.body.ques)
-                        {
-                            res.json(details1);
+                    details.List.map(async(val,index) => {
+                        if (val.Question === req.body.ques) {
+                            await db.collection("Exam").findOneAndUpdate({ Theme: req.body.theme }, { $set: { [`List.${index}.Answer`]: req.body.ans } })
+                                .then((details1) => {
+                                    res.json(details1);
+                                })
+                                .catch((e) => console.log(e))
                         }
                     })
                 }
@@ -358,9 +365,9 @@ app.post('/correctionanswer/:regd/:question/:mark',async(req,res)=>
                             db.collection("Studentdata").findOne({ [`Teammembers.Registernumber`]: req.params.regd })
                             .then((details) => {
                                 details.Teammembers.map((val, index) => {
-                                    if (val.Registernumber === req.params.regd && val.Marks) {
+                                    if (val.Registernumber === req.params.regd) {
                                         const marks = parseInt(val.Marks) + parseInt(req.params.mark)
-                                        db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${index}.Marks`]: marks } })
+                                        typeof(marks)==="number" && db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${index}.Marks`]: marks } })
                                                 .then((details) => {
                                                     return res.json(details)
                                                 })
@@ -416,7 +423,6 @@ app.post('/deleteques',async(req,res)=>
             .then((details)=>
             {
                 res.json(details);
-                console.log(details)
             })
             .catch((e)=>console.log(e))
 })

@@ -4,10 +4,12 @@ import { NavBar } from "../../navbar/navbar";
 export const Studentscore=()=>
 {
     const [data, sdata] = useState([]);
+    const [load,sload]=useState(true);
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_Server}/studentdata`)
             .then((res) => {
                 sdata(res.data)
+                sload(false)
             })
             .catch((e) => console.log(e))
     },[])
@@ -25,6 +27,11 @@ export const Studentscore=()=>
                         <th>Marks</th>                        
                     </tr>
                 </thead>
+                {load&&<thead>
+                    <tr>
+                        <th colSpan={5} style={{backgroundColor:'white',color:'red',textAlign:'center'}}><h5>please wait.....</h5></th>
+                    </tr>
+                </thead>}
                 <tbody>
                         {
                             data.map((item) =>
