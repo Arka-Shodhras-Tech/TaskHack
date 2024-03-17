@@ -94,7 +94,7 @@ export const Exam = () => {
             if (document.hidden) {
                 try {
                     buttonref.current.click();
-                    alert("Exam Submitted Sucessfully");
+                    // alert("Exam Submitted Sucessfully");
                 }
                 catch (e) {
                     console.log(e)
@@ -247,7 +247,7 @@ export const Exam = () => {
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("ques").click() : sblank(true) }}>Previous</Button>
-                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme);item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme);i===item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                             <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>Next</Button>
                                                                         </div>
                                                                     </td>
