@@ -13,7 +13,7 @@ export const PaperCorrection=()=>
     {
         const button=document.getElementById(ans);
         button.innerHTML="Correcting..."
-        await axios.post(`${process.env.REACT_APP_Server}/correctionanswer/`+ans1.item.Registernumber+"/"+ans1.val.Question+"/"+mark)
+        await axios.post(`${process.env.REACT_APP_Server}/correctionanswer/`,{regd:ans1.item.Registernumber,question:ans1.val.Question,mark})
         .then((res)=>
         {
             if(res)
@@ -32,7 +32,7 @@ export const PaperCorrection=()=>
     {
         const button=document.getElementById(ans);
         button.innerHTML="wrong answer..."
-        await axios.post(`${process.env.REACT_APP_Server}/wronganswer/`+ans1.item.Registernumber+"/"+ans1.val.Question)
+        await axios.post(`${process.env.REACT_APP_Server}/wronganswer/`,{regd:ans1.item.Registernumber,question:ans1.val.Question})
         .then((res)=>
         {
             if(res)
@@ -94,8 +94,8 @@ export const PaperCorrection=()=>
                                             <tr>
                                                 <td colSpan={2}>
                                                     <div style={{ display:'flex', justifyContent: 'center' }}>
-                                                        <Button id={item.Registernumber+index} onClick={Wrong} style={{backgroundColor:'red',margin:'0 10%'}} onClickCapture={()=>{sans1({val,item});sans(item.Registernumber+index)}}>Wrong</Button>
-                                                        <Button id={item.Registernumber+index} style={{backgroundColor:'green',margin:'0 10%'}} onClick={Right} onClickCapture={()=>{sans1({val,item});sans(item.Registernumber+index)}}>{load?"Please wait":"Correct"}</Button>
+                                                        <Button id={item.Registernumber+index+1} onClick={Wrong} style={{backgroundColor:'red',margin:'0 10%'}} onClickCapture={()=>{sans1({val,item});sans(item.Registernumber+index+1)}}>Wrong</Button>
+                                                        <Button id={item.Registernumber+index+2} style={{backgroundColor:'green',margin:'0 10%'}} onClick={Right} onClickCapture={()=>{sans1({val,item});sans(item.Registernumber+index+2)}}>{load?"Please wait":"Correct"}</Button>
                                                     </div>
                                                 </td>
                                             </tr>
