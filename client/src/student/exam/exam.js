@@ -247,7 +247,7 @@ export const Exam = () => {
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("ques").click() : sblank(true) }}>Previous</Button>
-                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme);i===item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme)}}>{load ? "submitting..." : "Submit"}</Button>
                                                                             <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>Next</Button>
                                                                         </div>
                                                                     </td>
@@ -301,7 +301,7 @@ export const Exam = () => {
                                                         <td colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                 <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("blank").click() : schoose(true) }}>Previous</Button>
-                                                                <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme + i);i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme + i) }}>{load ? "submitting..." : "Submit"}</Button>
                                                                 <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>Next</Button>
                                                             </div>
                                                         </td>
@@ -339,7 +339,7 @@ export const Exam = () => {
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("choose").click() : sques(true) }}>Previous</Button>
-                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.List[i]);i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true) }}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.List[i])}}>{load ? "submitting..." : "Submit"}</Button>
                                                                             <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true) }}>Next</Button>
                                                                         </div>
                                                                     </td>
