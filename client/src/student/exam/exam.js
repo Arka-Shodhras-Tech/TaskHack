@@ -102,13 +102,13 @@ export const Exam = () => {
             }
             else { }
         });
-        axios.post(`${process.env.REACT_APP_Server}/paperdata`)
-            .then((res) => {
-                sdata2(res.data)
-                data2.map((item) => item.Registernumber === sessionStorage.student ? snques(item.Paper.length) : snques(0))
-                data2.map((item) => item.Registernumber === sessionStorage.student ? sdata3(item.Paper) : sdata3(0))
-            })
-            .catch((e) => console.log(e))
+        // axios.post(`${process.env.REACT_APP_Server}/paperdata`)
+        //     .then((res) => {
+        //         sdata2(res.data)
+        //         data2.map((item) => item.Registernumber === sessionStorage.student ? snques(item.Paper.length) : snques(0))
+        //         data2.map((item) => item.Registernumber === sessionStorage.student ? sdata3(item.Paper) : sdata3(0))
+        //     })
+        //     .catch((e) => console.log(e))
     })
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_Server}/studentdata`)
@@ -241,7 +241,7 @@ export const Exam = () => {
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Answer</b></td>
-                                                                    <td colSpan={5}><textarea type="text" value={ans || data3.filter(val=>val.Question.includes(item.List[i].Question)).map((val1)=>val1.EnterAnswer)} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
+                                                                    <td colSpan={5}><textarea type="text" value={ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colSpan={5}>
@@ -333,7 +333,7 @@ export const Exam = () => {
                                                             </tr>
                                                             <tr>
                                                                 <td><b>Answer</b></td>
-                                                                <td colSpan={5}><textarea type="text" value={ans || data3.filter(val=>val.Question.includes(item.List[i].Question)).map((val1)=>val1.EnterAnswer)} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
+                                                                <td colSpan={5}><textarea type="text" value={ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
                                                             </tr>
                                                                 <tr>
                                                                     <td colSpan={5}>
