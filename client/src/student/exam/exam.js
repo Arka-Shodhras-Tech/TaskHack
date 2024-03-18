@@ -22,6 +22,8 @@ export const Exam = () => {
     const [all, sall] = useState(true)
     const [nques, snques] = useState()
     const buttonref = useRef(null);
+    var data5;
+    // data5=JSON.parse(sessionStorage.data)
     const Request = async () => {
         const btn = document.getElementById(btns);
         btn.innerHTML = "Please wait...."
@@ -36,28 +38,40 @@ export const Exam = () => {
             })
             .catch((e) => console.log(e))
     }
-    const Submit = async () => {
+    const Submit = async () =>
+    {
         sload(true)
-        if (ans) {
+        if (JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`))?.question===ans1.val.Question?JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`)).answer:ans)
+        {
             let student = sessionStorage.student;
             let index = i;
             let question = ans1.val.Question;
             let answer = ans1.val.Answer;
-            await axios.post(`${process.env.REACT_APP_Server}/exam/`, { student, index, question, answer, ans })
+            await axios.post(`${process.env.REACT_APP_Server}/exam/`, { student, index, question, answer, ans:JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`))?.question===ans1.val.Question?JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`)).answer:ans })
                 .then((res) => {
-                    if (res.data) {
-                        si(i + 1)
+                    if (res.data)
+                    {
+                        if(ans1.len===i)
+                        {
+                            document.getElementById("blank").click()
+                        }
+                        else
+                        {
+                            si(i + 1)
+                        }
                         sans('')
                         sload(false)
                     }
                     else {
                         alert("Try again")
+                        sload(false)
                     }
                 })
                 .catch((e) => console.log(e))
         }
         else {
             alert("Enter answer and submit");
+            sload(false)
         }
     }
     const Choosesubmit = async () => {
@@ -93,7 +107,7 @@ export const Exam = () => {
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 try {
-                    buttonref.current.click();
+                    // buttonref.current.click();
                     // alert("Exam Submitted Sucessfully");
                 }
                 catch (e) {
@@ -102,13 +116,6 @@ export const Exam = () => {
             }
             else { }
         });
-        // axios.post(`${process.env.REACT_APP_Server}/paperdata`)
-        //     .then((res) => {
-        //         sdata2(res.data)
-        //         data2.map((item) => item.Registernumber === sessionStorage.student ? snques(item.Paper.length) : snques(0))
-        //         data2.map((item) => item.Registernumber === sessionStorage.student ? sdata3(item.Paper) : sdata3(0))
-        //     })
-        //     .catch((e) => console.log(e))
     })
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_Server}/studentdata`)
@@ -241,7 +248,7 @@ export const Exam = () => {
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Answer</b></td>
-                                                                    <td colSpan={5}><textarea type="text" value={ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
+                                                                    <td colSpan={5}><textarea type="text" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer:ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => {sans(e.target.value);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:e.target.value})}} /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colSpan={5}>
@@ -271,6 +278,7 @@ export const Exam = () => {
                                                 item.Theme === "Choose the correct answer" && choose &&
                                                 <>
                                                     <thead>
+                                                        {console.log(sessionStorage.getItem(`${item.List[i]?.Question}`))}
                                                         <th colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                                 <label><b>{item.Theme}</b></label>
@@ -282,27 +290,27 @@ export const Exam = () => {
                                                         <td colSpan={5}>{item.List[i]?.Question}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer1} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer1} onClick={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer1} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer1);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer1})}}/></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer2} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer2} onClick={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer2} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer2);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer2})}} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer2}>{item.List[i]?.Answer2}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer3} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer3} onClick={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer3} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer3);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer3})}} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer3}>{item.List[i]?.Answer3}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer4} name={item.List[i]?.Question} type="radio" value={item.List[i]?.Answer4} onClick={(e) => sans(e.target.value)} /></td>
+                                                        <td><input id={item.List[i]?.Answer4} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer4);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer4})}} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer4}>{item.List[i]?.Answer4}</label></td>
                                                     </tr>
                                                     <tr>
                                                         <td colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                                                <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("blank").click() : schoose(true) }}>Previous</Button>
+                                                                <Button onClick={() => { si(i - 1);sans(''); i === -0 ? document.getElementById("blank").click() : schoose(true) }}>Previous</Button>
                                                                 <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme + i) }}>{load ? "submitting..." : "Submit"}</Button>
-                                                                <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>Next</Button>
+                                                                <Button onClick={() => { si(i + 1);sans(''); i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>Next</Button>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -333,14 +341,14 @@ export const Exam = () => {
                                                             </tr>
                                                             <tr>
                                                                 <td><b>Answer</b></td>
-                                                                <td colSpan={5}><textarea type="text" value={ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => sans(e.target.value)} /></td>
+                                                                <td colSpan={5}><textarea type="text" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => {sans(e.target.value);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:e.target.value})}} /></td>
                                                             </tr>
                                                                 <tr>
                                                                     <td colSpan={5}>
                                                                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                                                             <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("choose").click() : sques(true) }}>Previous</Button>
-                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.List[i])}}>{load ? "submitting..." : "Submit"}</Button>
-                                                                            <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true) }}>Next</Button>
+                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i ,len: item.List.length - 1}); sbtns(item.List[i])}}>{load ? "submitting..." : "Submit"}</Button>
+                                                                            <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true);sans('') }}>Next</Button>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
