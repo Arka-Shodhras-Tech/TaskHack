@@ -1,8 +1,9 @@
-
+import CryptoJS from "crypto-js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { NavBar } from '../../navbar/navbar';
 import "./register.css";
+import { id, lock } from "../../api";
 export const AdminLogin = ()=>
 {
   const[name,sname]=useState()
@@ -10,11 +11,12 @@ export const AdminLogin = ()=>
   const[load,sload]=useState(false)
   const Login=async()=>
   {
-    if(process.env.REACT_APP_id===`${name}`)
+    if(id===`${name}`)
     {
-      if(process.env.REACT_APP_Lock===`${mail}`)
+      if(lock===`${mail}`)
       {
-        sessionStorage.lock=true;
+        sessionStorage.lock = CryptoJS.AES.encrypt(lock,id).toString();
+        console.log(sessionStorage.lock)
         sload(true);
         window.location.reload(2);
       }

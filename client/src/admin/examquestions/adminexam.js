@@ -91,7 +91,7 @@ export const Adminexam = () => {
             if(res)
             {
                 alert("Questions deleted");
-                window.location.reload(3);
+                // window.location.reload(3);
             }
         })
         .catch((e)=>console.log(e))

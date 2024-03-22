@@ -220,7 +220,7 @@ export const Exam = () => {
                                                 <th>{val.Section}</th>
                                                 <th>
                                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                        <Button id={index} ref={buttonref} style={{ background: "orange" }} onClick={Submitexam} onClickCapture={() => { sans1({ val, index }); sbtns(item.Theme) }}>{nques + j + " Questions Submit"}</Button>
+                                                        <Button id={index} ref={buttonref} style={{ background: "orange" }} onClick={Submitexam} onClickCapture={() => { sans1({ val, index }); sbtns(item.Theme) }}>{" Submit Exam"}</Button>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -231,7 +231,7 @@ export const Exam = () => {
                                         {
                                             data.map((item) =>
                                             (
-                                                item.Theme === "fill in the blank" && blank && <>
+                                                item.Theme === "fill in the blank" && blank && item.List[i]&& <>
                                                     <thead>
                                                         <th colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -275,10 +275,9 @@ export const Exam = () => {
                                         {
                                             data.map((item) =>
                                             (
-                                                item.Theme === "Choose the correct answer" && choose &&
+                                                item.Theme === "Choose the correct answer" && choose && item.List[i]&&
                                                 <>
                                                     <thead>
-                                                        {console.log(sessionStorage.getItem(`${item.List[i]?.Question}`))}
                                                         <th colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                                 <label><b>{item.Theme}</b></label>
@@ -290,19 +289,19 @@ export const Exam = () => {
                                                         <td colSpan={5}>{item.List[i]?.Question}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer1} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer1);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer1})}}/></td>
+                                                        <td><input id={item.List[i]?.Answer1} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer === item.List[i]?.Answer1?item.List[i]?.Answer1:ans:ans} onClick={(e) => {sans(item.List[i]?.Answer1);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer1})}}/></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer2} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer2);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer2})}} /></td>
+                                                        <td><input id={item.List[i]?.Answer2} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer=== item.List[i]?.Answer1:ans} onClick={(e) => {sans(item.List[i]?.Answer2);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer2})}} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer2}>{item.List[i]?.Answer2}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer3} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer3);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer3})}} /></td>
+                                                        <td><input id={item.List[i]?.Answer3} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer=== item.List[i]?.Answer1:ans} onClick={(e) => {sans(item.List[i]?.Answer3);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer3})}} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer3}>{item.List[i]?.Answer3}</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input id={item.List[i]?.Answer4} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} onClick={(e) => {sans(item.List[i]?.Answer4);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer4})}} /></td>
+                                                        <td><input id={item.List[i]?.Answer4} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer === item.List[i]?.Answer1:ans} onClick={(e) => {sans(item.List[i]?.Answer4);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer4})}} /></td>
                                                         <td colSpan={5}><label for={item.List[i]?.Answer4}>{item.List[i]?.Answer4}</label></td>
                                                     </tr>
                                                     <tr>
@@ -333,7 +332,7 @@ export const Exam = () => {
                                                         </th>
                                                     </thead>
                                                     <tbody>
-                                                        {item.Theme === "Question and Answer" &&
+                                                        {item.Theme === "Question and Answer" && item.List[i]&&
                                                             <>
                                                             <tr>
                                                                 <td className="tdquestion"><b>Question {i + 1} </b></td>
@@ -364,11 +363,11 @@ export const Exam = () => {
 {
                                             data.map((item) =>
                                             (
-                                                all && <>
+                                                all && item.Theme&&<>
                                                     <thead>
                                                         <th colSpan={5}>
                                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                                <label><b>{item.Theme}</b></label>
+                                                                <label><b>{item.List[i]?item.Theme:<b/>}</b></label>
                                                             </div>
                                                         </th>
                                                     </thead>
@@ -382,7 +381,7 @@ export const Exam = () => {
                                                                         <td colSpan={5}>{val.Question}</td>
                                                                     </tr>
                                                                     {
-                                                                        val.Answer1 &&
+                                                                        val.Answer1  && 
                                                                         <>
                                                                             <tr>
                                                                                 <td><input id={val.Answer1} name="same" type="radio" value={val.Answer1} onChange={(e) => sans(e.target.value)} /></td>

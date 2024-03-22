@@ -324,8 +324,8 @@ app.post('/sumitexam/:index/:regd/:marks',async(req,res)=>
             if(val.Registernumber===req.params.regd)
             {
                 stop=true;
-                const marks=parseInt(val.Marks)+parseInt(req.params.marks)
-                typeof(marks)==="number" && db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.params.index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${req.params.index}.Confirm`]: false ,[`Teammembers.${req.params.index}.Marks`]:marks} })
+                const marks=0;
+                typeof(marks)==="number" && db.collection("Studentdata").findOneAndUpdate({ [`Teammembers.${req.params.index}.Registernumber`]: req.params.regd }, { $set: { [`Teammembers.${req.params.index}.Confirm`]: false ,[`Teammembers.${req.params.index}.Marks`]:0} })
                     .then((details) =>
                     {
                         return res.json(details)
