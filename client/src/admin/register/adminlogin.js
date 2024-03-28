@@ -1,9 +1,9 @@
-import CryptoJS from "crypto-js";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CryptoAES from "crypto-js/aes";
 import { useState } from 'react';
+import { id, lock } from "../../api";
 import { NavBar } from '../../navbar/navbar';
 import "./register.css";
-import { id, lock } from "../../api";
 export const AdminLogin = ()=>
 {
   const[name,sname]=useState()
@@ -15,7 +15,7 @@ export const AdminLogin = ()=>
     {
       if(lock===`${mail}`)
       {
-        sessionStorage.lock = CryptoJS.AES.encrypt(lock,id).toString();
+        sessionStorage.lock = CryptoAES.encrypt(lock,id).toString();
         console.log(sessionStorage.lock)
         sload(true);
         window.location.reload(2);
