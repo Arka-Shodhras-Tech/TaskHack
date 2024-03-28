@@ -1,15 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export const Exam = () => {
+    const pageparam=new URLSearchParams(window.location.search);
+    const page1=pageparam.get("questions")
+    const page2=pageparam.get("choose answer")
+    const page3=pageparam.get("fill in the blank")
     const [data, sdata] = useState([])
     const [data1, sdata1] = useState([]);
     const [teamname, steamname] = useState()
     const [regd, sregd] = useState()
-    const [ques, sques] = useState(false)
-    const [blank, sblank] = useState(false)
-    const [choose, schoose] = useState(false)
+    const [ques, sques] = useState(page1)
+    const [blank, sblank] = useState(page3)
+    const [choose, schoose] = useState(page2)
     const [ans, sans] = useState()
     const [ans1, sans1] = useState()
     const [marks, smarks] = useState(0)
@@ -17,8 +21,9 @@ export const Exam = () => {
     const [i, si] = useState(0)
     const [j, sj] = useState(0);
     const [load, sload] = useState(false)
-    const [all, sall] = useState(true)
+    const [all, sall] = useState(!page1 && !page2 && !page3)
     const buttonref = useRef(null);
+    
     const Request = async () => {
         const btn = document.getElementById(btns);
         btn.innerHTML = "Please wait...."
@@ -103,8 +108,8 @@ export const Exam = () => {
             if (document.hidden) {
                 try
                 {
-                    buttonref.current.click();
-                    alert("Exam Submitted Sucessfully");
+                    // buttonref.current.click();
+                    // alert("Exam Submitted Sucessfully");
                 }
                 catch (e) {
                     console.log(e)
@@ -112,7 +117,7 @@ export const Exam = () => {
             }
             else { }
         });
-    })
+    },[])
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_Server}/studentdata`)
             .then((res) => {
@@ -187,13 +192,13 @@ export const Exam = () => {
                         <thead>
                             <tr>
                                 <td className="text-center">
-                                    <Link className="qtn-btns" id="ques" onClick={() => { sques(true); schoose(false); sblank(false); si(0); sall(false) }}>Questions</Link>
+                                    <Link to="/192.5264.27?questions=true"  className="qtn-btns" id="ques" onClick={() => {sques(true); schoose(false); sblank(false); si(0); sall(false)}}>Questions</Link>
                                 </td>
                                 <td className="text-center">
-                                    <Link className="qtn-btns2" id="choose" onClick={() => { sques(false); schoose(true); sblank(false); si(0); sall(false) }}>Choose the correct Answers</Link>
+                                    <Link to="/192.5264.27?choose answer=true" className="qtn-btns2" id="choose" onClick={() => { sques(false); schoose(true); sblank(false); si(0); sall(false) }}>Choose the correct Answers</Link>
                                 </td>
                                 <td className="text-center">
-                                    <Link className="qtn-btns1" id="blank" onClick={() => { sques(false); schoose(false); sblank(true); si(0); sall(false) }}>Fill in the blanks</Link>
+                                    <Link to="/192.5264.27?fill in the blank=true" className="qtn-btns1" id="blank" onClick={() => { sques(false); schoose(false); sblank(true); si(0); sall(false) }}>Fill in the blanks</Link>
                                 </td>
                             </tr>
                         </thead>
