@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 export const Exam = () => {
     const [data, sdata] = useState([])
     const [data1, sdata1] = useState([]);
-    const [data2, sdata2] = useState([]);
-    const [data3, sdata3] = useState([]);
     const [teamname, steamname] = useState()
     const [regd, sregd] = useState()
     const [ques, sques] = useState(false)
@@ -20,10 +18,7 @@ export const Exam = () => {
     const [j, sj] = useState(0);
     const [load, sload] = useState(false)
     const [all, sall] = useState(true)
-    const [nques, snques] = useState()
     const buttonref = useRef(null);
-    var data5;
-    // data5=JSON.parse(sessionStorage.data)
     const Request = async () => {
         const btn = document.getElementById(btns);
         btn.innerHTML = "Please wait...."
@@ -106,9 +101,10 @@ export const Exam = () => {
     useEffect(() => {
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
-                try {
-                    // buttonref.current.click();
-                    // alert("Exam Submitted Sucessfully");
+                try
+                {
+                    buttonref.current.click();
+                    alert("Exam Submitted Sucessfully");
                 }
                 catch (e) {
                     console.log(e)

@@ -1,5 +1,4 @@
 import CryptoAES from "crypto-js/aes.js";
-import CryptoENC from 'crypto-js/enc-utf8.js';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Adminexam } from '../admin/examquestions/adminexam';
 import { PaperCorrection } from '../admin/papercorrection/papercorrection';
