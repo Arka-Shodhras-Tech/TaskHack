@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export const Exam = () => {
     const pageparam=new URLSearchParams(window.location.search);
     const page1=pageparam.get("questions")
