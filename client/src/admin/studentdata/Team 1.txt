@@ -1,0 +1,54 @@
+Team 1
+1.Ramsai (Lead)
+2.praveen
+
+3.charishma ece
+4.kaveri
+
+
+Team 2
+1.ganesh (Lead)
+2.gowri sankar
+
+3.rohini
+4.indhu
+
+
+
+Team 3
+1.sanjay (Lead)
+2.divya
+
+3.bhanu
+4.varshit
+
+
+
+
+Team 4
+1.teja (Lead)
+2.kusma
+
+3.Gamya
+4.murari
+
+
+
+Team 5
+1.Sriram (Lead)
+2.nagabushan
+
+3.charishma cse
+4.keerthana
+
+
+
+
+
+Team 6
+1.gowri (Lead)
+2.sai lakshmi
+3.tejaswi
+
+4.haneef
+
