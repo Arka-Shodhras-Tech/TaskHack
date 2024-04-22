@@ -11,6 +11,7 @@ import { id, lock, lock1, salt } from '../api.js';
 import { Nav } from '../navbar/nav';
 import { Exam } from '../student/exam/exam';
 import { Login } from '../student/login/login.js';
+import TeamWork from "../admin/studentdata/Teamwork.js";
 import './App.css';
 function App()
 {
@@ -24,6 +25,7 @@ function App()
       <Route path='/studentregister' element={<Register/>}/>
       <Route path='/adminexam' element={lock===CryptoAES.decrypt(lock1?lock1:"1234", id).toString(salt)?<Adminexam/>:<AdminLogin/>}/>
       <Route path='/studentdata' element={lock===CryptoAES.decrypt(lock1?lock1:"1234", id).toString(salt)?<Studentdata/>:<AdminLogin/>}/>
+      <Route path='/teamworkdata' element={lock===CryptoAES.decrypt(lock1?lock1:"1234", id).toString(salt)?<TeamWork/>:<AdminLogin/>}/>
       <Route path='/studentscore' element={<Studentscore/>}/>
       <Route path='/papercorrection' element={lock===CryptoAES.decrypt(lock1?lock1:"1234", id).toString(salt)?<PaperCorrection/>:<AdminLogin/>}/>
       <Route path='/192.5264.27' element={sessionStorage.student?<Exam/>:<Login/>}/>

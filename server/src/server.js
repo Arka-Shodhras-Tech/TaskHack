@@ -20,6 +20,41 @@ app.post("/studentdata",async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
+app.post("/teamworkdata",async(req,res)=>
+{
+    await db.collection("Studentdata").find().toArray()
+    .then((details)=>
+    {
+        res.json(details)
+    })
+    .catch((e)=>console.log(e))
+})
+app.post("/addteamwork/:work/:startdate/:enddate/:teamname",async(req,res)=>
+{
+    await db.collection("Studentdata").findOne({Teamname:req.params.teamname})
+    .then(async(details)=>
+    {
+        if(details)
+        {
+            await db.collection("Studentdata").findOneAndUpdate({Teamname:req.params.teamname},{$push:{TeamWork:{Work:req.params.work,Startdate:req.params.startdate,Enddate:req.params.enddate}}})
+            .then((details)=>
+            {
+                res.json(details)
+            })
+            .catch((e)=>console.log(e))
+        }
+        else
+        {
+            await db.collection("Studentdata").insertOne({Teamname:req.params.teamname,TeamWork:[{Work:req.params.work,Startdate:req.params.startdate,Enddate:req.params.enddate}]})
+            .then((details)=>
+            {
+                res.json(details)
+            })
+            .catch((e)=>console.log(e))
+        }
+    })
+    .catch((e)=>console.log(e))
+})
 app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(req,res)=>
 {
     await db.collection("Studentdata").findOne({Teamname:req.params.team})

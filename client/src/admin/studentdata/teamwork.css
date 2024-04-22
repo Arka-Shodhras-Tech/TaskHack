@@ -1,0 +1,35 @@
+@media (max-width: 768px) {
+    table {
+        display: block;
+    }
+    thead {
+        display: none;
+    }
+    tbody, tr, td {
+        display: block;
+        width: 100%;
+    }
+    td {
+        text-align: left;
+    }
+    td button {
+        display: block;
+    }
+    .mobile-view {
+        color: green;
+      }
+    
+      .work {
+        font-weight: bold;
+      }
+    
+      .end-date {
+        color: red;
+      }
+}
+/* 
+@media (min-width: 768px) {
+    td {
+        text-align: center;
+    }
+} */
