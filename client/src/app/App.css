@@ -36,3 +36,27 @@
     font-size: 1rem;
   }
 }
+/* exam.js */
+
+.question-buttons{
+  display: flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
+  margin: 10px;
+
+}
+.question-button{
+  border-radius: 20px ;
+}
+.question-button.active {
+  /* Active button styles */
+  background-color: orange; /* Orange background color when active */
+}
+
+.question-button.submitted {
+  /* Submitted button styles */
+  background-color: green; /* Green background color when submitted */
+}
