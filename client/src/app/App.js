@@ -13,6 +13,8 @@ import { Exam } from '../student/exam/exam';
 import { Login } from '../student/login/login.js';
 import TeamWork from "../admin/studentdata/Teamwork.js";
 import './App.css';
+import { Showmaterial } from "../admin/materials/showmaterial.js";
+import { Addmaterial } from "../admin/materials/addmaterials.js";
 function App()
 {
   return (
@@ -29,6 +31,8 @@ function App()
       <Route path='/studentscore' element={<Studentscore/>}/>
       <Route path='/papercorrection' element={lock===CryptoAES.decrypt(lock1?lock1:"1234", id).toString(salt)?<PaperCorrection/>:<AdminLogin/>}/>
       <Route path='/192.5264.27' element={sessionStorage.student?<Exam/>:<Login/>}/>
+      <Route path="/showmaterial" element={<Showmaterial/>}/>
+      <Route path="/addmaterial" element={<Addmaterial/>}/>
     </Routes>
     </BrowserRouter>
     </>
