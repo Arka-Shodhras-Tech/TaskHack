@@ -20,6 +20,107 @@ app.post("/studentdata",async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
+app.get("/viewphotos", async (req, res) => {
+    try {
+        const details = await db.collection("Materials").find().toArray();
+        const formattedDetails = details.map((item) => ({
+            id: item._id,
+            Title: item.Title,
+            Photo: item.Photo,
+            Pdf: item.Pdf,
+            Views: item.Views
+        }));
+        res.json(formattedDetails);
+    } catch (error) {
+        // Handle specific errors (e.g., database errors)
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+app.post("/addphotos", async (req, res) => {
+    const { title, photoUrl, pdfUrl } = req.body;
+    await db.collection("Materials").insertOne({ Title: title, Photo: photoUrl, Pdf: pdfUrl, Views: 0 })
+        .then(() => {
+            res.json({ message: "Photos added successfully" });
+        })
+        .catch((error) => {
+            console.error(error); // Log the error for debugging
+            res.status(500).json({ error: "Internal server error" });
+        });
+});
+
+
+app.get("/checkviews/:pdfurl", async (req, res) => {
+    const { pdfurl } = req.params;
+  
+    try {
+      const data = await db.collection("Materials").findOne({ Pdf: pdfurl });
+      if (!data) {
+        return res.status(404).json({ error: "PDF not found" }); // Specific error message
+      }
+  
+      res.json(data); // Return the data if found
+    } catch (error) {
+      console.error("Error checking views:", error);
+      res.status(500).json({ error: "Internal server error" }); // Generic error for unexpected issues
+    }
+  });
+  
+  
+  app.put("/views/:viewers/:pdfurl", async (req, res) => {
+    const { viewers, pdfurl } = req.params;
+    try {
+      const views = parseInt(viewers);
+      if (isNaN(views)) {
+        return res.status(400).json({ error: "Invalid viewers count" });
+      }
+      const result = await db.collection("Materials").updateOne({ Pdf: pdfurl }, { $set: { Views: views } });
+      if (result.modifiedCount !== 1) {
+        return res.status(404).json({ error: "PDF not found" });
+      }
+      res.json({ message: "Views updated successfully" });
+    } catch (error) {
+      console.error("Error updating views:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+app.post("/teamworkdata",async(req,res)=>
+{
+    await db.collection("Studentdata").find().toArray()
+    .then((details)=>
+    {
+        res.json(details)
+    })
+    .catch((e)=>console.log(e))
+})
+app.post("/addteamwork/:work/:startdate/:enddate/:teamname",async(req,res)=>
+{
+    await db.collection("Studentdata").findOne({Teamname:req.params.teamname})
+    .then(async(details)=>
+    {
+        if(details)
+        {
+            await db.collection("Studentdata").findOneAndUpdate({Teamname:req.params.teamname},{$push:{TeamWork:{Work:req.params.work,Startdate:req.params.startdate,Enddate:req.params.enddate}}})
+            .then((details)=>
+            {
+                res.json(details)
+            })
+            .catch((e)=>console.log(e))
+        }
+        else
+        {
+            await db.collection("Studentdata").insertOne({Teamname:req.params.teamname,TeamWork:[{Work:req.params.work,Startdate:req.params.startdate,Enddate:req.params.enddate}]})
+            .then((details)=>
+            {
+                res.json(details)
+            })
+            .catch((e)=>console.log(e))
+        }
+    })
+    .catch((e)=>console.log(e))
+})
 app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(req,res)=>
 {
     await db.collection("Studentdata").findOne({Teamname:req.params.team})
