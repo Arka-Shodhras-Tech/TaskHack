@@ -41,7 +41,7 @@ export const Studentscore = () => {
                                         <th colSpan={7} style={{ backgroundColor: 'skyblue', color: 'blue' }}>
                                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                                 <label><b>{item.Teamname.toUpperCase()}</b></label>
-                                                <Button style={{ background:"none",color:'blueviolet',border:"none",position:"absolute",right:"10%"}}><b>My work</b></Button>
+                                                <Button href="teamwork" style={{ background:"none",color:'blueviolet',border:"none",position:"absolute",right:"10%"}}><b>My work</b></Button>
                                             </div>
                                         </th>
                                     </tr>
