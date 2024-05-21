@@ -95,6 +95,7 @@ app.post("/teamworkdata",async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
+
 app.post("/addteamwork/:work/:startdate/:enddate/:teamname",async(req,res)=>
 {
     await db.collection("Studentdata").findOne({Teamname:req.params.teamname})
@@ -121,6 +122,7 @@ app.post("/addteamwork/:work/:startdate/:enddate/:teamname",async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
+
 app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(req,res)=>
 {
     await db.collection("Studentdata").findOne({Teamname:req.params.team})
@@ -147,6 +149,7 @@ app.post('/studentregister/:name/:mail/:number/:regi/:branch/:sec/:team',async(r
     })
     .catch((e)=>console.log(e))
 })
+
 app.post("/verifyregister/:regd",async(req,res)=>
 {
     await db.collection("Studentdata").findOne({[`Teammembers.Registernumber`]:req.params.regd})
@@ -156,6 +159,7 @@ app.post("/verifyregister/:regd",async(req,res)=>
     })
     .catch((e)=>console.log(e))
 })
+
 app.post('/remove',async(req,res)=>
 {
     await db.collection("Studentdata").findOneAndUpdate({Teamname:req.body.rmv.item.Teamname},{$pull:{Teammembers:{Registernumber:req.body.rmv.val.Registernumber}}})
@@ -527,6 +531,18 @@ app.post('/deleteques',async(req,res)=>
             })
             .catch((e)=>console.log(e))
 })
+
+
+app.post("/postwork/:team/:credits/:status/:date", async (req, res) => {
+    await db.collection("Studentdata").findOneAndUpdate({Teamname:req.params.team},{$set:{ Progress:req.params.status,Credits:req.params.credits,Submited:req.params.status==="Complete"&&true,Lastupdate:req.params.date }})
+        .then(() => {
+            res.json({ message: "Photos added successfully" });
+        })
+        .catch((error) => {
+            console.error(error); // Log the error for debugging
+            res.status(500).json({ error: "Internal server error" });
+        });
+});
 
 
 
