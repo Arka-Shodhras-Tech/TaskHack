@@ -473,40 +473,15 @@ app.post("/postwork/:team/:work/:credits/:status/:date", async (req, res) => {
         });
 });
 
-app.post("/updatework/:team/:work/:status/:date", async (req, res) => {
-    if(req.params.status){
-        await db.collection("Studentdata").findOne({ Teamname: req.params.team })
+app.post("/updatework/:team/:status/:work/:date", async (req, res) => {
+    await db.collection("Studentdata").findOne({ Teamname: req.params.team })
         .then((details) => {
             details.TeamWork.map((val, index) => (
-                val.Work === req.params.work &&
-                db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, {
-                    $pull: {
-                        [`TeamWork.${index}.Work`]: req.params.work,
-                    }
-                })
-                    .then((details1) => {
-                        res.json({ message: "deleted", data: details1 })
-                    })
-                    .catch((e) => console.log(e))
-            ))
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).json({ error: "Internal server error" });
-        });
-    }
-    else{
-        await db.collection("Studentdata").findOne({ Teamname: req.params.team })
-        .then((details) => {
-            details.TeamWork.map((val, index) => (
-                val.Work === req.params.work &&
+                val.Work === req.params.status &&
                 db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, {
                     $set: {
                         [`TeamWork.${index}.Work`]: req.params.work,
-                        [`TeamWork.${index}.Enddate`]: req.params.date,
-                        [`TeamWork.${index}.Submited`]: req.params.status === "Complete" ? true : false,
-                        [`TeamWork.${index}.Reject`]: req.params.status === "Reject" ? true : false,
-                        [`TeamWork.${index}.Lastupdate`]: req.params.date
+                        [`TeamWork.${index}.Enddate`]: req.params.date
                     }
                 })
                     .then((details1) => {
@@ -519,8 +494,25 @@ app.post("/updatework/:team/:work/:status/:date", async (req, res) => {
             console.error(error);
             res.status(500).json({ error: "Internal server error" });
         });
-    }
-    
+});
+
+
+app.post("/deletework/:team/:work", async (req, res) => {
+    await db.collection("Studentdata").findOne({ Teamname: req.params.team })
+        .then((details) => {
+            details.TeamWork.map(async (val, index) => (
+                val.Work === req.params.work &&
+                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, { $pull: {TeamWork: {Work:req.params.work} } })
+                    .then((details1) => {
+                        res.json({ message: "deleted", data: details1 })
+                    })
+                    .catch((e) => console.log(e))
+            ))
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).json({ error: "Internal server error" });
+        });
 });
 
 

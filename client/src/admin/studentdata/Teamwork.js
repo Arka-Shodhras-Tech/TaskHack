@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import { id, lock, lock1, salt } from '../../api.js';
 import { NavBar } from "../../navbar/navbar";
 import { WorkReview } from "../models/workReview.model.js";
-import { WorkUpdate } from "../models/workUpdate,model.js";
+import { WorkUpdate } from "../models/workUpdate.model.js";
 
 const TeamWork = () => {
     const [data, setData] = useState([]);
@@ -44,7 +44,7 @@ const TeamWork = () => {
     return (
         <>
             <WorkReview show={modalShow} onHide={() => setModalShow(false)} teamname={ rmv?.item.Teamname} work={rmv?.work} />
-            <WorkUpdate show={updatemodel} onHide={() => setupdatemodel(false)} teamname={ rmv?.item.Teamname} work={rmv?.work}/>
+            <WorkUpdate show={updatemodel} onHide={() => setupdatemodel(false)} teamname={ rmv?.item.Teamname} work={rmv?.work} endtime={rmv?.endtime}/>
             <NavBar />
 
             {data?.map((item, index) => (
@@ -81,7 +81,7 @@ const TeamWork = () => {
                                         </div>
                                         <div style={{ width: "100%", display: "flex", justifyContent: "space-evenly", marginTop: "1%" }}>
                                             {lock === CryptoAES.decrypt(lock1 ? lock1 : "1234", id).toString(salt) && <Button style={{ backgroundColor: "lightgreen", color: "black" }} onClick={() => { setModalShow(true); srmv({ item, work: val.Work }) }}>Work Review</Button>}
-                                            {lock === CryptoAES.decrypt(lock1 ? lock1 : "1234", id).toString(salt) && <Button style={{ backgroundColor: "lightblue", color: "black" }} onClick={() => { setupdatemodel(true); srmv({ item, work: val.Work }) }}>Work Update</Button>}
+                                            {lock === CryptoAES.decrypt(lock1 ? lock1 : "1234", id).toString(salt) && <Button style={{ backgroundColor: "lightblue", color: "black" }} onClick={() => { setupdatemodel(true); srmv({ item, work: val.Work,endtime:val.Enddate }) }}>Work Update</Button>}
                                             {/* <Button style={{ backgroundColor: "gray" }}>{val?.Submited ? "Submitted" : "Time out"}</Button> */}
                                         </div>
                                     </Card.Text>
@@ -118,8 +118,8 @@ const TeamWork = () => {
                                             </div>
                                         </div>
                                         <div style={{ width: "100%", display: "flex", justifyContent: "space-evenly", marginTop: "1%" }}>
-                                            {/* {lock === CryptoAES.decrypt(lock1 ? lock1 : "1234", id).toString(salt) && <Button style={{ backgroundColor: "lightgreen", color: "black" }} onClick={() => { setModalShow(true); srmv({ item, work: val.Work }) }}>Work Review</Button>} */}
-                                            {/* {lock === CryptoAES.decrypt(lock1 ? lock1 : "1234", id).toString(salt) && <Button style={{ backgroundColor: "lightblue", color: "black" }} onClick={() => { setModalShow(true); srmv(item) }}>Work Update</Button>} */}
+                                            {lock === CryptoAES.decrypt(lock1 ? lock1 : "1234", id).toString(salt) && <Button style={{ backgroundColor: "lightgreen", color: "black" }} onClick={() => { setModalShow(true); srmv({ item, work: val.Work }) }}>Work Review</Button>}
+                                            {lock === CryptoAES.decrypt(lock1 ? lock1 : "1234", id).toString(salt) && <Button style={{ backgroundColor: "lightblue", color: "black" }} onClick={() => { setupdatemodel(true); srmv({ item, work: val.Work,endtime:val.Enddate }) }}>Work Update</Button>}
 
                                         </div>
                                     </Card.Text>
