@@ -95,14 +95,14 @@ app.post("/addteamwork/:work/:startdate/:enddate/:teamname", async (req, res) =>
     await db.collection("Studentdata").findOne({ Teamname: req.params.teamname })
         .then(async (details) => {
             if (details) {
-                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.teamname }, { $push: { TeamWork: { Work: req.params.work, Startdate: req.params.startdate, Enddate: req.params.enddate, Progress: Pending, Credits: 0 } } })
+                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.teamname }, { $push: { TeamWork: { Work: req.params.work, Startdate: req.params.startdate, Enddate: req.params.enddate, Progress: "Pending", Credits: 0 } } })
                     .then((details) => {
                         res.json(details)
                     })
                     .catch((e) => console.log(e))
             }
             else {
-                await db.collection("Studentdata").insertOne({ Teamname: req.params.teamname, TeamWork: [{ Work: req.params.work, Startdate: req.params.startdate, Enddate: req.params.enddate, Progress: Pending, Credits: 0 }] })
+                await db.collection("Studentdata").insertOne({ Teamname: req.params.teamname, TeamWork: [{ Work: req.params.work, Startdate: req.params.startdate, Enddate: req.params.enddate, Progress: "Pending", Credits: 0 }] })
                     .then((details) => {
                         res.json(details)
                     })
