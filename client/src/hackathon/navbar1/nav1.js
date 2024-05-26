@@ -1,5 +1,5 @@
 import React from "react";
-import "./nav1.css"; // Make sure to import the CSS file
+import "./nav1.css"; 
 
 export const Nav1 = () => {
     return (

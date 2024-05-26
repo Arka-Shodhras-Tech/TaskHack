@@ -19,8 +19,7 @@ import { Addmaterial } from "../admin/materials/addmaterials.js";
 
 
 
-
-import { RegistrationForm } from "../hackathon/hackregister1/hackregister1.js";
+import { RegistrationForm } from "../hackathon/hackregister/hackregister.js";
 import { LoginForm } from "../hackathon/hacklogin/hacklogin.js";
 import { HackStudentscore } from "../hackathon/hackathonscore/hackathonscore.js";
 import { UpdateForm } from "../hackathon/update/update.js";
