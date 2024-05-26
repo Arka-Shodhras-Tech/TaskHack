@@ -5,7 +5,7 @@ import './main.css';
 import { Button } from '@chakra-ui/react';
 const Hackathon = () => {
   const Login=()=>{
-    window.location.href='home'
+    window.location.href='login'
   }
   const Register=()=>{
     window.location.href="register"

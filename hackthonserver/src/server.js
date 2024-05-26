@@ -26,11 +26,6 @@ app.post('/signup/:email/:name/:num/:regd/:year/:branch/:section', async (req, r
 
 
 
-users['123456'] = {
-    email: 'user@example.com',
-    password: '', // Password will be set when sending the generated password
-};
-
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -41,50 +36,58 @@ const transporter = nodemailer.createTransport({
 
 app.post('/sendPassword', async (req, res) => {
     const { regd } = req.body;
-    const user = users[regd];
 
-    if (!user) {
-        return res.status(400).json({ message: 'Registration number not found.' });
-    }
+    try {
+        const user = await db.collection('Signup').findOne({ Reg_No: regd });
 
-    const generatedPassword = Math.random().toString(36).slice(-8);
-    const hashedPassword = await bcrypt.hash(generatedPassword, 10);
-    user.password = hashedPassword;
-
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: user.email,
-        subject: 'Your Generated Password',
-        text: `Your password is ${generatedPassword}`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return res.status(500).json({ message: 'Error sending email.' });
+        if (!user) {
+            return res.status(400).json({ message: 'Registration number not found.' });
         }
-        res.status(200).json({ message: 'Password sent to your email.' });
-    });
+
+        const generatedPassword = Math.random().toString(36).slice(-8);
+        const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+        await db.collection('Signup').updateOne({ Reg_No: regd }, { $set: { Password: hashedPassword } });
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: user.Gmail,
+            subject: 'Your Generated Password',
+            text: `Your password is ${generatedPassword}`,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return res.status(500).json({ message: 'Error sending email.' });
+            }
+            res.status(200).json({ message: 'Password sent to your email.' });
+        });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Error sending password' });
+    }
 });
 
 app.post('/signin', async (req, res) => {
     const { regd, password } = req.body;
-    const user = users[regd];
 
-    if (!user) {
-        return res.status(400).json({ message: 'Invalid registration number or password.' });
-    }
+    try {
+        const user = await db.collection('Signup').findOne({ Reg_No: regd });
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (validPassword) {
-        res.status(200).json({ message: 'Login successful' });
-    } else {
-        res.status(400).json({ message: 'Invalid registration number or password.' });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid registration number.' });
+        }
+
+        const validPassword = await bcrypt.compare(password, user.Password);
+        if (validPassword) {
+            res.status(200).json({ message: 'Login successful' });
+        } else {
+            res.status(400).json({ message: 'Invalid registration number or password.' });
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Error during signin' });
     }
 });
-
-
-
-
 
 
 
