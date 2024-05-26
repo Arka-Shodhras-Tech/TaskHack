@@ -1,8 +1,9 @@
+import bcrypt from 'bcrypt';
 import cors from "cors";
 import express from 'express';
-import { connectToDB, db } from './db.js'
 import nodemailer from 'nodemailer';
-import bcrypt from 'bcrypt';
+import { connectToDB, db } from './db.js';
+import { message } from './message.js';
 
 const app = express()
 app.use(express.json())
@@ -24,8 +25,6 @@ app.post('/signup/:email/:name/:num/:regd/:year/:branch/:section', async (req, r
 })
 
 
-
-
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -34,37 +33,15 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-app.post('/sendPassword', async (req, res) => {
-    const { regd } = req.body;
-
-    try {
-        const user = await db.collection('Signup').findOne({ Reg_No: regd });
-
-        if (!user) {
-            return res.status(400).json({ message: 'Registration number not found.' });
-        }
-
-        const generatedPassword = Math.random().toString(36).slice(-8);
-        const hashedPassword = await bcrypt.hash(generatedPassword, 10);
-        await db.collection('Signup').updateOne({ Reg_No: regd }, { $set: { Password: hashedPassword } });
-
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: user.Gmail,
-            subject: 'Your Generated Password',
-            text: `Your password is ${generatedPassword}`,
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return res.status(500).json({ message: 'Error sending email.' });
-            }
-            res.status(200).json({ message: 'Password sent to your email.' });
-        });
-    } catch (e) {
-        console.error(e);
-        res.status(500).json({ message: 'Error sending password' });
-    }
+app.get('/sendPassword/:regd/:password', async (req, res) => {
+    await transporter.sendMail({
+        from: 'collegeworks0910@example.com',
+        to: ["sailakshmiborra4102@gmail.com", "tejasimma033@gmail.com"],
+        subject: "hiii",
+        html:await message.html("sai","sai@2002","21b91a1225"),
+    })
+        .then((details) => res.json({ message: "sucessfully sent mail", data: details }))
+        .catch((e) => res.json({ errmsg: "Required fileds",error:e }))
 });
 
 app.post('/signin', async (req, res) => {
