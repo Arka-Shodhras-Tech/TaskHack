@@ -27,13 +27,14 @@ export const Studentscore = () => {
                             <th>Student Name</th>
                             <th>Register Number</th>
                             <th>Branch</th>
+                            <th>Year</th>
                             <th>Section</th>
                             <th>Marks</th>
                         </tr>
                     </thead>
                     {load && <thead>
                         <tr>
-                            <th colSpan={5} style={{ backgroundColor: 'white', color: 'red', textAlign: 'center' }}><h5>please wait.....</h5></th>
+                            <th colSpan={8} style={{ backgroundColor: 'white', color: 'red', textAlign: 'center' }}><h5>please wait.....</h5></th>
                         </tr>
                     </thead>}
                     <tbody>
@@ -42,7 +43,7 @@ export const Studentscore = () => {
                             (
                                 <>
                                     <tr >
-                                        <th colSpan={7} style={{ backgroundColor: "skyblue", color: "blue" }}>
+                                        <th colSpan={9} style={{ backgroundColor: "skyblue", color: "blue" }}>
                                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                                 <label style={{ flex: '1', textAlign: 'center' }}><b>{item.Teamname.toUpperCase()}</b></label>
                                                 <Button
@@ -67,7 +68,7 @@ export const Studentscore = () => {
                                                     }}
                                                     onClick={() => {
                                                         setModalShow(true);
-                                                        setTeamName(item.Teamname);
+                                                        setTeamName(item);
                                                     }}
                                                 >
                                                     <b>Update profile</b>
@@ -83,6 +84,7 @@ export const Studentscore = () => {
                                                     <td >{val.Name}</td>
                                                     <td>{val.Registernumber}</td>
                                                     <td>{val.Branch}</td>
+                                                    <td>{val?.year}</td>
                                                     <td>{val.Section}</td>
                                                     <td>{val.Marks}</td>
                                                 </tr>
@@ -95,6 +97,7 @@ export const Studentscore = () => {
                                                     <td>{val.Name}</td>
                                                     <td>{val.Registernumber}</td>
                                                     <td>{val.Branch}</td>
+                                                    <td>{val?.year}</td>
                                                     <td>{val.Section}</td>
                                                     <td>{val.Marks}</td>
                                                 </tr>

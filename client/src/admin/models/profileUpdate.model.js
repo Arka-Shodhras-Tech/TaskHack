@@ -13,7 +13,7 @@ const ProfileUpdate = ({ show, onHide, team }) => {
         if (year !== '' && reg !== '') {
             setLoad(true)
             try {
-                const response = await axios.post(`${process.env.REACT_APP_Server}/updateyear`, { team: team, reg: reg.toUpperCase(), year: year })
+                const response = await axios.post(`${process.env.REACT_APP_Server}/updateyear`, { team: team, reg: reg, year: year })
                 if (response.status === 200) {
                     alert(response.data.message)
                     setReg('')
@@ -38,7 +38,7 @@ const ProfileUpdate = ({ show, onHide, team }) => {
         <Modal show={show} onHide={onHide} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {team}
+                    {team.Teamname}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -49,8 +49,21 @@ const ProfileUpdate = ({ show, onHide, team }) => {
                         placeholder="Enter Register numbver"
                         aria-describedby="passwordHelpBlock"
                         value={reg}
+                        onChange={(e) => setReg(e.target.value.toUpperCase())}
+                    />
+                    <b>OR</b>
+                    <Form.Select
+                        aria-describedby="yearHelpBlock"
+                        value={year}
                         onChange={(e) => setReg(e.target.value)}
-                    /><br />
+                    >
+                        <option value="">Select Register number</option>
+                        {
+                            team?.Teammembers?.map((val)=>(
+                                <option value={val.Registernumber}>{val.Registernumber}</option>
+                            ))
+                        }
+                    </Form.Select><br />
                     <Form.Label htmlFor="currentYear"><b>Current Year of Studying</b></Form.Label>
                     <Form.Select
                         aria-describedby="yearHelpBlock"
