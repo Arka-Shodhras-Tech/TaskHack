@@ -2,9 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavBar } from "../../navbar/navbar";
 import { Button } from "react-bootstrap";
+import ProfileUpdate from "../models/profileUpdate.model";
 export const Studentscore = () => {
     const [data, sdata] = useState([]);
     const [load, sload] = useState(true);
+    const [modelShow, setModalShow] = useState(false)
+    const [teamName, setTeamName] = useState('')
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_Server}/studentdata`)
             .then((res) => {
@@ -15,6 +18,7 @@ export const Studentscore = () => {
     }, [])
     return (
         <>
+            <ProfileUpdate show={modelShow} onHide={() => setModalShow(false)} team={teamName} />
             <NavBar />
             <div>
                 <table responsive className="table2">
@@ -38,10 +42,36 @@ export const Studentscore = () => {
                             (
                                 <>
                                     <tr >
-                                        <th colSpan={7} style={{ backgroundColor: 'skyblue', color: 'blue' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                <label><b>{item.Teamname.toUpperCase()}</b></label>
-                                                <Button href="teamwork" style={{ background:"none",color:'blueviolet',border:"none",position:"absolute",right:"10%"}}><b>My work</b></Button>
+                                        <th colSpan={7} style={{ backgroundColor: "skyblue", color: "blue" }}>
+                                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                                <label style={{ flex: '1', textAlign: 'center' }}><b>{item.Teamname.toUpperCase()}</b></label>
+                                                <Button
+                                                    href="teamwork"
+                                                    style={{
+                                                        background: "none",
+                                                        color: "blueviolet",
+                                                        border: "none",
+                                                        position: "relative",
+                                                        right: "20%",
+                                                    }}
+                                                >
+                                                    <b>My work</b>
+                                                </Button>
+                                                <Button
+                                                    style={{
+                                                        background: "none",
+                                                        color: "blueviolet",
+                                                        border: "none",
+                                                        position: "relative",
+                                                        right: "8%",
+                                                    }}
+                                                    onClick={() => {
+                                                        setModalShow(true);
+                                                        setTeamName(item.Teamname);
+                                                    }}
+                                                >
+                                                    <b>Update profile</b>
+                                                </Button>
                                             </div>
                                         </th>
                                     </tr>
@@ -61,7 +91,7 @@ export const Studentscore = () => {
                                         {
                                             item.Teammembers.map((val) =>
                                             (
-                                                val.Name.trim().slice(-6) === "(LEAD)" ||<tr>
+                                                val.Name.trim().slice(-6) === "(LEAD)" || <tr>
                                                     <td>{val.Name}</td>
                                                     <td>{val.Registernumber}</td>
                                                     <td>{val.Branch}</td>

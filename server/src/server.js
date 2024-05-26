@@ -10,6 +10,43 @@ app.get('/', async (req, res) => {
     res.send("Ok continue");
 })
 // **************************************Student Register****************************************//
+
+app.post('/updateyear', async (req, res) => {
+    try {
+        const { team, reg, year } = req.body;
+
+        const isExisting = await db.collection("Studentdata").findOne({
+            Teamname: team,
+            'Teammembers.Registernumber': reg,
+        });
+
+        if (isExisting && isExisting.Teammembers[0].year === year) {
+            // Year already matches, send informative message
+            return res.status(200).json({ message: "Year is already updated" });
+        }
+
+        const result = await db.collection("Studentdata").updateOne({
+            Teamname: team,
+            'Teammembers.Registernumber': reg,
+        },
+            {
+                $set: {
+                    'Teammembers.$.year': year,
+                }
+            });
+
+        if (result.modifiedCount === 1) {
+            res.status(200).json({ message: "Update successful" });
+        } else {
+            res.status(404).json({ message: "Team member not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error updating year" });
+    }
+});
+
+
 app.post("/studentdata", async (req, res) => {
     await db.collection("Studentdata").find().toArray()
         .then((details) => {
@@ -502,7 +539,7 @@ app.post("/deletework/:team/:work", async (req, res) => {
         .then((details) => {
             details.TeamWork.map(async (val, index) => (
                 val.Work === req.params.work &&
-                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, { $pull: {TeamWork: {Work:req.params.work} } })
+                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, { $pull: { TeamWork: { Work: req.params.work } } })
                     .then((details1) => {
                         res.json({ message: "deleted", data: details1 })
                     })
