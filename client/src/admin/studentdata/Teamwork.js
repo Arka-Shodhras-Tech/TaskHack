@@ -6,7 +6,7 @@ import { Badge, Button } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
 
 import { id, lock, lock1, salt } from '../../api.js';
-import { NavBar } from "../../navbar/navbar";
+import { NavBar } from "../../navbar/navbar.js";
 import { WorkReview } from "../models/workReview.model.js";
 import { WorkUpdate } from "../models/workUpdate.model.js";
 

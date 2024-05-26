@@ -1,0 +1,6 @@
+[
+    { "s.no":1,"id": 1, "name": "Alice", "score": 95 },
+    { "s.no":2,"id": 2, "name": "Bob", "score": 88 },
+    { "s.no":3,"id": 3, "name": "Charlie", "score": 92 },
+    { "s.no":4,"id": 4, "name": "David", "score": 85 }
+]

@@ -7,15 +7,15 @@
     "mongodb": "^6.2.0",
     "nodemon": "^3.0.1"
   },
-  "name": "server",
+  "name": "hackathonserver",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server1.js",
+    "dev": "nodemon src/server.js",
     "build": "npm i",
-    "start": "node src/server1.js"
+    "start": "node src/server.js"
   },
   "author": "teja ramsai ganesh sanjay",
   "license": "ISC",

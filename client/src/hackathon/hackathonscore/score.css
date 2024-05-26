@@ -1,0 +1,49 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #3e2f2f;
+    animation: fadeIn 2s ease-in-out;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.scores-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.scores-table th,
+.scores-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.scores-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.scores-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.scores-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
