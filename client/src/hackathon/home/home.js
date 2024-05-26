@@ -7,7 +7,6 @@ export const Home = () => {
             <div className='hacthongrid-home'>
                 <div className='hacthonlist'>
                     <SimpleGrid minChildWidth='220px' spacing='40px'>
-                        {/* <Button>Update</Button> */}
                         <Button>Task</Button>
                         <Button>Score</Button>
                         <Button disabled>Teams</Button>
