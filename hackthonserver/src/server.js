@@ -11,13 +11,11 @@ app.get('/', async (req, res) => {
 
 
 
-  app.post('/signup/:email/:name/:num/:regd/:year/:branch/:section', async (req, res) => {
-    await db.collection('Signup').insertOne({ Gmail: req.params.email, Name: req.params.name,Num: req.params.num , Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch,section:req.params.sec})
+app.post('/signup/:email/:name/:num/:regd/:year/:branch/:section', async (req, res) => {
+    await db.collection('Signup').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, section: req.params.sec })
         .then((details) => {
             res.json(details);
             console.log(result)
-
-
         })
         .catch((e) => console.log(e))
 })

@@ -1,11 +1,11 @@
 import React from "react";
-import "./nav1.css"; // Make sure to import the CSS file
+import "./hackthonnav.css";
 
 export const Nav1 = () => {
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <h1 className="h1-animation">VEDIC VISION</h1>
+                <h1 className="h1-animation">VEDIC VISION HACKATHON</h1>
             </div>
         </>
     );
