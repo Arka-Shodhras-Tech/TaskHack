@@ -11,27 +11,25 @@ app.get('/', async (req, res) => {
 })
 // **************************************Student Register****************************************//
 
-app.post('/updateyear', async (req, res) => {
+app.post('/updateyear/:team/:reg/:year', async (req, res) => {
     try {
-        const { team, reg, year } = req.body;
-
         const isExisting = await db.collection("Studentdata").findOne({
-            Teamname: team,
-            'Teammembers.Registernumber': reg,
+            Teamname: req.params.team,
+            'Teammembers.Registernumber': req.params.reg,
         });
 
-        if (isExisting && isExisting.Teammembers[0].year === year) {
+        if (isExisting && isExisting.Teammembers[0].year === req.params.year) {
             // Year already matches, send informative message
             return res.status(200).json({ message: "Year is already updated" });
         }
 
         const result = await db.collection("Studentdata").updateOne({
-            Teamname: team,
-            'Teammembers.Registernumber': reg,
+            Teamname: req.params.team,
+            'Teammembers.Registernumber': req.params.reg,
         },
             {
                 $set: {
-                    'Teammembers.$.year': year,
+                    'Teammembers.$.year': req.params.year,
                 }
             });
 

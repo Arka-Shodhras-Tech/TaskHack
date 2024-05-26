@@ -9,17 +9,15 @@ const ProfileUpdate = ({ show, onHide, team }) => {
     const [reg, setReg] = useState('')
     const [year, setYear] = useState('')
     const [load, setLoad] = useState('')
+    console.log(reg,year)
     const PostUpdate = async () => {
         if (year !== '' && reg !== '') {
             setLoad(true)
             try {
-                const response = await axios.post(`${process.env.REACT_APP_Server}/updateyear`, { team: team, reg: reg, year: year })
+                const response = await axios.post(`${process.env.REACT_APP_Server}/updateyear/`+team.Teamname+"/"+reg+"/"+year)
                 if (response.status === 200) {
                     alert(response.data.message)
-                    setReg('')
-                    setYear('')
-                    setLoad(false)
-                    onHide()
+                    window.location.reload(5)
                 }
             } catch (error) {
                 console.error(error)
