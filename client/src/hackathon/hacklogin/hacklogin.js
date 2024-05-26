@@ -37,7 +37,7 @@ export const LoginForm = () => {
 
     const handlePasswordReset = async () => {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_SERVER}/sendPassword`, { regd });
+            const res = await axios.post(`${process.env.REACT_APP_Server}/sendPassword/${ regd }`);
             toast({
                 title: res.data.message || 'Password sent to your email',
                 status: 'success',
