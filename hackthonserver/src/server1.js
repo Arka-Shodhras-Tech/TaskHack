@@ -279,8 +279,8 @@ app.post("/fillbank/", async (req, res) => {
 
 
 // *************************************************Exam Data*******************************************//
-app.post('/examdata', async (req, res) => {
-    await db.collection("Exam").find().toArray()
+app.post('/examdata/:year', async (req, res) => {
+    await db.collection(`Exam${req.params.year}`).find().toArray()
         .then((details) => {
             res.json(details)
         })

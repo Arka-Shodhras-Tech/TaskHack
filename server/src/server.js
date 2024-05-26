@@ -29,7 +29,6 @@ app.get("/viewphotos", async (req, res) => {
         }));
         res.json(formattedDetails);
     } catch (error) {
-        // Handle specific errors (e.g., database errors)
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
     }
@@ -502,7 +501,7 @@ app.post("/deletework/:team/:work", async (req, res) => {
         .then((details) => {
             details.TeamWork.map(async (val, index) => (
                 val.Work === req.params.work &&
-                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, { $pull: {TeamWork: {Work:req.params.work} } })
+                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, { $pull: { TeamWork: { Work: req.params.work } } })
                     .then((details1) => {
                         res.json({ message: "deleted", data: details1 })
                     })
