@@ -23,6 +23,10 @@ const ProfileUpdate = ({ show, onHide, team }) => {
                 }
             } catch (error) {
                 console.error(error)
+                setLoad(false)
+                setReg('')
+                setYear('')
+                alert('An error occurred while fetching data. Please try again later.');
             }
 
         }
