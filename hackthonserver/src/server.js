@@ -49,16 +49,27 @@ app.get('/sendPassword/:regd/:password', async (req, res) => {
 app.post('/signin', async (req, res) => {
     const { regd, password } = req.body;
 
-    if (!user) {
-        return res.status(400).json({ message: 'Invalid registration number or password.' });
-    }
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (validPassword) {
-        res.status(200).json({ message: 'Login successful' });
-    } else {
-        res.status(400).json({ message: 'Invalid registration number or password.' });
+    try {
+        const user = await db.collection('Signup').findOne({ Reg_No: regd });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid registration number.' });
+        }
+
+        const validPassword = await bcrypt.compare(password, user.Password);
+        if (validPassword) {
+            res.status(200).json({ message: 'Login successful' });
+        } else {
+            res.status(400).json({ message: 'Invalid registration number or password.' });
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Error during signin' });
     }
 });
+
+
+
 
 connectToDB(() => {
     app.listen(9889, () => {
