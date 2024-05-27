@@ -18,11 +18,16 @@ app.post('/updateyear/:team/:reg/:year', async (req, res) => {
             'Teammembers.Registernumber': req.params.reg,
         });
 
-        if (isExisting && isExisting.Teammembers[0].year === req.params.year) {
+        // find teammember with their reg no
+        const isTeamMember = isExisting.Teammembers.find( member => member.Registernumber === req.params.reg )
+
+        // check if the updated year and already existing year same
+        if (isExisting && isTeamMember.year === req.params.year) {
             // Year already matches, send informative message
             return res.status(200).json({ message: "Year is already updated" });
         }
 
+        //if there is no existing year, add the year field
         const result = await db.collection("Studentdata").updateOne({
             Teamname: req.params.team,
             'Teammembers.Registernumber': req.params.reg,
