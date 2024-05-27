@@ -9,32 +9,12 @@ const ProfileUpdate = ({ show, onHide, team }) => {
     const [reg, setReg] = useState('')
     const [year, setYear] = useState('')
     const [load, setLoad] = useState('')
-    console.log(reg, year)
-
-    const isRegValid = () => {
-        if (reg.startsWith('21') && year === '4' ||
-            reg.startsWith('22' && year === '3' ||
-            reg.startsWith('23') && year === '2' ||
-            reg.startsWith('24') && year === '1'
-        )){
-            return true
-        }
-        else{
-            return false
-        }
-    }
-
+    console.log(reg,year)
     const PostUpdate = async () => {
         if (year !== '' && reg !== '') {
-
-            if (!isRegValid()) {
-                alert("Register number and year does not match")
-                return
-            }
-
             setLoad(true)
             try {
-                const response = await axios.post(`${process.env.REACT_APP_Server}/updateyear/` + team.Teamname + "/" + reg + "/" + year)
+                const response = await axios.post(`${process.env.REACT_APP_Server}/updateyear/`+team.Teamname+"/"+reg+"/"+year)
                 if (response.status === 200) {
                     alert(response.data.message)
                     window.location.reload(5)
@@ -77,7 +57,7 @@ const ProfileUpdate = ({ show, onHide, team }) => {
                     >
                         <option value="">Select Register number</option>
                         {
-                            team?.Teammembers?.map((val) => (
+                            team?.Teammembers?.map((val)=>(
                                 <option value={val.Registernumber}>{val.Registernumber}</option>
                             ))
                         }
