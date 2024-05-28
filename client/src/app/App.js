@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/*" element={<RoutesofASTeam />} />
-          <Route path="/hackthon/*" element={<HackthonRoutes />} />
+          <Route path="/hackathon/*" element={<HackthonRoutes />} />
         </Routes>
       </BrowserRouter>
     </>

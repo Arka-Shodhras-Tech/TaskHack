@@ -13,23 +13,27 @@ export const RegistrationForm = () => {
     const [email, SetEmail] = useState("");
     const [sec, SetSec] = useState("")
     const [num, snum] = useState();
+    const [load,setLoad]=useState(false)
 
     const Register = async () => {
         try {
+            setLoad(true)
             const res = await axios.post(process.env.REACT_APP_Server + "/signup/" + email + "/" + name + "/" + regd + "/" + num + "/" + year + "/" + branch + "/" + sec)
             {
-                if (res.data) {
+                if (res.data.message) {
                     alert("Registered succesfully");
-                    console.log(res)
-                    nav('/hacklogin')
+                    setLoad(false)
+                    nav('/hackathon/login')
 
                 }
                 else {
+                    setLoad(false)
                     alert("try again");
                 }
             }
         }
         catch (e) {
+            setLoad(false)
             console.log(e)
         }
     }
@@ -144,7 +148,7 @@ export const RegistrationForm = () => {
                                             fontSize: '1rem',
                                             borderRadius: '5px',
                                             transition: 'background-color 0.3s, border-color 0.3s'
-                                        }}>Sign up</button>
+                                        }}>{load?"Please wait...":"Sign up"}</button>
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +157,7 @@ export const RegistrationForm = () => {
                             {/* </form> */}
                             <hr style={{ marginTop: '2rem', marginBottom: '1.5rem', borderColor: '#dee2e6' }} />
                             <p style={{ margin: '0', color: '#6c757d', textAlign: 'center' }}>
-                                Already have an account? <Link to="/hacklogin" style={{
+                                Already have an account? <Link to="/hackathon/login" style={{
                                     color: '#007bff',
                                     textDecoration: 'none',
                                     transition: 'color 0.3s'
