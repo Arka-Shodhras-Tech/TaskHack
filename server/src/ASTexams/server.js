@@ -1,15 +1,53 @@
-import cors from "cors";
 import express from 'express';
-import { connectToDB, db } from './db.js';
-const app = express()
+import { db } from '../db.js';
+import cors from 'cors'
+
+const app = express();
 let stop = false;
 app.use(express.json())
 app.use(cors())
 
-app.get('/', async (req, res) => {
-    res.send("Ok continue");
-})
+app.get('/asteam', async (req, res) => {
+    res.send("Ok team");
+});
+
+
 // **************************************Student Register****************************************//
+
+app.post('/updateyear/:team/:reg/:year', async (req, res) => {
+    try {
+        const isExisting = await db.collection("Studentdata").findOne({
+            Teamname: req.params.team,
+            'Teammembers.Registernumber': req.params.reg,
+        });
+
+        if (isExisting && isExisting.Teammembers[0].year === req.params.year) {
+            // Year already matches, send informative message
+            return res.status(200).json({ message: "Year is already updated" });
+        }
+
+        const result = await db.collection("Studentdata").updateOne({
+            Teamname: req.params.team,
+            'Teammembers.Registernumber': req.params.reg,
+        },
+            {
+                $set: {
+                    'Teammembers.$.year': req.params.year,
+                }
+            });
+
+        if (result.modifiedCount === 1) {
+            res.status(200).json({ message: "Update successful" });
+        } else {
+            res.status(404).json({ message: "Team member not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error updating year" });
+    }
+});
+
+
 app.post("/studentdata", async (req, res) => {
     await db.collection("Studentdata").find().toArray()
         .then((details) => {
@@ -29,7 +67,6 @@ app.get("/viewphotos", async (req, res) => {
         }));
         res.json(formattedDetails);
     } catch (error) {
-        // Handle specific errors (e.g., database errors)
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
     }
@@ -54,13 +91,13 @@ app.get("/checkviews/:pdfurl", async (req, res) => {
     try {
         const data = await db.collection("Materials").findOne({ Pdf: pdfurl });
         if (!data) {
-            return res.status(404).json({ error: "PDF not found" }); // Specific error message
+            return res.status(404).json({ error: "PDF not found" });
         }
 
-        res.json(data); // Return the data if found
+        res.json(data);
     } catch (error) {
         console.error("Error checking views:", error);
-        res.status(500).json({ error: "Internal server error" }); // Generic error for unexpected issues
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 
@@ -279,8 +316,8 @@ app.post("/fillbank/", async (req, res) => {
 
 
 // *************************************************Exam Data*******************************************//
-app.post('/examdata/:year', async (req, res) => {
-    await db.collection(`Exam${req.params.year}`).find().toArray()
+app.post('/examdata', async (req, res) => {
+    await db.collection("Exam").find().toArray()
         .then((details) => {
             res.json(details)
         })
@@ -327,7 +364,7 @@ app.post('/exam/', async (req, res) => {
         })
         .catch((e) => console.log(e))
 })
-app.post('/paperdata', async (req, res) => {
+app.get('/paperdata', async (req, res) => {
     await db.collection("ExamSheet").find().toArray()
         .then((details) => {
             res.json(details)
@@ -502,7 +539,7 @@ app.post("/deletework/:team/:work", async (req, res) => {
         .then((details) => {
             details.TeamWork.map(async (val, index) => (
                 val.Work === req.params.work &&
-                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, { $pull: {TeamWork: {Work:req.params.work} } })
+                await db.collection("Studentdata").findOneAndUpdate({ Teamname: req.params.team }, { $pull: { TeamWork: { Work: req.params.work } } })
                     .then((details1) => {
                         res.json({ message: "deleted", data: details1 })
                     })
@@ -515,13 +552,4 @@ app.post("/deletework/:team/:work", async (req, res) => {
         });
 });
 
-
-connectToDB(() => {
-    app.listen(9889, () => {
-        console.log('server Running at port 9889')
-    })
-}
-)
-
-
-
+export default app;
