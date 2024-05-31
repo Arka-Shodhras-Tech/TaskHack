@@ -4,21 +4,43 @@ import express from 'express';
 import nodemailer from 'nodemailer';
 import { db } from '../db.js';
 import { message } from "./message/message.js";
+import session from 'express-session'
 
 const app = express()
 app.use(express.json())
 app.use(cors())
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/hackathon', async (req, res) => {
     res.send("Ok hacthon");
 })
+
+app.use(session({
+    secret: 'ast-team',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+}));
+
+app.get('/set-session', (req, res) => {
+    req.session.user = { name: 'John Doe', age: 30 };
+    res.send('Session data set');
+});
+
+app.get('/get-session', (req, res) => {
+    if (req.session.user) {
+        res.send(`User: ${req.session.user.name}, Age: ${req.session.user.age}`);
+    } else {
+        res.send('No session data found');
+    }
+});
 
 
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
     const user = await db.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
     if (user?.Reg_No) {
-        res.json({ register: "already exist", data: user});
+        res.json({ register: "already exist", data: user });
     }
     else {
         await db.collection('Hackathondata').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, Section: req.params.section })
@@ -44,16 +66,34 @@ const transporter = nodemailer.createTransport({
 // const name="teja"
 // console.log(name.slice(0,1))
 
-app.get('/sendPassword/:regd/:password', async (req, res) => {
-    await transporter.sendMail({
-        from: 'collegeworks0910@example.com',
-        to: ["sailakshmiborra4102@gmail.com", "tejasimma033@gmail.com"],
-        subject: "hiii",
-        html: await message.html("sai", "sai@2002", "21b91a1225"),
-    })
-        .then((details) => res.json({ message: "sucessfully sent mail", data: details }))
-        .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
+app.get('/sendotp/:regd', async (req, res) => {
+    try {
+        const user = await db.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
+        if (!user) {
+            return res.json({ error: 'Invalid registration number.' });
+        }
+        if (user?.Gmail) {
+            const crepassword = crypto.randomBytes(4).toString('hex');
+            req.session[user?.Gmail]=crepassword
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: user?.Gmail,
+                subject: "vedic vision hacthon web update password OTP",
+                html: await message.html(user?.Name, crepassword, user?.Reg_No),
+            })
+                .then((details) => res.json({ message: "OTP sucessfully sent to your mail", data: details }))
+                .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error during signin' });
+    }
 });
+
+app.get('/checkotp/:Gmail',async(req,res)=>{
+    const mail=req.params.Gmail
+    console.log(req.session[mail])
+    res.json(req.session.OTP)
+})
 
 
 app.post('/signin', async (req, res) => {
@@ -85,6 +125,33 @@ app.post('/signin', async (req, res) => {
         res.status(500).json({ message: 'Error during signin' });
     }
 });
+
+
+app.post('/updatepasswordlink', async (req, res) => {
+    const { regd } = req.body;
+    try {
+        const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
+        if (!user) {
+            return res.json({ error: 'Invalid registration number.' });
+        }
+        const link = "www.google.com"
+        if (user.Gmail) {
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: user?.Gmail,
+                subject: "vedic vision hacthon web password update",
+                html: await message.html(user?.Name, link, user?.Reg_No),
+            })
+                .then((details) => res.json({ message: "update password link sucessfully sent to your mail", data: details }))
+                .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Error during signin' });
+    }
+});
+
+
 
 
 
