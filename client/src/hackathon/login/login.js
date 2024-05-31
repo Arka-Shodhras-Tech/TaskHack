@@ -1,40 +1,45 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
-import './hacklogin.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './login.css';
 
 export const LoginForm = () => {
     const navigate = useNavigate();
     const toast = useToast();
-    const [load, setLoad] = useState(false)
+    const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
+    const Login = async () => {
         try {
-            setLoad(true)
+            setLoad(true);
             const res = await axios.post(`${process.env.REACT_APP_Server}/signin`, { regd, password });
+
             if (res.data.message) {
-                alert(res.data.message)
+                alert(res.data.message);
                 toast({
                     title: 'Login successful',
                     status: 'success',
                     position: 'bottom-right',
                     isClosable: true,
                 });
-                setLoad(false)
+                setLoad(false);
             }
             if (res.data.passmessage) {
-                navigate('/hackathon/home')
+                console.log(res);
+                navigate('/hackathon/home');
             }
             if (res.data.error) {
+                console.log(res);
                 navigate('/hackathon/register');
             }
             if (res.data.passerror) {
-                alert(res.data.passerror)
-                setLoad(false)
+                alert(res.data.passerror);
+                setLoad(false);
             }
         } catch (e) {
             console.error(e);
@@ -44,13 +49,16 @@ export const LoginForm = () => {
                 position: 'bottom-left',
                 isClosable: true,
             });
-            setLoad(false)
+            setLoad(false);
         }
     };
 
+
+
+    
     const handlePasswordReset = async () => {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_SERVER}/updatepassword`, { regd });
+            const res = await axios.post(`${process.env.REACT_APP_Server}/updatepassword`, { regd });
             toast({
                 title: res.data.message || 'Password sent to your email',
                 status: 'success',
@@ -66,7 +74,37 @@ export const LoginForm = () => {
                 isClosable: true,
             });
         }
+
+
     };
+
+
+    // useEffect(() => {
+    //     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    //     const tooltipList = tooltipTriggerList.map((tooltipTriggerEl) => new window.bootstrap.Tooltip(tooltipTriggerEl));
+    //     return () => {
+    //         tooltipList.forEach((tooltip) => tooltip.dispose());
+    //     };
+    // }, []);
+
+
+
+// **************Password field*************
+    useEffect(() => {
+        const tooltip = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltip.map((tooltipTrigger) => {
+            if (tooltipTrigger) {
+                return new window.bootstrap.Tooltip(tooltipTrigger);
+            }
+            return null;
+        }).filter(Boolean);  
+
+        return () => {
+            tooltipList.forEach((tooltip) => tooltip.dispose());
+        };
+    }, []);
+
+
 
     return (
         <section className="section">
@@ -114,12 +152,16 @@ export const LoginForm = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="custom-tooltip"
+                                    title="Temporarily create a password then an generated password will be sent to your email"
                                 />
                             </div>
                             <div className="form-actions">
                                 <div className="d-grid">
-                                    <button onClick={handleLogin} className="btn bsb-btn-xl btn-primary" type="button">
-                                        {load ? "Please wait..." : "Login"}
+                                    <button onClick={Login} className="btn bsb-btn-xl btn-primary" type="button">
+                                        {load ? "Please wait.." : "Login"}
                                     </button>
                                 </div>
                             </div>

@@ -1,0 +1,156 @@
+.count-icon{
+    margin: 4% 0% 0% 45%;
+    width: '50%';
+}
+/* .start-btn{
+    margin-left: 47%;
+    font-style: italic;
+    border-radius: 50%;
+    border-bottom: #c61a1aad;
+} */
+
+
+
+.start-btn {
+	margin-left: 43%;
+	
+	display: inline-block;
+	padding: 15px 30px;
+	font-size: 10px;
+	font-weight: bold;
+	color: white;
+	background: linear-gradient(45deg,#f46868, #ff6b6b, #f94d94);
+	border: none;
+	border-radius: 25px;
+	box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+  }
+  
+  .start-btn:hover {
+	background: linear-gradient(45deg, #f94d94, #ff6b6b);
+	box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+	transform: translateY(-5px);
+  }
+  
+  .start-btn:active {
+	transform: translateY(-2px);
+  }
+  
+  .animated-button {
+	animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+	0% {
+	  box-shadow: 0 0 0 0 rgba(249, 77, 148, 0.4);
+	}
+	70% {
+	  box-shadow: 0 0 0 10px rgba(249, 77, 148, 0);
+	}
+	100% {
+	  box-shadow: 0 0 0 0 rgba(249, 77, 148, 0);
+	}
+  }
+  
+
+
+
+
+
+
+
+
+.countdown .content {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: auto;
+	gap: 12px;
+}
+.countdown h2 {
+	margin-bottom: 20px;
+	font-size: 50px;
+}
+
+.countdown .box {
+	width: calc(100% / 4);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 150px;
+	max-width: 150px;
+}
+
+.countdown .value {
+	font-size: 30px;
+	font-weight: 600;
+	background-color: #1c3136;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	width: 80px;
+	height: 80px;
+	position: relative;
+	box-shadow: -2px 0px 5px 1px #3b2064ad;
+}
+
+@media screen and (min-width: 550px) {
+	.countdown .content {
+		gap: 30px;
+	}
+	.countdown .value {
+		font-size: 50px;
+		width: 120px;
+		height: 120px;
+	}
+	.countdown .box {
+		height: 200px;
+		max-width: 200px;
+	}
+}
+
+@media screen and (min-width: 790px) {
+	.countdown .value {
+		font-size: 100px;
+		height: 200px;
+		width: 200px;
+	}
+	.countdown .box {
+		max-width: 200px;
+		height: 250px;
+	}
+}
+
+.countdown .value::before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	z-index: 2;
+	background-color: #313131b0;
+	box-shadow: 0px 0px 5px 0px #2e2f2ed6;
+}
+.countdown .value::after {
+	content: "";
+	position: absolute;
+	z-index: 2;
+	left: -7px;
+	width: 10px;
+	height: 20px;
+	background-color: #969696;
+	box-shadow: inset -1px 1px 5px 1px #0e0e0ead;
+}
+
+.countdown .label {
+	font-size: 20px;
+	font-weight: 100;
+	letter-spacing: 4px;
+	margin-top: 10px;
+}
