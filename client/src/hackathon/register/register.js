@@ -21,7 +21,7 @@ export const RegistrationForm = () => {
     const Register = async () => {
         try {
             setLoad(true);
-            const res = await axios.post(process.env.REACT_APP_Server + "/signup/" + email + "/" + name + "/" + num + "/" + regd + "/" + year + "/" + branch + "/" + sec)
+            const res = await axios.post(process.env.REACT_APP_Server + "/signup/" + email + "/" + name + "/" + regd + "/" + num + "/" + year + "/" + branch + "/" + sec)
             if (res.data.message) {
                 alert("Registered successfully");
                 setLoad(false);
