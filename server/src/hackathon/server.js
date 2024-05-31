@@ -18,7 +18,7 @@ app.get('/hackathon', async (req, res) => {
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
     const user = await db.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
     if (user?.Reg_No) {
-        res.json({ register: "already exist", data: details });
+        res.json({ register: "already exist", data: details});
     }
     else {
         await db.collection('Hackathondata').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, Section: req.params.section })
@@ -85,5 +85,7 @@ app.post('/signin', async (req, res) => {
         res.status(500).json({ message: 'Error during signin' });
     }
 });
+
+
 
 export default app

@@ -7,7 +7,7 @@ async function connectToDB(cb){
     const url = `${process.env.database}`
     const client = new MongoClient(url);
     await client.connect();
-    db = client.db("ChemistryDepartment");  
+    db = client.db("Hackathon");  
     cb();
 }
 export { connectToDB, db };

@@ -5,10 +5,10 @@ import './main.css';
 import { Button } from '@chakra-ui/react';
 const Hackathon = () => {
   const Login=()=>{
-    window.location.href='login'
+    window.location.href='hackathon/login'
   }
   const Register=()=>{
-    window.location.href="register"
+    window.location.href="hackathon/register"
   }
   return (
     <div className='main'>
@@ -18,7 +18,7 @@ const Hackathon = () => {
       <div className='hacthongrid'>
         <div className='hacthonlist'>
           <SimpleGrid minChildWidth='220px' spacing='40px'>
-            <Button>Register</Button>
+            <Button onClick={Register}>Register</Button>
             <Button onClick={Login}>Login</Button>
           </SimpleGrid>
         </div>

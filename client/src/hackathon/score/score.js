@@ -7,7 +7,6 @@ export const HackStudentscore = () => {
     const [students, setStudents] = useState([]);
 
     useEffect(() => {
-        // Fetch the student data from the JSON file
         fetch('/students.json')
             .then(response => response.json())
             .then(data => setStudents(data));

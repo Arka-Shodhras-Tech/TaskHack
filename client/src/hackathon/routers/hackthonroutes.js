@@ -1,12 +1,14 @@
 import { Route, Routes } from 'react-router-dom'
-import { HackStudentscore } from '../hackathonscore/hackathonscore'
-import { LoginForm } from '../hacklogin/hacklogin'
+import { HackStudentscore } from '../score/score'
+import { LoginForm } from '../login/login'
 import { Nav1 } from '../hackthonnav/hackthonnav'
-import { RegistrationForm } from '../hackthonregister/hackregister'
+import { RegistrationForm } from '../register/register'
 import { Home } from '../home/home'
-import Hackathon from '../main/main'
+
+
 import { Popup } from '../popup/popup'
 import { UpdateForm } from '../update/update'
+import Countdown from '../countdown/countdown'
 
 export const HackthonRoutes = () => {
     return (
@@ -18,8 +20,10 @@ export const HackthonRoutes = () => {
                 <Route path="/update" element={<UpdateForm />} />
                 <Route path="/score" element={<HackStudentscore />} />
                 <Route path="/popup" element={<Popup />} />
-                <Route path="/" element={<Hackathon />} />
+                <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={<Home />} />
+
+
             </Routes>
         </>
     )
