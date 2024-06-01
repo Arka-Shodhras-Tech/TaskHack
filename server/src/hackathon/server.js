@@ -87,21 +87,32 @@ app.post('/signin', async (req, res) => {
 });
 
 
-app.post('/pass', async (req, res) => {
+app.post('/updatepasswordlink', async (req, res) => {
     const { regd } = req.body;
-
     try {
         const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
-
         if (!user) {
-            return res.status(404).json({ regd: false, message: 'Invalid Registered Number' });
+            return res.json({ error: 'Invalid registration number.' });
         }
-
-        res.status(200).json({ regd: true, message: 'Registered Number is valid.' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error. Please try again later.' });
+        const link = "www.google.com"
+        if (user.Gmail) {
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: user?.Gmail,
+                subject: "vedic vision hacthon web password update",
+                html: await message.html(user?.Name, link, user?.Reg_No),
+            })
+                .then((details) => res.json({ message: "update password link sucessfully sent to your mail", data: details }))
+                .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Error during signin' });
     }
 });
+
+
+
+
 
 export default app
