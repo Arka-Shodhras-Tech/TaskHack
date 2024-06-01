@@ -60,7 +60,7 @@ app.post('/signin', async (req, res) => {
     const { regd, password } = req.body;
     try {
         const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
-        if (!user) {
+        if (!user.Reg_No) {
             return res.json({ error: 'Invalid registration number.' });
         }
         if (!user.Password) {
@@ -87,5 +87,21 @@ app.post('/signin', async (req, res) => {
 });
 
 
+app.post('/pass', async (req, res) => {
+    const { regd } = req.body;
+
+    try {
+        const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
+
+        if (!user) {
+            return res.status(404).json({ regd: false, message: 'Invalid Registered Number' });
+        }
+
+        res.status(200).json({ regd: true, message: 'Registered Number is valid.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error. Please try again later.' });
+    }
+});
 
 export default app
