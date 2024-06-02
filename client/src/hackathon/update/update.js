@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +11,7 @@ export const UpdateForm = () => {
     const updateDetails1 = async () => {
         setLoad(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_Server}/pass`, { regd });
+            const res = await axios.post(`${process.env.REACT_APP_Server}/updatepassword`, { regd });
             if (!res.data.regd) {
                 alert('Invalid Registered Number');
                 setLoad(false);

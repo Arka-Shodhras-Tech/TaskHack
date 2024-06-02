@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { BsStopwatch } from "react-icons/bs";
 import "./countdown.css";
-import { useNavigate } from "react-router-dom";
-import { BsStopwatch } from "react-icons/bs"
 const Start = () => {
-	// const nav=useNavigate();
-	window.location.href = 'hackathon/login'
-
-
+	window.location.href = '/hackathon/login'
 }
 const COUNTDOWN_TARGET = new Date("2024-08-14T10:59:59");
 

@@ -1,7 +1,9 @@
 /* hacklogin.css */
 .custom-tooltip .tooltip-inner {
-    background-color: #99e1ec; /* Change this to your desired color */
-    color: #000; /* Change this to your desired text color */
+    background-color: #99e1ec;
+    /* Change this to your desired color */
+    color: #000;
+    /* Change this to your desired text color */
 }
 
 /*  */
@@ -117,4 +119,21 @@
     color: #007bff;
     text-decoration: none;
     transition: color 0.3s;
+}
+
+
+@media (max-width:500px) {
+    .image-container{
+        display: none;
+    }
+    .form-row {
+        display: grid;
+        flex-wrap: wrap;
+    }
+    .section {
+        padding: rem 0;
+    }
+    .form-container {
+        padding:0 2rem;
+    }
 }

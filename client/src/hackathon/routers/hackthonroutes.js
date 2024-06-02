@@ -24,11 +24,6 @@ export const HackthonRoutes = () => {
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={<Home />} />
                 <Route path='/newupdate' element={<NewUpdateForm />} />
-
-
-
-
-
             </Routes>
         </>
     )

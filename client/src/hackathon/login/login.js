@@ -52,60 +52,6 @@ export const LoginForm = () => {
             setLoad(false);
         }
     };
-
-
-
-    
-    const handlePasswordReset = async () => {
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_Server}/updatepassword`, { regd });
-            toast({
-                title: res.data.message || 'Password sent to your email',
-                status: 'success',
-                position: 'bottom-right',
-                isClosable: true,
-            });
-        } catch (e) {
-            console.error(e);
-            toast({
-                title: e.response?.data?.message || 'Error sending password',
-                status: 'error',
-                position: 'bottom-left',
-                isClosable: true,
-            });
-        }
-
-
-    };
-
-
-    // useEffect(() => {
-    //     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    //     const tooltipList = tooltipTriggerList.map((tooltipTriggerEl) => new window.bootstrap.Tooltip(tooltipTriggerEl));
-    //     return () => {
-    //         tooltipList.forEach((tooltip) => tooltip.dispose());
-    //     };
-    // }, []);
-
-
-
-// **************Password field*************
-    useEffect(() => {
-        const tooltip = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        const tooltipList = tooltip.map((tooltipTrigger) => {
-            if (tooltipTrigger) {
-                return new window.bootstrap.Tooltip(tooltipTrigger);
-            }
-            return null;
-        }).filter(Boolean);  
-
-        return () => {
-            tooltipList.forEach((tooltip) => tooltip.dispose());
-        };
-    }, []);
-
-
-
     return (
         <section className="section">
             <div className="login-container">
@@ -152,10 +98,6 @@ export const LoginForm = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="top"
-                                    data-bs-custom-class="custom-tooltip"
-                                    title="Temporarily create a password then an generated password will be sent to your email"
                                 />
                             </div>
                             <div className="form-actions">

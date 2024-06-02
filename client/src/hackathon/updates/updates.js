@@ -3,13 +3,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./update.css"; 
+import "./update.css";
 
 export const NewUpdateForm = () => {
     const navigate = useNavigate();
 
     const updateDetails = () => {
-        
+
 
         navigate('');
     };
@@ -28,23 +28,23 @@ export const NewUpdateForm = () => {
                 <div className="update-form-content">
                     <div className="update-form-heading">
                         <h2>Update Details</h2>
-                        <h3>Enter your new credentials</h3><br/>
+                        <h3>Enter your new credentials</h3><br />
                     </div>
-                    
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="registrationNum">
-                                    Registered Number <span style={{ color: 'red' }}>*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="registrationNum"
-                                    id="registrationNum"
-                                    placeholder="Registered Number"
-                                    required
-                                />
-                            </div>
+
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="registrationNum">
+                                Registered Number <span style={{ color: 'red' }}>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="registrationNum"
+                                id="registrationNum"
+                                placeholder="Registered Number"
+                                required
+                            />
+                        </div>
                         <div className="col-12 col-md-6 update-form-input">
                             <label htmlFor="password">Password <span style={{ color: 'red' }}>*</span></label>
                             <input type="password" className="form-control" name="password" id="password" placeholder="Enter your new password" required />
