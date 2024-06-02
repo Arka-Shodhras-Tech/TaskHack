@@ -8,7 +8,7 @@ import { Popup } from '../popup/popup'
 import { UpdateForm } from '../update/update'
 import Countdown from '../countdown/countdown'
 import { NewUpdateForm } from '../updates/updates'
-export const HackthonRoutes = () => {
+export const HackthonDayRoute = () => {
     return (
         <>
             <Nav1 />

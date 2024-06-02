@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -20,7 +18,7 @@ export const UpdateForm = () => {
                 setLoad(false);
                 return;
             }
-            alert(res.data.message); 
+            alert(res.data.message);
             navigate('/newupdate');
         } catch (error) {
             console.error('Error:', error);

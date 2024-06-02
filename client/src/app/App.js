@@ -8,6 +8,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          {/* <Route path='/*' element={} */}
           <Route path="/*" element={<RoutesofASTeam />} />
           <Route path="/hackathon/*" element={<HackthonRoutes />} />
         </Routes>
