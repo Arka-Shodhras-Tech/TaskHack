@@ -5,7 +5,7 @@ export const Nav1 = () => {
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <h1 className="h1-animation">VEDIC VISION HACKATHON</h1>
+                <h1 className="h1-animation">VEDIC VISION BOOTCAMP</h1>
             </div>
         </>
     );
