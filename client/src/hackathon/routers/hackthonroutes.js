@@ -8,6 +8,8 @@ import { Popup } from '../popup/popup'
 import { UpdateForm } from '../update/update'
 import Countdown from '../countdown/countdown'
 import { NewUpdateForm } from '../updates/updates'
+import { Hackathonpage } from '../hacthonday/hackathonpage/hackathonpage'
+
 export const HackthonRoutes = () => {
     return (
         <>
@@ -21,6 +23,10 @@ export const HackthonRoutes = () => {
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={<Home />} />
                 <Route path='/newupdate' element={<NewUpdateForm />} />
+                <Route path='/hackathonpage' element={<Hackathonpage />} />
+
+
+
             </Routes>
         </>
     )

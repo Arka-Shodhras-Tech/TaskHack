@@ -37,11 +37,7 @@ const Countdown = () => {
 			</div>
 			<h2 style={{ textAlign: 'center' }}>
 
-				<BsStopwatch /><br />
-				{/* <BsStopwatch/> */}
-
-
-				Starts in</h2>
+				<BsStopwatch style={{marginLeft:'48%'}}/>Starts in</h2>
 			<div className='content'>
 				{Object.entries(timeLeft).map((el) => {
 					const label = el[0];
