@@ -1,7 +1,7 @@
 import React from "react";
-import "./hackthonnav.css";
+import "./bootcampnav.css";
 
-export const Nav1 = () => {
+export const BootcampNav = () => {
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -3,12 +3,12 @@ import React from 'react';
 import hackthonImg from './hacthonimg.jpg'
 import './main.css';
 import { Button } from '@chakra-ui/react';
-const Hackathon = () => {
+const Bootcamp = () => {
   const Login=()=>{
-    window.location.href='hackathon/login'
+    window.location.href='bootcamp/login'
   }
   const Register=()=>{
-    window.location.href="hackathon/register"
+    window.location.href="bootcamp/register"
   }
   return (
     <div className='main'>
@@ -27,4 +27,4 @@ const Hackathon = () => {
   );
 }
 
-export default Hackathon;
+export default Bootcamp;

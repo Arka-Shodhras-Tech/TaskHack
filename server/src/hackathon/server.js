@@ -11,7 +11,7 @@ import { EndHackathon } from "./hacthonday/hackathonend.js";
 import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { message } from "./message/message.js";
 import { UploadStudents } from "./studentdata/uploadstudentdata.js";
-import { initiateMulter } from "./uploadfile.js/uploadfile.js";
+import { initiateMulter } from "./uploadfile/uploadfile.js";
 
 const app = express()
 app.use(express.json())
