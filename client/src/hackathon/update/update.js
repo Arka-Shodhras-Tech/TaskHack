@@ -1,17 +1,20 @@
+
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./update.css"; 
+import "./update.css";
 
 export const UpdateForm = () => {
     const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
     const navigate = useNavigate();
+
     const updateDetails1 = async () => {
         setLoad(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_Server}/updatepassword`, { regd });
+            const res = await axios.post(`${process.env.REACT_APP_Server}/pass`, { regd });
             if (!res.data.regd) {
                 alert('Invalid Registered Number');
                 setLoad(false);
@@ -20,13 +23,12 @@ export const UpdateForm = () => {
             alert(res.data.message); 
             navigate('/newupdate');
         } catch (error) {
-            console.error(error);
-            alert('An error occurred while checking the registered number');
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
         } finally {
             setLoad(false);
         }
     };
-
 
     return (
         <section className="update-form-section">
@@ -42,26 +44,25 @@ export const UpdateForm = () => {
                 <div className="update-form-content">
                     <div className="update-form-heading">
                         <h2>Update Details</h2>
-                        <h3>Enter your new credentials</h3><br/>
+                        <h3>Enter your new credentials</h3><br />
                     </div>
-                    
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="registrationNum">
-                                    Registered Number <span style={{ color: 'red' }}>*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="registrationNum"
-                                    id="registrationNum"
-                                    placeholder="Registered Number"
-                                    value={regd}
-                                    onChange={(e) => setRegd(e.target.value.toUpperCase())}
-                                    required
-                                />
-                            </div>
-                            <div className="col-12 update-form-button">
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="registrationNum">
+                                Registered Number <span style={{ color: 'red' }}>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="registrationNum"
+                                id="registrationNum"
+                                placeholder="Registered Number"
+                                value={regd}
+                                onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                required
+                            />
+                        </div>
+                        <div className="col-12 update-form-button">
                             <div className="d-grid">
                                 <button onClick={updateDetails1} className="btn bsb-btn-xl btn-primary" type="button" disabled={load}>
                                     {load ? 'Please wait...' : 'Update'}

@@ -1,9 +1,7 @@
-/* Additional styling for wider select fields */
 .select-long .form-control {
   width: 100%;
 }
 
-/* Ensure the container doesn't cause horizontal scrolling */
 .registration-container {
   max-width: 100%;
   overflow-x: hidden;
