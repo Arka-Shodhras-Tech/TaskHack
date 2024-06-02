@@ -12,8 +12,9 @@ export const UpdateForm = () => {
     const updateDetails1 = async () => {
         setLoad(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_Server}/pass`, { regd });
-            if (!res.data.regd) {
+            const res = await axios.post(`${process.env.REACT_APP_Server}/updatepasswordlink`, { regd });
+            console.log(res.data)
+            if (!res.data?.message) {
                 alert('Invalid Registered Number');
                 setLoad(false);
                 return;
