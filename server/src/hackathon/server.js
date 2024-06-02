@@ -1,10 +1,17 @@
 import cors from "cors";
 import crypto from 'crypto';
 import express from 'express';
+import session from 'express-session';
 import nodemailer from 'nodemailer';
 import { db } from '../db.js';
+import { AdminLogin } from "./admin/adminlogin.js";
+import { AdminRegister } from "./admin/adminregister.js";
+import { CheckHackathon } from "./hacthonday/checkhackathon.js";
+import { EndHackathon } from "./hacthonday/hackathonend.js";
+import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { message } from "./message/message.js";
-import session from 'express-session'
+import { UploadStudents } from "./studentdata/uploadstudentdata.js";
+import { initiateMulter } from "./uploadfile.js/uploadfile.js";
 
 const app = express()
 app.use(express.json())
@@ -22,20 +29,37 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-app.get('/set-session', (req, res) => {
-    req.session.user = { name: 'John Doe', age: 30 };
-    res.send('Session data set');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
 });
 
-app.get('/get-session', (req, res) => {
-    if (req.session.user) {
-        res.send(`User: ${req.session.user.name}, Age: ${req.session.user.age}`);
-    } else {
-        res.send('No session data found');
-    }
-});
+app.post('/admin-signup', async (req, res) => {
+    await AdminRegister(req.body, res);
+})
 
+app.post('/start-hackathon', async (req, res) => {
+    await StartHackathon(req.body, res);
+})
 
+app.post('/end-hackathon', async (req, res) => {
+    await EndHackathon(req.body, res);
+})
+
+app.post('/admin-signin', async (req, res) => {
+    await AdminLogin(req.body, res);
+})
+
+app.post('/check-hackathon/:mail', async (req, res) => {
+    await CheckHackathon(req.params.mail, res);
+})
+
+app.post('/upload-students', initiateMulter(), async (req, res) => {
+    await UploadStudents(req.files, res);
+})
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
     const user = await db.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
@@ -51,34 +75,6 @@ app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, r
     }
 })
 
-
-// app.get('/hackathon/register',async(req,res)=>{
-//     const data=await db.collection('Signup').find().toArray()
-//     console.log(data)
-// })
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
-// const name="teja"
-// console.log(name.slice(0,1))
-
-app.get('/sendPassword/:regd/:password', async (req, res) => {
-    await transporter.sendMail({
-        from: 'collegeworks0910@example.com',
-        to: ["sailakshmiborra4102@gmail.com", "tejasimma033@gmail.com"],
-        subject: "hiii",
-        html: await message.html("sai", "sai@2002", "21b91a1225"),
-    })
-        .then((details) => res.json({ message: "sucessfully sent mail", data: details }))
-        .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
-});
-
-
 app.post('/signin', async (req, res) => {
     const { regd, password } = req.body;
     try {
@@ -86,7 +82,7 @@ app.post('/signin', async (req, res) => {
         if (!user) {
             return res.json({ error: 'Invalid registration number.' });
         }
-        if (!user.Password) {
+        if (!user?.Password) {
             const crepassword = user?.Name.slice(0, 1) + "@" + crypto.randomBytes(3).toString('hex');
             await transporter.sendMail({
                 from: process.env.EMAIL_USER,
@@ -97,7 +93,7 @@ app.post('/signin', async (req, res) => {
                 .then((details) => res.json({ message: "password sucessfully sent to your mail", data: details }))
                 .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
         }
-        if (user?.Password === password) {
+        else if (user?.Password === password) {
             res.status(200).json({ passmessage: "login sucessfully", data: user })
         }
         else {
@@ -109,94 +105,46 @@ app.post('/signin', async (req, res) => {
     }
 });
 
-
-
-
 app.post('/updatepasswordlink', async (req, res) => {
     const { regd } = req.body;
     try {
         const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
         if (!user) {
-        return res.json({ error: 'Invalid registration number.' });
+            return res.json({ error: 'Invalid registration number.' });
         }
-
-        const linkUrl = "http://localhost:3000/hackathon/newupdate";
-
         if (user.Gmail) {
-        const emailContent = await link.html(user.Name, linkUrl, user.Reg_No);
-        
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: user.Gmail,
-            subject: "vedic vision hackathon web password update",
-            html: emailContent,
-        });
-
-        return res.json({ message: "Update password link successfully sent to your email." });
-    } else {
-        return res.json({ error: 'No email address found for this user.' });
-    }
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: user.Gmail,
+                subject: "vedic vision hackathon web password update",
+                html: await message.senlink(user?.Name, user?.Gmail),
+            }).then(() => { return res.json({ message: "Update password link successfully sent to your email." }) })
+                .catch((e) => console.log(e))
+        } else {
+            return res.json({ error: 'No email address found for this user.' });
+        }
     } catch (e) {
         console.error(e);
         res.status(500).json({ message: 'Error during signin.' });
     }
-  });
-
-// app.post('/updatepasswordlink', async (req, res) => {
-//     const { regd } = req.body;
-//     try {
-//         const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
-//         if (!user) {
-//             return res.json({ error: 'Invalid registration number.' });
-//         }
-//         const link = "http://localhost:3000/hackathon/newupdate"
-//         if (user.Gmail) {
-//             await transporter.sendMail({
-//                 from: process.env.EMAIL_USER,
-//                 to: user?.Gmail,
-//                 subject: "vedic vision hacthon web password update",
-//                 html: await link.html(user?.Name, link, user?.Reg_No),
-//             })
-//                 .then((details) => res.json({ message: "update password link sucessfully sent to your mail", data: details }))
-//                 .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
-//         }
-//     } catch (e) {
-//         console.error(e);
-//         res.status(500).json({ message: 'Error during signin' });
-//     }
-// });
-
-
-
-
-
+});
 
 app.post('/sendotp', async (req, res) => {
     const { regd } = req.body;
     try {
         const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
-
         if (!user) {
-            return res.status(400).json({ error: 'Invalid registration number.' });
+            return res.json({ error: 'Invalid registration number.' });
         }
-
-        const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
-
-        
-        await db.collection('Hackathondata').updateOne(
-            { Reg_No: regd },
-            { $set: { otp: otp } }
-        );
-
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        req.session[user?.Gmail] = otp
         const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: user.Gmail,
+            to: user?.Gmail,
             subject: "Your OTP for Password Update",
-            html: `<p>Hi ${user.Name},</p><p>Your OTP for updating your password is ${otp}. This OTP is valid for 10 minutes.</p>`,
+            html: await message.otp(user?.Name, otp, user?.Gmail),
         };
-
         await transporter.sendMail(mailOptions);
-
         res.status(200).json({ message: "OTP successfully sent to your email" });
     } catch (e) {
         console.error(e);
@@ -204,68 +152,26 @@ app.post('/sendotp', async (req, res) => {
     }
 });
 
-
-
-
-
-
 app.post('/updatepassword', async (req, res) => {
-    const { regd, password } = req.body;
+    const { regd, email, otp, password } = req.body;
     try {
-        const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
-
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid registration number.' });
+        if (req.session[email] === otp) {
+            const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
+            if (!user) {
+                return res.status(400).json({ error: 'Invalid registration number.' });
+            }
+            await db.collection('Hackathondata').updateOne({ Reg_No: regd }, { $set: { Password: password } })
+                .then((details) => { res.status(200).json({ message: "Password successfully updated", data: details }); })
+                .catch((e) => console.log(e))
         }
-
-        await db.collection('Hackathondata').updateOne(
-            { Reg_No: regd },
-            { $set: { password: password } } 
-        );
-
-        // Clear the OTP from the database
-        await db.collection('Hackathondata').updateOne(
-            { Reg_No: regd },
-            { $unset: { otp: "" } }
-        );
-
-        res.status(200).json({ message: "Password successfully updated" });
+        else {
+            return res.json({ error: 'otp incorrect' });
+        }
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: 'Error updating password' });
     }
 });
-
-
-
-
-
-
-
-app.post('/newsignin', async (req, res) => {
-    const { regd, password } = req.body;
-    try {
-        console.log("Received registration number:", regd);
-        console.log("Received password:", password);
-        const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
-
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid registration number.' });
-        }
-
-        if (user.password !== password) {
-            return res.status(400).json({ passerror: 'Incorrect password.' });
-        }
-
-        return res.status(200).json({ passmessage: 'Login successful' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ errmsg: 'Error during login' });
-    }
-});
-
-
-
 
 
 export default app
