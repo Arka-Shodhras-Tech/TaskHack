@@ -1,34 +1,18 @@
 
 
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./update.css"; 
 
-export const UpdateForm = () => {
-    const [load, setLoad] = useState(false);
-    const [regd, setRegd] = useState('');
+export const NewUpdateForm = () => {
     const navigate = useNavigate();
-    const updateDetails1 = async () => {
-        setLoad(true);
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_Server}/pass`, { regd });
-            if (!res.data.regd) {
-                alert('Invalid Registered Number');
-                setLoad(false);
-                return;
-            }
-            alert(res.data.message); 
-            navigate('/newupdate');
-        } catch (error) {
-            console.error(error);
-            alert('An error occurred while checking the registered number');
-        } finally {
-            setLoad(false);
-        }
-    };
 
+    const updateDetails = () => {
+        
+
+        navigate('');
+    };
 
     return (
         <section className="update-form-section">
@@ -58,16 +42,21 @@ export const UpdateForm = () => {
                                     name="registrationNum"
                                     id="registrationNum"
                                     placeholder="Registered Number"
-                                    value={regd}
-                                    onChange={(e) => setRegd(e.target.value.toUpperCase())}
                                     required
                                 />
                             </div>
-                            <div className="col-12 update-form-button">
+                        <div className="col-12 col-md-6 update-form-input">
+                            <label htmlFor="password">Password <span style={{ color: 'red' }}>*</span></label>
+                            <input type="password" className="form-control" name="password" id="password" placeholder="Enter your new password" required />
+                        </div>
+                        <div className="col-12 col-md-6 update-form-input">
+                            <label htmlFor="password">Conform Password <span style={{ color: 'red' }}>*</span></label>
+                            <input type="password" className="form-control" name="password" id="conpassword" placeholder="Enter conform  password" required />
+                        </div>
+
+                        <div className="col-12 update-form-button">
                             <div className="d-grid">
-                                <button onClick={updateDetails1} className="btn bsb-btn-xl btn-primary" type="button" disabled={load}>
-                                    {load ? 'Please wait...' : 'Update'}
-                                </button>
+                                <button onClick={updateDetails} className="btn bsb-btn-xl btn-primary" type="submit">Update</button>
                             </div>
                         </div>
                     </div>

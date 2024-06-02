@@ -169,7 +169,7 @@ export const LoginForm = () => {
                         <hr className="hr" />
                         <div className="text-center">
                             <Link to="/hackathon/register">Sign up?</Link>
-                            <Link to="/hackathon/forget" className="link-button">Forgot password?</Link>
+                            <Link to="/hackathon/update" className="link-button">Forgot password?</Link>
                         </div>
                     </div>
                 </div>
