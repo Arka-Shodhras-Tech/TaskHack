@@ -12,8 +12,8 @@ export const message = {
             <h3>Your login details</h3>
         </div>
         <div style="text-align: center;">
-            <h1>your id :: ${regnumber}</h1>
-            <h1>Your Password:: ${password}</h1>
+            <h1>Your id :: ${regnumber}</h1>
+            <h1>Your Password :: ${password}</h1>
         </div>
         <br />
         <div style="text-align: center;">

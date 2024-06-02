@@ -56,27 +56,7 @@ export const LoginForm = () => {
 
 
     
-    const handlePasswordReset = async () => {
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_Server}/updatepassword`, { regd });
-            toast({
-                title: res.data.message || 'Password sent to your email',
-                status: 'success',
-                position: 'bottom-right',
-                isClosable: true,
-            });
-        } catch (e) {
-            console.error(e);
-            toast({
-                title: e.response?.data?.message || 'Error sending password',
-                status: 'error',
-                position: 'bottom-left',
-                isClosable: true,
-            });
-        }
-
-
-    };
+    
 
 
     // useEffect(() => {
@@ -177,3 +157,5 @@ export const LoginForm = () => {
         </section>
     );
 };
+
+
