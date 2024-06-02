@@ -32,8 +32,6 @@ const Countdown = () => {
 
 		<div className='countdown'>
 			<div className="count-icon">
-				{/* <BsStopwatch/> */}
-
 			</div>
 			<h2 style={{ textAlign: 'center' }}>
 
@@ -42,27 +40,18 @@ const Countdown = () => {
 				{Object.entries(timeLeft).map((el) => {
 					const label = el[0];
 					const value = el[1];
-
 					return (
-
 						<div className='box' key={label}><br /><br />
 							<div className='value'>
-
 								<span>{value}</span>
-
 							</div>
 							<span className='label'> {label} </span>
 						</div>
-
 					);
-
 				})}
 
 			</div>
-			{/* <button className="start-btn animated-button" onClick={Start}>Let's GO</button> */}
 			<button className="start-btn animated-button" onClick={Start}>Click for Participation</button>
-
-
 		</div>
 
 	);

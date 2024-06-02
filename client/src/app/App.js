@@ -1,30 +1,26 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HackthonDayRoute } from '../hackathon/hacthonday/router/hacthondayroute.js';
-import { HackthonRoutes } from "../hackathon/routers/hackthonroutes.js";
+import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
+import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
 import './App.css';
 import { RoutesofASTeam } from "./allroutes/allroutes.js";
 
 function App() {
-  const [start,setStart]=useState(false);
-  useEffect(()=>{
-    axios.post(`${process.env.REACT_APP_Server}/check-hackathon/`+"hacthon@gmail.com")
-    .then((res)=>{
-      setStart(res?.data?.start)
-    })
-    .catch((e)=>console.log(e))
-  },[start])
+  const [start, setStart] = useState(false);
+  useEffect(() => {
+    axios.post(`${process.env.REACT_APP_Server}/check-hackathon/` + "hacthon@gmail.com")
+      .then((res) => {
+        setStart(res?.data?.start)
+      })
+      .catch((e) => console.log(e))
+  }, [start])
   return (
     <>
       <BrowserRouter>
         <Routes>
-          {start?<Route path='/*' element={<HackthonDayRoute />} />
-            :<>
-              <Route path="/*" element={<RoutesofASTeam />} />
-              <Route path="/hackathon/*" element={<HackthonRoutes />} />
-            </>
-          }
+          <Route path="/*" element={start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
+          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute /> : <BootcampRoutes />} />
         </Routes>
       </BrowserRouter>
     </>

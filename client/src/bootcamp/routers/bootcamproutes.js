@@ -1,32 +1,25 @@
 import { Route, Routes } from 'react-router-dom'
-import { HackStudentscore } from '../score/score'
-import { LoginForm } from '../login/login'
-import { Nav1 } from '../hackthonnav/hackthonnav'
-import { RegistrationForm } from '../register/register'
+import Countdown from '../../hackathon/countdown/countdown'
+import { Hackathonpage } from '../../hackathon/hackathonpage/hackathonpage'
+import { BootcampNav } from '../bootcampnav/bootcampnav'
 import { Home } from '../home/home'
-import { Popup } from '../popup/popup'
+import { LoginForm } from '../login/login'
+import { RegistrationForm } from '../register/register'
+import { HackStudentscore } from '../score/score'
 import { UpdateForm } from '../update/update'
-import Countdown from '../countdown/countdown'
 import { NewUpdateForm } from '../updates/updates'
-import { Hackathonpage } from '../hacthonday/hackathonpage/hackathonpage'
 
-export const HackthonRoutes = () => {
+export const BootcampRoutes = () => {
     return (
         <>
-            <Nav1 />
+            <BootcampNav />
             <Routes>
                 <Route path='/register' element={<RegistrationForm />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/update" element={<UpdateForm />} />
                 <Route path="/score" element={<HackStudentscore />} />
-                <Route path="/popup" element={<Popup />} />
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={<Home />} />
-                <Route path='/newupdate' element={<NewUpdateForm />} />
-                <Route path='/hackathonpage' element={<Hackathonpage />} />
-
-
-
             </Routes>
         </>
     )
