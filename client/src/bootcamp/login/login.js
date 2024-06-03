@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -30,8 +29,9 @@ export const LoginForm = () => {
                 setLoad(false);
             }
             if (res.data.passmessage) {
-                console.log(res);
                 navigate('/bootcamp/home');
+                console.log(res.data.data.Name)
+                sessionStorage.student=res.data.data.Name
             }
             if (res.data.error) {
                 console.log(res);

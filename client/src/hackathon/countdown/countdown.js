@@ -5,7 +5,6 @@ const Start = () => {
 	window.location.href = '/bootcamp/login'
 }
 const COUNTDOWN_TARGET = new Date("2024-08-14T10:59:59");
-
 const getTimeLeft = () => {
 	const totalTimeLeft = COUNTDOWN_TARGET - new Date();
 	const days = Math.floor(totalTimeLeft / (1000 * 60 * 60 * 24));
@@ -14,10 +13,8 @@ const getTimeLeft = () => {
 	const seconds = Math.floor((totalTimeLeft / 1000) % 60);
 	return { days, hours, minutes, seconds };
 };
-
 const Countdown = () => {
 	const [timeLeft, setTimeLeft] = useState(() => getTimeLeft());
-
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTimeLeft(getTimeLeft());
@@ -29,13 +26,11 @@ const Countdown = () => {
 	}, []);
 
 	return (
-
 		<div className='countdown'>
 			<div className="count-icon">
 			</div>
 			<h2 style={{ textAlign: 'center' }}>
-
-				<BsStopwatch style={{marginLeft:'48%'}}/>Starts in</h2>
+				<BsStopwatch style={{ marginLeft: '48%' }} />Starts in</h2>
 			<div className='content'>
 				{Object.entries(timeLeft).map((el) => {
 					const label = el[0];
@@ -49,11 +44,9 @@ const Countdown = () => {
 						</div>
 					);
 				})}
-
 			</div>
 			<button className="start-btn animated-button" onClick={Start}>Click for Participation</button>
 		</div>
-
 	);
 };
 

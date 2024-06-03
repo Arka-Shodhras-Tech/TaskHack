@@ -1,11 +1,7 @@
-
-import React from "react";
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
-import './register.css'; 
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import './register.css';
 
 export const RegistrationForm = () => {
     const nav = useNavigate();
