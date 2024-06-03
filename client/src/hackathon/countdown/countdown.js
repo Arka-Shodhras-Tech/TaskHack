@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsStopwatch } from "react-icons/bs";
 import "./countdown.css";
 const Start = () => {
-	window.location.href = '/hackathon/login'
+	window.location.href = '/bootcamp/login'
 }
 const COUNTDOWN_TARGET = new Date("2024-08-14T10:59:59");
 

@@ -20,7 +20,7 @@ export const UpdateForm = () => {
                 return;
             }
             alert(res.data.message);
-            navigate('/newupdate');
+            navigate('bootcamp/login');
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred. Please try again.');
@@ -71,7 +71,7 @@ export const UpdateForm = () => {
                     </div>
                     <hr />
                     <p className="update-form-footer">
-                        Want to go back? <Link to="/hackathon/login">Go home</Link>
+                        Want to go back? <Link to="/bootcamp/login">Go home</Link>
                     </p>
                 </div>
             </div>

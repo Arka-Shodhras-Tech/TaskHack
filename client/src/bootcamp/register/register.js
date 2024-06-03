@@ -25,7 +25,7 @@ export const RegistrationForm = () => {
             if (res.data.message) {
                 alert("Registered successfully");
                 setLoad(false);
-                nav('/hackathon/login');
+                nav('/bootcamp/login');
             } else {
                 setLoad(false);
                 console.log(res)
@@ -170,7 +170,7 @@ export const RegistrationForm = () => {
                     </div>
                     <hr className="registration-divider" />
                     <p className="registration-footer-text">
-                        Already have an account? <Link to="/hackathon/login">Sign in</Link>
+                        Already have an account? <Link to="/bootcamp/login">Sign in</Link>
                     </p>
                 </div>
             </div>

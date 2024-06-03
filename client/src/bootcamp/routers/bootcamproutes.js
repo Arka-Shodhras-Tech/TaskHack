@@ -17,6 +17,9 @@ export const BootcampRoutes = () => {
                 <Route path='/register' element={<RegistrationForm />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/update" element={<UpdateForm />} />
+                <Route path="/newupdate" element={<NewUpdateForm />} />
+
+
                 <Route path="/score" element={<HackStudentscore />} />
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={<Home />} />
