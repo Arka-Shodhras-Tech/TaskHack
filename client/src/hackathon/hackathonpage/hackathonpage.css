@@ -24,8 +24,11 @@
   }
   
   .task-header {
-    background-color: #2c7a7b; /* Teal.600 */
+    /* background-color: #2c7a7b; Teal.600 */
+    color: black;
     padding: 16px;
+    background-image: url("./star.jpg");
+    /* background-repeat: no-repeat; */
   }
   
   .task-title {

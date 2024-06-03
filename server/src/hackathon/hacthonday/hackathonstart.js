@@ -1,8 +1,8 @@
-import { db } from "../../db.js";
+import { db1 } from "../../db.js";
 export const StartHackathon = async (data, res) => {
     const { email } = data;
     try {
-        await db.collection('Hacthonadmin').findOneAndUpdate({ Gmail: email }, { $set: { Start: true } })
+        await db1.collection('Hacthonadmin').findOneAndUpdate({ Gmail: email }, { $set: { Start: true } })
             .then((details) => {
                 res.json({ message: "sucess", data: details });
             })

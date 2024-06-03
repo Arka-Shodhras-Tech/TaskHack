@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import express from 'express';
 import session from 'express-session';
 import nodemailer from 'nodemailer';
-import { db } from '../db.js';
+import { db1 } from "../db.js";
 import { AdminLogin } from "./admin/adminlogin.js";
 import { AdminRegister } from "./admin/adminregister.js";
 import { CheckHackathon } from "./hacthonday/checkhackathon.js";
@@ -62,12 +62,12 @@ app.post('/upload-students', initiateMulter(), async (req, res) => {
 })
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
-    const user = await db.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
+    const user = await db1.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
     if (user?.Reg_No) {
         res.json({ register: "already exist", data: user });
     }
     else {
-        await db.collection('Hackathondata').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, Section: req.params.section })
+        await db1.collection('Hackathondata').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, Section: req.params.section })
             .then((details) => {
                 res.json({ message: "sucess", data: details });
             })
@@ -78,7 +78,7 @@ app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, r
 app.post('/signin', async (req, res) => {
     const { regd, password } = req.body;
     try {
-        const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
+        const user = await db1.collection('Hackathondata').findOne({ Reg_No: regd });
         if (!user) {
             return res.json({ error: 'Invalid registration number.' });
         }
@@ -89,7 +89,7 @@ app.post('/signin', async (req, res) => {
                 to: user?.Gmail,
                 subject: "vedic vision hacthon web login",
                 html: await message.html(user?.Name, crepassword, user?.Reg_No),
-            }) && await db.collection('Hackathondata').findOneAndUpdate({ Reg_No: regd }, { $set: { Password: crepassword } })
+            }) && await db1.collection('Hackathondata').findOneAndUpdate({ Reg_No: regd }, { $set: { Password: crepassword } })
                 .then((details) => res.json({ message: "password sucessfully sent to your mail", data: details }))
                 .catch((e) => res.json({ errmsg: "Required fileds", error: e }))
         }
@@ -108,7 +108,7 @@ app.post('/signin', async (req, res) => {
 app.post('/updatepasswordlink', async (req, res) => {
     const { regd } = req.body;
     try {
-        const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
+        const user = await db1.collection('Hackathondata').findOne({ Reg_No: regd });
         if (!user) {
             return res.json({ error: 'Invalid registration number.' });
         }
@@ -132,7 +132,7 @@ app.post('/updatepasswordlink', async (req, res) => {
 app.post('/sendotp', async (req, res) => {
     const { regd } = req.body;
     try {
-        const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
+        const user = await db1.collection('Hackathondata').findOne({ Reg_No: regd });
         if (!user) {
             return res.json({ error: 'Invalid registration number.' });
         }
@@ -156,11 +156,11 @@ app.post('/updatepassword', async (req, res) => {
     const { regd, email, otp, password } = req.body;
     try {
         if (req.session[email] === otp) {
-            const user = await db.collection('Hackathondata').findOne({ Reg_No: regd });
+            const user = await db1.collection('Hackathondata').findOne({ Reg_No: regd });
             if (!user) {
                 return res.status(400).json({ error: 'Invalid registration number.' });
             }
-            await db.collection('Hackathondata').updateOne({ Reg_No: regd }, { $set: { Password: password } })
+            await db1.collection('Hackathondata').updateOne({ Reg_No: regd }, { $set: { Password: password } })
                 .then((details) => { res.status(200).json({ message: "Password successfully updated", data: details }); })
                 .catch((e) => console.log(e))
         }

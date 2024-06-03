@@ -4,7 +4,7 @@ import "./countdown.css";
 const Start = () => {
 	window.location.href = '/bootcamp/login'
 }
-const COUNTDOWN_TARGET = new Date("2024-08-14T10:59:59");
+const COUNTDOWN_TARGET = new Date("2024-08-14T08:59:59");
 const getTimeLeft = () => {
 	const totalTimeLeft = COUNTDOWN_TARGET - new Date();
 	const days = Math.floor(totalTimeLeft / (1000 * 60 * 60 * 24));

@@ -53,7 +53,7 @@ export const Hackathonpage = () => {
                 <Box textAlign="center" className="timer-box">
                     <Heading size="lg" className="timer-text">Time Left: {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</Heading>
                 </Box>
-                <div style={{ height: "50vh", overflowY: "scroll" }}>
+                <div>
                     {tasks.map((task, index) => (
                         <Card key={index} className="task-card">
                             <CardHeader className="task-header">

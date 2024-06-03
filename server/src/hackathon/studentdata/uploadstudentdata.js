@@ -1,5 +1,5 @@
-import xlsx from 'xlsx'
-import { db } from '../../db.js';
+import xlsx from 'xlsx';
+import { db1 } from "../../db.js";
 export const UploadStudents = async(files,res) => {
     try {
         let xlfile = xlsx.read(files[0].buffer, { type: 'buffer' });
@@ -13,12 +13,12 @@ export const UploadStudents = async(files,res) => {
             res.json({ duplicates: "please set columns names properly" })
         }
         else {
-            const existingStudents = await db.collection('Hackathondata').find().toArray();
+            const existingStudents = await db1.collection('Hackathondata').find().toArray();
             const existingStudentIdentifiers = existingStudents.map(student => `${student.Reg_No}_${student.Gmail}`);
             const newStudents = jsonfile.filter(student => !existingStudentIdentifiers.includes(`${student.Reg_No}_${student.Gmail}`));
             if (newStudents.length > 0) {
-                await db.collection('Hackathondata').createIndex({ Reg_No: 1 }, { unique: true })
-                await db.collection('Hackathondata').insertMany(newStudents)
+                await db1.collection('Hackathondata').createIndex({ Reg_No: 1 }, { unique: true })
+                await db1.collection('Hackathondata').insertMany(newStudents)
                     .then((details) => {
                         res.json({ message: "inserted", details })
                     })
