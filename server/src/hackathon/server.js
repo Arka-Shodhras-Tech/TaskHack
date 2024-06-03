@@ -173,5 +173,14 @@ app.post('/updatepassword', async (req, res) => {
     }
 });
 
+app.get('/tasks', (req, res) => {
+    const tasks = [
+        { "title": "Task 1", "description": "solve task1" },
+        { "title": "Task 2", "description": "Description for task 2" },
+        { "title": "Task 2", "description": "Description for task 3" },
+        { "title": "Task 2", "description": "Description for task 4" },
+    ];
+    res.json(tasks);
+});
 
 export default app

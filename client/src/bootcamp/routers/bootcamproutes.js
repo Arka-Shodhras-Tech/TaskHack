@@ -7,7 +7,7 @@ import { RegistrationForm } from '../register/register'
 import { HackStudentscore } from '../score/score'
 import { OTPForm } from '../sendotp/sendotp'
 import { UpdateForm } from '../update/update'
-
+import { Tasks } from '../tasks/tasks'
 export const BootcampRoutes = () => {
     return (
         <>
@@ -17,6 +17,8 @@ export const BootcampRoutes = () => {
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/update" element={<OTPForm />} />
                 <Route path='/updateform' element={<UpdateForm/>}/>
+                <Route path='/tasks' element={<Tasks/>}/>
+
                 <Route path="/score" element={<HackStudentscore />} />
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={<Home />} />

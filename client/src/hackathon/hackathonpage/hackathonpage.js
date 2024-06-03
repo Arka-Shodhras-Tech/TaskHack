@@ -49,15 +49,15 @@ export const Hackathonpage = () => {
 
     return (
         <Center p={8} className="hackathon-container">
-            <Stack spacing={8} maxW="3xl" w="full">
+            <Stack spacing={8} maxW="5xl" w="full">
                 <Box textAlign="center" className="timer-box">
                     <Heading size="lg" className="timer-text">Time Left: {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</Heading>
                 </Box>
-                <div style={{ height: "50vh", overflowY: "scroll" }}>
+                <div style={{ height: "50vh" }}>
                     {tasks.map((task, index) => (
                         <Card key={index} className="task-card">
                             <CardHeader className="task-header">
-                                <Heading textAlign="center" fontSize="2xl" className="task-title">{task.taskName}</Heading>
+                                <Heading textAlign="center" fontSize="2xl" className="task-title-color">{task.taskName}</Heading>
                             </CardHeader>
                             <CardBody className="task-body">
                                 <Text className="task-content">{task.content}</Text>
