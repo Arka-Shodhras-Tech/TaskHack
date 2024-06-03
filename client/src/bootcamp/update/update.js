@@ -144,7 +144,7 @@ export const UpdateForm = () => {
                     </form>
                     <hr />
                     <p className="update-form-footer">
-                        Want to go back? <Link to="/hackathon/login">Go home</Link>
+                        Want to go back? <Link to="/bootcamp/login">Go home</Link>
                     </p>
                 </div>
             </div>
