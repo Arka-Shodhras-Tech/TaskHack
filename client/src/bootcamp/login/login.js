@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -30,12 +29,13 @@ export const LoginForm = () => {
                 setLoad(false);
             }
             if (res.data.passmessage) {
-                console.log(res);
-                navigate('/hackathon/home');
+                navigate('/bootcamp/home');
+                console.log(res.data.data.Name)
+                sessionStorage.student=res.data.data.Name
             }
             if (res.data.error) {
                 console.log(res);
-                navigate('/hackathon/register');
+                navigate('/bootcamp/register');
             }
             if (res.data.passerror) {
                 alert(res.data.passerror);
@@ -110,8 +110,8 @@ export const LoginForm = () => {
                         </div>
                         <hr className="hr" />
                         <div className="text-center">
-                            <Link to="/hackathon/register">Sign up?</Link>
-                            <Link to="/hackathon/update" className="link-button">Forgot password?</Link>
+                            <Link to="/bootcamp/register">Sign up?</Link>
+                            <Link to="/bootcamp/update" className="link-button">Forgot password?</Link>
                         </div>
                     </div>
                 </div>

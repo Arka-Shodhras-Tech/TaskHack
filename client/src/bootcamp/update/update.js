@@ -2,32 +2,64 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./update.css";
+import "../sendotp/update.css";
 
 export const UpdateForm = () => {
-    const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [otpSent, setOtpSent] = useState(false);
+    const [load, setLoad] = useState(false);
     const navigate = useNavigate();
-
-    const updateDetails1 = async () => {
+    const getOtp = async () => {
+        if (!regd) {
+            alert("Please enter your registration number.");
+            return;
+        }
         setLoad(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_Server}/updatepasswordlink`, { regd });
-            console.log(res.data)
-            if (!res.data?.message) {
-                alert('Invalid Registered Number');
-                setLoad(false);
-                return;
+            const response = await axios.post('http://localhost:9899/sendotp', { regd });
+            const result = response.data;
+            if (result.message) {
+                alert(result.message);
+                setOtpSent(true);
+            } else {
+                alert(result.error || 'An error occurred. Please try again.');
             }
-            alert(res.data.message);
-            navigate('/newupdate');
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            alert(error.response?.data?.error || 'An error occurred. Please try again.');
         } finally {
             setLoad(false);
         }
     };
+    const updateDetails = async (e) => {
+        e.preventDefault();
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+
+        setLoad(true);
+
+        try {
+            const response = await axios.post('http://localhost:9899/updatepassword', { regd, password });
+            const result = response.data;
+
+            if (result.message) {
+                alert(result.message);
+                navigate('/bootcamp/home');
+            } else {
+                alert(result.error || 'An error occurred. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.response?.data?.error || 'An error occurred. Please try again.');
+        } finally {
+            setLoad(false);
+        }
+    };
+
 
     return (
         <section className="update-form-section">
@@ -45,30 +77,71 @@ export const UpdateForm = () => {
                         <h2>Update Details</h2>
                         <h3>Enter your new credentials</h3><br />
                     </div>
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label htmlFor="registrationNum">
-                                Registered Number <span style={{ color: 'red' }}>*</span>
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="registrationNum"
-                                id="registrationNum"
-                                placeholder="Registered Number"
-                                value={regd}
-                                onChange={(e) => setRegd(e.target.value.toUpperCase())}
-                                required
-                            />
-                        </div>
-                        <div className="col-12 update-form-button">
-                            <div className="d-grid">
-                                <button onClick={updateDetails1} className="btn bsb-btn-xl btn-primary" type="button" disabled={load}>
-                                    {load ? 'Please wait...' : 'Update'}
-                                </button>
+                    <form onSubmit={updateDetails}>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label htmlFor="registrationNum">
+                                    Registered Number <span style={{ color: 'red' }}>*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="registrationNum"
+                                    id="registrationNum"
+                                    placeholder="Registered Number"
+                                    value={regd}
+                                    onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                    required
+                                />
                             </div>
+                            <div className="form-group">
+                                <label htmlFor="password">Password <span style={{ color: 'red' }}>*</span></label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Enter your new password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="confirmPassword">Confirm Password <span style={{ color: 'red' }}>*</span></label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    name="confirmPassword"
+                                    id="confirmPassword"
+                                    placeholder="Enter confirm password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {!otpSent ? <div className="col-12 update-form-button">
+                                <div className="d-grid">
+                                    <button onClick={getOtp} className="btn bsb-btn-xl btn-primary" type="button" disabled={load || otpSent}>
+                                        {load ? 'Please wait...' : (otpSent ? 'OTP Sent' : 'Get OTP')}
+                                    </button>
+                                </div>
+                            </div> :
+                                <div>
+                                    <div className="form-group">
+                                        <label htmlFor="otp">OTP <span style={{ color: 'red' }}>*</span></label>
+                                        <input type="otp" className="form-control" name="otp" id="otp" placeholder="Enter OTP" required />
+                                    </div>
+                                    <div className="col-12 update-form-button">
+                                        <div className="d-grid">
+                                            <button onclick={updateDetails} className="btn bsb-btn-xl btn-primary" type="submit">
+                                                {load ? 'Please wait...' : 'Update'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>}
                         </div>
-                    </div>
+                    </form>
                     <hr />
                     <p className="update-form-footer">
                         Want to go back? <Link to="/hackathon/login">Go home</Link>

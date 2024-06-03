@@ -60,6 +60,7 @@
   
   .update-form-button {
     flex: 1 1 100%;
+    margin-top: 2%;
   }
   
   .update-form-button .btn {
@@ -96,4 +97,27 @@
   .update-form-footer a:hover {
     color: #0056b3;
   }
+
+  .img-fluid{
+    width: 80%;
+  }
+  .form-row{
+    display: grid;
+  }
+
+  @media (max-width:500px) {
+    .update-form-image{
+        display: none;
+    }
+    .form-row {
+        display: grid;
+        flex-wrap: wrap;
+    }
+    .section {
+        padding: rem 0;
+    }
+    .form-container {
+        padding:0 2rem;
+    }
+}
   

@@ -8,21 +8,24 @@ import { RoutesofASTeam } from "./allroutes/allroutes.js";
 
 function App() {
   const [start, setStart] = useState(false);
+  const [load, setLoad] = useState(false)
   useEffect(() => {
     axios.post(`${process.env.REACT_APP_Server}/check-hackathon/` + "hacthon@gmail.com")
       .then((res) => {
         setStart(res?.data?.start)
+        setLoad(true)
       })
       .catch((e) => console.log(e))
   }, [start])
   return (
     <>
-      <BrowserRouter>
+      {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
+          <Route path="/*" element={!start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
           <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute /> : <BootcampRoutes />} />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> :
+        <div className='ast'>AST TEAM</div>}
     </>
   );
 }
