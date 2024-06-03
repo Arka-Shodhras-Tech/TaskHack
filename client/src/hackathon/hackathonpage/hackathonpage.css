@@ -1,52 +1,72 @@
 .hackathon-container {
-    min-height: 50vh;
-  }
-  
-  .timer-box {
-    margin: 0 0 0 0%;
-    text-align: center;
-    background-color: #d1f4ed; /* Teal.100 */
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .timer-text {
-    color: #319795; /* Teal.700 */
-    
-  }
-  
-  .task-card {
-    background-color: #ffffff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .task-header {
-    /* background-color: #2c7a7b; Teal.600 */
-    color: black;
-    padding: 16px;
-    background-image: url("./star.jpg");
-    /* background-repeat: no-repeat; */
-  }
-  
-  .task-title {
-    color: #ffffff;
-  }
-  
-  .task-body {
-    padding: 24px;
-  }
-  
-  .task-content {
-    font-family: monospace;
-    font-size: 1.25rem; /* 2rem / 1.6 for a more reasonable size */
-    margin-bottom: 16px;
-  }
-  
-  .task-time {
-    color: #319795; /* Teal.700 */
-    font-size: 1rem;
-  }
-  
+  padding: 16px;
+  border-radius: 12px;
+
+}
+
+.timer-box {
+  margin-bottom: 24px;
+  background-color: #d8b2f1;
+  border-radius: 11px;
+  padding: 1.5%;
+
+}
+
+.timer-text {
+  color: #feffff;
+  font-family: 'Arial', sans-serif;
+}
+
+.task-card {
+  background-color: #ffffff;
+  /* border: 1px solid #e2e8f0; */
+  border: #8e0be5 8px solid;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.task-header {
+  /* background-color: #e5c7f3;  */
+  color: #ffffff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 16px;
+}
+
+.timer-text {
+  color: green;
+  /* Teal.700 */
+
+}
+
+
+.task-header {
+  /* background-color: #2c7a7b; Teal.600 */
+  color: white;
+  padding: 16px;
+  background-image: url("./star.jpg");
+  /* background-repeat: no-repeat; */
+}
+
+.task-title {
+  color: #ffffff;
+}
+
+.task-body {
+  padding: 24px;
+}
+
+.task-content {
+  font-family: monospace;
+  font-size: 1.25rem;
+  /* 2rem / 1.6 for a more reasonable size */
+  margin-bottom: 16px;
+
+}
+
+.task-time {
+  color: #319795;
+  /* Teal.700 */
+  font-size: 1rem;
+}

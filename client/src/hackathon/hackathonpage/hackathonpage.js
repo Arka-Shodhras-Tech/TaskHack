@@ -50,7 +50,7 @@ export const Hackathonpage = () => {
     return (
         <Center p={8} className="hackathon-container">
             <Stack spacing={8} maxW="5xl" w="full">
-                <Box textAlign="center" className="timer-box">
+                <Box textAlign="center">
                     <Heading size="lg" className="timer-text">Time Left: {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</Heading>
                 </Box>
                 <div>
