@@ -1,7 +1,16 @@
 import { Button, SimpleGrid } from '@chakra-ui/react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../main/main.css';
 export const Home = () => {
+    const nav = useNavigate()
+
+    const handleTaskClick = () => {
+        nav('/bootcamp/tasks')
+    }
+
+
+
     return (
         <>
             <div className='main'>
@@ -9,7 +18,7 @@ export const Home = () => {
                 <div className='hacthongrid-home'>
                     <div className='hacthonlist'>
                         <SimpleGrid minChildWidth='220px' spacing='40px'>
-                            <Button>Task's</Button>
+                            <Button onClick={handleTaskClick} >Tasks</Button>
                             <Button>Perfomance</Button>
                             <Button>Materials</Button>
                         </SimpleGrid>

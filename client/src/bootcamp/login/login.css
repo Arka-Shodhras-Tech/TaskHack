@@ -1,13 +1,4 @@
-/* hacklogin.css */
-.custom-tooltip .tooltip-inner {
-    background-color: #99e1ec;
-    /* Change this to your desired color */
-    color: #000;
-    /* Change this to your desired text color */
-}
-
-/*  */
-
+/* login.css */
 .section {
     padding: 3rem 0;
 }

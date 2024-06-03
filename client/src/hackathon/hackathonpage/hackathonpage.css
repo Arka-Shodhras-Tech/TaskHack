@@ -1,49 +1,59 @@
 .hackathon-container {
-    min-height: 50vh;
-  }
+  padding: 16px;
+  border-radius: 12px;
+
+}
+
+.timer-box {
+  margin-bottom: 24px;
+  background-color: #d8b2f1;
+  border-radius: 11px;
+  padding: 1.5%;
   
-  .timer-box {
-    margin: 0 0 0 0%;
-    text-align: center;
-    background-color: #d1f4ed; /* Teal.100 */
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
+}
+
+.timer-text {
+  color: #feffff; 
+  font-family: 'Arial', sans-serif;
+}
+
+.task-card {
+  background-color: #ffffff; 
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px; 
+}
+
+.task-header {
+  background-color: #e5c7f3; 
+  color: #ffffff; 
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 16px;
   
-  .timer-text {
-    color: #319795; /* Teal.700 */
-    
-  }
-  
-  .task-card {
-    background-color: #ffffff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .task-header {
-    background-color: #2c7a7b; /* Teal.600 */
-    padding: 16px;
-  }
-  
-  .task-title {
-    color: #ffffff;
-  }
-  
-  .task-body {
-    padding: 24px;
-  }
-  
-  .task-content {
-    font-family: monospace;
-    font-size: 1.25rem; /* 2rem / 1.6 for a more reasonable size */
-    margin-bottom: 16px;
-  }
-  
-  .task-time {
-    color: #319795; /* Teal.700 */
-    font-size: 1rem;
-  }
-  
+
+}
+
+.task-title-color {
+  font-family: 'Arial', sans-serif;
+  color: rgb(169, 129, 247);
+
+
+}
+
+.task-body {
+  padding: 16px;
+}
+
+.task-content {
+  color: #2d3748; 
+  margin-bottom: 16px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.task-time {
+  font-family: cursive;
+  color: blueviolet;
+}
+
