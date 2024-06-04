@@ -1,0 +1,129 @@
+.performance-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px; 
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #4e4d4d;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 2%;
+  }
+  
+  .button-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+    width: 50%;
+    margin-left: 24%;
+  }
+  
+  .button-group button {
+    background-color: #ac7df1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group button:hover {
+    background-color: #802dac;
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  .attendance, .score, .others {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+  }
+  
+  h2 {
+    color: #555;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+  }
+  
+  p {
+    color: #666;
+  }
+  .chart{
+    margin-left: 27%;
+  }
+  
+
+/********************score.css*************************/
+  .score {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  
+  .score-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .value {
+    color: #007bff;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+  }
+  
+  .score-details p {
+    margin: 5px 0;
+  }
+  
+/*******************others.css******************/
+  .table-align{
+    margin-left: 15%;
+  }
+
+  .others {
+    padding: 20px;
+  }
+  
+  .others h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .others .table-align {
+    margin-top: 20px;
+    width: 71%;
+  }
+  
+  .others .table-align th {
+    background-color: #ac7df1;
+    color: white;
+  }
+  
+  .others .table-align tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .others .table-align tr:hover {
+    background-color: #f1f1f1;
+  }
