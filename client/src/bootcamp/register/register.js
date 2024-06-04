@@ -163,8 +163,8 @@ export const RegistrationForm = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <hr className="registration-divider" />
+                    </div><br/>
+                    {/* <hr className="registration-divider" /> */}
                     <p className="registration-footer-text">
                         Already have an account? <Link to="/bootcamp/login">Sign in</Link>
                     </p>
