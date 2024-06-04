@@ -31,7 +31,7 @@ export const LoginForm = () => {
             if (res.data.passmessage) {
                 navigate('/bootcamp/home');
                 console.log(res.data.data.Name)
-                sessionStorage.student=res.data.data.Name
+                sessionStorage.student = res.data.data.Name
             }
             if (res.data.error) {
                 console.log(res);
