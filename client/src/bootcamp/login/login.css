@@ -111,6 +111,16 @@
     text-decoration: none;
     transition: color 0.3s;
 }
+.profile{
+    width: 100%;
+    display: flex;
+    justify-content:right;
+}
+.profile-img{
+    width: 3%;
+    margin-top: 2%;
+    margin-right: 10%;
+}
 
 
 @media (max-width:500px) {

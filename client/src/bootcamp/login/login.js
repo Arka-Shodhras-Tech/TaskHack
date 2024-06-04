@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
 
 export const LoginForm = () => {
@@ -12,6 +12,7 @@ export const LoginForm = () => {
     const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
 
     const Login = async () => {
         try {
@@ -30,8 +31,8 @@ export const LoginForm = () => {
             }
             if (res.data.passmessage) {
                 navigate('/bootcamp/home');
-                console.log(res.data.data.Name)
-                sessionStorage.student = res.data.data.Name
+                dispatch({ type: 'LOGIN', payload: { username: res.data.data.Name } });
+                dispatch({ type: 'AUTH', payload: { auth: res.data.data.Reg_No } });
             }
             if (res.data.error) {
                 console.log(res);

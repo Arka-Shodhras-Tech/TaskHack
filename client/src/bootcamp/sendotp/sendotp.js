@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./update.css";
+import { useDispatch } from "react-redux";
 
 export const OTPForm = () => {
     const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
-    const navigate = useNavigate();
+    const dispatch=useDispatch()
 
     const updateDetails1 = async () => {
         setLoad(true);
@@ -19,6 +20,7 @@ export const OTPForm = () => {
                 setLoad(false);
                 return;
             }
+            dispatch({type:'UPDATE',update:regd})
             alert(res.data.message);
             setRegd('');
         } catch (error) {

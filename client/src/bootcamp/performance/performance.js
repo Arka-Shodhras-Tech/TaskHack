@@ -26,29 +26,6 @@ export const Performance = () => {
     </div>
   );
 };
-
-// const Attendance = () => (
-//   <div className="attendance">
-//     <h2>Attendance</h2>
-//     <p>Student attendance details...</p>
-//   </div>
-// );
-
-// const Attendance = () => {
-//     const totalDays = 30;
-//     const presentDays = 25;
-//     const absentDays = 5;
-  
-//     return (
-//       <div className="attendance">
-//         <h2>Attendance Summary</h2>
-//         <p>Total Days: {totalDays}</p>
-//         <p>Present: {presentDays}</p>
-//         <p>Absent: {absentDays}</p>
-//       </div>
-//     );
-//   };
-
 const data = [
   { name: 'Present', days: 25 },
   { name: 'Absent', days: 5 },
@@ -57,7 +34,7 @@ const data = [
 const Attendance = () => (
   <div className="attendance">
     <h2>Attendance</h2>
-    <BarChart className='chart'width={600} height={300} data={data}>
+    <BarChart className='chart' width={600} height={300} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       <YAxis />
@@ -95,10 +72,10 @@ const Others = () => {
       <h2>Others</h2>
       <table className='table-align'>
         <thead>
-            <th>S.No</th>
-            <th>Name</th>
-            <th>Attendance</th>
-            <th>Score</th>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Attendance</th>
+          <th>Score</th>
         </thead>
         <tbody>
           {otherStudents.map((student, index) => (
