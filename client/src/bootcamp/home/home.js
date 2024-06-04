@@ -8,18 +8,20 @@ export const Home = () => {
     const handleTaskClick = () => {
         nav('/bootcamp/tasks')
     }
-
+    const handlePerformanceClick =()=>{
+        nav('/bootcamp/performance')
+    }
 
 
     return (
         <>
             <div className='main'>
-            <h2 style={{display:'flex',justifyContent:"center",alignItems:"center",height:"30vh"}}>Hello {sessionStorage.student}....😊😊😊</h2>
+            <h2 style={{display:'flex',justifyContent:"center",alignItems:"center",height:"30vh",fontFamily:'serif'}}>Hello {sessionStorage.student}....😊😊😊</h2>
                 <div className='hacthongrid-home'>
                     <div className='hacthonlist'>
                         <SimpleGrid minChildWidth='220px' spacing='40px'>
                             <Button onClick={handleTaskClick} >Tasks</Button>
-                            <Button>Perfomance</Button>
+                            <Button onClick={handlePerformanceClick}>Perfomance</Button>
                             <Button>Materials</Button>
                         </SimpleGrid>
                     </div>

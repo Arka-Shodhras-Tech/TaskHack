@@ -49,8 +49,8 @@
   /* background-repeat: no-repeat; */
 }
 
-.task-title {
-  color: #ffffff;
+.task-title-color {
+  color: rgb(236, 235, 235);
 }
 
 .task-body {
@@ -70,3 +70,4 @@
   /* Teal.700 */
   font-size: 1rem;
 }
+
