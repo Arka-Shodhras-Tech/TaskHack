@@ -12,6 +12,8 @@ import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { message } from "./message/message.js";
 import { UploadStudents } from "./studentdata/uploadstudentdata.js";
 import { initiateMulter } from "./uploadfile/uploadfile.js";
+import { checkUser } from "./user/checkuser.js";
+import { UpdateGender } from "./user/updategender.js";
 
 const app = express()
 app.use(express.json())
@@ -61,6 +63,10 @@ app.post('/upload-students', initiateMulter(), async (req, res) => {
     await UploadStudents(req.files, res);
 })
 
+app.post('/updategender/:regd/:gender', async (req, res) => {
+    await UpdateGender(req.params.regd,req.params.gender, res);
+})
+
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
     const user = await db1.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
     if (user?.Reg_No) {
@@ -104,6 +110,10 @@ app.post('/signin', async (req, res) => {
         res.status(500).json({ message: 'Error during signin' });
     }
 });
+
+app.post('/authuser/:regd',async(req,res)=>{
+    await checkUser(req.params.regd,res)
+})
 
 app.post('/updatepasswordlink', async (req, res) => {
     const { regd } = req.body;

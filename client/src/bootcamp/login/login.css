@@ -111,6 +111,24 @@
     text-decoration: none;
     transition: color 0.3s;
 }
+.profile{
+    width: 100%;
+    display: flex;
+    justify-content:right;
+}
+.profile-img{
+    width: 3%;
+    margin-top: 2%;
+    margin-right: 10%;
+}
+.person-name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: serif;
+    height: 20vh;
+    font-size: 20px;
+}
 
 
 @media (max-width:500px) {
@@ -126,5 +144,15 @@
     }
     .form-container {
         padding:0 2rem;
+    }
+    .profile{
+        width: 100%;
+        display: flex;
+        justify-content:center;
+    }
+    .profile-img{
+        width: 15%;
+        margin-right: 0%;
+        margin-top: 2%;
     }
 }

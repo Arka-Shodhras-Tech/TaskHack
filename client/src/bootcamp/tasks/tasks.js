@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './tasks.css';
+import { Button } from 'react-bootstrap';
 
 export const Tasks = () => {
     const [tasks, setTasks] = useState([]);
@@ -8,7 +9,7 @@ export const Tasks = () => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const response = await axios.get(process.env.REACT_APP_Server+ '/tasks');
+                const response = await axios.get(process.env.REACT_APP_Server + '/tasks');
                 setTasks(response.data);
             } catch (error) {
                 console.error('Error fetching tasks:', error);
@@ -22,8 +23,13 @@ export const Tasks = () => {
             <div className="task-list">
                 {tasks.map((task, index) => (
                     <div key={index} className="task-item">
-                        <div className="task-title">{task.title}</div>
-                        <div className="task-description">{task.description}</div>
+                        <div>
+                            <div className="task-title">{task.title}</div>
+                            <div className="task-description">{task.description}</div>
+                        </div>
+                        <div className='task-select'>
+                            <Button >Select</Button>
+                        </div>
                     </div>
                 ))}
             </div>
