@@ -9,6 +9,7 @@ import { OTPForm } from '../sendotp/sendotp'
 import { UpdateForm } from '../update/update'
 import { Tasks } from '../tasks/tasks'
 import { Performance } from '../performance/performance'
+import { Materials } from '../materials/materials'
 export const BootcampRoutes = () => {
     return (
         <>
@@ -20,6 +21,7 @@ export const BootcampRoutes = () => {
                 <Route path='/updateform' element={<UpdateForm/>}/>
                 <Route path='/tasks' element={<Tasks/>}/>
                 <Route path='/performance' element={<Performance/>}/>
+                <Route path='/materials' element={<Materials/>}/>
                 <Route path="/score" element={<HackStudentscore />} />
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={<Home />} />
