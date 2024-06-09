@@ -6,6 +6,7 @@ import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
 import './App.css';
 import { RoutesofASTeam } from "./allroutes/allroutes.js";
 
+
 function App() {
   const [start, setStart] = useState(false);
   const [load, setLoad] = useState(false)
@@ -22,7 +23,7 @@ function App() {
       {load ? <BrowserRouter>
         <Routes>
           <Route path="/*" element={!start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
-          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute /> : <BootcampRoutes />} />
+          <Route path="/bootcamp/*" element={start ? <HackthonDayRoute /> : <BootcampRoutes />} />
         </Routes>
       </BrowserRouter> :
         <div className='ast'>AST TEAM</div>}

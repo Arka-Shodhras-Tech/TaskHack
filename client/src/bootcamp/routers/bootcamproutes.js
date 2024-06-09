@@ -30,7 +30,7 @@ export const BootcampRoutes = () => {
         load?<>
             <BootcampNav />
             <Routes>
-                <Route path='/register' element={<RegistrationForm />} />
+
                 <Route path="/login" element={check?.auth?<Home/>:<LoginForm />} />
                 <Route path="/update" element={<OTPForm />} />
                 <Route path='/updateform' element={update?<UpdateForm />:<PageNotFound/>} />
@@ -41,6 +41,9 @@ export const BootcampRoutes = () => {
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
+                <Route path='/register' element={<RegistrationForm/>}/>
+
+
             </Routes>
         </>:<div className='ast'>AST TEAM</div>
     )

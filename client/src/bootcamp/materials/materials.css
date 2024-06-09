@@ -1,4 +1,4 @@
-.materials-container1 {
+/* .materials-container1 {
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 20px; 
@@ -14,23 +14,13 @@
     padding: 40px; 
     border-top: 1px solid #ddd;
     border-radius: 5px;
-    background-color: #f9f9f9;
-
-    
-    
+    background-color: #f9f9f9;   
 }
-
-/* .materials-container1 .table-align {
-    width: 100%;
-    margin-left: 0%;
-
-} */
 
 .materials-container1 .table-align th{
     background-color: #c8b0ed;
     
 }
-
 
 .table-align{
     height: 20vh;
@@ -38,4 +28,5 @@
     margin-left: 0%;
     
 }
+ */
 
