@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 import "../sendotp/update.css";
 
 export const UpdateForm = () => {
@@ -11,9 +12,15 @@ export const UpdateForm = () => {
     const [otpSent, setOtpSent] = useState(false);
     const [load, setLoad] = useState(false);
     const navigate = useNavigate();
+    const toast = useToast();
     const getOtp = async () => {
         if (!regd) {
-            alert("Please enter your registration number.");
+            toast({
+                title:'Enter Your Register number',
+                status:'error',
+                position:'bottom-left',
+                isClosable:true,
+            })
             return;
         }
         setLoad(true);
@@ -21,10 +28,22 @@ export const UpdateForm = () => {
             const response = await axios.post('http://localhost:9899/sendotp', { regd });
             const result = response.data;
             if (result.message) {
-                alert(result.message);
+                toast({
+                    title:'OTP has sent to your Gmail successfully',
+                    status:'success',
+                    position:'bottom-left',
+                    isClosable:true,
+                })
+                // alert(result.message);
                 setOtpSent(true);
             } else {
-                alert(result.error || 'An error occurred. Please try again.');
+                toast({
+                    title:result.error || 'An error occurred',
+                    status:'error',
+                    position:'bottom-left',
+                    isClosable:true,
+                })
+                // alert(result.error || 'An error occurred. Please try again.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -47,7 +66,13 @@ export const UpdateForm = () => {
             const result = response.data;
 
             if (result.message) {
-                alert(result.message);
+                toast({
+                    title:'Password Updated successfully',
+                    status:"success",
+                    position:'bottom-left',
+                    isClosable:true,
+                })
+                // alert(result.message);
                 navigate('/bootcamp/home');
             } else {
                 alert(result.error || 'An error occurred. Please try again.');

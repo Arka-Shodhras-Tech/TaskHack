@@ -2,9 +2,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './register.css';
+import { useToast } from "@chakra-ui/react";
 
 export const RegistrationForm = () => {
     const nav = useNavigate();
+    const toast = useToast();
     const [name, SetName] = useState("");
     const [regd, SetRegd] = useState("");
     const [year, SetYear] = useState("");
@@ -13,13 +15,18 @@ export const RegistrationForm = () => {
     const [sec, SetSec] = useState("");
     const [num, SetNum] = useState("");
     const [load, setLoad] = useState(false);
-
+    
     const Register = async () => {
         try {
             setLoad(true);
             const res = await axios.post(process.env.REACT_APP_Server + "/signup/" + email + "/" + name + "/" + regd + "/" + num + "/" + year + "/" + branch + "/" + sec)
             if (res.data.message) {
-                alert("Registered successfully");
+                toast({
+                    title:'Registered Successfully!',
+                    status:'success',
+                    position:'top-right',
+                    isClosable:true,
+                })
                 setLoad(false);
                 nav('/bootcamp/login');
             } else {

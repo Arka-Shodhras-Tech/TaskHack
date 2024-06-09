@@ -1,4 +1,4 @@
-import { useToast } from '@chakra-ui/react';
+import { position, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
@@ -20,9 +20,8 @@ export const LoginForm = () => {
             const res = await axios.post(`${process.env.REACT_APP_Server}/signin`, { regd, password });
 
             if (res.data.message) {
-                alert(res.data.message);
                 toast({
-                    title: 'Login successful',
+                    title: 'Password sent to your Gmail',
                     status: 'success',
                     position: 'bottom-right',
                     isClosable: true,
@@ -30,12 +29,28 @@ export const LoginForm = () => {
                 setLoad(false);
             }
             if (res.data.passmessage) {
+                toast({
+                    title:'Login successful',
+                    status :'success',
+                    position:'bottom-left',
+                    isClosable:true,
+                })
                 navigate('/bootcamp/home');
                 dispatch({ type: 'LOGIN', payload: { username: res.data.data.Name } });
                 dispatch({ type: 'AUTH', payload: { auth: res.data.data.Reg_No } });
             }
             if (res.data.error) {
-                console.log(res);
+                toast({
+                    title: "Error",
+                    description:  "Please Register  ",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top-right",
+                    isClosable:true,
+                });
+
+                // console.log(res);
                 navigate('/bootcamp/register');
             }
             if (res.data.passerror) {
@@ -111,7 +126,6 @@ export const LoginForm = () => {
                         </div>
                         <hr className="hr" />
                         <div className="text-center">
-                            <Link to="/bootcamp/register">Sign up?</Link>
                             <Link to="/bootcamp/update" className="link-button">Forgot password?</Link>
                         </div>
                     </div>

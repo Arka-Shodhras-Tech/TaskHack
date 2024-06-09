@@ -1,4 +1,4 @@
-.performance-container {
+/* .performance-container {
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 20px; 
@@ -35,7 +35,7 @@
   }
   
   .button-group button:hover {
-    background-color: #802dac;
+    background-color: #7a4296;
   }
   
   .content {
@@ -58,9 +58,171 @@
   }
   .chart{
     margin-left: 27%;
+  } */
+
+
+  /* .performance-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px; 
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    max-width: 1250px; 
+    margin: 20px auto; 
   }
   
-
+  h1 {
+    text-align: center;
+    color: #4e4d4d;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 2%;
+  }
+  
+  .button-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .button-group button {
+    background-color: #ac7df1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group button:hover {
+    background-color: #7a4296;
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  .attendance, .score, .others {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+  }
+  
+  h2 {
+    color: #555;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  
+  p {
+    color: #666;
+  }
+  
+  
+  .chart {
+    width: 100%;
+    height: 300px; 
+    max-width: 100%;
+    margin: 0 auto; 
+  }
+  
+  @media screen and (max-width: 768px) {
+    .button-group {
+      grid-template-columns: repeat(2, 1fr); 
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .button-group {
+      grid-template-columns: 1fr; 
+    }
+  } */
+  
+  .performance-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px; 
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    width: 90%; /* Set a maximum width */
+    margin: 20px auto; /* Center the container horizontally */
+  }
+  
+  h1 {
+    text-align: center;
+    color: #4e4d4d;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 2%;
+  }
+  
+  .button-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+    width: 50%;
+    margin-left: 25%;
+  }
+  
+  .button-group button {
+    background-color: #ac7df1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group button:hover {
+    background-color: #7a4296;
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  .attendance, .score, .others {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+  }
+  
+  h2 {
+    color: #555;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  
+  p {
+    color: #666;
+  }
+  
+  .chart {
+    width: 100%;
+    height: 300px; 
+    width: 100%;
+    margin: 0 auto; 
+  }
+  .chart-position {
+    margin-left: 23%;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .button-group {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .button-group {
+      grid-template-columns: 1fr; /* Change to one column on even smaller screens */
+    }
+  }
+  
 /********************score.css*************************/
   .score {
     font-family: Arial, sans-serif;
@@ -95,13 +257,21 @@
   .score-details p {
     margin: 5px 0;
   }
+
+
+
+
+
+
+
+  
   
 /*******************others.css******************/
-  .table-align{
+  /* .table-align{
     margin-left: 15%;
-  }
+  } */
 
-  .others {
+  /* .others {
     padding: 20px;
   }
   
@@ -113,6 +283,7 @@
   .others .table-align {
     margin-top: 20px;
     width: 71%;
+    margin:auto;
   }
   
   .others .table-align th {
@@ -126,4 +297,154 @@
   
   .others .table-align tr:hover {
     background-color: #f1f1f1;
-  }
+  } */
+
+  .others {
+    padding: 20px;
+}
+
+.others h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
+}
+
+.others .table-align {
+    margin-top: 20px;
+    width: 100%;
+    margin: auto;
+    max-width: 71%;
+    box-sizing: border-box;
+    border-collapse: collapse; /* Ensures border spacing is consistent */
+}
+
+.others .table-align th, .others .table-align td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.others .table-align th {
+    background-color: #ac7df1;
+    color: white;
+}
+
+.others .table-align tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.others .table-align tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .others {
+        padding: 10px;
+    }
+
+    .others h2 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+
+    .others .table-align {
+        width: 100%;
+        font-size: 0.9em; /* Adjust font size for better fit on tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .others {
+        padding: 5px;
+    }
+
+    .others h2 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    .others .table-align {
+        width: 100%;
+        font-size: 0.8em; /* Adjust font size for better fit on phones */
+    }
+
+    .others .table-align th, .others .table-align td {
+        padding: 4px 8px; /* Reduce padding for smaller screens */
+    }
+}
+
+
+
+/* **************.materials.css****************** */
+
+
+  /* .materials-container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 95%;
+    margin-left:3%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.materials-section, .sources-section {
+    border-top: 1px solid #ddd;
+
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.materials-cards, .sources-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.performance-card{
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: calc(33.333% - 20px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.card-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.card-content {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 100%;
+    }
+}
+ */

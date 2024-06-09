@@ -41,7 +41,7 @@ export const message = {
         <br />
     </div>`,
 
-    senlink: async (name,email) => `<div style="border: 5px blue solid;width: 100%;">
+    senlink: async (name,reg) => `<div style="border: 5px blue solid;width: 100%;">
         <p>
         <h4 style="text-align: center;">This <b>Message</b> From Team AST</h4>
         </p>
@@ -54,7 +54,7 @@ export const message = {
             <h3>Your login details</h3>
         </div>
         <div style="text-align: center;">
-            <h1>Your id :: ${email}</h1>
+            <h1>Your id :: ${reg}</h1>
         </div>
         <br />
         <div style="text-align: center;">

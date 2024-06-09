@@ -13,6 +13,7 @@ import { UpdateForm } from '../update/update'
 import { PageNotFound } from '../../pagenotfound/pagenotfound'
 import { useEffect, useState } from 'react'
 import { Actions } from '../../actions/actions'
+import { Materials } from '../materials/materials'
 export const BootcampRoutes = () => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user.update)
@@ -29,16 +30,20 @@ export const BootcampRoutes = () => {
         load?<>
             <BootcampNav />
             <Routes>
-                <Route path='/register' element={<RegistrationForm />} />
+
                 <Route path="/login" element={check?.auth?<Home/>:<LoginForm />} />
                 <Route path="/update" element={<OTPForm />} />
                 <Route path='/updateform' element={update?<UpdateForm />:<PageNotFound/>} />
                 <Route path='/tasks' element={check?.auth?<Tasks />:<LoginForm />} />
                 <Route path='/performance' element={check?.auth ? <Performance /> : <LoginForm />} />
+                <Route path='/materials' element={<Materials/>}/>
                 <Route path="/score" element={check?.auth ? <HackStudentscore /> : <LoginForm />} />
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
+                <Route path='/register' element={<RegistrationForm/>}/>
+
+
             </Routes>
         </>:<div className='ast'>AST TEAM</div>
     )

@@ -4,11 +4,12 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./update.css";
 import { useDispatch } from "react-redux";
-
+import { useToast } from "@chakra-ui/react";
 export const OTPForm = () => {
     const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
     const dispatch=useDispatch()
+    const toast = useToast();
 
     const updateDetails1 = async () => {
         setLoad(true);
@@ -20,8 +21,17 @@ export const OTPForm = () => {
                 setLoad(false);
                 return;
             }
-            dispatch({type:'UPDATE',update:regd})
-            alert(res.data.message);
+            // dispatch({type:'UPDATE',update:regd})
+            
+            toast({
+                title: 'Update Password link sended successfully',
+                status: 'success',
+                position: 'bottom-right',
+                isClosable: true,
+            });
+
+
+
             setRegd('');
         } catch (error) {
             console.error('Error:', error);
