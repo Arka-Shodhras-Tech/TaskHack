@@ -10,6 +10,7 @@ import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { message } from "./message/message.js";
 import { checkUser } from "./user/checkuser.js";
 import { UpdateGender } from "./user/updategender.js";
+import { PSS } from "./problemstatements/pss.js";
 
 const app = express()
 app.use(express.json())
@@ -49,20 +50,28 @@ app.post('/check-hackathon/:mail', async (req, res) => {
 })
 
 app.post('/updategender/:regd/:gender', async (req, res) => {
-    await UpdateGender(req.params.regd,req.params.gender, res);
+    await UpdateGender(req.params.regd, req.params.gender, res);
+})
+
+app.post('/statements', async (req, res) => {
+    await PSS(res);
 })
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
-    const user = await db1.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
-    if (user?.Reg_No) {
-        res.json({ register: "already exist", data: user });
-    }
-    else {
-        await db1.collection('Hackathondata').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, Section: req.params.section })
-            .then((details) => {
-                res.json({ message: "sucess", data: details });
-            })
-            .catch((e) => console.log(e))
+    try {
+        const user = await db1.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
+        if (user?.Reg_No) {
+            res.json({ register: "already exist", data: user });
+        }
+        else {
+            await db1.collection('Hackathondata').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, Section: req.params.section })
+                .then((details) => {
+                    res.json({ message: "sucess", data: details });
+                })
+                .catch((e) => console.log(e))
+        }
+    } catch (error) {
+        console.log(error)
     }
 })
 
@@ -96,8 +105,8 @@ app.post('/signin', async (req, res) => {
     }
 });
 
-app.post('/authuser/:regd',async(req,res)=>{
-    await checkUser(req.params.regd,res)
+app.post('/authuser/:regd', async (req, res) => {
+    await checkUser(req.params.regd, res)
 })
 
 app.post('/updatepasswordlink', async (req, res) => {
@@ -184,7 +193,7 @@ app.post('/createteam/:team/:gmail/:code/:phone', async (req, res) => {
         res.json({ team: "already exist", data: user });
     }
     else {
-        await db1.collection('Hackathondata').insertOne({ Team: req.params.team, Gmail: req.params.gmail, Phone: req.params.phone ,Code: req.params.code})
+        await db1.collection('Hackathondata').insertOne({ Team: req.params.team, Gmail: req.params.gmail, Phone: req.params.phone, Code: req.params.code })
             .then((details) => {
                 res.json({ message: "sucess", data: details });
             })

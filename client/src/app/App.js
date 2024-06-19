@@ -23,8 +23,8 @@ function App() {
     <>
       {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
-          <Route path="/bootcamp/*" element={start ? <HackthonDayRoute /> : <BootcampRoutes />} />
+          <Route path="/*" element={!start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
+          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute /> : <BootcampRoutes />} />
           <Route path='/problemstatements' element={<ProblemStatements/>}/>
         </Routes>
       </BrowserRouter> :
