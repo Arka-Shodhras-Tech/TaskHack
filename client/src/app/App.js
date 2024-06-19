@@ -5,6 +5,7 @@ import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
 import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
 import './App.css';
 import { RoutesofASTeam } from "./allroutes/allroutes.js";
+import { ProblemStatements } from '../hackathon/problemstatements/problemstatements.js';
 
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
     <>
       {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={!start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
+          <Route path="/*" element={start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
           <Route path="/bootcamp/*" element={start ? <HackthonDayRoute /> : <BootcampRoutes />} />
+          <Route path='/problemstatements' element={<ProblemStatements/>}/>
         </Routes>
       </BrowserRouter> :
         <div className='ast'>AST TEAM</div>}

@@ -4,14 +4,10 @@ import express from 'express';
 import session from 'express-session';
 import nodemailer from 'nodemailer';
 import { db1 } from "../db.js";
-import { AdminLogin } from "./admin/adminlogin.js";
-import { AdminRegister } from "./admin/adminregister.js";
 import { CheckHackathon } from "./hacthonday/checkhackathon.js";
 import { EndHackathon } from "./hacthonday/hackathonend.js";
 import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { message } from "./message/message.js";
-import { UploadStudents } from "./studentdata/uploadstudentdata.js";
-import { initiateMulter } from "./uploadfile/uploadfile.js";
 import { checkUser } from "./user/checkuser.js";
 import { UpdateGender } from "./user/updategender.js";
 
@@ -39,9 +35,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-app.post('/admin-signup', async (req, res) => {
-    await AdminRegister(req.body, res);
-})
 
 app.post('/start-hackathon', async (req, res) => {
     await StartHackathon(req.body, res);
@@ -51,16 +44,8 @@ app.post('/end-hackathon', async (req, res) => {
     await EndHackathon(req.body, res);
 })
 
-app.post('/admin-signin', async (req, res) => {
-    await AdminLogin(req.body, res);
-})
-
 app.post('/check-hackathon/:mail', async (req, res) => {
     await CheckHackathon(req.params.mail, res);
-})
-
-app.post('/upload-students', initiateMulter(), async (req, res) => {
-    await UploadStudents(req.files, res);
 })
 
 app.post('/updategender/:regd/:gender', async (req, res) => {
