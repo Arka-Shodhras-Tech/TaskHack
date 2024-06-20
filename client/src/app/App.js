@@ -9,8 +9,9 @@ import { ProblemStatements } from '../hackathon/problemstatements/problemstateme
 
 
 function App() {
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState(true);
   const [load, setLoad] = useState(false)
+  console.log(process.env.REACT_APP_Server)
   useEffect(() => {
     axios.post(`${process.env.REACT_APP_Server}/check-hackathon/` + "hacthon@gmail.com")
       .then((res) => {
@@ -21,7 +22,7 @@ function App() {
   }, [start])
   return (
     <>
-      {load ? <BrowserRouter>
+      {load || true ? <BrowserRouter>
         <Routes>
           <Route path="/*" element={!start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
           <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute /> : <BootcampRoutes />} />

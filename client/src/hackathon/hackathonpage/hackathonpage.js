@@ -22,6 +22,7 @@ import {
 import React, { useEffect, useState } from "react";
 import './hackathonpage.css';
 import axios from "axios";
+import DisplayTimer from "../timers/displayTimer";
 
 const calculateTimeLeft = (endTime) => {
     const difference = endTime - new Date().getTime();
@@ -110,6 +111,7 @@ export const Hackathonpage = () => {
 
     return (
         <Center p={8} className="hackathon-container">
+              <DisplayTimer URL={"https://timer-server-edko.onrender.com"}/>
             <Stack spacing={8} maxW="5xl" w="full">
                 <div>
                     <Button className="create-button" onClick={onOpen}>Create Team</Button>
