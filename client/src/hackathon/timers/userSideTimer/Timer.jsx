@@ -143,8 +143,7 @@ const Timer = ({
     const timerElement = document.querySelector(`.timer-${id}`);
     if (timerElement) {
       timerElement.style.display = "none";
-      toggleSidebar(true);
-
+      // toggleSidebar(true);
       // Store the minimized state in local storage
       localStorage.setItem(`timer-${id}-minimized`, true);
     }

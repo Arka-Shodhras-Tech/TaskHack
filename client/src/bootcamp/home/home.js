@@ -30,7 +30,7 @@ export const Home = ({ data }) => {
                 <div className='profile'>
                     <PopOver data={data}/>
                 </div>
-                <h2 className='person-name'>Hello {data.Name}....😊😊😊</h2>
+                <h2 className='person-name'>Hello {data?.Name}....😊😊😊</h2>
                 <div className='hacthongrid-home'>
                     <div className='hacthonlist'>
                         <SimpleGrid minChildWidth='220px' spacing='40px'>

@@ -11,6 +11,7 @@ import { message } from "./message/message.js";
 import { checkUser } from "./user/checkuser.js";
 import { UpdateGender } from "./user/updategender.js";
 import { PSS } from "./problemstatements/pss.js";
+import { SignUp } from "./user/signup.js";
 
 const app = express()
 app.use(express.json())
@@ -58,21 +59,7 @@ app.post('/statements', async (req, res) => {
 })
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
-    try {
-        const user = await db1.collection('Hackathondata').findOne({ Reg_No: req.params.regd });
-        if (user?.Reg_No) {
-            res.json({ register: "already exist", data: user });
-        }
-        else {
-            await db1.collection('Hackathondata').insertOne({ Gmail: req.params.email, Name: req.params.name, Number: req.params.num, Reg_No: req.params.regd, Year: req.params.year, Branch: req.params.branch, Section: req.params.section })
-                .then((details) => {
-                    res.json({ message: "sucess", data: details });
-                })
-                .catch((e) => console.log(e))
-        }
-    } catch (error) {
-        console.log(error)
-    }
+    await SignUp(req,res)
 })
 
 app.post('/signin', async (req, res) => {

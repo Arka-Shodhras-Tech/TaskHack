@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Timer.css"; // Import your TimerItem CSS file
 
 const TimerItem = ({ id, title, endTime, toggleSidebar, timerColor }) => {
+  const [show,setShow]=useState(localStorage.getItem(`timer-${id}-minimized`))
   const calculateTimeLeft = (endTime) => {
     const now = new Date();
     const difference = new Date(endTime) - now;
@@ -32,10 +33,9 @@ const TimerItem = ({ id, title, endTime, toggleSidebar, timerColor }) => {
   const toggleMaximize = () => {
     const timerElement = document.querySelector(`.timer-${id}`);
     if (timerElement) {
-      timerElement.style.display = "block";
-
-      localStorage.setItem(`timer-${id}-minimized`, false);
-      toggleSidebar(true);
+      timerElement.style.display =show? "block":"none";
+      localStorage.setItem(`timer-${id}-minimized`,show?false:true);
+      setShow((show)=>!show)
     }
   };
 
