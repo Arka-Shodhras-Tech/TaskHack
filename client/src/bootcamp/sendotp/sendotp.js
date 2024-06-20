@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "./update.css";
-import { useDispatch } from "react-redux";
-import { useToast } from "@chakra-ui/react";
 export const OTPForm = () => {
     const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
@@ -17,25 +16,30 @@ export const OTPForm = () => {
             const res = await axios.post(`${process.env.REACT_APP_Server}/updatepasswordlink`, { regd });
             console.log(res.data)
             if (!res.data?.message) {
+                toast({
+                    title: "try again",
+                    status: 'error',
+                    position: 'bottom-right',
+                    isClosable: true,
+                });
                 alert('Invalid Registered Number');
                 setLoad(false);
                 return;
             }
-            // dispatch({type:'UPDATE',update:regd})
-            
+            dispatch({ type: 'UPDATE', payload: { update: regd} });
             toast({
-                title: 'Update Password link sended successfully',
+                title: res.data?.message,
                 status: 'success',
+                position: 'top-right',
+                isClosable: true,
+            });
+        } catch (error) {
+            toast({
+                title: 'An error occurred. Please try again',
+                status: 'error',
                 position: 'bottom-right',
                 isClosable: true,
             });
-
-
-
-            setRegd('');
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
         } finally {
             setLoad(false);
         }

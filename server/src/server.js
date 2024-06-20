@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from 'express';
-import server1 from './ASTexams/server.js'
-import server2 from './hackathon/server.js'
+import server1 from './ASTexams/ast.server.js'
+import server2 from './hackathon/hackathon.server.js'
 import { connectToDB, db } from './db.js';
 
 const app = express()

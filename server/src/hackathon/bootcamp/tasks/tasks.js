@@ -1,4 +1,4 @@
-import { db1 } from "../../db.js"
+import { db1 } from "../../../db.js"
 
 export const Tasks = async (res) => {
     try {
