@@ -10,3 +10,14 @@ export const Tasks = async (res) => {
         console.log(error)
     }
 }
+
+export const StudentTasks = async (res) => {
+    try {
+        const tasks = await db1.collection("Hackathondata").find().toArray()
+        if (tasks.length > 0) {
+            res.json(tasks)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
