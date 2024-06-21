@@ -11,7 +11,7 @@ const TimerListSidebar = ({ timers, isOpen, toggleSidebar }) => {
         {isOpen ?<img src={close} alt="Open sidebar" /> : <img src={timer} alt="Open sidebar" />}
       </button>
       <div className="sidebar-content">
-        <h2 className="h1-animation">Timers </h2>
+        <h2 className="h1">Timers </h2>
         <hr></hr>
        
         <div className="timer-list">
