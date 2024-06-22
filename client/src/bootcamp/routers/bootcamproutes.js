@@ -16,11 +16,11 @@ import { Actions } from '../../actions/actions'
 import { Materials } from '../materials/materials'
 export const BootcampRoutes = () => {
     const auth =useSelector((state)=>state.user?.auth)
-    const update=useSelector((state)=>state.user.update)
+    const update=useSelector((state)=>state.user?.update)
     const [check,setCheck]=useState(false)
     const [load,setLoad]=useState(auth?false:true)
     useEffect(()=>{
-        Actions.userAuth(auth)
+        auth&&Actions.userAuth(auth)
         .then((res)=>{
             setCheck(res)
             setLoad(true)
@@ -30,7 +30,6 @@ export const BootcampRoutes = () => {
         load?<>
             <BootcampNav />
             <Routes>
-
                 <Route path="/login" element={check?.auth?<Home/>:<LoginForm />} />
                 <Route path="/update" element={<OTPForm />} />
                 <Route path='/updateform' element={update?<UpdateForm />:<PageNotFound/>} />
@@ -42,8 +41,6 @@ export const BootcampRoutes = () => {
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
                 <Route path='/register' element={<RegistrationForm/>}/>
-
-
             </Routes>
         </>:<div className='ast'>AST TEAM</div>
     )
