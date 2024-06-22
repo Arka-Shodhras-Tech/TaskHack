@@ -9,17 +9,16 @@ const DisplayTimer = ({ URL }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   function notifyMe(message, options) {
     if (!("Notification" in window)) {
-      // Check if the browser supports notifications
+ 
       alert("This browser does not support desktop notification");
     } else if (Notification.permission === "granted") {
-      // Check whether notification permissions have already been granted;
-      // if so, create a notification
+  
       const notification = new Notification(message, options);
       notification.onclick = (event) => {
         event.preventDefault(); // prevent the browser from focusing the Notification's tab
         window.open("./", "_blank");
       };
-      // …
+     
     } else if (Notification.permission !== "denied") {
       // We need to ask the user for permission
       Notification.requestPermission().then((permission) => {
