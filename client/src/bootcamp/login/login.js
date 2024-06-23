@@ -23,7 +23,7 @@ export const LoginForm = () => {
                 toast({
                     title: 'Password sent to your Gmail',
                     status: 'success',
-                    position: 'bottom-right',
+                    position: 'top-right',
                     isClosable: true,
                 });
                 setLoad(false);
@@ -32,7 +32,7 @@ export const LoginForm = () => {
                 toast({
                     title:'Login successful',
                     status :'success',
-                    position:'bottom-left',
+                    position:'top-right',
                     isClosable:true,
                 })
                 navigate('/bootcamp/home');
@@ -69,7 +69,7 @@ export const LoginForm = () => {
         }
     };
     return (
-        <section className="section">
+        <section className="login-section">
             <div className="login-container">
                 <div className="card">
                     <div className="image-container">

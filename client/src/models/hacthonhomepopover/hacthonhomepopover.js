@@ -1,11 +1,15 @@
 import {
+    Button,
     Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent,
     PopoverHeader, PopoverTrigger
 } from '@chakra-ui/react';
 import ManImage from './man.png';
 import Image from './user.png';
 import WomanImage from './woman.png';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 export const PopOver = ({data}) => {
+    const dispatch=useDispatch()
     return (
         <Popover>
             <PopoverTrigger>
@@ -35,6 +39,9 @@ export const PopOver = ({data}) => {
                 </PopoverBody>
                 <PopoverBody>
                     Phone Number <strong>{data?.Number}</strong>
+                </PopoverBody>
+                <PopoverBody>
+                   <Button onClick={()=>{dispatch({ type: 'AUTH', payload: { auth:null}});window.location.reload(5)}}>Log Out</Button>
                 </PopoverBody>
             </PopoverContent>
         </Popover>

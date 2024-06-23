@@ -2,15 +2,16 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
+import { ProblemStatements } from '../hackathon/problemstatements/problemstatements.js';
 import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
 import './App.css';
-import { RoutesofASTeam } from "./allroutes/allroutes.js";
-import { ProblemStatements } from '../hackathon/problemstatements/problemstatements.js';
+import { LandingRoute } from './allroutes/landingroute.js';
 
 
 function App() {
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState(true);
   const [load, setLoad] = useState(false)
+  console.log(process.env.REACT_APP_Server)
   useEffect(() => {
     axios.post(`${process.env.REACT_APP_Server}/check-hackathon/` + "hacthon@gmail.com")
       .then((res) => {
@@ -21,10 +22,10 @@ function App() {
   }, [start])
   return (
     <>
-      {load ? <BrowserRouter>
+      {load? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={start ? <HackthonDayRoute /> : <RoutesofASTeam />} />
-          <Route path="/bootcamp/*" element={start ? <HackthonDayRoute /> : <BootcampRoutes />} />
+          <Route path="/*" element={!start ? <HackthonDayRoute /> : <LandingRoute />} />
+          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute /> : <BootcampRoutes />} />
           <Route path='/problemstatements' element={<ProblemStatements/>}/>
         </Routes>
       </BrowserRouter> :

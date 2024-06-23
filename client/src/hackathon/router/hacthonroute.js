@@ -7,8 +7,6 @@ export const HackthonDayRoute = () => {
             <HackathonNav />
             <Routes>
                 <Route path='/*' element={<Hackathonpage/>} />
-                <Route path='/admin' element={<></>} />
-                <Route path='/login' element={<></>} />
             </Routes>
         </>
     )

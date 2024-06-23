@@ -17,11 +17,11 @@ import { Materials } from '../materials/materials'
 import RulesAndRegulations from '../rulesandregulations/rulesandregulations'
 export const BootcampRoutes = () => {
     const auth =useSelector((state)=>state.user?.auth)
-    const update=useSelector((state)=>state.user.update)
+    const update=useSelector((state)=>state.user?.update)
     const [check,setCheck]=useState(false)
     const [load,setLoad]=useState(auth?false:true)
     useEffect(()=>{
-        Actions.userAuth(auth)
+        auth&&Actions.userAuth(auth)
         .then((res)=>{
             setCheck(res)
             setLoad(true)
@@ -42,8 +42,6 @@ export const BootcampRoutes = () => {
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
                 <Route path='/register' element={<RegistrationForm/>}/>
-                <Route path='/rulesandregulations' element={<RulesAndRegulations/>}/>
-
             </Routes>
         </>:<div className='ast'>AST TEAM</div>
     )

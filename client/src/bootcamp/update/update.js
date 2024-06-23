@@ -16,38 +16,41 @@ export const UpdateForm = () => {
     const getOtp = async () => {
         if (!regd) {
             toast({
-                title:'Enter Your Register number',
-                status:'error',
-                position:'bottom-left',
-                isClosable:true,
+                title: 'Enter Your Register number',
+                status: 'error',
+                position: 'bottom-left',
+                isClosable: true,
             })
             return;
         }
         setLoad(true);
         try {
-            const response = await axios.post('http://localhost:9899/sendotp', { regd });
+            const response = await axios.post(process.env.REACT_APP_Server + '/sendotp', { regd });
             const result = response.data;
             if (result.message) {
                 toast({
-                    title:'OTP has sent to your Gmail successfully',
-                    status:'success',
-                    position:'bottom-left',
-                    isClosable:true,
+                    title: result.message || 'OTP has sent to your Gmail successfully',
+                    status: 'success',
+                    position: 'top-right',
+                    isClosable: true,
                 })
-                // alert(result.message);
                 setOtpSent(true);
             } else {
                 toast({
-                    title:result.error || 'An error occurred',
-                    status:'error',
-                    position:'bottom-left',
-                    isClosable:true,
+                    title: result.error || 'An error occurred',
+                    status: 'error',
+                    position: 'bottom-left',
+                    isClosable: true,
                 })
-                // alert(result.error || 'An error occurred. Please try again.');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert(error.response?.data?.error || 'An error occurred. Please try again.');
+            toast({
+                title: error.response?.data?.error || 'An error occurred. Please try again',
+                status: 'error',
+                position: 'bottom-left',
+                isClosable: true,
+            })
         } finally {
             setLoad(false);
         }
@@ -55,24 +58,27 @@ export const UpdateForm = () => {
     const updateDetails = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert("Passwords do not match.");
+            toast({
+                title: 'Passwords do not match',
+                status: 'error',
+                position: 'bottom-left',
+                isClosable: true,
+            })
             return;
         }
 
         setLoad(true);
 
         try {
-            const response = await axios.post('http://localhost:9899/updatepassword', { regd, password });
+            const response = await axios.post(process.env.REACT_APP_Server + '/updatepassword', { regd, password });
             const result = response.data;
-
             if (result.message) {
                 toast({
-                    title:'Password Updated successfully',
-                    status:"success",
-                    position:'bottom-left',
-                    isClosable:true,
+                    title: 'Password Updated successfully',
+                    status: "success",
+                    position: 'top-right',
+                    isClosable: true,
                 })
-                // alert(result.message);
                 navigate('/bootcamp/home');
             } else {
                 alert(result.error || 'An error occurred. Please try again.');
@@ -84,7 +90,6 @@ export const UpdateForm = () => {
             setLoad(false);
         }
     };
-
 
     return (
         <section className="update-form-section">

@@ -1,39 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { Box, Button, Input, Spinner, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { Box, Flex, Text, Heading, Spinner, Badge, Input, useToast, Table, Thead, Tbody, Tr, Th, Td, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { HackathonNav } from "../hackathonnav/hackathonnav";
+import './ps.css'
 
 export const ProblemStatements = () => {
     const [dat, setDat] = useState([]);
     const [select, setSelect] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedStudent, setSelectedStudent] = useState(null);
     const toast = useToast();
 
-    const fetchStudentData = async () => {
+    useEffect(() => {
+        fetchTasks();
+    }, []);
+    const fetchTasks = async () => {
         try {
-            const result = await axios.post(process.env.REACT_APP_database + "/students");
-            setDat(result.data.sort((a, b) => a.Year - b.Year));
+            const response = await axios.post(process.env.REACT_APP_Server + '/statements');
+            setIsLoading(false)
+            setDat(response.data);
+            console.log(response)
         } catch (error) {
-            console.error("Error fetching student data:", error);
-        } finally {
-            setIsLoading(false);
+            console.error('Error fetching tasks:', error);
         }
     };
-
-    useEffect(() => {
-        fetchStudentData();
-    }, []);
-
-
-    // const groupStudentsIntoTeams = (students, teamSize) => {
-    //     const teams = [];
-    //     for (let i = 0; i < students.length; i += teamSize) {
-    //         const team = students.slice(i, i + teamSize);
-    //         teams.push(team.map(student => ({ ...student, teamIndex: Math.floor(i / teamSize) + 1 })));
-    //     }
-    //     return teams;
-    // };
+    const reloadTasks = () => {
+        fetchTasks();
+    };
 
     return (
         <>
@@ -47,51 +39,37 @@ export const ProblemStatements = () => {
                         <Spinner size="xl" />
                     </Box>
                     :
-                    <div>
-                        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly',margin:'2% 0%'}}>
+                    <div className="task-form">
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', margin: '2% 0%' }}>
                             <Button bg="#3AA6B9">Sports</Button>
                             <Button bg="#3AA6B9">Yoga</Button>
                         </div>
-                        <Table variant="simple" width="80%" margin="auto">
-                            <Thead >
-                                <Tr >
-                                    <Th backgroundColor={"#FF9EAA"} color="white">Theme</Th>
-                                    <Th backgroundColor={"#FF9EAA"} color="white">Number</Th>
-                                    <Th backgroundColor={"#FF9EAA"} color="white">Statement</Th>
-                                    <Th backgroundColor={"#FF9EAA"} color="white">Select</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                <Tr>
-                                    <Td>Hii</Td>
-                                    <Td>Hii</Td>
-                                    <Td>Hii</Td>
-                                    <Td>Hii</Td>
-                                </Tr>
-                                <Tr>
-                                    <Td backgroundColor={"white"}>Hii</Td>
-                                    <Td backgroundColor={"white"}>Hii</Td>
-                                    <Td backgroundColor={"white"}>Hii</Td>
-                                    <Td backgroundColor={"white"}>Hii</Td>
-                                </Tr>
-                            {dat?.map((x, index) => (
-                                <Tr key={index}>
-                                    {index % 4 === 0 && (
-                                        <Td rowSpan={4}>
-                                            Team {x.teamIndex}
-                                        </Td>
-                                    )}
-                                    <Td>{x.Name.toUpperCase()}</Td>
-                                    <Td>{x.Year} Btech</Td>
-                                    <Td>
-                                        <Button>Select</Button>
-                                    </Td>
-                                </Tr>
-                            ))}
-                        </Tbody>
-                        </Table>
+
+                        <Box mt={8}>
+                            <div className='task-box'>
+                                <h1 className='h1-tasks'>Problem Statements</h1>
+                                {dat?.map((task, index) => (
+                                    <Box key={index} className='task-item' p={4} borderWidth={1} borderRadius="lg" mb={4}>
+                                        <Text fontWeight="bold" textAlign="center">Problem Statement {task?.Number}</Text>
+                                        <Text className='task-title'>Statement: {task?.Statement}</Text>
+                                        <Text className='task-description'>Description: {task?.Desc}</Text>
+                                        <Button>select</Button>
+                                    </Box>
+                                ))}
+                            </div>
+                        </Box>
                     </div>
             }
         </>
     );
 };
+
+
+// const groupStudentsIntoTeams = (students, teamSize) => {
+//     const teams = [];
+//     for (let i = 0; i < students.length; i += teamSize) {
+//         const team = students.slice(i, i + teamSize);
+//         teams.push(team.map(student => ({ ...student, teamIndex: Math.floor(i / teamSize) + 1 })));
+//     }
+//     return teams;
+// };
