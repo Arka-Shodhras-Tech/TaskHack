@@ -6,8 +6,9 @@ export const MyTasks = ({ tasks, day, unselect }) => {
                 tasks.Tasks?.[day]?.map((task, index) => (
                     <div key={index} className="task-item">
                         <div>
-                            <div className="task-title">{task?.Task}</div>
-                            <div className="task-description">{task?.Desc}</div>
+                            <div className="task-title">Task : {task?.Task}</div>
+                            <div className="task-description"><strong>Description</strong> : {task?.Desc}</div>
+                            <div >Marks : {task?.Marks}</div>
                         </div>
                         <div className='task-select'>
                             <Button bg={"blanchedalmond"} onClick={() => unselect(task?.Task, day)}>UnSelect</Button>

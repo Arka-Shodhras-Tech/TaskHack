@@ -39,9 +39,9 @@ export const Tasks = () => {
         fetchStudentTasks();
     }, []);
 
-    const TaskSelect = async (task, desc, day) => {
+    const TaskSelect = async (task, desc, marks, day) => {
         try {
-            const response = await axios.post(process.env.REACT_APP_Server + '/selecttask', { task, desc, user, day })
+            const response = await axios.post(process.env.REACT_APP_Server + '/selecttask', { task, desc, marks, user, day })
             if (response.data) {
                 toast({
                     title: response?.data?.message,
@@ -109,11 +109,12 @@ export const Tasks = () => {
                             !mytasks ? val?.Tasks?.map((task, index) => (
                                 task?.Show && <div key={index} className="task-item">
                                     <div>
-                                        <div className="task-title">{task?.Task}</div>
-                                        <div className="task-description">{task?.Desc}</div>
+                                        <div className="task-title">Task : {task?.Task}</div>
+                                        <div className="task-description"><strong>Description</strong> : {task?.Desc}</div>
+                                        <div >Marks : {task?.Marks}</div>
                                     </div>
                                     <div className='task-select'>
-                                        {!checkTask(val?.Day, task?.Task) ? <Button bg={"blanchedalmond"} onClick={() => TaskSelect(task?.Task, task?.Desc, val?.Day)}>Select</Button> :
+                                        {!checkTask(val?.Day, task?.Task) ? <Button bg={"blanchedalmond"} onClick={() => TaskSelect(task?.Task, task?.Desc, task?.Marks, val?.Day)}>Select</Button> :
                                             <Button bg={"blanchedalmond"} onClick={() => TaskUnSelect(task?.Task, val?.Day)}>UnSelect</Button>}
                                     </div>
                                 </div>

@@ -92,7 +92,7 @@ app.post('/createteam/:team/:gmail/:code/:phone', async (req, res) => {
 })
 
 app.post('/selecttask', async (req, res) => {
-    await SelectTask(req.body.user,req.body.task,req.body.desc,req.body.day,res);
+    await SelectTask(req.body.user,req.body.task,req.body.marks,req.body.desc,req.body.day,res);
 })
 
 app.post('/unselecttask', async (req, res) => {

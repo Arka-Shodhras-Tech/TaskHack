@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Dhurjati&display=swap');
+
+
+/* main code for css */
+
+.section{
+    min-height: 100vh;
+    background-color: black;
+    width: 100%;
+    
+}
+section#page-1{
+    background-image: url('./main-home.png');
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
+    color: white;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+}
+section#page-1 h1{
+    font-weight: 500;
+    font-size: 16vw !important;
+    font-family:"Dhurjati", 'Times New Roman', Times, serif, Times, serif;
+    font-style: italic;
+    text-shadow:  rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    color: #fafb63;
+    align-items: center;
+    /* line-height: 70px; */
+    justify-content: space-between;
+    @media (min-height:720px){
+        line-height: 70px;
+        font-size: 8.5vw !important;
+    }
+   
+}
+
+.com-head {
+    text-align: center;
+    max-width: 80%;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+
+
+  .com-info {
+    display: flex;
+  }
+  
+  .com-info-block-1 {
+    flex: 1 1 50%;
+    width: 100% !important;
+    padding: 150px 40px;
+    margin: 0 0 0 7%  ;
+
+
+    p{
+        font-size: 20px;
+        color: white;
+        margin: 10px 0 !important;
+        @media (max-width:480px) {
+          font-size: 16px;
+          
+          
+        }
+
+    }
+    @media (max-width:480px){
+      margin: 0 0;
+      padding: 40px 40px;
+
+    }
+
+  
+  }
+  .com-info-block-1 h1{
+    font-size: 90px !important;
+    line-height: 50px;
+    font-family:"Dhurjati", 'Times New Roman', Times, serif, Times, serif;
+    color: #6bfff7;
+    font-style: italic;
+    
+
+  }
+  .info-boxes{
+    margin: 40px 0;
+
+    span{
+    width: 24px;
+    height: 30px;
+    background: rgb(107,255,247);
+    background: linear-gradient(86deg, rgba(107,255,247,1) 0%, rgba(250,251,99,1) 100%);
+    border-radius: 5px;
+    padding: 4px;
+    font-weight: 500;
+	transform: skew(-25deg);    
+  }}
+  
+  .com-info-block-2 {
+    flex: 1 1 50%;
+    padding: 40px;
+    background-image: url('../../public/floral.png');
+    color: #6bfff7;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-clip: border-box;
+    margin: 0 7%  ;
+    background-position: center;
+
+    display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  }
+  
+  .com-info-block-2 video {
+    width: 450px;
+    display: block;
+    border-radius: 50%;
+    height:  450px;
+    object-fit: cover;
+@media (max-width:480px){
+  width: 230px;
+  height:  230px;
+}
+  }
+  
+  @media screen and (max-width: 920px) {
+    .com-info {
+      flex-direction: column;
+    }
+  
+    .com-info-block-1 {
+      flex: 1 1 auto;
+      margin-bottom: 10px; /* large scale bottom margin */
+    }
+  
+    .com-info-block-2 {
+      flex: 1 1 auto;
+      margin-top: 10px; /* large scale top margin */
+    }
+  }
+  
+#page-3{
+  padding: 0 5%;
+}
+.com-features{
+  display: flex;
+  gap: 60px;
+  width: 100% ;
+  @media (max-width:480px) {
+    flex-direction: column;
+    
+  }
+  h1{
+    color: #fafb63;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 40px;
+    font-family:"Dhurjati", 'Times New Roman', Times, serif, Times, serif;
+
+  }
+  p{
+    color: rgb(227, 224, 224);
+    font-size: 18px;
+  }
+  hr{
+    width:12%;
+    border: 3px  solid white  ;
+    opacity: 1;
+    
+  
+   
+  }
+
+}
+
+.feature-card{
+  width: calc(100%/3);
+  @media (max-width:480px) {
+      width: 100%;    
+  }
+  
+}
+.feature-img{
+  display: flex;
+  justify-content: center;
+}
+.com-features img{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  
+  
+
+}
+@media (max-width:480px){
+  .why-choose-us img{
+    width: 400px;
+   
+  }
+ 
+}
+
+
+
+
+
+
+

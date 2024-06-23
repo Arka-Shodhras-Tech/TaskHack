@@ -69,7 +69,7 @@ export const LoginForm = () => {
         }
     };
     return (
-        <section className="section">
+        <section className="login-section">
             <div className="login-container">
                 <div className="card">
                     <div className="image-container">
