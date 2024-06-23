@@ -14,6 +14,7 @@ import { PageNotFound } from '../../pagenotfound/pagenotfound'
 import { useEffect, useState } from 'react'
 import { Actions } from '../../actions/actions'
 import { Materials } from '../materials/materials'
+import RulesAndRegulations from '../rulesandregulations/rulesandregulations'
 export const BootcampRoutes = () => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user?.update)

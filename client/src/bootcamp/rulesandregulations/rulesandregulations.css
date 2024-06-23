@@ -1,0 +1,155 @@
+.rules-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  margin-left: 4%;
+  font-size: larger;
+  color: #325875;
+}
+.rules{
+  margin-left: 40%;
+  color: #292424;
+
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.timings {
+  width: 48%;
+}
+
+.stack {
+  width: 48%;
+}
+
+.schedule-container {
+  
+  width: 48%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+li strong {
+  margin-right: 5px;
+}
+
+li svg {
+  margin-right: 8px;
+}
+
+.stack-list-icons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 70%;
+  margin-left: 12%;
+}
+
+.stack-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #f1eaea;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(102, 218, 0, 0.1);
+}
+
+.icon {
+  font-size: 3.5em;
+}
+
+.html-icon {
+  color: #e34c26;
+}
+
+.css-icon {
+  color: #1572b6;
+}
+
+.js-icon {
+  color: #f7df1e;
+}
+
+.react-icon {
+  color: #61dafb;
+}
+
+.node-icon {
+  color: #339933;
+}
+
+.mongodb-icon {
+  color: #47a248;
+}
+.schedule-head{
+  color: black;
+  margin-right: 80%;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 8px;
+  
+}
+
+.schedule-table th {
+  background-color: #488c8c;
+  text-align: center;
+}
+
+.schedule-table td {
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  
+}
+
+@media (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+  }
+
+  .timings, .stack {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
