@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsStopwatch } from "react-icons/bs";
 import "./countdown.css";
 const Start = () => {
-	window.location.href = '/bootcamp/login'
+	window.location.href = '/bootcamp/home'
 }
 const COUNTDOWN_TARGET = new Date("2024-08-14T08:59:59");
 const getTimeLeft = () => {

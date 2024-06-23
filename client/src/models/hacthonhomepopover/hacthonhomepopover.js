@@ -3,11 +3,10 @@ import {
     Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent,
     PopoverHeader, PopoverTrigger
 } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 import ManImage from './man.png';
 import Image from './user.png';
 import WomanImage from './woman.png';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 export const PopOver = ({data}) => {
     const dispatch=useDispatch()
     return (
