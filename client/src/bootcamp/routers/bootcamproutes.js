@@ -36,7 +36,7 @@ export const BootcampRoutes = () => {
                 <Route path='/updateform' element={update?<UpdateForm />:<PageNotFound/>} />
                 <Route path='/tasks' element={check?.auth?<Tasks />:<LoginForm />} />
                 <Route path='/performance' element={check?.auth ? <Performance /> : <LoginForm />} />
-                <Route path='/materials' element={<Materials/>}/>
+                <Route path='/materials' element={check?.auth ?<Materials/>: <LoginForm />}/>
                 <Route path="/score" element={check?.auth ? <HackStudentscore /> : <LoginForm />} />
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />

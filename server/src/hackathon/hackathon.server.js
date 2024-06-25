@@ -17,6 +17,8 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
+import { FileByName, Materials } from "./materials/material.js";
+import { LikeMati, ViewMati } from "./materials/updatematerials.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -35,13 +37,6 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
 
 app.post('/start-hackathon', async (req, res) => {
     await StartHackathon(req.body, res);
@@ -105,5 +100,22 @@ app.post('/bootcamptasks', async (req, res) => {
 
 app.post('/Students', async (req, res) => {
     await StudentTasks(res)
+});
+
+app.post('/files', async (req, res) => {
+    await Materials(res)
+});
+
+app.get('/file/:filename', async (req, res) => {
+    const { filename } = req.params;
+    await FileByName(filename, res)
+});
+
+app.post('/likes', async (req, res) => {
+    await LikeMati(req.body.theme,req.body.user,req.body.index,res)
+});
+
+app.post('/views', async (req, res) => {
+    await ViewMati(req.body.theme,req.body.index,res)
 });
 export default app

@@ -1,122 +1,103 @@
+import DownloadIcon from '@mui/icons-material/Download';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Card, CardContent, CardMedia, Container, Grid, IconButton, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Actions } from '../../actions/actions';
+import { OpenFile } from '../../actions/openfile';
+import { MaterialModel } from './materialmodel';
+import './materials.css';
 import theme from './theme';
 
-const cardData = [
-  {
-    title: 'Name',
-    description: 'This is the description for card 1.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    title: 'Name',
-    description: 'This is the description for card 2.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    title: 'Name',
-    description: 'This is the description for card 3.',
-    image: 'https://via.placeholder.com/150',
-  },
-];
-
 export const Materials = () => {
-  const [liked, setLiked] = useState(cardData.map(() => false));
+  const [data, setData] = useState([]);
+  const [image, setImage] = useState();
+  const [show,setShow]=useState(false)
+  const [type,setType]=useState()
+  const user =useSelector((state)=>state.user?.auth)
 
-  const handleLikeClick = (index) => {
-    const newLiked = [...liked];
-    newLiked[index] = !newLiked[index];
-    setLiked(newLiked);
+  const fecthData = async () => {
+    await Actions.AllMaterials().then((res) => setData(res?.data)).catch((e) => console.log(e))
+  }
+
+  const fetchImageURL = async (link) => {
+    try {
+      const imageUrl = await OpenFile(link);
+      setImage(state => ({ ...state, [link]: imageUrl?.url }))
+    } catch (error) {
+      console.error("Error fetching image URL:", error);
+      return null;
+    }
   };
+
+  const openFile=async(link)=>{
+    try {
+      setShow(true)
+      const file=await OpenFile(link);
+      setImage(file?.url)
+      setType(file?.type)
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(() => {
+    fecthData()
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
+      <MaterialModel open={show} close={()=>{setShow(false);setImage('')}} fileType={type} fileUrl={image} imageContent={image}/>
       <Container>
-        <Grid container spacing={theme.spacing(2)}>
-          {cardData.map((card, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={card.image}
-                  alt={card.title}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {card.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {card.description}
-                  </Typography>
-                  <IconButton
-                    aria-label="like"
-                    onClick={() => handleLikeClick(index)}
-                  >
-                    {liked[index] ? (
-                      <FavoriteIcon color="error" />
-                    ) : (
-                      <FavoriteBorderIcon />
-                    )}
-                  </IconButton>
-                </CardContent>
-              </Card>
-            </Grid>
+        <Grid container spacing={2}>
+          {data.map((card, index) => (
+            <React.Fragment key={index}>
+              <Grid item xs={12}>
+                <Typography textAlign={"center"} variant="h5"><strong>{card.Theme}</strong></Typography>
+              </Grid>
+              {card.Links.map((link, linkIndex) => (
+                <Grid item xs={12} sm={6} md={4} key={linkIndex}>
+                  <Card>
+                    <CardMedia
+                      component="img"
+                      width="50"
+                      height="90"
+                      image={image ? image[link?.Photoname] : fetchImageURL(link?.Photoname)}
+                      alt={link.Photoname}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {link.Name}
+                      </Typography>
+                      <div style={{display:'flex',justifyContent:'space-evenly'}}>
+                        <IconButton
+                          aria-label="like"
+                          onClick={() => {Actions.Likes(card?.Theme,user,linkIndex).then((res)=>res?.data&&fecthData()).catch((e)=>console.log(e))}}
+                        >
+                          {link?.Likes?.includes(user) ? (
+                            <FavoriteIcon color="error" />
+                          ) : (
+                            <FavoriteBorderIcon />
+                          )}{link?.Likes?.length || 0}
+                        </IconButton>
+                        <IconButton onClick={()=>{openFile(link?.Pdfname);Actions?.Views(card?.Theme,linkIndex).then((res)=>res?.data&&fecthData()).catch((e)=>console.log(e))}}>
+                          <VisibilityIcon id='viewicon'/>{link?.Views || 0}
+                        </IconButton>
+                        <IconButton>
+                          <DownloadIcon id='download'/>12
+                        </IconButton>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </React.Fragment>
           ))}
         </Grid>
       </Container>
     </ThemeProvider>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import { CCard, CCardImage, CCardBody, CCardTitle, CCardText, CButton } from '@coreui/react';
-
-// export const Materials = () =>{
-//   return(
-//     <>
-//       <CCard style={{ width: '18rem' }}>
-//   <CCardImage orientation="top" src={process.env.PUBLIC_URL + '/hackathon (1).jpg'} />
-//   <CCardBody>
-//     <CCardTitle>Card title</CCardTitle>
-//     <CCardText>
-//       Some quick example text to build on the card title and make up the bulk of the card's content.
-//     </CCardText>
-//     <CButton color="primary" href="#">Go somewhere</CButton>
-//   </CCardBody>
-// </CCard>
-//     </>
-//   )
-// }
