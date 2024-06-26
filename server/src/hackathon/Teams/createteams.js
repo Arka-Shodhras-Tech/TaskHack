@@ -1,14 +1,14 @@
 import { db1 } from "../../db.js";
-export const CreateTeam=async(req,res)=>{
-    const user = await db1.collection('Hackathondata').findOne({ Team: req.params.team });
-    if (user?.Team) {
-        res.json({ team: "already exist", data: user });
-    }
-    else {
-        await db1.collection('Hackathondata').insertOne({ Team: req.params.team, Gmail: req.params.gmail, Phone: req.params.phone, Code: req.params.code })
+export const CreateTeam = async (req, res) => {
+    try {
+        await db1.collection('Teams').findOneAndUpdate({TeamCode: parseInt(req.params.code)},{$set:{ Team: req.params.team, Gmail: req.params.gmail, Phone: req.params.phone,Members:req.params.members, Password: req.params.password }})
             .then((details) => {
-                res.json({ message: "sucess", data: details });
+                if(details?._id){
+                    res.json({ message: "sucess", data: details });
+                }
             })
             .catch((e) => console.log(e))
+    } catch (error) {
+        console.log(error)
     }
 }

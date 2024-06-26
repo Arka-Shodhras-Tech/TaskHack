@@ -1,14 +1,16 @@
 import cors from "cors";
 import express from 'express';
 import session from 'express-session';
-import nodemailer from 'nodemailer';
 import { Resend } from 'resend';
+import { AllTeamCodes, checkTeam } from "./Teams/checkteam.js";
 import { CreateTeam } from "./Teams/createteams.js";
 import { SelectTask, UnSelectTask } from "./bootcamp/tasks/selecttask.js";
 import { StudentTasks, Tasks } from "./bootcamp/tasks/tasks.js";
 import { CheckHackathon } from "./hacthonday/checkhackathon.js";
 import { EndHackathon } from "./hacthonday/hackathonend.js";
 import { StartHackathon } from "./hacthonday/hackathonstart.js";
+import { FileByName, Materials } from "./materials/material.js";
+import { LikeMati, ViewMati } from "./materials/updatematerials.js";
 import { PSS } from "./problemstatements/pss.js";
 import { SendOtp } from "./updateuser/senotp.js";
 import { UpdatePasswordLink } from "./updateuser/updatelink.js";
@@ -17,8 +19,6 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
-import { FileByName, Materials } from "./materials/material.js";
-import { LikeMati, ViewMati } from "./materials/updatematerials.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -82,10 +82,6 @@ app.post('/updatepassword', async (req, res) => {
     await UpdatePassword(req,res)
 });
 
-app.post('/createteam/:team/:gmail/:code/:phone', async (req, res) => {
-    await CreateTeam(req,res);
-})
-
 app.post('/selecttask', async (req, res) => {
     await SelectTask(req.body.user,req.body.task,req.body.marks,req.body.desc,req.body.day,res);
 })
@@ -118,4 +114,17 @@ app.post('/likes', async (req, res) => {
 app.post('/views', async (req, res) => {
     await ViewMati(req.body.theme,req.body.index,res)
 });
+
+// ***************************************** Hacthon *********************************************** //
+app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req, res) => {
+    await CreateTeam(req,res);
+})
+
+app.post('/checkteam', async (req, res) => {
+    await checkTeam(req.body.code,res)
+});
+
+app.post('/teamscodes', async (req, res) => {
+    await AllTeamCodes(res)
+})
 export default app
