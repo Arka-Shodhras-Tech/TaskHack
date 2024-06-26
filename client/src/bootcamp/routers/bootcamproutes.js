@@ -42,6 +42,7 @@ export const BootcampRoutes = () => {
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
                 <Route path='/register' element={<RegistrationForm/>}/>
+                <Route path='/rulesandregulations' element={<RulesAndRegulations/>}/>
             </Routes>
         </>:<div className='ast'>AST TEAM</div>
     )
