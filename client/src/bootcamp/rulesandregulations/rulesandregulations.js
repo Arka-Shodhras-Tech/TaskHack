@@ -2,7 +2,7 @@ import React from 'react';
 import './rulesandregulations.css';
 import { FaClock, FaCalendarDay, FaBook ,FaHtml5, FaCss3Alt, FaJs, FaReact, FaNode, FaDatabase } from 'react-icons/fa';
 
-const RulesAndRegulations = () => {
+export const RulesAndRegulations = () => {
   return (
     <div className="rules-container">
       <div className="flex-container">
@@ -114,5 +114,3 @@ const RulesAndRegulations = () => {
     </div>
   )
 }
-
-export default RulesAndRegulations;

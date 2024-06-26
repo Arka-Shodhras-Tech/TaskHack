@@ -15,5 +15,18 @@ export const Actions = {
                 return res.data
             })
             .catch((e) => console.log(e))
+    },
+
+    AllMaterials:async()=>{
+        return await axios.post(process.env.REACT_APP_Server + "/files")
+    },
+
+    Likes:async(theme,user,index)=>{
+        return await axios.post(process.env.REACT_APP_Server + "/likes",{theme,user,index})
+    },
+
+    Views:async(theme,index)=>{
+        return await axios.post(process.env.REACT_APP_Server + "/views",{theme,index})
     }
+
 }
