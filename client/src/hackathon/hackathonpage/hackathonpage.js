@@ -58,6 +58,7 @@ export const Hackathonpage = ({isAuth = false}) => {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
  
+  document.title = "Hackathon | Vedic Vision | Team Ast"
 
   // const CreateTeam = async () => {
   //     try {
