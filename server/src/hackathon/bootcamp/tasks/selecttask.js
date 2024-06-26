@@ -1,7 +1,7 @@
 import {db1} from '../../../db.js'
-export const SelectTask = async (regd, task, desc, day, res) => {
+export const SelectTask = async (regd, task,marks, desc, day, res) => {
     try {
-        const updatetask = await db1.collection("Hackathondata").findOneAndUpdate({ Reg_No: regd }, { $push: { [`Tasks.${day}`]: { Task: task, Desc: desc } } })
+        const updatetask = await db1.collection("Hackathondata").findOneAndUpdate({ Reg_No: regd }, { $push: { [`Tasks.${day}`]: { Task: task, Desc: desc,Marks:marks } } })
         if (updatetask) {
             res.json({message:"Selected",data:updatetask})
         }

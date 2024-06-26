@@ -38,6 +38,12 @@ export const Home = ({ data }) => {
                             <Button onClick={handlePerformanceClick}>Perfomance</Button>
                             <Button onClick={handleMaterialsClick}>Materials</Button>
                         </SimpleGrid>
+                        <br/>
+                        <div className='aboutgrid'>
+                        <SimpleGrid  minChildWidth='220px' spacing='40px'>
+                            <Button  onClick={()=>window.location.href='about'}>About</Button>
+                        </SimpleGrid>
+                        </div>
                     </div>
                 </div>
             </div>

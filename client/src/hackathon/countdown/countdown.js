@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsStopwatch } from "react-icons/bs";
 import "./countdown.css";
 const Start = () => {
-	window.location.href = '/bootcamp/login'
+	window.location.href = '/bootcamp/home'
 }
 const COUNTDOWN_TARGET = new Date("2024-08-14T08:59:59");
 const getTimeLeft = () => {
@@ -30,7 +30,7 @@ const Countdown = () => {
 			<div className="count-icon">
 			</div>
 			<h2 style={{ textAlign: 'center' }}>
-				<BsStopwatch style={{ marginLeft: '48%' }} />Starts in</h2>
+				<BsStopwatch style={{ marginLeft: '48%' }} />Hackathon Starts In</h2>
 			<div className='content'>
 				{Object.entries(timeLeft).map((el) => {
 					const label = el[0];
