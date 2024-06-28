@@ -64,7 +64,7 @@ const LandingPage = () => {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1.5 }}
                 >
-                    <img src="../aboutast.png" />
+                    <img src="../aboutast.png" alt="about task"/>
                 </motion.div>
                 <div className="com-features">
                     <motion.div
@@ -77,7 +77,7 @@ const LandingPage = () => {
                         transition={{ duration: 1.5 }}
                     >
                         <div className="feature-img">
-                            <img src="../botcamp.jpg" />
+                            <img src="../botcamp.jpg" alt="bootcamp"/>
                         </div>
                         <div>
                             <hr />
@@ -98,7 +98,7 @@ const LandingPage = () => {
                         transition={{ duration: 1.5, delay: 0.3 }}
                     >
                         <div className="feature-img">
-                            <img src="../hackathon.jpg" />
+                            <img src="../hackathon.jpg" alt="hackathon"/>
                         </div>
                         <div>
                             <hr />
@@ -119,7 +119,7 @@ const LandingPage = () => {
                         transition={{ duration: 1.5, delay: 0.6 }}
                     >
                         <div className="feature-img">
-                            <img src="../exam.png" />
+                            <img src="../exam.png" alt="ast exams"/>
                         </div>
                         <div>
                             <hr />
