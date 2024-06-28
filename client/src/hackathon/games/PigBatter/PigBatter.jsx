@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import useSound from "use-sound";
-import { Button, Toast, useToast } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
 import "./PigBatter.css";
 import hitSound from "./pig-sound.mp3";
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 
-const PigBatter = () => {
+const PigBatter = ({ socket }) => {
   const [holes, setHoles] = useState(Array(8).fill(false));
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -44,12 +44,24 @@ const PigBatter = () => {
     return () => clearInterval(interval);
   }, [gameStarted, holes, intervalTime]);
 
+  useEffect(() => {
+    socket.emit("myHighScore", { userid: "your-unique-user-id-2" });
+    socket.on("yourHighScore", (data) => {
+      if (data && data.score !== undefined) {
+        setHighScore(data.score);
+      }
+    });
+    return () => {
+      socket.off("yourHighScore");
+    };
+  }, [socket]);
+
   const handleHoleClick = (index) => {
     if (!gameStarted) return;
-
+    let newScore
     if (index === activeHole) {
       playHit();
-      let newScore = score + 5;
+      newScore = score + 5;
       let newStreak = streak + 1;
       if (newStreak === 3) {
         newScore += 10;
@@ -58,19 +70,21 @@ const PigBatter = () => {
       setScore(newScore);
       setStreak(newStreak);
 
+     
+
+      setIntervalTime(Math.max(300, 1000 - newScore * 5));
       if (newScore > highScore) {
         setHighScore(newScore);
+        socket.emit("newHighScore", { userid: "your-unique-user-id-2", score: newScore });
       }
-
-   
-      setIntervalTime(Math.max(300, 1000 - newScore * 5));
-
       setActiveHole(-1);
       setHoles(Array(8).fill(false));
     } else {
+
+     
       toast({
         title: "Game Over",
-        description: ` your score is ${score} and high score is ${highScore}`,
+        description: `Your score is ${score} and high score is ${highScore}`,
         status: "error",
         duration: 2000,
         position: "top",

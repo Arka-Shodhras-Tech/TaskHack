@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Timer from "./userSideTimer/Timer"; // Assume Timer is your previously created Timer component
 import TimerListSidebar from "./userSideTimer/TimerList";
-import { io } from "socket.io-client";
 
-const DisplayTimer = ({ URL }) => {
+const DisplayTimer = ({ socket }) => {
   const [timers, setTimers] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   function notifyMe(message, options) {
@@ -38,7 +37,6 @@ const DisplayTimer = ({ URL }) => {
     // want to be respectful there is no need to bother them anymore.
   }
   useEffect(() => {
-    const socket = io(URL);
     socket.on("newTimer", (timer) => {
       const options = {
         body: `${timer.title} ends at ${timer.endTime}`,

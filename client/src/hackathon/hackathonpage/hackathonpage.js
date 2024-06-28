@@ -49,7 +49,7 @@ const calculateTimeLeft = (endTime) => {
     return targetDate.getTime();
   };
 
-export const Hackathonpage = ({isAuth = false}) => {
+export const Hackathonpage = ({isAuth = false,socket}) => {
  
   document.title = "Hackathon | Vedic Vision | Team Ast"
 
@@ -90,7 +90,7 @@ export const Hackathonpage = ({isAuth = false}) => {
 
   return (
     <Center p={8} className="hackathon-container">
-      <DisplayTimer URL={"https://timer-server-edko.onrender.com"} />
+      <DisplayTimer socket={socket} />
       <Stack spacing={8} maxW="5xl" w="full">
         <div className="text-center">
       
