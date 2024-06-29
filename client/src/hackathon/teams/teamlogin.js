@@ -1,76 +1,57 @@
-import { position, useToast } from '@chakra-ui/react';
-import axios from 'axios';
+import { Button, useToast } from '@chakra-ui/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import './login.css';
+import { useNavigate } from 'react-router-dom';
+import { Actions } from '../../actions/actions';
+import './teamlogin.css';
+import { CreateTeam } from './create-team-model';
 
-export const LoginForm = () => {
+export const TeamLoginForm = () => {
     const navigate = useNavigate();
     const toast = useToast();
+    const [show, setShow] = useState(false)
     const [load, setLoad] = useState(false);
+    const [data, setData] = useState()
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    document.title = "Login| Bootcamp | Vedic Vision | Team Ast"
 
     const Login = async () => {
-        try {
-            setLoad(true);
-            const res = await axios.post(`${process.env.REACT_APP_Server}/signin`, { regd, password });
-
-            if (res.data.message) {
-                toast({
-                    title: 'Password sent to your Gmail',
-                    status: 'success',
-                    position: 'top-right',
-                    isClosable: true,
-                });
-                setLoad(false);
-            }
-            if (res.data.passmessage) {
-                toast({
-                    title:'Login successful',
-                    status :'success',
-                    position:'top-right',
-                    isClosable:true,
-                })
-                navigate('/bootcamp/home');
-                dispatch({ type: 'LOGIN', payload: { username: res.data.data.Name } });
-                dispatch({ type: 'AUTH', payload: { auth: res.data.data.Reg_No } });
-            }
-            if (res.data.error) {
-                toast({
-                    title: "Error",
-                    description:  "Please Register  ",
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top-right",
-                    isClosable:true,
-                });
-
-                // console.log(res);
-                navigate('/bootcamp/register');
-            }
-            if (res.data.passerror) {
-                alert(res.data.passerror);
-                setLoad(false);
-            }
-        } catch (e) {
-            console.error(e);
-            toast({
-                title: e.response?.data?.errmsg || 'Login failed',
-                status: 'error',
-                position: 'bottom-left',
-                isClosable: true,
-            });
-            setLoad(false);
+        if (regd && password) {
+            setLoad(true)
+            await Actions.CheckTeam(regd)
+                .then((res) => {
+                    if(res?.data?.data?.TeamCode){
+                        if (res?.data?.data?.Password === password) {
+                            setLoad(false)
+                            dispatch({ type: 'TEAM', payload: {Teamcode: res?.data?.data?.TeamCode, Teamname: res?.data?.data?.Password } })
+                            toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
+                        } else {
+                            toast({ title: "incorrect password", status: 'error', position: 'bottom-right', isClosable: true })
+                        }
+                    } else {
+                        toast({ title: "user not found", status: 'error', position: 'bottom-right', isClosable: true })
+                    }
+                }).catch((e) => { console.log(e); setLoad(false) })
+        } else {
+            toast({ title: "required all fields", status: 'error', position: 'bottom-right', isClosable: true })
         }
     };
+
+    const fetchData = async () => {
+        await Actions.TeamsCodes()
+            .then((res) => {
+                if (res?.data) {
+                    setData(res?.data)
+                }
+            }).catch((e) => { console.log(e) })
+    }
+
+    data || fetchData()
     return (
         <section className="login-section">
+            <CreateTeam isOpen={show} onClose={() => { setShow(false); fetchData() }} data={data} />
             <div className="login-container">
                 <div className="card">
                     <div className="image-container">
@@ -89,16 +70,16 @@ export const LoginForm = () => {
                         <div className="form-row">
                             <div className="form-group">
                                 <label htmlFor="registrationNum">
-                                    Registration Number <span style={{ color: 'red' }}>*</span>
+                                    Team Code <span style={{ color: 'red' }}>*</span>
                                 </label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     name="registrationNum"
                                     id="registrationNum"
-                                    placeholder="Registration Number"
+                                    placeholder="Enter Team Code"
                                     value={regd}
-                                    onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                    onChange={(e) => setRegd(e.target.value)}
                                     required
                                 />
                             </div>
@@ -111,7 +92,7 @@ export const LoginForm = () => {
                                     className="form-control"
                                     name="password"
                                     id="password"
-                                    placeholder="Password"
+                                    placeholder="Enter password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
@@ -127,7 +108,7 @@ export const LoginForm = () => {
                         </div>
                         <hr className="hr" />
                         <div className="text-center">
-                            <Link to="/bootcamp/update" className="link-button">Forgot password?</Link>
+                            <Button className="link-button" onClick={() => setShow(true)}>Create Team</Button>
                         </div>
                     </div>
                 </div>

@@ -63,10 +63,11 @@ export const Materials = () => {
                   <Card>
                     <CardMedia
                       component="img"
-                      width="50"
-                      height="90"
+                      style={{height:'30vh'}}
                       image={image ? image[link?.Photoname] : fetchImageURL(link?.Photoname)}
                       alt={link.Photoname}
+                      width="50"
+                      height="100%"
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">

@@ -1,8 +1,8 @@
-import { Box, Button, Input, Spinner, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { HackathonNav } from "../hackathonnav/hackathonnav";
-import './ps.css'
+import './ps.css';
 
 export const ProblemStatements = () => {
     const [dat, setDat] = useState([]);
@@ -18,13 +18,9 @@ export const ProblemStatements = () => {
             const response = await axios.post(process.env.REACT_APP_Server + '/statements');
             setIsLoading(false)
             setDat(response.data);
-            console.log(response)
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
-    };
-    const reloadTasks = () => {
-        fetchTasks();
     };
 
     return (
@@ -39,37 +35,49 @@ export const ProblemStatements = () => {
                         <Spinner size="xl" />
                     </Box>
                     :
-                    <div className="task-form">
-                        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', margin: '2% 0%' }}>
-                            <Button bg="#3AA6B9">Sports</Button>
-                            <Button bg="#3AA6B9">Yoga</Button>
-                        </div>
-
-                        <Box mt={8}>
-                            <div className='task-box'>
-                                <h1 className='h1-tasks'>Problem Statements</h1>
-                                {dat?.map((task, index) => (
-                                    <Box key={index} className='task-item' p={4} borderWidth={1} borderRadius="lg" mb={4}>
-                                        <Text fontWeight="bold" textAlign="center">Problem Statement {task?.Number}</Text>
-                                        <Text className='task-title'>Statement: {task?.Statement}</Text>
-                                        <Text className='task-description'>Description: {task?.Desc}</Text>
-                                        <Button>select</Button>
-                                    </Box>
-                                ))}
+                    <div className="problemstatements">
+                        <div className="task-form">
+                            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', margin: '2% 0%' }}>
+                                <Button bg="#3AA6B9" onClick={() => setSelect('sports')}>Sports</Button>
+                                <Button bg="#3AA6B9" onClick={() => setSelect('yoga')}>Yoga</Button>
                             </div>
-                        </Box>
+
+                            <Box mt={8}>
+                                <div className='task-box'>
+                                    <h1 className='h1-tasks'>Problem Statements</h1>
+                                    {dat?.filter(val =>
+                                    (val?.Theme?.toLowerCase().includes(select) ||
+                                        val?.Number?.includes(select) ||
+                                        val?.Desc?.toLowerCase().includes(select) ||
+                                        val?.Statement?.toLowerCase().includes(select))
+                                    ).map((task) => (
+                                        <Card>
+                                            <CardHeader>
+                                                <Heading size='md'>Problem Statement {task?.Number}</Heading>
+                                            </CardHeader>
+
+                                            <CardBody>
+                                                <Stack divider={<StackDivider />} spacing='4'>
+                                                    <Box>
+                                                        <Heading size='xs' textTransform='uppercase'>
+                                                            {task?.Statement}
+                                                        </Heading>
+                                                        <Text pt='2' fontSize='sm'>
+                                                            {task?.Desc}
+                                                        </Text>
+                                                        <Text textAlign={'center'}>
+                                                            <Button>select</Button>
+                                                        </Text>
+                                                    </Box>
+                                                </Stack>
+                                            </CardBody>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </Box>
+                        </div>
                     </div>
             }
         </>
     );
 };
-
-
-// const groupStudentsIntoTeams = (students, teamSize) => {
-//     const teams = [];
-//     for (let i = 0; i < students.length; i += teamSize) {
-//         const team = students.slice(i, i + teamSize);
-//         teams.push(team.map(student => ({ ...student, teamIndex: Math.floor(i / teamSize) + 1 })));
-//     }
-//     return teams;
-// };

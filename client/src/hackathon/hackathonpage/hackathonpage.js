@@ -23,6 +23,7 @@ import React, { useEffect, useState } from "react";
 import "./hackathonpage.css";
 import axios from "axios";
 import DisplayTimer from "../timers/displayTimer";
+import { useNavigate } from "react-router-dom";
 
 const calculateTimeLeft = (endTime) => {
     const difference = endTime - new Date().getTime();
@@ -49,43 +50,10 @@ const calculateTimeLeft = (endTime) => {
     return targetDate.getTime();
   };
 
-export const Hackathonpage = ({isAuth = false}) => {
-  const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [team, setTeam] = useState("");
-  const [gmail, setGmail] = useState("");
-  const [code, setCode] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
- 
+export const Hackathonpage = ({isAuth = false,socket}) => {
+ const nav = useNavigate();
+  document.title = "Hackathon | Vedic Vision | Team Ast"
 
-  // const CreateTeam = async () => {
-  //     try {
-  //         const res = await axios.post(process.env.REACT_APP_Server + "/createteam/" + team + "/" + gmail + "/" + phone + "/" + code  )
-  //         setMessage(res.data.message);
-
-  //         if (res.data.message){
-  //             toast({
-  //                 title: 'Request sent',
-  //                 status: 'success',
-  //                 position: 'bottom-right',
-  //                 isClosable: true,
-  //             });
-  //         }
-  //         setTeam("");
-  //         setGmail("");
-  //         setPhone("");
-  //         setCode("");
-  //         onClose();
-  //     } catch (error) {
-  //         toast({
-  //             title: 'Fail to send request',
-  //                 status: 'error',
-  //                 position: 'bottom-right',
-  //                 isClosable: true,
-  //         })
-  //     }
-  // };
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(getTargetTime()));
   const [targetTime] = useState(getTargetTime);
   const JoinTeam = () => {}
@@ -123,13 +91,19 @@ export const Hackathonpage = ({isAuth = false}) => {
 
   return (
     <Center p={8} className="hackathon-container">
-      <DisplayTimer URL={"https://timer-server-edko.onrender.com"} />
+      <DisplayTimer socket={socket} />
       <Stack spacing={8} maxW="5xl" w="full">
         <div className="text-center">
       
          { isAuth && <Button className="join-button" onClick={JoinTeam}>
             Join Team
-          </Button>}
+          </Button>
+          
+          }
+
+          {!isAuth &&  <div>
+            <Button className="join-button" onClick={()=>nav("/games")}>games </Button>
+      </div>}
         </div>
         <Box textAlign="center" className="d-none">
           <Heading size="lg" className="timer-text">
@@ -165,51 +139,7 @@ export const Hackathonpage = ({isAuth = false}) => {
           ))}
         </div>
       </Stack>
-      <div>
-        {/* <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Create Team Request</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <Box mb={4}>
-                                <Input
-                                    placeholder="Team Name"
-                                    value={team}
-                                    onChange={(e) => setTeam(e.target.value)}
-                                    mb={2}
-                                />
-                                <Input
-                                    placeholder="Email"
-                                    type="email"
-                                    value={gmail}
-                                    onChange={(e) => setGmail(e.target.value)}
-                                    mb={2}
-                                />
-                                <Input
-                                    placeholder="Phone Number"
-                                    type="tel"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    mb={2}
-                                />
-                                <Input
-                                    placeholder="Team Code"
-                                    value={code}
-                                    onChange={(e) => setCode(e.target.value)}
-                                />
-                            </Box>
-                            {message && <Box mt={4} color="red.500">{message}</Box>}
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button colorScheme="blue" mr={3} onClick={CreateTeam}>
-                                Request to Create Team
-                            </Button>
-                            <Button variant="ghost" onClick={onClose}>Cancel</Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal> */}
-      </div>
+     
     </Center>
   );
 };

@@ -27,6 +27,22 @@ export const Actions = {
 
     Views:async(theme,index)=>{
         return await axios.post(process.env.REACT_APP_Server + "/views",{theme,index})
+    },
+
+    CheckTeam:async(code)=>{
+        return await axios.post(process.env.REACT_APP_Server + "/checkteam",{code})
+    },
+
+    checkHacthon:async(name)=>{
+        return await axios.post(process.env.REACT_APP_Server + "/check-hackathon/"+name)
+    },
+
+    CreateTeam:async(team,gmail,phone,code,members,password)=>{
+        return await axios.post(process.env.REACT_APP_Server + "/createteam/" + team + "/" + gmail + "/" + phone + "/" + code+"/"+members+"/"+password)
+    },
+
+    TeamsCodes: async () => {
+        return await axios.post(process.env.REACT_APP_Server + "/teamscodes")
     }
 
 }

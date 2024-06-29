@@ -12,7 +12,7 @@ export const PopOver = ({data}) => {
     return (
         <Popover>
             <PopoverTrigger>
-                <img src={data?.Gender ? data.Gender === 'male' ? ManImage : WomanImage : Image} className='profile-img' />
+                <img src={data?.Gender ? data.Gender === 'male' ? ManImage : WomanImage : Image} className='profile-img' alt={data?.Name}/>
             </PopoverTrigger>
             <PopoverContent>
                 <PopoverArrow />

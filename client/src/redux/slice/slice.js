@@ -19,6 +19,12 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 update: action.payload.update
             }
+        case 'TEAM':
+            return {
+                ...state,
+                Teamcode:action.payload.Teamcode,
+                Teamname:action.payload.Teamname
+            }
         default:
             return state;
     }
