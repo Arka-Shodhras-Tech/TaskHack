@@ -9,9 +9,8 @@ import { TeamLoginForm } from '../hackathon/teams/teamlogin.js';
 import './App.css';
 import { LandingRoute } from './allroutes/landingroute.js';
 import PigBatter from '../hackathon/games/PigBatter/PigBatter.jsx';
-import { io } from "socket.io-client";
+import { socket } from '../socket.js';
 function App() {
-  const socket = io("https://timer-server-edko.onrender.com");
   const [start, setStart] = useState(true);
   const [team, setTeam] = useState(false)
   const [load, setLoad] = useState(false)
@@ -41,7 +40,6 @@ function App() {
   !start || CheckHackathon("hacthon@gmail.com")
   return (
     <>
-   
       {load ? <BrowserRouter>
         <Routes>
           <Route path="/*" element={!start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />

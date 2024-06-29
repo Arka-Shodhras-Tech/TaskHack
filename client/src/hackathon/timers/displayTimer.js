@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Timer from "./userSideTimer/Timer"; // Assume Timer is your previously created Timer component
 import TimerListSidebar from "./userSideTimer/TimerList";
+import { URL } from "../../socket";
 
 const DisplayTimer = ({ socket }) => {
   const [timers, setTimers] = useState([]);
@@ -14,21 +15,19 @@ const DisplayTimer = ({ socket }) => {
   
       const notification = new Notification(message, options);
       notification.onclick = (event) => {
-        event.preventDefault(); // prevent the browser from focusing the Notification's tab
+        event.preventDefault(); 
         window.open("./", "_blank");
       };
      
     } else if (Notification.permission !== "denied") {
-      // We need to ask the user for permission
       Notification.requestPermission().then((permission) => {
-        // If the user accepts, let's create a notification
         if (permission === "granted") {
           const notification = new Notification(message, options);
           notification.onclick = (event) => {
-            event.preventDefault(); // prevent the browser from focusing the Notification's tab
+            event.preventDefault(); 
             window.open("./", "_blank");
           };
-          // …
+          
         }
       });
     }
