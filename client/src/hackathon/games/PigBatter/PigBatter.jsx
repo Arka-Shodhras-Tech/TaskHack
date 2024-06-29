@@ -7,6 +7,8 @@ import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 
 const PigBatter = ({ socket }) => {
+
+  var userid = "anil reddy kota"
   const [holes, setHoles] = useState(Array(8).fill(false));
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -45,7 +47,7 @@ const PigBatter = ({ socket }) => {
   }, [gameStarted, holes, intervalTime]);
 
   useEffect(() => {
-    socket.emit("myHighScore", { userid: "your-unique-user-id-2" });
+    socket.emit("myHighScore", { userid: userid });
     socket.on("yourHighScore", (data) => {
       if (data && data.score !== undefined) {
         setHighScore(data.score);
@@ -67,7 +69,7 @@ const PigBatter = ({ socket }) => {
         newScore += 10;
         newStreak = 0;
       }
-      setScore(newScore);
+      setScore(newScore); 
       setStreak(newStreak);
 
      
@@ -75,7 +77,7 @@ const PigBatter = ({ socket }) => {
       setIntervalTime(Math.max(300, 1000 - newScore * 5));
       if (newScore > highScore) {
         setHighScore(newScore);
-        socket.emit("newHighScore", { userid: "your-unique-user-id-2", score: newScore });
+        socket.emit("newHighScore", { userid: userid, score: newScore });
       }
       setActiveHole(-1);
       setHoles(Array(8).fill(false));
@@ -115,7 +117,6 @@ const PigBatter = ({ socket }) => {
 
   return (
     <div className="game">
-      <h1 className="h1-animation">Vedic Vision Hackathon</h1>
       <div className="game-nav-bar">
         <h1>
           <a href="/"> Home </a> / Pig Batter
