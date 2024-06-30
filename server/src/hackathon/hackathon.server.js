@@ -12,6 +12,7 @@ import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { FileByName, Materials } from "./materials/material.js";
 import { LikeMati, ViewMati } from "./materials/updatematerials.js";
 import { PSS } from "./problemstatements/pss.js";
+import { SelectProStmt, UnSelectProStmt } from "./problemstatements/selectproblemstmt.js";
 import { SendOtp } from "./updateuser/senotp.js";
 import { UpdatePasswordLink } from "./updateuser/updatelink.js";
 import { UpdatePassword } from "./updateuser/updatepassword.js";
@@ -126,5 +127,13 @@ app.post('/checkteam', async (req, res) => {
 
 app.post('/teamscodes', async (req, res) => {
     await AllTeamCodes(res)
+})
+
+app.post('/selectps', async (req, res) => {
+    await SelectProStmt(req.body.code,req.body.number,req.body.stmt,req.body.desc,res)
+})
+
+app.post('/unselectps', async (req, res) => {
+    await UnSelectProStmt(req.body.code,req.body.number,res)
 })
 export default app

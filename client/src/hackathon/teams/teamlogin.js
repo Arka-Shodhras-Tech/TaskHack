@@ -2,13 +2,11 @@ import { Button, useToast } from '@chakra-ui/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Actions } from '../../actions/actions';
-import './teamlogin.css';
 import { CreateTeam } from './create-team-model';
+import './teamlogin.css';
 
 export const TeamLoginForm = () => {
-    const navigate = useNavigate();
     const toast = useToast();
     const [show, setShow] = useState(false)
     const [load, setLoad] = useState(false);
@@ -22,10 +20,10 @@ export const TeamLoginForm = () => {
             setLoad(true)
             await Actions.CheckTeam(regd)
                 .then((res) => {
-                    if(res?.data?.data?.TeamCode){
+                    if (res?.data?.data?.TeamCode) {
                         if (res?.data?.data?.Password === password) {
                             setLoad(false)
-                            dispatch({ type: 'TEAM', payload: {Teamcode: res?.data?.data?.TeamCode, Teamname: res?.data?.data?.Password } })
+                            dispatch({ type: 'TEAM', payload: { Teamcode: res?.data?.data?.TeamCode, Teamname: res?.data?.data?.Password } })
                             toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
                         } else {
                             toast({ title: "incorrect password", status: 'error', position: 'bottom-right', isClosable: true })
@@ -50,7 +48,7 @@ export const TeamLoginForm = () => {
 
     data || fetchData()
     return (
-        <section className="login-section">
+        <section className="login-section-pss">
             <CreateTeam isOpen={show} onClose={() => { setShow(false); fetchData() }} data={data} />
             <div className="login-container">
                 <div className="card">
@@ -108,7 +106,7 @@ export const TeamLoginForm = () => {
                         </div>
                         <hr className="hr" />
                         <div className="text-center">
-                            <Button className="link-button" onClick={() => setShow(true)}>Create Team</Button>
+                            <Button className="link-button-pss" onClick={() => setShow(true)}>Create Team</Button>
                         </div>
                     </div>
                 </div>

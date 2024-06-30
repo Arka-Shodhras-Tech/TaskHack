@@ -26,7 +26,7 @@ export const Tasks = () => {
             const response = await axios.post(process.env.REACT_APP_Server + '/Students');
             if (response.data) {
                 response?.data?.map((res) => (
-                    res?.Reg_No == user && setStudent(res)
+                    res?.Reg_No === user && setStudent(res)
                 ))
             }
         } catch (error) {

@@ -43,6 +43,14 @@ export const Actions = {
 
     TeamsCodes: async () => {
         return await axios.post(process.env.REACT_APP_Server + "/teamscodes")
+    },
+
+    SelectPS:async(code,number,stmt,desc)=>{
+        return await axios.post(process.env.REACT_APP_Server + "/selectps",{code,number,stmt,desc}) 
+    },
+
+    UnSelectPS:async(code,number)=>{
+        return await axios.post(process.env.REACT_APP_Server + "/unselectps",{code,number}) 
     }
 
 }
