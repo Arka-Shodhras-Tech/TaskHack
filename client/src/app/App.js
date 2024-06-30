@@ -8,7 +8,8 @@ import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
 import { TeamLoginForm } from '../hackathon/teams/teamlogin.js';
 import './App.css';
 import { LandingRoute } from './allroutes/landingroute.js';
-
+import PigBatter from '../hackathon/games/PigBatter/PigBatter.jsx';
+import { socket } from '../socket.js';
 function App() {
   const [start, setStart] = useState(true);
   const [team, setTeam] = useState(false)
@@ -41,8 +42,8 @@ function App() {
     <>
       {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={!start ? <HackthonDayRoute /> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute /> : <BootcampRoutes />} />
+          <Route path="/*" element={!start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
+          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes />} />
           <Route path='/problemstatements' element={team?<ProblemStatements />:<TeamLoginForm/>} />
         </Routes>
       </BrowserRouter> :

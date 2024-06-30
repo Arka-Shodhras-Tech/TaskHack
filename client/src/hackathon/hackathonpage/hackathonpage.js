@@ -23,6 +23,7 @@ import React, { useEffect, useState } from "react";
 import "./hackathonpage.css";
 import axios from "axios";
 import DisplayTimer from "../timers/displayTimer";
+import { useNavigate } from "react-router-dom";
 
 const calculateTimeLeft = (endTime) => {
     const difference = endTime - new Date().getTime();
@@ -49,8 +50,9 @@ const calculateTimeLeft = (endTime) => {
     return targetDate.getTime();
   };
 
-export const Hackathonpage = ({isAuth = false}) => {
- 
+export const Hackathonpage = ({isAuth = false,socket}) => {
+ const nav = useNavigate();
+  document.title = "Hackathon | Vedic Vision | Team Ast"
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(getTargetTime()));
   const [targetTime] = useState(getTargetTime);
@@ -89,13 +91,19 @@ export const Hackathonpage = ({isAuth = false}) => {
 
   return (
     <Center p={8} className="hackathon-container">
-      <DisplayTimer URL={"https://timer-server-edko.onrender.com"} />
+      <DisplayTimer socket={socket} />
       <Stack spacing={8} maxW="5xl" w="full">
         <div className="text-center">
       
          { isAuth && <Button className="join-button" onClick={JoinTeam}>
             Join Team
-          </Button>}
+          </Button>
+          
+          }
+
+          {!isAuth &&  <div>
+            <Button className="join-button" onClick={()=>nav("/games")}>games </Button>
+      </div>}
         </div>
         <Box textAlign="center" className="d-none">
           <Heading size="lg" className="timer-text">
@@ -131,8 +139,7 @@ export const Hackathonpage = ({isAuth = false}) => {
           ))}
         </div>
       </Stack>
-      <div>
-      </div>
+     
     </Center>
   );
 };
