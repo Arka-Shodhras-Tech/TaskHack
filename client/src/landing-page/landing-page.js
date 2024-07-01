@@ -4,7 +4,7 @@ import "./landingpage.css";
 
 const LandingPage = () => {
 
-    document.title = "Vedic Vision | Team Ast"
+    // document.title = "Vedic Vision | Team Ast"
     return (
         <main>
             <section className="section" id="page-1">

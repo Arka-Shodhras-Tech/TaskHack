@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Actions } from '../actions/actions.js';
@@ -6,10 +6,9 @@ import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
 import { ProblemStatements } from '../hackathon/problemstatements/problemstatements.js';
 import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
 import { TeamLoginForm } from '../hackathon/teams/teamlogin.js';
+import { socket } from '../socket.js';
 import './App.css';
 import { LandingRoute } from './allroutes/landingroute.js';
-import PigBatter from '../hackathon/games/PigBatter/PigBatter.jsx';
-import { socket } from '../socket.js';
 function App() {
   const [start, setStart] = useState(true);
   const [team, setTeam] = useState(false)
@@ -30,20 +29,23 @@ function App() {
   const CheckHackathon = async (name) => {
     await Actions.checkHacthon(name)
       .then((res) => {
-        setStart(res?.data?.start)
+        setStart(res?.data)
         setLoad(true)
       })
       .catch((e) => console.log(e))
   }
 
-  team || checkTeam(teamcode)
-  !start || CheckHackathon("hacthon@gmail.com")
+  useEffect(()=>{
+    checkTeam(teamcode)
+    CheckHackathon("hackathon@gmail.com")
+  },[team,start])
+
   return (
     <>
       {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={!start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes />} />
+          <Route path="/*" element={start.start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
+          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes data={start?.data}/>} />
           <Route path='/problemstatements' element={team?<ProblemStatements />:<TeamLoginForm/>} />
         </Routes>
       </BrowserRouter> :

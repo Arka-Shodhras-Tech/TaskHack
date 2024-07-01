@@ -1,7 +1,6 @@
 import { db1 } from '../../db.js'
 export const SelectProStmt = async (code, number, stmt, desc, res) => {
     try {
-        console.log(code, number, stmt, desc)
         const ps = await db1.collection("ProblemStatements").findOne({ Number: number })
         if (ps?._id) {
             const updateps = await db1.collection("ProblemStatements").findOneAndUpdate({ Number: number }, { $push: { Users: [code] } })

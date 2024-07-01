@@ -13,7 +13,7 @@ export const LoginForm = () => {
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    document.title = "Login| Bootcamp | Vedic Vision | Team Ast"
+    // document.title = "Login| Bootcamp | Vedic Vision | Team Ast"
 
     const Login = async () => {
         try {

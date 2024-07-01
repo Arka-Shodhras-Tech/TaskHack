@@ -9,7 +9,7 @@ import { PopOver } from '../../models/hacthonhomepopover/hacthonhomepopover';
 import { HomeModel } from '../../models/hacthonhomemodel/hacthonhomemodel';
 
 export const Home = ({ data }) => {
-    document.title = "Home| Bootcamp | Vedic Vision | Team Ast"
+    // document.title = "Home| Bootcamp | Vedic Vision | Team Ast"
 
     const nav = useNavigate()
     const handleTaskClick = () => {

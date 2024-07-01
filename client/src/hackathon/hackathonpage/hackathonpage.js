@@ -52,7 +52,7 @@ const calculateTimeLeft = (endTime) => {
 
 export const Hackathonpage = ({isAuth = false,socket}) => {
  const nav = useNavigate();
-  document.title = "Hackathon | Vedic Vision | Team Ast"
+  // document.title = "Hackathon | Vedic Vision | Team Ast"
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(getTargetTime()));
   const [targetTime] = useState(getTargetTime);
