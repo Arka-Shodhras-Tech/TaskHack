@@ -4,21 +4,35 @@ import './performance.css';
 import { Actions } from '../../actions/actions';
 
 export const Performance = ({ perfom, student }) => {
-  const [view, setView] = useState(sessionStorage.view || 'attendance');
+  const [view, setView] = useState(sessionStorage.view || 'score');
   const [sdata, setData] = useState([])
+  sessionStorage.student = student?.AttendDays
+  sessionStorage.admin = perfom?.Count
+
+  const CalMarks = (student) => {
+    let marks = 0;
+    student?.Tasks && Object.values(student?.Tasks).map((val) => (
+      val?.map((val1) => (
+        marks = marks + parseInt(val1?.GetMarks || 0)
+      ))
+    ))
+    return marks
+  }
 
   const handleViewChange = (newView) => {
     setView(newView);
-    sessionStorage.view=newView
+    sessionStorage.view = newView
   };
 
   useEffect(() => {
     Actions.Students()
-      .then((res) =>{
-        const sortedData = res?.data?.sort((a, b) => b?.AttendDays - a?.AttendDays);
-        console.log(sortedData)
-         setData(sortedData)}).catch((e) => console.log(e))
-  },[])
+      .then((res) => {
+        const filteredData = res?.data?.filter(student => student?.AttendDays !== undefined);
+        const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
+        setData(sortedData);
+      }).catch((e) => console.log(e))
+  }, [])
+
 
   const Others = () => {
     return (
@@ -39,8 +53,8 @@ export const Performance = ({ perfom, student }) => {
                 <tr key={student?._id}>
                   <td>{index + 1}</td>
                   <td>{student?.Name}</td>
-                  <td>{((student?.AttendDays||0)/(perfom?.Count)*100).toFixed(0)}</td>
-                  <td>{student.score}</td>
+                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}</td>
+                  <td>{CalMarks(student?.Tasks ? student : 0)}</td>
                 </tr>
               ))}
             </tbody>
@@ -55,16 +69,16 @@ export const Performance = ({ perfom, student }) => {
       <h2>Score</h2>
       <div className="score-details">
         <p className="label">Name:</p>
-        <p className="value">John Doe</p>
+        <p className="value">{student?.Name}</p>
         <p className="label">Your Score:</p>
-        <p className="value">95</p>
+        <p className="value">{CalMarks(student)}</p>
       </div>
     </div>
   );
 
   const data = [
-    { name: 'Present', days: student?.AttendDays },
-    { name: 'Absent', days: parseInt(perfom?.Count) - parseInt(student?.AttendDays) },
+    { name: 'Present', days: sessionStorage.student },
+    { name: 'Absent', days: parseInt(sessionStorage.admin) - parseInt(sessionStorage.student) },
   ];
 
   const Attendance = () => (
