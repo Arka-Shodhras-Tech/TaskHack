@@ -18,7 +18,7 @@ import {RulesAndRegulations} from '../rulesandregulations/rulesandregulations'
 import { FeedbackForm } from '../feedbackform/feedbackform'
 import { MostusedMaterials } from '../mostusedmaterials/mostusedmaterials'
 
-export const BootcampRoutes = () => {
+export const BootcampRoutes = ({data}) => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user?.update)
     const [check,setCheck]=useState(false)
