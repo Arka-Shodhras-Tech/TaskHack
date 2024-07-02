@@ -74,7 +74,7 @@ export const OTPForm = () => {
                                 id="registrationNum"
                                 placeholder="Registered Number"
                                 value={regd}
-                                onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                onChange={(e) => setRegd(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
                                 required
                             />
                         </div>

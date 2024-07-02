@@ -11,8 +11,8 @@ export const Performance = ({ perfom, student }) => {
 
   const CalMarks = (student) => {
     let marks = 0;
-    student?.Tasks && Object.values(student?.Tasks).map((val) => (
-      val?.map((val1) => (
+    student?.Tasks && Object.values(student?.Tasks)?.map((val) => (
+      val&&Object.values(val)?.map((val1) => (
         marks = marks + parseInt(val1?.GetMarks || 0)
       ))
     ))
@@ -53,7 +53,7 @@ export const Performance = ({ perfom, student }) => {
                 <tr key={student?._id}>
                   <td>{index + 1}</td>
                   <td>{student?.Name}</td>
-                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}</td>
+                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}%</td>
                   <td>{CalMarks(student?.Tasks ? student : 0)}</td>
                 </tr>
               ))}

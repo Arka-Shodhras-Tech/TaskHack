@@ -35,18 +35,18 @@ function App() {
       .catch((e) => console.log(e))
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     checkTeam(teamcode)
     CheckHackathon("hackathon@gmail.com")
-  },[team,start])
+  }, [])
 
   return (
     <>
       {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={start.start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes data={start?.data}/>} />
-          <Route path='/problemstatements' element={team?<ProblemStatements />:<TeamLoginForm/>} />
+          <Route path="/*" element={start.start ? <HackthonDayRoute socket={socket} /> : <LandingRoute />} />
+          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute socket={socket} /> : <BootcampRoutes data={start?.data} />} />
+          <Route path='/problemstatements' element={team ? <ProblemStatements /> : <TeamLoginForm />} />
         </Routes>
       </BrowserRouter> :
         <div className='ast'>AST TEAM</div>}

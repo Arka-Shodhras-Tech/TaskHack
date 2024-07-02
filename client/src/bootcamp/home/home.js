@@ -44,8 +44,8 @@ export const Home = ({ data }) => {
                             <Button onClick={handleTaskClick} >Tasks</Button>
                             <Button onClick={handlePerformanceClick}>Perfomance</Button>
                             <Button onClick={handleMaterialsClick}>Materials</Button>
-                            <Button onClick={MostusedMaterials}>Most Used Materials</Button>
-                            <Button onClick={FeedbackForm}>FeedbackForm</Button>
+                            {/* <Button onClick={MostusedMaterials}>Most Used Materials</Button>
+                            <Button onClick={FeedbackForm}>FeedbackForm</Button> */}
                         </SimpleGrid>
                         <br/>
                         <div className='aboutgrid'>

@@ -94,7 +94,7 @@ export const LoginForm = () => {
                                     id="registrationNum"
                                     placeholder="Registration Number"
                                     value={regd}
-                                    onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                    onChange={(e) => setRegd(e.target.value.toUpperCase().replace(/[ ,.]/g, ''))}
                                     required
                                 />
                             </div>
