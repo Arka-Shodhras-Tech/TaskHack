@@ -15,6 +15,9 @@ import { useEffect, useState } from 'react'
 import { Actions } from '../../actions/actions'
 import { Materials } from '../materials/materials'
 import {RulesAndRegulations} from '../rulesandregulations/rulesandregulations'
+import { FeedbackForm } from '../feedbackform/feedbackform'
+import { MostusedMaterials } from '../mostusedmaterials/mostusedmaterials'
+
 export const BootcampRoutes = ({data}) => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user?.update)
@@ -42,7 +45,11 @@ export const BootcampRoutes = ({data}) => {
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
                 <Route path='/register' element={<RegistrationForm/>}/>
+                <Route path='/rulesandregulations' element={<RulesAndRegulations/>}/>
                 <Route path='/about' element={<RulesAndRegulations/>}/>
+                <Route path='/feedbackform' element={<FeedbackForm/>}/>
+                <Route path='/mostlyused' element={<MostusedMaterials/>} />
+
             </Routes>
         </>:<div className='ast'>AST TEAM</div>
     )
