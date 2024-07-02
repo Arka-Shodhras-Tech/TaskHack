@@ -34,7 +34,6 @@ export const Home = ({ data }) => {
         <>
             <div className='main'>
                 {!data?.Gender&&<HomeModel open={openModel} close={()=>setOpenModel(false)} data={data}/>}
-                {/* css in login.css */}
                 <div className='profile'>
                     <PopOver data={data}/>
                 </div>
