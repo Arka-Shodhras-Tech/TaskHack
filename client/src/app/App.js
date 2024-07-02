@@ -40,9 +40,9 @@ function App() {
   !start || CheckHackathon("hacthon@gmail.com")
   return (
     <>
-      {load ? <BrowserRouter>
+      {!load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={!start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
+          <Route path="/*" element={start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
           <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes />} />
           <Route path='/problemstatements' element={team?<ProblemStatements />:<TeamLoginForm/>} />
         </Routes>

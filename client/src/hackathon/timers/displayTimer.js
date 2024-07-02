@@ -3,10 +3,13 @@ import axios from "axios";
 import Timer from "./userSideTimer/Timer"; // Assume Timer is your previously created Timer component
 import TimerListSidebar from "./userSideTimer/TimerList";
 import { URL } from "../../socket";
+import { useToast } from "@chakra-ui/react";
 
 const DisplayTimer = ({ socket }) => {
   const [timers, setTimers] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const toast = useToast();
+
   function notifyMe(message, options) {
     if (!("Notification" in window)) {
  
@@ -40,6 +43,14 @@ const DisplayTimer = ({ socket }) => {
       const options = {
         body: `${timer.title} ends at ${timer.endTime}`,
       };
+      toast({
+        title: "New Timer Added",
+        description :`${timer.title} ends at ${timer.endTime}`,
+        status:"info",
+        isClosable:true,
+        duration:3600
+      })
+
       notifyMe("New Timer Added", options);
       setTimers((prevTimers) => [timer, ...prevTimers]);
     });
@@ -54,6 +65,15 @@ const DisplayTimer = ({ socket }) => {
       const options = {
       body: `${alert.notification}`,
     };
+
+
+    toast({
+      title: "Tech Team Sent you a Alert Message",
+      description :`${alert.notification}`,
+      status:"info",
+      isClosable:true,
+      duration:3600
+    })
     notifyMe("admin sent you a message", options);
 
   }

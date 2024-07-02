@@ -16,10 +16,10 @@ const GameMapper = ({socket}) => {
   const { games } = location.state || { games: [] };
 
   useEffect(() => {
-    const game = games.find((g) => g.code === name);
+    const game = games.find((g) => g?.code === name);
     if (!game) {
       setGameExists(false);
-      navigate("/");
+      navigate("/games");
     }
   }, [name, navigate, games]);
 
