@@ -21,6 +21,12 @@ export const Home = ({ data }) => {
     const handleMaterialsClick =()=>{
         nav('/bootcamp/materials')
     }
+    const MostusedMaterials =()=>{
+        nav('/bootcamp/mostlyused')
+    }
+    const FeedbackForm=()=>{
+        nav('/bootcamp/feedbackform')
+    }
     const [openModel,setOpenModel]=useState(true)
 
 
@@ -39,6 +45,8 @@ export const Home = ({ data }) => {
                             <Button onClick={handleTaskClick} >Tasks</Button>
                             <Button onClick={handlePerformanceClick}>Perfomance</Button>
                             <Button onClick={handleMaterialsClick}>Materials</Button>
+                            <Button onClick={MostusedMaterials}>Most Used Materials</Button>
+                            <Button onClick={FeedbackForm}>FeedbackForm</Button>
                         </SimpleGrid>
                         <br/>
                         <div className='aboutgrid'>
