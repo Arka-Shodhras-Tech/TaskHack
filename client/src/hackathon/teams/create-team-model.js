@@ -57,21 +57,21 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
                         <Input
                             placeholder="Team Name"
                             value={team}
-                            onChange={(e) => setTeam(e.target.value.toUpperCase())}
+                            onChange={(e) => setTeam(e.target.value.toUpperCase().replace(/[ ,.,-,_]/g, ''))}
                             mb={2}
                         />
                         <Input
                             placeholder="Email"
                             type="email"
                             value={gmail}
-                            onChange={(e) => setGmail(e.target.value)}
+                            onChange={(e) => setGmail(e.target.value.replace(/[ ,]/g, ''))}
                             mb={2}
                         />
                         <Input
                             placeholder="Phone Number"
                             type="tel"
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => setPhone(e.target.value.replace(/[ ,.]/g, ''))}
                             mb={2}
                         />
                         <Select
@@ -90,7 +90,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
                             placeholder="Team Members"
                             type="number"
                             value={members}
-                            onChange={(e) => setMembers(e.target.value)}
+                            onChange={(e) => setMembers(e.target.value.replace(/[ ,.]/g, ''))}
                             mb={2}
                         />
 
@@ -98,7 +98,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
                             placeholder="Enter password"
                             type="text"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value.replace(/[ ,.]/g, ''))}
                             mb={2}
                         />
                         <Text color={"red"}>Remember no chance to forget <strong>password</strong></Text>

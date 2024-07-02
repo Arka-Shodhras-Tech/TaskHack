@@ -26,7 +26,7 @@ export const BootcampRoutes = () => {
     useEffect(()=>{
         auth&&Actions.userAuth(auth)
         .then((res)=>{
-            setCheck(res)
+            setCheck(res?.data)
             setLoad(true)
         }).catch((e)=>console.log(e))
     },[check.auth,auth])
@@ -38,7 +38,7 @@ export const BootcampRoutes = () => {
                 <Route path="/update" element={<OTPForm />} />
                 <Route path='/updateform' element={update?<UpdateForm />:<PageNotFound/>} />
                 <Route path='/tasks' element={check?.auth?<Tasks />:<LoginForm />} />
-                <Route path='/performance' element={check?.auth ? <Performance /> : <LoginForm />} />
+                <Route path='/performance' element={check?.auth ? <Performance perfom={data} student={check?.data}/> : <LoginForm />} />
                 <Route path='/materials' element={check?.auth ?<Materials/>: <LoginForm />}/>
                 <Route path="/score" element={check?.auth ? <HackStudentscore /> : <LoginForm />} />
                 <Route path="/" element={<Countdown />} />
