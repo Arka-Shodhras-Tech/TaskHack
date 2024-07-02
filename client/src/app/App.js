@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Actions } from '../actions/actions.js';
 import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
 import { ProblemStatements } from '../hackathon/problemstatements/problemstatements.js';
-import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
+import { HackthonDayRoute } from '../hackathon/router/hackathonroutes.js';
 import { TeamLoginForm } from '../hackathon/teams/teamlogin.js';
 import { socket } from '../socket.js';
 import './App.css';
