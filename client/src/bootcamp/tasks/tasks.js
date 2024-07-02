@@ -8,6 +8,7 @@ import './tasks.css';
 export const Tasks = () => {
     const [tasks, setTasks] = useState([]);
     const [mytasks, setMytasks] = useState(false)
+    const [select,setSelect]=useState(true)
     const [student, setStudent] = useState([])
     const user = useSelector((state) => state.user?.auth)
     const toast = useToast()
@@ -26,7 +27,7 @@ export const Tasks = () => {
             const response = await axios.post(process.env.REACT_APP_Server + '/Students');
             if (response.data) {
                 response?.data?.map((res) => (
-                    res?.Reg_No == user && setStudent(res)
+                    res?.Reg_No === user && setStudent(res)
                 ))
             }
         } catch (error) {
@@ -41,6 +42,7 @@ export const Tasks = () => {
 
     const TaskSelect = async (task, desc, marks, day) => {
         try {
+            setSelect(false)
             const response = await axios.post(process.env.REACT_APP_Server + '/selecttask', { task, desc, marks, user, day })
             if (response.data) {
                 toast({
@@ -50,9 +52,11 @@ export const Tasks = () => {
                     isClosable: true,
                 })
                 fetchTasks();
+                setSelect(true)
                 fetchStudentTasks();
             }
             else {
+                setSelect(true)
                 toast({
                     title: 'try again',
                     status: 'error',
@@ -67,6 +71,7 @@ export const Tasks = () => {
 
     const TaskUnSelect = async (task, day) => {
         try {
+            setSelect(false)
             const response = await axios.post(process.env.REACT_APP_Server + '/unselecttask', { task, user, day })
             if (response.data) {
                 toast({
@@ -76,9 +81,11 @@ export const Tasks = () => {
                     isClosable: true,
                 })
                 fetchTasks();
+                setSelect(true)
                 fetchStudentTasks();
             }
             else {
+                setSelect(true)
                 toast({
                     title: 'try again',
                     status: 'error',
@@ -113,10 +120,10 @@ export const Tasks = () => {
                                         <div className="task-description"><strong>Description</strong> : {task?.Desc}</div>
                                         <div >Marks : {task?.Marks}</div>
                                     </div>
-                                    <div className='task-select'>
+                                    {select&&<div className='task-select'>
                                         {!checkTask(val?.Day, task?.Task) ? <Button bg={"blanchedalmond"} onClick={() => TaskSelect(task?.Task, task?.Desc, task?.Marks, val?.Day)}>Select</Button> :
                                             <Button bg={"blanchedalmond"} onClick={() => TaskUnSelect(task?.Task, val?.Day)}>UnSelect</Button>}
-                                    </div>
+                                    </div>}
                                 </div>
                             )) : <MyTasks tasks={student} day={val?.Day} unselect={(task, day) => TaskUnSelect(task, day)} />
                         }

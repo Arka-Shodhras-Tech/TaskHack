@@ -1,13 +1,17 @@
 import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Actions } from "../../actions/actions";
 import { HackathonNav } from "../hackathonnav/hackathonnav";
 import './ps.css';
 
 export const ProblemStatements = () => {
     const [dat, setDat] = useState([]);
+    const [stmt,setStmt]=useState([])
     const [select, setSelect] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const teamcode = useSelector((state) => state.user?.Teamcode)
     const toast = useToast();
 
     useEffect(() => {
@@ -22,6 +26,42 @@ export const ProblemStatements = () => {
             console.error('Error fetching tasks:', error);
         }
     };
+
+    const SelectPS = async ( number, stmt, desc) => {
+        await Actions.SelectPS(teamcode, number, stmt, desc)
+            .then((res) => {
+                if (res?.data?.message) {
+                    fetchTasks();
+                    toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
+                }
+                if (res?.data?.error) {
+                    toast({ title: res?.data?.error, status: 'error', position: 'bottom-right', isClosable: true })
+                }
+            })
+            .catch((e) => {
+                toast({ title: e?.message, status: 'error', position: 'bottom-right', isClosable: true })
+            })
+    }
+
+    const UnSelectPS = async ( number) => {
+        await Actions.UnSelectPS(teamcode, number)
+            .then((res) => {
+                if (res?.data?.message) {
+                    fetchTasks();
+                    toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
+                }
+                if (res?.data?.error) {
+                    toast({ title: res?.data?.error, status: 'error', position: 'bottom-right', isClosable: true })
+                }
+            })
+            .catch((e) => {
+                toast({ title: e?.message, status: 'error', position: 'bottom-right', isClosable: true })
+            })
+    }
+
+    const checkStmt = (number) => {
+        return dat.some(ps => ps?.Number === number && ps?.Users?.some(val => val.includes(teamcode)));
+      };
 
     return (
         <>
@@ -66,7 +106,8 @@ export const ProblemStatements = () => {
                                                             {task?.Desc}
                                                         </Text>
                                                         <Text textAlign={'center'}>
-                                                            <Button>select</Button>
+                                                            {checkStmt(task?.Number)?<Button onClick={() =>UnSelectPS(task?.Number) }>Unselect</Button>:
+                                                            <Button onClick={() =>SelectPS(task?.Number, task?.Statement, task?.Desc)}>select</Button>}
                                                         </Text>
                                                     </Box>
                                                 </Stack>

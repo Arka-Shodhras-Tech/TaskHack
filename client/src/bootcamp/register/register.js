@@ -68,7 +68,7 @@ export const RegistrationForm = () => {
                                 id="email"
                                 placeholder="name@example.com"
                                 value={email}
-                                onChange={(e) => SetEmail(e.target.value)}
+                                onChange={(e) => SetEmail(e.target.value.replace(/[ ,]/g, ''))}
                                 required
                             />
                         </div>
@@ -81,7 +81,7 @@ export const RegistrationForm = () => {
                                 id="name"
                                 placeholder="Full Name"
                                 value={name}
-                                onChange={(e) => SetName(e.target.value.toUpperCase())}
+                                onChange={(e) => SetName(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
                                 required
                             />
                         </div>
@@ -94,7 +94,7 @@ export const RegistrationForm = () => {
                                 id="phone"
                                 placeholder="Phone Number"
                                 value={num}
-                                onChange={(e) => SetNum(e.target.value)}
+                                onChange={(e) => SetNum(e.target.value.replace(/[ ,]/g, ''))}
                                 required
                             />
                         </div>
@@ -107,7 +107,7 @@ export const RegistrationForm = () => {
                                 id="registrationNum"
                                 placeholder="Registration Number"
                                 value={regd}
-                                onChange={(e) => SetRegd(e.target.value.toUpperCase())}
+                                onChange={(e) => SetRegd(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
                                 required
                             />
                         </div>
@@ -137,7 +137,7 @@ export const RegistrationForm = () => {
                                 id="branch"
                                 placeholder="Branch"
                                 value={branch}
-                                onChange={(e) => SetBranch(e.target.value)}
+                                onChange={(e) => SetBranch(e.target.value.replace(/[ ,]/g, ''))}
                                 required
                             />
                         </div>

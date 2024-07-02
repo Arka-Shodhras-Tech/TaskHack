@@ -1,4 +1,4 @@
-import { position, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react';
@@ -13,14 +13,13 @@ export const LoginForm = () => {
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    document.title = "Login| Bootcamp | Vedic Vision | Team Ast"
-
+    document.title = "Login"
     const Login = async () => {
         try {
             setLoad(true);
-            const res = await axios.post(`${process.env.REACT_APP_Server}/signin`, { regd, password });
-
-            if (res.data.message) {
+            const res = await axios.post(`${process.env.REACT_APP_Server}/login`, { regd, password });
+            console.log(res?.data)
+            if (res?.data?.message) {
                 toast({
                     title: 'Password sent to your Gmail',
                     status: 'success',
@@ -43,15 +42,12 @@ export const LoginForm = () => {
             if (res.data.error) {
                 toast({
                     title: "Error",
-                    description:  "Please Register  ",
+                    description:  "Please Register ",
                     status: "error",
                     duration: 5000,
                     isClosable: true,
                     position: "top-right",
-                    isClosable:true,
                 });
-
-                // console.log(res);
                 navigate('/bootcamp/register');
             }
             if (res.data.passerror) {
@@ -98,7 +94,7 @@ export const LoginForm = () => {
                                     id="registrationNum"
                                     placeholder="Registration Number"
                                     value={regd}
-                                    onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                    onChange={(e) => setRegd(e.target.value.toUpperCase().replace(/[ ,.]/g, ''))}
                                     required
                                 />
                             </div>

@@ -9,7 +9,7 @@ export const OTPForm = () => {
     const [regd, setRegd] = useState('');
     const dispatch=useDispatch()
     const toast = useToast();
-    document.title = "OTP | Bootcamp | Vedic Vision | Team Ast"
+    // document.title = "OTP | Bootcamp | Vedic Vision | Team Ast"
 
     const updateDetails1 = async () => {
         setLoad(true);
@@ -74,7 +74,7 @@ export const OTPForm = () => {
                                 id="registrationNum"
                                 placeholder="Registered Number"
                                 value={regd}
-                                onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                onChange={(e) => setRegd(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
                                 required
                             />
                         </div>

@@ -9,7 +9,7 @@ import { PopOver } from '../../models/hacthonhomepopover/hacthonhomepopover';
 import { HomeModel } from '../../models/hacthonhomemodel/hacthonhomemodel';
 
 export const Home = ({ data }) => {
-    document.title = "Home| Bootcamp | Vedic Vision | Team Ast"
+    // document.title = "Home| Bootcamp | Vedic Vision | Team Ast"
 
     const nav = useNavigate()
     const handleTaskClick = () => {
@@ -21,6 +21,12 @@ export const Home = ({ data }) => {
     const handleMaterialsClick =()=>{
         nav('/bootcamp/materials')
     }
+    const MostusedMaterials =()=>{
+        nav('/bootcamp/mostlyused')
+    }
+    const FeedbackForm=()=>{
+        nav('/bootcamp/feedbackform')
+    }
     const [openModel,setOpenModel]=useState(true)
 
 
@@ -28,7 +34,6 @@ export const Home = ({ data }) => {
         <>
             <div className='main'>
                 {!data?.Gender&&<HomeModel open={openModel} close={()=>setOpenModel(false)} data={data}/>}
-                {/* css in login.css */}
                 <div className='profile'>
                     <PopOver data={data}/>
                 </div>
@@ -39,6 +44,8 @@ export const Home = ({ data }) => {
                             <Button onClick={handleTaskClick} >Tasks</Button>
                             <Button onClick={handlePerformanceClick}>Perfomance</Button>
                             <Button onClick={handleMaterialsClick}>Materials</Button>
+                            {/* <Button onClick={MostusedMaterials}>Most Used Materials</Button>
+                            <Button onClick={FeedbackForm}>FeedbackForm</Button> */}
                         </SimpleGrid>
                         <br/>
                         <div className='aboutgrid'>
