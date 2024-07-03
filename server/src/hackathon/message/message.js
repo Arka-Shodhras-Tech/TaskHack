@@ -13,7 +13,7 @@ export const message = {
         </div>
         <br />
         <div style="text-align: center;">
-            <h4> <a href='https://asteam-attendance.vercel.app/scrummaster'
+            <h4> <a href='https://asthack.me/bootcamp/login'
                     style="color:grey;text-decoration:none;">Login Here</a></h4>
         </div>
            <p style="text-align:center;color:">This message is from Team AST</p>
@@ -56,7 +56,7 @@ export const message = {
         </div>
         <br />
         <div style="text-align: center;">
-            <h3>Password update link :: <a href='http://localhost:3001/bootcamp/updateform'
+            <h3>Password update link :: <a href='https://asthack.me/bootcamp/updateform'
                     style="color:black;">click Here</a></h3>
         </div>
     </div>`

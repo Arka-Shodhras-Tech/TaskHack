@@ -20,10 +20,10 @@ function App() {
     await Actions.CheckTeam(teamcode)
       .then((res) => {
         if (res?.data?.data?.Password === teamname) {
-          setTeam(true)
+          setTeam(res?.data)
         }
       })
-      .catch((e) => console.log(e))
+      .catch((e) => {})
   }
 
   const CheckHackathon = async () => {
@@ -32,7 +32,11 @@ function App() {
         setStart(res?.data)
         setLoad(true)
       })
-      .catch((e) => console.log(e))
+      .catch((e) => {})
+  }
+
+  const Refresh=()=>{
+    checkTeam(teamcode)
   }
 
   useEffect(() => {
@@ -45,8 +49,8 @@ function App() {
       {load ? <BrowserRouter>
         <Routes>
           <Route path="/*" element={start?.start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes data={start?.data}/>} />
-          <Route path='/problemstatements' element={team?<ProblemStatements />:<TeamLoginForm/>} />
+          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes data={start?.data} />} />
+          <Route path='/problemstatements' element={team?.message?<ProblemStatements data={team?.data} reload={Refresh}/>:<TeamLoginForm/>} />
         </Routes>
       </BrowserRouter> :
         <div className='ast'>AST TEAM</div>}

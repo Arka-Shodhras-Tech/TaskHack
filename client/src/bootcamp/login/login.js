@@ -42,14 +42,14 @@ export const LoginForm = () => {
             }
             if (res.data.error) {
                 toast({
-                    title: "Error",
+                    title: "User not found",
                     description: "Please Register",
                     status: "error",
                     duration: 5000,
                     isClosable: true,
                     position: "top-right",
                 });
-                navigate('/bootcamp/register');
+                // navigate('/bootcamp/register');
             }
             if (res.data.passerror) {
                 alert(res.data.passerror);
