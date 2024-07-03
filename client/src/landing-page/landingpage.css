@@ -6,19 +6,50 @@
   min-height: 100vh;
   background-color: black;
   width: 100%;
+  overflow: hidden !important;
 }
+
 section#page-1 {
-  background-image: url("./main-home.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+
   color: white;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+#page-1 {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.background-video {
+  transform: rotate(180deg) translateY(20%) scale(2);
+  position: static;
+  top: 100%;
+  left: 100%;
+  width: auto;
+  height: auto;
+
+  @media (max-width: 900px) {
+   
+    transform:rotate(180deg) scale(3);
+
+  }
+
+  @media (max-width: 600px) {
+   
+    transform:rotate(180deg) scale(3);
+
+  }
+}
+
 section#page-1 h1 {
+  position: absolute;
+  top: 25vh;
   font-weight: 500;
   font-size: 10vw !important;
   font-family: "Dhurjati", "Times New Roman", Times, serif, Times, serif;
@@ -28,22 +59,23 @@ section#page-1 h1 {
   align-items: center;
   line-height: 100px;
   justify-content: space-between;
+
   @media (min-height: 720px) {
-    line-height: 70px;
-    font-size: 8.5vw !important;
+    line-height: 40px;
+    font-size: 4rem !important;
   }
+
 }
 
 .com-head {
-  text-align: center;
-  max-width: 80%;
-  padding: 20px;
+  position: absolute;
+  width: 100vw !important;
+  height: 100vh;
   border-radius: 8px;
 }
 
 .com-info {
   display: flex;
-  
 }
 
 .com-info-block-1 {
@@ -55,15 +87,18 @@ section#page-1 h1 {
     font-size: 20px;
     color: white;
     margin: 10px 0 !important;
+
     @media (max-width: 480px) {
       font-size: 16px;
     }
   }
+
   @media (max-width: 480px) {
     margin: 0 0;
     padding: 40px 40px;
   }
 }
+
 .com-info-block-1 h1 {
   font-size: 90px !important;
   line-height: 50px;
@@ -71,8 +106,8 @@ section#page-1 h1 {
   color: #6bfff7;
   font-style: italic;
   text-align: left;
-
 }
+
 .info-boxes {
   margin: 40px 0;
 
@@ -80,11 +115,9 @@ section#page-1 h1 {
     width: 24px;
     height: 30px;
     background: rgb(107, 255, 247);
-    background: linear-gradient(
-      86deg,
-      rgba(107, 255, 247, 1) 0%,
-      rgba(250, 251, 99, 1) 100%
-    );
+    background: linear-gradient(86deg,
+        rgba(107, 255, 247, 1) 0%,
+        rgba(250, 251, 99, 1) 100%);
     border-radius: 5px;
     padding: 4px;
     font-weight: 500;
@@ -114,6 +147,7 @@ section#page-1 h1 {
   border-radius: 50%;
   height: 300px;
   object-fit: cover;
+
   @media (max-width: 480px) {
     width: 200px;
     height: 200px;
@@ -127,26 +161,89 @@ section#page-1 h1 {
 
   .com-info-block-1 {
     flex: 1 1 auto;
-    margin-bottom: 10px; /* large scale bottom margin */
+    margin-bottom: 10px;
+    /* large scale bottom margin */
   }
 
   .com-info-block-2 {
     flex: 1 1 auto;
-    margin-top: 10px; /* large scale top margin */
+    margin-top: 10px;
+    /* large scale top margin */
   }
 }
 
 #page-3 {
   padding: 5% 5%;
-
 }
+
+.logo-image {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  display: flex;
+  justify-content: space-between;
+  width: 140px;
+  height: 60px;
+  transform: translate(-50%, -10%);
+  transition: transform 0.5s, scale 1.5s, z-index 1s;
+  span {
+    text-align: center;
+    font-display: inherit;
+    padding: 0px;
+    margin: 0px;
+    line-height: 0mm;
+
+
+  }
+
+  img {
+    width: 60px;
+  }
+
+  h4 {
+    padding: 0px !important;
+    margin: 0px !important;
+    line-height: 10px;
+    line-height: normal;
+    letter-spacing: 5px;
+    font-family: "Dhurjati", "Times New Roman", Times, serif, Times, serif;
+    font-style: italic;
+
+    color: #fafb63;
+  }
+
+  p {
+    position: inherit;
+    color: white;
+    font-size: small;
+    font-weight: 100 !important;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+img.logo-rotate {
+  animation: rotate 15s linear infinite;
+}
+
+
 .com-features {
   display: flex;
   gap: 60px;
   width: 100%;
+
   @media (max-width: 480px) {
     flex-direction: column;
   }
+
   h1 {
     color: #fafb63;
     font-style: italic;
@@ -154,12 +251,13 @@ section#page-1 h1 {
     font-size: 40px;
     font-family: "Dhurjati", "Times New Roman", Times, serif, Times, serif;
     text-align: left !important;
-
   }
+
   p {
     color: rgb(227, 224, 224);
     font-size: 18px;
   }
+
   hr {
     width: 12%;
     border: 3px solid white;
@@ -169,46 +267,51 @@ section#page-1 h1 {
 
 .feature-card {
   width: calc(100% / 3);
+
   @media (max-width: 480px) {
     width: 100%;
   }
 }
+
 .feature-img {
   display: flex;
   justify-content: center;
 }
+
 .com-features img {
   width: 250px;
   height: 250px;
   border-radius: 50%;
   object-fit: cover;
 }
+
 @media (max-width: 480px) {
   .why-choose-us img {
     width: 400px;
   }
 }
 
-
 /* landingpage.css */
 
 @keyframes fadeIn {
   from {
-      opacity: 0;
+    opacity: 0;
   }
+
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
 @keyframes slideIn {
   from {
-      transform: translateY(100%);
-      opacity: 0;
+    transform: translateY(100%);
+    opacity: 0;
   }
+
   to {
-      transform: translateY(0);
-      opacity: 1;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 

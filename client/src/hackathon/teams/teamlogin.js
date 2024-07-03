@@ -8,16 +8,16 @@ import './teamlogin.css';
 
 export const TeamLoginForm = () => {
     const toast = useToast();
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(false);
     const [load, setLoad] = useState(false);
-    const [data, setData] = useState()
+    const [data, setData] = useState();
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
     const Login = async () => {
         if (regd && password) {
-            setLoad(true)
+            setLoad(true);
             await Actions.CheckTeam(regd)
                 .then((res) => {
                     if (res?.data?.data?.TeamCode) {
@@ -34,9 +34,13 @@ export const TeamLoginForm = () => {
                         setLoad(false)
                         toast({ title: "user not found", status: 'error', position: 'bottom-right', isClosable: true })
                     }
-                }).catch((e) => { console.log(e); setLoad(false) })
+                })
+                .catch((e) => {
+                    console.log(e);
+                    setLoad(false);
+                });
         } else {
-            toast({ title: "required all fields", status: 'error', position: 'bottom-right', isClosable: true })
+            toast({ title: "All fields are required", status: 'error', position: 'bottom-right', isClosable: true });
         }
     };
 
@@ -44,15 +48,25 @@ export const TeamLoginForm = () => {
         await Actions.TeamsCodes()
             .then((res) => {
                 if (res?.data) {
-                    setData(res?.data)
+                    setData(res?.data);
                 }
-            }).catch((e) => { console.log(e) })
-    }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
 
-    data || fetchData()
+    data || fetchData();
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            Login();
+        }
+    };
+
     return (
         <section className="login-section-pss">
-            <CreateTeam isOpen={show} onClose={() => { setShow(false); fetchData() }} data={data} />
+            <CreateTeam isOpen={show} onClose={() => { setShow(false); fetchData(); }} data={data} />
             <div className="login-container">
                 <div className="card">
                     <div className="image-container">
@@ -81,6 +95,7 @@ export const TeamLoginForm = () => {
                                     placeholder="Enter Team Code"
                                     value={regd}
                                     onChange={(e) => setRegd(e.target.value)}
+                                    onKeyPress={handleKeyPress}
                                     required
                                 />
                             </div>
@@ -96,6 +111,7 @@ export const TeamLoginForm = () => {
                                     placeholder="Enter password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    onKeyPress={handleKeyPress}
                                     required
                                 />
                             </div>
@@ -117,5 +133,3 @@ export const TeamLoginForm = () => {
         </section>
     );
 };
-
-

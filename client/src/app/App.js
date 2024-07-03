@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Actions } from '../actions/actions.js';
 import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
 import { ProblemStatements } from '../hackathon/problemstatements/problemstatements.js';
-import { HackthonDayRoute } from '../hackathon/router/hacthonroute.js';
+import { HackthonDayRoute } from '../hackathon/router/hackathonroutes.js';
 import { TeamLoginForm } from '../hackathon/teams/teamlogin.js';
 import { socket } from '../socket.js';
 import './App.css';
@@ -42,11 +42,11 @@ function App() {
 
   return (
     <>
-      {load ? <BrowserRouter>
+      {!load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={start.start ? <HackthonDayRoute socket={socket} /> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute socket={socket} /> : <BootcampRoutes data={start?.data} />} />
-          <Route path='/problemstatements' element={team ? <ProblemStatements /> : <TeamLoginForm />} />
+          <Route path="/*" element={start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
+          <Route path="/bootcamp/*" element={!start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes />} />
+          <Route path='/problemstatements' element={team?<ProblemStatements />:<TeamLoginForm/>} />
         </Routes>
       </BrowserRouter> :
         <div className='ast'>AST TEAM</div>}

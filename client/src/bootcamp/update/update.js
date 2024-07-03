@@ -13,6 +13,7 @@ export const UpdateForm = () => {
     const [load, setLoad] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
+
     const getOtp = async () => {
         if (!regd) {
             toast({
@@ -20,7 +21,7 @@ export const UpdateForm = () => {
                 status: 'error',
                 position: 'bottom-left',
                 isClosable: true,
-            })
+            });
             return;
         }
         setLoad(true);
@@ -33,7 +34,7 @@ export const UpdateForm = () => {
                     status: 'success',
                     position: 'top-right',
                     isClosable: true,
-                })
+                });
                 setOtpSent(true);
             } else {
                 toast({
@@ -41,7 +42,7 @@ export const UpdateForm = () => {
                     status: 'error',
                     position: 'bottom-left',
                     isClosable: true,
-                })
+                });
             }
         } catch (error) {
             console.error('Error:', error);
@@ -50,11 +51,12 @@ export const UpdateForm = () => {
                 status: 'error',
                 position: 'bottom-left',
                 isClosable: true,
-            })
+            });
         } finally {
             setLoad(false);
         }
     };
+
     const updateDetails = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
@@ -63,7 +65,7 @@ export const UpdateForm = () => {
                 status: 'error',
                 position: 'bottom-left',
                 isClosable: true,
-            })
+            });
             return;
         }
 
@@ -78,7 +80,7 @@ export const UpdateForm = () => {
                     status: "success",
                     position: 'top-right',
                     isClosable: true,
-                })
+                });
                 navigate('/bootcamp/home');
             } else {
                 alert(result.error || 'An error occurred. Please try again.');
@@ -89,6 +91,20 @@ export const UpdateForm = () => {
         } finally {
             setLoad(false);
         }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            if (!otpSent) {
+                getOtp();
+            } else {
+                updateDetails(e);
+            }
+        }
+    };
+
+    const handleFocus = (e) => {
+        console.log(`${e.target.name} is focused`);
     };
 
     return (
@@ -121,6 +137,8 @@ export const UpdateForm = () => {
                                     placeholder="Registered Number"
                                     value={regd}
                                     onChange={(e) => setRegd(e.target.value.toUpperCase())}
+                                    onKeyPress={handleKeyPress}
+                                    onFocus={handleFocus}
                                     required
                                 />
                             </div>
@@ -134,6 +152,8 @@ export const UpdateForm = () => {
                                     placeholder="Enter your new password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    onKeyPress={handleKeyPress}
+                                    onFocus={handleFocus}
                                     required
                                 />
                             </div>
@@ -147,16 +167,20 @@ export const UpdateForm = () => {
                                     placeholder="Enter confirm password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
+                                    onKeyPress={handleKeyPress}
+                                    onFocus={handleFocus}
                                     required
                                 />
                             </div>
-                            {!otpSent ? <div className="col-12 update-form-button">
-                                <div className="d-grid">
-                                    <button onClick={getOtp} className="btn bsb-btn-xl btn-primary" type="button" disabled={load || otpSent}>
-                                        {load ? 'Please wait...' : (otpSent ? 'OTP Sent' : 'Get OTP')}
-                                    </button>
+                            {!otpSent ? (
+                                <div className="col-12 update-form-button">
+                                    <div className="d-grid">
+                                        <button onClick={getOtp} className="btn bsb-btn-xl btn-primary" type="button" disabled={load || otpSent}>
+                                            {load ? 'Please wait...' : (otpSent ? 'OTP Sent' : 'Get OTP')}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div> :
+                            ) : (
                                 <div>
                                     <div className="form-group">
                                         <label htmlFor="otp">OTP <span style={{ color: 'red' }}>*</span></label>
@@ -164,12 +188,13 @@ export const UpdateForm = () => {
                                     </div>
                                     <div className="col-12 update-form-button">
                                         <div className="d-grid">
-                                            <button onclick={updateDetails} className="btn bsb-btn-xl btn-primary" type="submit">
+                                            <button onClick={updateDetails} className="btn bsb-btn-xl btn-primary" type="submit">
                                                 {load ? 'Please wait...' : 'Update'}
                                             </button>
                                         </div>
                                     </div>
-                                </div>}
+                                </div>
+                            )}
                         </div>
                     </form>
                     <hr />

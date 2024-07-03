@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "./update.css";
+
 export const OTPForm = () => {
     const [load, setLoad] = useState(false);
     const [regd, setRegd] = useState('');
-    const dispatch=useDispatch()
+    const dispatch = useDispatch();
     const toast = useToast();
     // document.title = "OTP | Bootcamp | Vedic Vision | Team Ast"
 
@@ -27,7 +28,7 @@ export const OTPForm = () => {
                 setLoad(false);
                 return;
             }
-            dispatch({ type: 'UPDATE', payload: { update: regd} });
+            dispatch({ type: 'UPDATE', payload: { update: regd } });
             toast({
                 title: res.data?.message,
                 status: 'success',
@@ -43,6 +44,12 @@ export const OTPForm = () => {
             });
         } finally {
             setLoad(false);
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            updateDetails1();
         }
     };
 
@@ -75,6 +82,7 @@ export const OTPForm = () => {
                                 placeholder="Registered Number"
                                 value={regd}
                                 onChange={(e) => setRegd(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
+                                onKeyPress={handleKeyPress}
                                 required
                             />
                         </div>
