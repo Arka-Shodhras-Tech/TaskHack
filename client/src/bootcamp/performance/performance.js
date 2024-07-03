@@ -9,6 +9,8 @@ export const Performance = ({ perfom, student }) => {
   sessionStorage.student = student?.AttendDays
   sessionStorage.admin = perfom?.Count
 
+  console.log(perfom)
+
   const CalMarks = (student) => {
     let marks = 0;
     student?.Tasks && Object.values(student?.Tasks)?.map((val) => (

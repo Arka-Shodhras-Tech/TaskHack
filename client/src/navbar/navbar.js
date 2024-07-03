@@ -8,13 +8,13 @@ export const NavBar=()=> {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" >
           <Nav className="me-auto" >
-            <Nav.Link href="/" style={{color:'green'}}>Home</Nav.Link>
-            <Nav.Link href="studentregister" style={{color:'green'}}>StudentRegistration</Nav.Link>
-            <Nav.Link href="adminexam" style={{color:'green'}}>Exam</Nav.Link>
-            <Nav.Link href="studentdata " style={{color:'green'}}>StudentData</Nav.Link>
-            <Nav.Link href="192.5264.27" style={{color:'blue'}}>Student Exam</Nav.Link>
-            <Nav.Link href="papercorrection" style={{color:'green'}}>PaperCorrection</Nav.Link>
-            <Nav.Link href="studentscore" style={{color:'green'}}>StudentScore</Nav.Link>
+            <Nav.Link href="/exam" style={{color:'green'}}>Home</Nav.Link>
+            <Nav.Link href="/exam/studentregister" style={{color:'green'}}>StudentRegistration</Nav.Link>
+            <Nav.Link href="/exam/adminexam" style={{color:'green'}}>Exam</Nav.Link>
+            <Nav.Link href="/exam/studentdata " style={{color:'green'}}>StudentData</Nav.Link>
+            <Nav.Link href="/exam/192.5264.27" style={{color:'blue'}}>Student Exam</Nav.Link>
+            <Nav.Link href="/exam/papercorrection" style={{color:'green'}}>PaperCorrection</Nav.Link>
+            <Nav.Link href="/exam/studentscore" style={{color:'green'}}>StudentScore</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
