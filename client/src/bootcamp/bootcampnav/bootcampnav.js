@@ -10,7 +10,7 @@ export const BootcampNav = () => {
     const handleBackClick = () => {
         const prevURL = document.referrer;
         const currentDomain = window.location.hostname;
- console.log(currentDomain)
+
         // Check if the previous URL is within the same domain
         if (prevURL && new URL(prevURL).hostname === currentDomain) {
             navigate(-1);
