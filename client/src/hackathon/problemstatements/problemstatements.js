@@ -6,7 +6,7 @@ import { Actions } from "../../actions/actions";
 import { HackathonNav } from "../hackathonnav/hackathonnav";
 import './ps.css';
 
-export const ProblemStatements = () => {
+export const ProblemStatements = ({data,reload}) => {
     const [dat, setDat] = useState([]);
     const [stmt, setStmt] = useState(true)
     const [select, setSelect] = useState("");
@@ -34,6 +34,7 @@ export const ProblemStatements = () => {
                 if (res?.data?.message) {
                     fetchTasks();
                     setStmt(true)
+                    reload()
                     toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
                 }
                 if (res?.data?.error) {
@@ -54,6 +55,7 @@ export const ProblemStatements = () => {
                 if (res?.data?.message) {
                     fetchTasks();
                     setStmt(true)
+                    reload()
                     toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
                 }
                 if (res?.data?.error) {
@@ -71,8 +73,8 @@ export const ProblemStatements = () => {
         return dat.some(ps => ps?.Number === number && ps?.Users?.some(val => val.includes(teamcode)));
     };
 
-    const SelectedStmt=(user)=>{
-        return dat.map(student =>(student?.TeamCode===user&&student?.PS?.Statement)); 
+    const SelectedStmt = (user) => {
+        return dat.map(student => (student?.TeamCode === user && student?.PS?.Statement));
     }
 
     console.log(SelectedStmt(teamcode))
@@ -105,7 +107,7 @@ export const ProblemStatements = () => {
                                         val?.Desc?.toLowerCase().includes(select) ||
                                         val?.Statement?.toLowerCase().includes(select))
                                     ).map((task) => (
-                                        <Card>
+                                        task?.Users.length<3&&<Card>
                                             <CardHeader>
                                                 <Heading size='md'>Problem Statement {task?.Number}</Heading>
                                             </CardHeader>
@@ -119,8 +121,14 @@ export const ProblemStatements = () => {
                                                         <Text pt='2' fontSize='sm'>
                                                             {task?.Desc}
                                                         </Text>
+                                                        {/* {stmt && <Text textAlign={'center'}>
+                                                            {!checkStmt(task?.Number)? <Button onClick={() => SelectPS(task?.Number, task?.Statement, task?.Desc)}>select</Button>:
+                                                            <Button onClick={() => UnSelectPS(task?.Number)}>unselect</Button>}
+                                                        </Text>} */}
+
                                                         {stmt && <Text textAlign={'center'}>
-                                                            {!checkStmt(task?.Number) && <Button onClick={() => SelectPS(task?.Number, task?.Statement, task?.Desc)}>select</Button>}
+                                                            {!data?.PS?<Button onClick={() =>{ SelectPS(task?.Number, task?.Statement, task?.Desc)}}>select</Button>:
+                                                            data?.PS?.Number===task?.Number&&<Button onClick={() => {UnSelectPS(task?.Number)}}>unselect</Button>}
                                                         </Text>}
                                                     </Box>
                                                 </Stack>

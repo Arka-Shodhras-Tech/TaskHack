@@ -11,11 +11,10 @@ export const BootcampNav = () => {
         const prevURL = document.referrer;
         const currentDomain = window.location.hostname;
 
-        // Check if the previous URL is within the same domain
         if (prevURL && new URL(prevURL).hostname === currentDomain) {
             navigate(-1);
         } else {
-            navigate("/bootcamp/home"); // or some other safe fallback route within the app
+            navigate("/bootcamp/home");
         }
     };
 

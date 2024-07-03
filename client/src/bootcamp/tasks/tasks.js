@@ -8,7 +8,7 @@ import './tasks.css';
 export const Tasks = () => {
     const [tasks, setTasks] = useState([]);
     const [mytasks, setMytasks] = useState(false)
-    const [select,setSelect]=useState(true)
+    const [select, setSelect] = useState(true)
     const [student, setStudent] = useState([])
     const user = useSelector((state) => state.user?.auth)
     const toast = useToast()
@@ -125,9 +125,9 @@ export const Tasks = () => {
                                         <div className="task-description"><strong>Description</strong> : {task?.Desc}</div>
                                         <div >Marks : {task?.Marks}</div>
                                     </div>
-                                    {select&&<div className='task-select'>
-                                        {!checkTask(val?.Day, task?.Task) ?checkMarks(val?.Day, task?.Task)&&<Button bg={"blanchedalmond"} onClick={() => TaskSelect(task?.Task, task?.Desc, task?.Marks, val?.Day)}>Select</Button> :
-                                            <Button bg={"blanchedalmond"} onClick={() => TaskUnSelect(task?.Task, val?.Day)}>UnSelect</Button>}
+                                    {select && <div className='task-select'>
+                                        {!checkTask(val?.Day, task?.Task) ? <Button bg={"blanchedalmond"} onClick={() => TaskSelect(task?.Task, task?.Desc, task?.Marks, val?.Day)}>Select</Button> :
+                                            !checkMarks(val?.Day, task?.Task) && <Button bg={"blanchedalmond"} onClick={() => TaskUnSelect(task?.Task, val?.Day)}>UnSelect</Button>}
                                     </div>}
                                 </div>
                             )) : <MyTasks tasks={student} day={val?.Day} unselect={(task, day) => TaskUnSelect(task, day)} />

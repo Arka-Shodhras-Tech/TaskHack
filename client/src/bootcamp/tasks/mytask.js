@@ -11,7 +11,7 @@ export const MyTasks = ({ tasks, day, unselect }) => {
                             <div >Marks : {task?.Marks}</div>
                         </div>
                         <div className='task-select'>
-                            <Button bg={"blanchedalmond"} onClick={() => unselect(task?.Task, day)}>UnSelect</Button>
+                            {task?.GetMarks||<Button bg={"blanchedalmond"} onClick={() => unselect(task?.Task, day)}>UnSelect</Button>}
                         </div>
                     </div>
                 ))
