@@ -102,7 +102,7 @@ export const Hackathonpage = ({isAuth = false,socket}) => {
           }
 
           {!isAuth &&  <div>
-            <Button className="join-button" onClick={()=>nav("/games")}>games </Button>
+            <Button className="join-button" onClick={()=>window.location.href="/games"}>games </Button>
       </div>}
         </div>
         <Box textAlign="center" className="d-none">

@@ -13,12 +13,13 @@ export const LoginForm = () => {
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    document.title = "Login"
+    document.title = "Login";
+
     const Login = async () => {
         try {
             setLoad(true);
             const res = await axios.post(`${process.env.REACT_APP_Server}/login`, { regd, password });
-            console.log(res?.data)
+            console.log(res?.data);
             if (res?.data?.message) {
                 toast({
                     title: 'Password sent to your Gmail',
@@ -30,11 +31,11 @@ export const LoginForm = () => {
             }
             if (res.data.passmessage) {
                 toast({
-                    title:'Login successful',
-                    status :'success',
-                    position:'top-right',
-                    isClosable:true,
-                })
+                    title: 'Login successful',
+                    status: 'success',
+                    position: 'top-right',
+                    isClosable: true,
+                });
                 navigate('/bootcamp/home');
                 dispatch({ type: 'LOGIN', payload: { username: res.data.data.Name } });
                 dispatch({ type: 'AUTH', payload: { auth: res.data.data.Reg_No } });
@@ -42,7 +43,7 @@ export const LoginForm = () => {
             if (res.data.error) {
                 toast({
                     title: "Error",
-                    description:  "Please Register ",
+                    description: "Please Register",
                     status: "error",
                     duration: 5000,
                     isClosable: true,
@@ -65,6 +66,13 @@ export const LoginForm = () => {
             setLoad(false);
         }
     };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            Login();
+        }
+    };
+
     return (
         <section className="login-section">
             <div className="login-container">
@@ -95,6 +103,7 @@ export const LoginForm = () => {
                                     placeholder="Registration Number"
                                     value={regd}
                                     onChange={(e) => setRegd(e.target.value.toUpperCase().replace(/[ ,.]/g, ''))}
+                                    onKeyPress={handleKeyPress}
                                     required
                                 />
                             </div>
@@ -110,6 +119,7 @@ export const LoginForm = () => {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    onKeyPress={handleKeyPress}
                                     required
                                 />
                             </div>
@@ -131,5 +141,3 @@ export const LoginForm = () => {
         </section>
     );
 };
-
-

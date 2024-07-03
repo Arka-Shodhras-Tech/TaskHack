@@ -15,30 +15,35 @@ export const RegistrationForm = () => {
     const [sec, SetSec] = useState("");
     const [num, SetNum] = useState("");
     const [load, setLoad] = useState(false);
-    
+
     const Register = async () => {
         try {
             setLoad(true);
-            const res = await axios.post(process.env.REACT_APP_Server + "/signup/" + email + "/" + name + "/" + regd + "/" + num + "/" + year + "/" + branch + "/" + sec)
+            const res = await axios.post(process.env.REACT_APP_Server + "/signup/" + email + "/" + name + "/" + regd + "/" + num + "/" + year + "/" + branch + "/" + sec);
             if (res.data.message) {
                 toast({
-                    title:'Registered Successfully!',
-                    status:'success',
-                    position:'top-right',
-                    isClosable:true,
-                })
+                    title: 'Registered Successfully!',
+                    status: 'success',
+                    position: 'top-right',
+                    isClosable: true,
+                });
                 setLoad(false);
                 nav('/bootcamp/login');
             } else {
                 setLoad(false);
-                console.log(res)
+                console.log(res);
                 alert("Try again");
-
             }
         } catch (e) {
             setLoad(false);
-            alert("Please Fill the details")
+            alert("Please Fill the details");
             console.log(e);
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            Register();
         }
     };
 
@@ -69,6 +74,7 @@ export const RegistrationForm = () => {
                                 placeholder="name@example.com"
                                 value={email}
                                 onChange={(e) => SetEmail(e.target.value.replace(/[ ,]/g, ''))}
+                                onKeyPress={handleKeyPress}
                                 required
                             />
                         </div>
@@ -82,6 +88,7 @@ export const RegistrationForm = () => {
                                 placeholder="Full Name"
                                 value={name}
                                 onChange={(e) => SetName(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
+                                onKeyPress={handleKeyPress}
                                 required
                             />
                         </div>
@@ -95,6 +102,7 @@ export const RegistrationForm = () => {
                                 placeholder="Phone Number"
                                 value={num}
                                 onChange={(e) => SetNum(e.target.value.replace(/[ ,]/g, ''))}
+                                onKeyPress={handleKeyPress}
                                 required
                             />
                         </div>
@@ -108,6 +116,7 @@ export const RegistrationForm = () => {
                                 placeholder="Registration Number"
                                 value={regd}
                                 onChange={(e) => SetRegd(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
+                                onKeyPress={handleKeyPress}
                                 required
                             />
                         </div>
@@ -119,6 +128,7 @@ export const RegistrationForm = () => {
                                 name="yearOfStudy"
                                 value={year}
                                 onChange={(e) => SetYear(e.target.value)}
+                                onKeyPress={handleKeyPress}
                                 required
                             >
                                 <option value="" disabled>Select Year</option>
@@ -138,6 +148,7 @@ export const RegistrationForm = () => {
                                 placeholder="Branch"
                                 value={branch}
                                 onChange={(e) => SetBranch(e.target.value.replace(/[ ,]/g, ''))}
+                                onKeyPress={handleKeyPress}
                                 required
                             />
                         </div>
@@ -149,6 +160,7 @@ export const RegistrationForm = () => {
                                 name="section"
                                 value={sec}
                                 onChange={(e) => SetSec(e.target.value)}
+                                onKeyPress={handleKeyPress}
                                 required
                             >
                                 <option value="" disabled>Select Section</option>
@@ -170,7 +182,7 @@ export const RegistrationForm = () => {
                                 </button>
                             </div>
                         </div>
-                    </div><br/>
+                    </div><br />
                     {/* <hr className="registration-divider" /> */}
                     <p className="registration-footer-text">
                         Already have an account? <Link to="/bootcamp/login">Sign in</Link>
@@ -180,5 +192,3 @@ export const RegistrationForm = () => {
         </section>
     );
 };
-
-
