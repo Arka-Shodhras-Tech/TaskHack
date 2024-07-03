@@ -40,6 +40,9 @@ export const Home = ({ data }) => {
                 <h2 className='person-name'>Hello {data?.Name}....😊😊😊</h2>
                 <div className='hacthongrid-home'>
                     <div className='hacthonlist'>
+                        <div className='buttonsgrid'>
+
+                    
                         <SimpleGrid minChildWidth='220px' spacing='40px'>
                             <Button onClick={handleTaskClick} >Tasks</Button>
                             <Button onClick={handlePerformanceClick}>Perfomance</Button>
@@ -47,7 +50,7 @@ export const Home = ({ data }) => {
                             {/* <Button onClick={MostusedMaterials}>Most Used Materials</Button>
                             <Button onClick={FeedbackForm}>FeedbackForm</Button> */}
                         </SimpleGrid>
-                        <br />
+                        </div>
                         <div className='aboutgrid'>
                             <SimpleGrid minChildWidth='220px' spacing='40px'>
                                 <Button onClick={() => window.location.href = 'about'}>About</Button>
