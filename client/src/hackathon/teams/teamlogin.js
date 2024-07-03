@@ -24,11 +24,14 @@ export const TeamLoginForm = () => {
                         if (res?.data?.data?.Password === password) {
                             setLoad(false)
                             dispatch({ type: 'TEAM', payload: { Teamcode: res?.data?.data?.TeamCode, Teamname: res?.data?.data?.Password } })
+                            window.location.href='/problemstatements'
                             toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
                         } else {
+                            setLoad(false)
                             toast({ title: "incorrect password", status: 'error', position: 'bottom-right', isClosable: true })
                         }
                     } else {
+                        setLoad(false)
                         toast({ title: "user not found", status: 'error', position: 'bottom-right', isClosable: true })
                     }
                 }).catch((e) => { console.log(e); setLoad(false) })

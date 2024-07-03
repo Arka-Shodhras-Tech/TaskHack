@@ -15,9 +15,9 @@ import theme from './theme';
 export const Materials = () => {
   const [data, setData] = useState([]);
   const [image, setImage] = useState();
-  const [show,setShow]=useState(false)
-  const [type,setType]=useState()
-  const user =useSelector((state)=>state.user?.auth)
+  const [show, setShow] = useState(false)
+  const [type, setType] = useState()
+  const user = useSelector((state) => state.user?.auth)
 
   const fecthData = async () => {
     await Actions.AllMaterials().then((res) => setData(res?.data)).catch((e) => console.log(e))
@@ -33,14 +33,14 @@ export const Materials = () => {
     }
   };
 
-  const openFile=async(link)=>{
+  const openFile = async (link) => {
     try {
       setShow(true)
-      const file=await OpenFile(link);
+      const file = await OpenFile(link);
       setImage(file?.url)
       setType(file?.type)
     } catch (error) {
-      
+
     }
   }
 
@@ -49,56 +49,58 @@ export const Materials = () => {
   }, [])
 
   return (
-    <ThemeProvider theme={theme}>
-      <MaterialModel open={show} close={()=>{setShow(false);setImage('')}} fileType={type} fileUrl={image} imageContent={image}/>
-      <Container>
-        <Grid container spacing={2}>
-          {data.map((card, index) => (
-            <React.Fragment key={index}>
-              <Grid item xs={12}>
-                <Typography textAlign={"center"} variant="h5"><strong>{card.Theme}</strong></Typography>
-              </Grid>
-              {card.Links.map((link, linkIndex) => (
-                <Grid item xs={12} sm={6} md={4} key={linkIndex}>
-                  <Card>
-                    <CardMedia
-                      component="img"
-                      style={{height:'30vh'}}
-                      image={image ? image[link?.Photoname] : fetchImageURL(link?.Photoname)}
-                      alt={link.Photoname}
-                      width="50"
-                      height="100%"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {link.Name}
-                      </Typography>
-                      <div style={{display:'flex',justifyContent:'space-evenly'}}>
-                        <IconButton
-                          aria-label="like"
-                          onClick={() => {Actions.Likes(card?.Theme,user,linkIndex).then((res)=>res?.data&&fecthData()).catch((e)=>console.log(e))}}
-                        >
-                          {link?.Likes?.includes(user) ? (
-                            <FavoriteIcon color="error" />
-                          ) : (
-                            <FavoriteBorderIcon />
-                          )}{link?.Likes?.length || 0}
-                        </IconButton>
-                        <IconButton onClick={()=>{openFile(link?.Pdfname);Actions?.Views(card?.Theme,linkIndex).then((res)=>res?.data&&fecthData()).catch((e)=>console.log(e))}}>
-                          <VisibilityIcon id='viewicon'/>{link?.Views || 0}
-                        </IconButton>
-                        <IconButton>
-                          <DownloadIcon id='download'/>12
-                        </IconButton>
-                      </div>
-                    </CardContent>
-                  </Card>
+    <>
+      <MaterialModel open={show} close={() => { setShow(false); setImage('') }} fileType={type} fileUrl={image} imageContent={image} />
+      <ThemeProvider theme={theme}>
+        <Container>
+          <Grid container spacing={2}>
+            {data?.map((card, index) => (
+              card?.Show && <React.Fragment key={index}>
+                <Grid item xs={12}>
+                  <Typography textAlign={"center"} variant="h5"><strong>{card?.Theme}</strong></Typography>
                 </Grid>
-              ))}
-            </React.Fragment>
-          ))}
-        </Grid>
-      </Container>
-    </ThemeProvider>
+                {card?.Links?.map((link, linkIndex) => (
+                  <Grid item xs={12} sm={6} md={4} key={linkIndex}>
+                    <Card>
+                      <CardMedia
+                        component="img"
+                        style={{ height: '30vh' }}
+                        image={image ? image[link?.Photoname] : fetchImageURL(link?.Photoname)}
+                        alt={link.Photoname}
+                        width="50"
+                        height="100%"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {link.Name}
+                        </Typography>
+                        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                          <IconButton
+                            aria-label="like"
+                            onClick={() => { Actions.Likes(card?.Theme, user, linkIndex).then((res) => res?.data && fecthData()).catch((e) => console.log(e)) }}
+                          >
+                            {link?.Likes?.includes(user) ? (
+                              <FavoriteIcon color="error" />
+                            ) : (
+                              <FavoriteBorderIcon />
+                            )}{link?.Likes?.length || 0}
+                          </IconButton>
+                          <IconButton onClick={() => { openFile(link?.Pdfname); Actions?.Views(card?.Theme, linkIndex).then((res) => res?.data && fecthData()).catch((e) => console.log(e)) }}>
+                            <VisibilityIcon id='viewicon' />{link?.Views || 0}
+                          </IconButton>
+                          <IconButton onClick={() => { openFile(link?.Pdfname); Actions?.Views(card?.Theme, linkIndex).then((res) => res?.data && fecthData()).catch((e) => console.log(e)) }}>
+                            <DownloadIcon id='download' />
+                          </IconButton>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </React.Fragment>
+            ))}
+          </Grid>
+        </Container>
+      </ThemeProvider>
+    </>
   );
 };

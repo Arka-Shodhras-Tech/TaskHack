@@ -26,8 +26,8 @@ function App() {
       .catch((e) => console.log(e))
   }
 
-  const CheckHackathon = async (name) => {
-    await Actions.checkHacthon(name)
+  const CheckHackathon = async () => {
+    await Actions.checkHacthon()
       .then((res) => {
         setStart(res?.data)
         setLoad(true)
@@ -37,7 +37,7 @@ function App() {
 
   useEffect(() => {
     checkTeam(teamcode)
-    CheckHackathon("hackathon@gmail.com")
+    CheckHackathon()
   }, [])
 
   return (

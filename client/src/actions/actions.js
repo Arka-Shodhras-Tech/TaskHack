@@ -33,8 +33,8 @@ export const Actions = {
         return await axios.post(process.env.REACT_APP_Server + "/checkteam", { code })
     },
 
-    checkHacthon: async (name) => {
-        return await axios.post(process.env.REACT_APP_Server + "/check-hackathon/" + name)
+    checkHacthon: async () => {
+        return await axios.post(process.env.REACT_APP_Server + "/check-hackathon")
     },
 
     CreateTeam: async (team, gmail, phone, code, members, password) => {

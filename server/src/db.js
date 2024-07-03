@@ -1,7 +1,7 @@
 import dot from 'dotenv';
-import { MongoClient ,GridFSBucket} from "mongodb";
+import { MongoClient, GridFSBucket } from "mongodb";
 dot.config();
-let db, db1,bucket;
+let db, db1, bucket;
 
 async function connectToDB(cb) {
     try {
@@ -16,5 +16,5 @@ async function connectToDB(cb) {
         console.log("db error")
     }
 }
-export {bucket, connectToDB, db, db1 };
+export { bucket, connectToDB, db, db1 };
 

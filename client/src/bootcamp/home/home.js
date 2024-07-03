@@ -4,9 +4,9 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../main/main.css';
-import { PopOver } from '../../models/hacthonhomepopover/hacthonhomepopover';
 import { HomeModel } from '../../models/hacthonhomemodel/hacthonhomemodel';
+import { PopOver } from '../../models/hacthonhomepopover/hacthonhomepopover';
+import '../main/main.css';
 
 export const Home = ({ data }) => {
     // document.title = "Home| Bootcamp | Vedic Vision | Team Ast"
@@ -18,24 +18,24 @@ export const Home = ({ data }) => {
     const handlePerformanceClick = () => {
         nav('/bootcamp/performance')
     }
-    const handleMaterialsClick =()=>{
+    const handleMaterialsClick = () => {
         nav('/bootcamp/materials')
     }
-    const MostusedMaterials =()=>{
+    const MostusedMaterials = () => {
         nav('/bootcamp/mostlyused')
     }
-    const FeedbackForm=()=>{
+    const FeedbackForm = () => {
         nav('/bootcamp/feedbackform')
     }
-    const [openModel,setOpenModel]=useState(true)
+    const [openModel, setOpenModel] = useState(true)
 
 
     return (
         <>
             <div className='main'>
-                {!data?.Gender&&<HomeModel open={openModel} close={()=>setOpenModel(false)} data={data}/>}
+                {!data?.Gender && <HomeModel open={openModel} close={() => setOpenModel(false)} data={data} />}
                 <div className='profile'>
-                    <PopOver data={data}/>
+                    <PopOver data={data} />
                 </div>
                 <h2 className='person-name'>Hello {data?.Name}....😊😊😊</h2>
                 <div className='hacthongrid-home'>
@@ -47,11 +47,11 @@ export const Home = ({ data }) => {
                             {/* <Button onClick={MostusedMaterials}>Most Used Materials</Button>
                             <Button onClick={FeedbackForm}>FeedbackForm</Button> */}
                         </SimpleGrid>
-                        <br/>
+                        <br />
                         <div className='aboutgrid'>
-                        <SimpleGrid  minChildWidth='220px' spacing='40px'>
-                            <Button  onClick={()=>window.location.href='about'}>About</Button>
-                        </SimpleGrid>
+                            <SimpleGrid minChildWidth='220px' spacing='40px'>
+                                <Button onClick={() => window.location.href = 'about'}>About</Button>
+                            </SimpleGrid>
                         </div>
                     </div>
                 </div>

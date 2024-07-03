@@ -8,7 +8,7 @@ import './ps.css';
 
 export const ProblemStatements = () => {
     const [dat, setDat] = useState([]);
-    const [stmt,setStmt]=useState([])
+    const [stmt, setStmt] = useState(true)
     const [select, setSelect] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const teamcode = useSelector((state) => state.user?.Teamcode)
@@ -27,41 +27,55 @@ export const ProblemStatements = () => {
         }
     };
 
-    const SelectPS = async ( number, stmt, desc) => {
+    const SelectPS = async (number, stmt, desc) => {
+        setStmt(false)
         await Actions.SelectPS(teamcode, number, stmt, desc)
             .then((res) => {
                 if (res?.data?.message) {
                     fetchTasks();
+                    setStmt(true)
                     toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
                 }
                 if (res?.data?.error) {
+                    setStmt(true)
                     toast({ title: res?.data?.error, status: 'error', position: 'bottom-right', isClosable: true })
                 }
             })
             .catch((e) => {
+                setStmt(true)
                 toast({ title: e?.message, status: 'error', position: 'bottom-right', isClosable: true })
             })
     }
 
-    const UnSelectPS = async ( number) => {
+    const UnSelectPS = async (number) => {
+        setStmt(false)
         await Actions.UnSelectPS(teamcode, number)
             .then((res) => {
                 if (res?.data?.message) {
                     fetchTasks();
+                    setStmt(true)
                     toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
                 }
                 if (res?.data?.error) {
+                    setStmt(true)
                     toast({ title: res?.data?.error, status: 'error', position: 'bottom-right', isClosable: true })
                 }
             })
             .catch((e) => {
+                setStmt(true)
                 toast({ title: e?.message, status: 'error', position: 'bottom-right', isClosable: true })
             })
     }
 
     const checkStmt = (number) => {
         return dat.some(ps => ps?.Number === number && ps?.Users?.some(val => val.includes(teamcode)));
-      };
+    };
+
+    const SelectedStmt=(user)=>{
+        return dat.map(student =>(student?.TeamCode===user&&student?.PS?.Statement)); 
+    }
+
+    console.log(SelectedStmt(teamcode))
 
     return (
         <>
@@ -105,10 +119,9 @@ export const ProblemStatements = () => {
                                                         <Text pt='2' fontSize='sm'>
                                                             {task?.Desc}
                                                         </Text>
-                                                        <Text textAlign={'center'}>
-                                                            {checkStmt(task?.Number)?<Button onClick={() =>UnSelectPS(task?.Number) }>Unselect</Button>:
-                                                            <Button onClick={() =>SelectPS(task?.Number, task?.Statement, task?.Desc)}>select</Button>}
-                                                        </Text>
+                                                        {stmt && <Text textAlign={'center'}>
+                                                            {!checkStmt(task?.Number) && <Button onClick={() => SelectPS(task?.Number, task?.Statement, task?.Desc)}>select</Button>}
+                                                        </Text>}
                                                     </Box>
                                                 </Stack>
                                             </CardBody>

@@ -47,8 +47,8 @@ app.post('/end-hackathon', async (req, res) => {
     await EndHackathon(req.body, res);
 })
 
-app.post('/check-hackathon/:mail', async (req, res) => {
-    await CheckHackathon(req.params.mail, res);
+app.post('/check-hackathon', async (req, res) => {
+    await CheckHackathon("hackathon@gmail.com", res);
 })
 
 app.post('/updategender/:regd/:gender', async (req, res) => {
@@ -60,11 +60,11 @@ app.post('/statements', async (req, res) => {
 })
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
-    await SignUp(req,res)
+    await SignUp(req, res)
 })
 
 app.post('/login', async (req, res) => {
-    await SignIn(req,resend,res)
+    await SignIn(req, resend, res)
 });
 
 app.post('/authuser/:regd', async (req, res) => {
@@ -72,23 +72,23 @@ app.post('/authuser/:regd', async (req, res) => {
 })
 
 app.post('/updatepasswordlink', async (req, res) => {
-    await UpdatePasswordLink(req,resend,res)
+    await UpdatePasswordLink(req, resend, res)
 });
 
 app.post('/sendotp', async (req, res) => {
-    await SendOtp(req,resend,res);
+    await SendOtp(req, resend, res);
 });
 
 app.post('/updatepassword', async (req, res) => {
-    await UpdatePassword(req,res)
+    await UpdatePassword(req, res)
 });
 
 app.post('/selecttask', async (req, res) => {
-    await SelectTask(req.body.user,req.body.task,req.body.marks,req.body.desc,req.body.day,res);
+    await SelectTask(req.body.user, req.body.task, req.body.marks, req.body.desc, req.body.day, res);
 })
 
 app.post('/unselecttask', async (req, res) => {
-    await UnSelectTask(req.body.user,req.body.task,req.body.day,res);
+    await UnSelectTask(req.body.user, req.body.task, req.body.day, res);
 })
 
 app.post('/bootcamptasks', async (req, res) => {
@@ -109,20 +109,20 @@ app.get('/file/:filename', async (req, res) => {
 });
 
 app.post('/likes', async (req, res) => {
-    await LikeMati(req.body.theme,req.body.user,req.body.index,res)
+    await LikeMati(req.body.theme, req.body.user, req.body.index, res)
 });
 
 app.post('/views', async (req, res) => {
-    await ViewMati(req.body.theme,req.body.index,res)
+    await ViewMati(req.body.theme, req.body.index, res)
 });
 
 // ***************************************** Hacthon *********************************************** //
 app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req, res) => {
-    await CreateTeam(req,res);
+    await CreateTeam(req, res);
 })
 
 app.post('/checkteam', async (req, res) => {
-    await checkTeam(req.body.code,res)
+    await checkTeam(req.body.code, res)
 });
 
 app.post('/teamscodes', async (req, res) => {
@@ -130,10 +130,10 @@ app.post('/teamscodes', async (req, res) => {
 })
 
 app.post('/selectps', async (req, res) => {
-    await SelectProStmt(req.body.code,req.body.number,req.body.stmt,req.body.desc,res)
+    await SelectProStmt(req.body.code, req.body.number, req.body.stmt, req.body.desc, res)
 })
 
 app.post('/unselectps', async (req, res) => {
-    await UnSelectProStmt(req.body.code,req.body.number,res)
+    await UnSelectProStmt(req.body.code, req.body.number, res)
 })
 export default app

@@ -32,7 +32,7 @@ export const ViewMati = async (theme, index, res) => {
                 count = parseInt(file?.Links[index]?.Views) + 1;
             }
             else {
-                count = 0;
+                count = 1;
             }
             const updatefile = await db1.collection("Materials").findOneAndUpdate({ Theme: theme }, { $set: { [`Links.${index}.Views`]: count } })
             if (updatefile?.value) {
