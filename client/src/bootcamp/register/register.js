@@ -87,7 +87,7 @@ export const RegistrationForm = () => {
                                 id="name"
                                 placeholder="Full Name"
                                 value={name}
-                                onChange={(e) => SetName(e.target.value.toUpperCase().replace(/[ ,]/g, ''))}
+                                onChange={(e) => SetName(e.target.value.toUpperCase().trim())}
                                 onKeyPress={handleKeyPress}
                                 required
                             />
