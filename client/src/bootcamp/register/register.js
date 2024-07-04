@@ -41,11 +41,11 @@ export const RegistrationForm = () => {
         }
     };
 
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            Register();
-        }
-    };
+    // const handleKeyPress = (e) => {
+    //     if (e.key === 'Enter') {
+    //         Register();
+    //     }
+    // };
 
     return (
         <section className="registration-section">
