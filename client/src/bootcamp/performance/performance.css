@@ -208,7 +208,10 @@
     margin: 0 auto; 
   }
   .chart-position {
-    margin-left: 23%;
+   display: flex;
+   justify-content: center;
+   width: max-content;
+    
   }
   
   @media screen and (max-width: 768px) {
