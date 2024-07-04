@@ -87,7 +87,7 @@ export const Performance = ({ perfom, student }) => {
     <div className="attendance">
       <h2>Attendance</h2>
       <div className="chart">
-        <ResponsiveContainer className='chart-position' width="50%" height={300}>
+        <ResponsiveContainer className='chart-position'  height={300}>
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
