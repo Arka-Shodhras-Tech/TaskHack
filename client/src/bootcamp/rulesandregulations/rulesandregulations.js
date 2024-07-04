@@ -13,31 +13,23 @@ export const RulesAndRegulations = () => {
               <FaCalendarDay />
               <strong>Monday to Friday</strong> 
             </li>
+            <li><FaClock /> 4:30PM to 7:30 PM <FaBook /> 3hrs lesson</li>
           </ul>
-          <ul>
-            <li><FaClock /> 4:30 to 7:30 <FaBook /> 3hrs lesson</li>
-          </ul>
-          <br/>
           <ul>
             <li>
               <FaCalendarDay />
               <strong>(Saturday) 03-08-24 and 10-08-24 </strong>
             </li>
+            <li><FaClock /> 1:30PM to 4:30 PM<FaBook /> 2hrs lesson, 1hr activity</li>
           </ul>
-          <ul>
-            <li><FaClock /> 1:30 to 4:30 <FaBook /> 2hrs lesson, 1hr activity</li>
-          </ul>
-          <br/>
           <ul>
             <li><FaCalendarDay /> <strong>(Sundays) 04-08-24 and 11-08-24 </strong></li>
-          </ul>
-          <ul>
-            <li><FaClock /> 9:00 to 12:00 & 1:30 to 4:30 <FaBook /> Lessons</li>
+            <li><FaClock /> 9:00AM to 12:00PM & 1:30PM to 4:30PM <FaBook /> Lessons</li>
           </ul>
         </div>
         
         <div className="stack">
-          <h2 className='rules'>Stack</h2>
+          <h2 className='rules'>Tech Stack</h2>
           <ul className="stack-list-icons">
             <li className="stack-item"><FaHtml5 className="icon html-icon" /> HTML</li>
             <li className="stack-item"><FaCss3Alt className="icon css-icon" /> CSS</li>

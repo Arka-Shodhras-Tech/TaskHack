@@ -45,7 +45,7 @@ const Countdown = () => {
 					);
 				})}
 			</div>
-			<button className="start-btn animated-button" onClick={Start}>Click for Participation</button>
+			<button className="start-btn animated-button" onClick={Start}>Click to Participate</button>
 		</div>
 	);
 };

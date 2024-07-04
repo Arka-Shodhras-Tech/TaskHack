@@ -42,7 +42,7 @@ section#page-1 {
 
   @media (max-width: 600px) {
    
-    transform:rotate(180deg) scale(3);
+    transform:rotate(180deg) scale(4);
 
   }
 }

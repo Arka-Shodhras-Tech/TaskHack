@@ -6,7 +6,7 @@
   color: #325875;
 }
 .rules{
-  margin-left: 40%;
+text-align: center;
   color: #292424;
 
 }
@@ -19,6 +19,18 @@
 
 .timings {
   width: 48%;
+  ul{
+    padding: 10px;
+    border-radius: 8px;
+
+  }
+  h2{
+    text-align: center;
+  }
+  ul:hover{
+    transition: all 0.5s;
+
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;  }
 }
 
 .stack {
@@ -28,6 +40,14 @@
 .schedule-container {
   
   width: 48%;
+
+
+  @media (max-width:900px){
+    width: 98%;
+
+
+  }
+
 }
 
 table {
@@ -81,10 +101,24 @@ li svg {
   align-items: center;
   gap: 10px;
   padding: 10px;
+  width: 180px;
   border: 1px solid #f1eaea;
   border-radius: 4px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 5px rgba(102, 218, 0, 0.1);
+
+
+ 
+}
+.stack-item:hover{
+  transform: scale(1.2);
+  transition: all 1s;
+}
+.stack-item:hover::after{
+  transform: scale(1);
+  transition: all 1s;
+
+
 }
 
 .icon {
@@ -116,7 +150,6 @@ li svg {
 }
 .schedule-head{
   color: black;
-  margin-right: 80%;
 }
 
 .schedule-table {

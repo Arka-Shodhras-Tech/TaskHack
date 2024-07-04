@@ -12,13 +12,16 @@
 
 
 .start-btn {
-	margin-left: 43%;
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
 	margin-top: 3%;
 	display: inline-block;
 	padding: 15px 30px;
 	font-size: 10px;
 	font-weight: bold;
 	color: white;
+	width: max-content;
 	background: linear-gradient(45deg,#f46868, #ff6b6b, #f94d94);
 	border: none;
 	border-radius: 25px;
@@ -32,11 +35,11 @@
   .start-btn:hover {
 	background: linear-gradient(45deg, #f94d94, #ff6b6b);
 	box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
-	transform: translateY(-5px);
+	transform: translateY(-5px) translateX(-50%);
   }
   
   .start-btn:active {
-	transform: translateY(-2px);
+	transform: translateY(-2px) translateX(-50%);
   }
   
   .animated-button {
