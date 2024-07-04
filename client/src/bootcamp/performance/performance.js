@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import './performance.css';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Actions } from '../../actions/actions';
+import './performance.css';
 
 export const Performance = ({ perfom, student }) => {
   const [view, setView] = useState(sessionStorage.view || 'score');
@@ -9,12 +9,10 @@ export const Performance = ({ perfom, student }) => {
   sessionStorage.student = student?.AttendDays
   sessionStorage.admin = perfom?.Count
 
-  console.log(perfom)
-
   const CalMarks = (student) => {
     let marks = 0;
     student?.Tasks && Object.values(student?.Tasks)?.map((val) => (
-      val&&Object.values(val)?.map((val1) => (
+      val && Object.values(val)?.map((val1) => (
         marks = marks + parseInt(val1?.GetMarks || 0)
       ))
     ))
@@ -26,13 +24,31 @@ export const Performance = ({ perfom, student }) => {
     sessionStorage.view = newView
   };
 
+  const handlestudents = async (data) => {
+    const filterData = data?.filter(student => student?.Tasks);
+    const marks = filterData?.map(student => {
+      let totalMarks = 0;
+      Object.values(student?.Tasks)?.forEach(tasks => {
+        Object.values(tasks)?.forEach(task => {
+          totalMarks += parseInt(task?.GetMarks || 0);
+        });
+      });
+      return { Name: student?.Name, Marks: totalMarks,Attendance:((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0),Total:(parseInt(student?.AttendDays || 0)+parseInt(totalMarks))/2};
+    });
+    return marks.sort((a, b) => b.Total - a.Total);
+  }
+
   useEffect(() => {
     Actions.Students()
       .then((res) => {
-        const filteredData = res?.data?.filter(student => student?.AttendDays !== undefined);
-        const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
-        setData(sortedData);
-      }).catch((e) => console.log(e))
+        // const filteredData = res?.data?.filter(student => student?.AttendDays !== undefined);
+        // const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
+        handlestudents(res?.data)
+        .then((result)=>{
+          setData(result)
+        })
+        .catch((e)=>{})
+      }).catch((e) => {})
   }, [])
 
 
@@ -55,8 +71,8 @@ export const Performance = ({ perfom, student }) => {
                 <tr key={student?._id}>
                   <td>{index + 1}</td>
                   <td>{student?.Name}</td>
-                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}%</td>
-                  <td>{CalMarks(student?.Tasks ? student : 0)}</td>
+                  <td>{student?.Attendance}%</td>
+                  <td>{student?.Marks}</td>
                 </tr>
               ))}
             </tbody>
@@ -87,7 +103,7 @@ export const Performance = ({ perfom, student }) => {
     <div className="attendance">
       <h2>Attendance</h2>
       <div className="chart">
-        <ResponsiveContainer className='chart-position'  height={300}>
+        <ResponsiveContainer className='chart-position' height={300}>
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
