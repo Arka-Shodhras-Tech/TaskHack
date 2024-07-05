@@ -4,7 +4,6 @@ export const OpenFile = async (filename) => {
         const url = `${process.env.REACT_APP_Server}/file/${filename}`;
         const response = await axios.get(url, { responseType: 'blob' });
         const fileType = response.data.type;
-        console.log(fileType)
         if (fileType.startsWith('image/')) {
             const imageBlob = new Blob([response.data], { type: fileType });
             const imageUrl = URL.createObjectURL(imageBlob);

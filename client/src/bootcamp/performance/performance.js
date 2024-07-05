@@ -4,6 +4,7 @@ import { Text, Button } from '@chakra-ui/react';
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
 import './performance.css';
 import { Actions } from '../../actions/actions';
+import './performance.css';
 
 const Performance = ({ perfom, student }) => {
   const [view, setView] = useState(sessionStorage.view || 'score');
@@ -17,6 +18,7 @@ const Performance = ({ perfom, student }) => {
     let marks = 0;
     student?.Tasks && Object.values(student?.Tasks)?.map((val) => (
       val && Object.values(val)?.map((val1) => (
+      val && Object.values(val)?.map((val1) => (
         marks = marks + parseInt(val1?.GetMarks || 0)
       ))
     ));
@@ -27,6 +29,20 @@ const Performance = ({ perfom, student }) => {
     setView(newView);
     sessionStorage.view = newView;
   };
+
+  const handlestudents = async (data) => {
+    const filterData = data?.filter(student => student?.Tasks);
+    const marks = filterData?.map(student => {
+      let totalMarks = 0;
+      Object.values(student?.Tasks)?.forEach(tasks => {
+        Object.values(tasks)?.forEach(task => {
+          totalMarks += parseInt(task?.GetMarks || 0);
+        });
+      });
+      return { Name: student?.Name, Marks: totalMarks,Attendance:((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0),Total:(parseInt(student?.AttendDays || 0)+parseInt(totalMarks))/2};
+    });
+    return marks.sort((a, b) => b.Total - a.Total);
+  }
 
   useEffect(() => {
     Actions.Students()
@@ -84,8 +100,8 @@ const Performance = ({ perfom, student }) => {
                 <tr key={student?._id}>
                   <td>{index + 1}</td>
                   <td>{student?.Name}</td>
-                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}%</td>
-                  <td>{CalMarks(student?.Tasks ? student : 0)}</td>
+                  <td>{student?.Attendance}%</td>
+                  <td>{student?.Marks}</td>
                 </tr>
               ))}
             </tbody>
