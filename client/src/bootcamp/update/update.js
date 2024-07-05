@@ -13,6 +13,7 @@ export const UpdateForm = () => {
     const [load, setLoad] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
+    document.title = "Update Password| Bootcamp| Vedic vision  | AST TEAM";
 
     const getOtp = async () => {
         if (!regd) {

@@ -1,26 +1,15 @@
-.h1-heading {
-    color: #333;
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: bold;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
+
 .tasks-align {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 2rem;
 }
 
 .task-item {
     background:white;
-    padding: 2rem;
     border: 1px solid #e0b7ef;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(211, 25, 25, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
-    margin:2%;
     display: flex;
     justify-content: space-between;
 }
@@ -30,7 +19,6 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
     width: 100%;
-    max-width: 1200px;
 }
 
 .task-title {
@@ -38,6 +26,8 @@
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: #102C57; 
+
+ 
     
 }
 .task-description {
@@ -45,10 +35,10 @@
     color: #1679AB;
 }
 
-@media (max-width:500px) {
+@media (max-width:600px) {
     .task-item {
         display: grid;
-        justify-content:center;
+        justify-content:start;
     }
     .task-select,.task-select button{
         margin-top: 5%;
@@ -56,7 +46,8 @@
         display: flex;
         justify-content: center;
     }
-    .task-title,.task-description{
-        text-align: center;
+   
+    .task-title{
+        font-size: 20px;
     }
 }

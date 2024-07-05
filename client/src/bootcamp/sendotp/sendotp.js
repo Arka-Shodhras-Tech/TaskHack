@@ -10,7 +10,7 @@ export const OTPForm = () => {
     const [regd, setRegd] = useState('');
     const dispatch = useDispatch();
     const toast = useToast();
-    // document.title = "OTP | Bootcamp | Vedic Vision | Team Ast"
+    document.title = "Update Password | Bootcamp | Vedic Vision | Team Ast"
 
     const updateDetails1 = async () => {
         setLoad(true);

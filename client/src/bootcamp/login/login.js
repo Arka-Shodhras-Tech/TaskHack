@@ -13,7 +13,7 @@ export const LoginForm = () => {
     const [regd, setRegd] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    document.title = "Login";
+    document.title = "Bootcamp Login | Vedic vision | AST TEAM";
 
     const Login = async () => {
         try {
@@ -27,7 +27,6 @@ export const LoginForm = () => {
                     position: 'top-right',
                     isClosable: true,
                 });
-                setLoad(false);
             }
             if (res.data.passmessage) {
                 toast({
@@ -52,8 +51,13 @@ export const LoginForm = () => {
                 // navigate('/bootcamp/register');
             }
             if (res.data.passerror) {
-                alert(res.data.passerror);
-                setLoad(false);
+                toast({
+                    title: "verify password and try again",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top-right",
+                });
             }
         } catch (e) {
             console.error(e);
@@ -63,7 +67,9 @@ export const LoginForm = () => {
                 position: 'bottom-left',
                 isClosable: true,
             });
+        }finally{
             setLoad(false);
+
         }
     };
 

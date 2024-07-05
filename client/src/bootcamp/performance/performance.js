@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Text, Button } from '@chakra-ui/react';
+import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
 import './performance.css';
 import { Actions } from '../../actions/actions';
 
-export const Performance = ({ perfom, student }) => {
+const Performance = ({ perfom, student }) => {
   const [view, setView] = useState(sessionStorage.view || 'score');
-  const [sdata, setData] = useState([])
-  sessionStorage.student = student?.AttendDays
-  sessionStorage.admin = perfom?.Count
+  const [sdata, setData] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: 'AttendDays', direction: 'descending' });
 
-  console.log(perfom)
+  sessionStorage.student = student?.AttendDays;
+  sessionStorage.admin = perfom?.Count;
 
   const CalMarks = (student) => {
     let marks = 0;
     student?.Tasks && Object.values(student?.Tasks)?.map((val) => (
-      val&&Object.values(val)?.map((val1) => (
+      val && Object.values(val)?.map((val1) => (
         marks = marks + parseInt(val1?.GetMarks || 0)
       ))
-    ))
-    return marks
-  }
+    ));
+    return marks;
+  };
 
   const handleViewChange = (newView) => {
     setView(newView);
-    sessionStorage.view = newView
+    sessionStorage.view = newView;
   };
 
   useEffect(() => {
@@ -32,9 +34,27 @@ export const Performance = ({ perfom, student }) => {
         const filteredData = res?.data?.filter(student => student?.AttendDays !== undefined);
         const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
         setData(sortedData);
-      }).catch((e) => console.log(e))
-  }, [])
+      }).catch((e) => console.log(e));
+  }, []);
 
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+
+    const sortedData = [...sdata].sort((a, b) => {
+      if (a[key] < b[key]) {
+        return direction === 'ascending' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+    setData(sortedData);
+  };
 
   const Others = () => {
     return (
@@ -44,10 +64,19 @@ export const Performance = ({ perfom, student }) => {
           <table className='table-align'>
             <thead>
               <tr>
-                <th>S.No</th>
-                <th>Name</th>
-                <th>Attendance</th>
-                <th>Score</th>
+                <th onClick={() => sortData('_id')}>
+                  S.No
+                 {sortConfig.key === '_id' && (sortConfig.direction === 'ascending' ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />)}
+                </th>
+                <th onClick={() => sortData('Name')}>
+                  Name {sortConfig.key === 'Name' && (sortConfig.direction === 'ascending' ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />)}
+                </th>
+                <th onClick={() => sortData('AttendDays')}>
+                  Attendance {sortConfig.key === 'AttendDays' && (sortConfig.direction === 'ascending' ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />)}
+                </th>
+                <th onClick={() => sortData('Tasks')}>
+                  Score 
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -70,10 +99,10 @@ export const Performance = ({ perfom, student }) => {
     <div className="score">
       <h2>Score</h2>
       <div className="score-details">
-        <p className="label">Name:</p>
-        <p className="value">{student?.Name}</p>
-        <p className="label">Your Score:</p>
-        <p className="value">{CalMarks(student)}</p>
+        <Text className="label" fontSize={['sm', 'md', 'lg']}>Name:</Text>
+        <Text className="value" fontSize={['sm', 'md', 'lg']}>{student?.Name}</Text>
+        <Text className="label" fontSize={['sm', 'md', 'lg']}>Your Score:</Text>
+        <Text className="value" fontSize={['sm', 'md', 'lg']}>{CalMarks(student)}</Text>
       </div>
     </div>
   );
@@ -85,9 +114,9 @@ export const Performance = ({ perfom, student }) => {
 
   const Attendance = () => (
     <div className="attendance">
-      <h2>Attendance</h2>
       <div className="chart">
-        <ResponsiveContainer className='chart-position'  height={300}>
+        <h2>Attendance</h2>
+        <ResponsiveContainer className='chart-position' height={300}>
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
@@ -103,11 +132,10 @@ export const Performance = ({ perfom, student }) => {
 
   return (
     <div className="performance-container">
-      <h1>Performance</h1>
       <div className="button-group">
-        <button onClick={() => handleViewChange('attendance')}>Attendance</button>
-        <button onClick={() => handleViewChange('score')}>Score</button>
-        <button onClick={() => handleViewChange('others')}>Others</button>
+        <Button onClick={() => handleViewChange('attendance')}>Attendance</Button>
+        <Button onClick={() => handleViewChange('score')}>Score</Button>
+        <Button onClick={() => handleViewChange('others')}>Others</Button>
       </div>
       <div className="content">
         {view === 'attendance' && <Attendance />}
@@ -116,7 +144,6 @@ export const Performance = ({ perfom, student }) => {
       </div>
     </div>
   );
-
-
 };
+
 export default Performance;
