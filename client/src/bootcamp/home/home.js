@@ -180,7 +180,7 @@ export const Home = ({ data }) => {
             <Box overflow="auto" padding="50px" width="auto" id="style-4">
               <Flex gap="15px" wrap="nowrap">
                 <Box
-                  onClick={() => openPage("/tasks")}
+                  onClick={() => openPage("/bootcamp/tasks")}
                   cursor="pointer"
                   maxW="sm"
                   height="200px"
@@ -220,7 +220,7 @@ export const Home = ({ data }) => {
                   </Box>
                 </Box>
                 <Box
-                  onClick={() => openPage("/performance")}
+                  onClick={() => openPage("/bootcamp/performance")}
                   cursor="pointer"
                   minW="200px"
                   borderWidth="1px"
@@ -264,7 +264,7 @@ export const Home = ({ data }) => {
                   </Box>
                 </Box>
                 <Box
-                  onClick={() => openPage("/materials")}
+                  onClick={() => openPage("/bootcamp/materials")}
                   cursor="pointer"
                   maxW="sm"
                   height="200px"
@@ -309,7 +309,7 @@ export const Home = ({ data }) => {
                   </Box>
                 </Box>
                 <Box
-                  onClick={() => openPage("/most-used-materials")}
+                  onClick={() => openPage("/bootcamp/most-used-materials")}
                   cursor="pointer"
                   maxW="sm"
                   borderWidth="1px"
@@ -354,7 +354,7 @@ export const Home = ({ data }) => {
                   </Box>
                 </Box>
                 <Box
-                  onClick={() => openPage("/feedback-form")}
+                  onClick={() => openPage("/bootcamp/feedback-form")}
                   cursor="pointer"
                   maxW="sm"
                   borderWidth="1px"
