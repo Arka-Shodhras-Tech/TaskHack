@@ -47,7 +47,7 @@ export const UpdateForm = () => {
         } catch (error) {
             console.error('Error:', error);
             toast({
-                title: error.response?.data?.error || 'An error occurred. Please try again',
+                title: error?.message?.message,
                 status: 'error',
                 position: 'bottom-left',
                 isClosable: true,
