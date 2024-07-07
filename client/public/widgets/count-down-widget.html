@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Widget</title>
+  <style>
+    /* CSS styles for countdown widget */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+    .countdown {
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-width: 400px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .count-icon {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    .content {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .box {
+      margin: 0 10px;
+    }
+    .value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #333;
+    }
+    .label {
+      color: #666;
+    }
+    .start-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .start-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="countdown">
+    <div class="count-icon">
+      <!-- Optionally place an icon or decorative element -->
+      <svg width="50" height="50" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="black" stroke-width="2" fill="transparent" />
+      </svg>
+    </div>
+    <h2><span id="countdown-icon">&#9202;</span> Hackathon Starts In</h2>
+    <div class="content" id="countdown-content">
+      <div class="box">
+        <div class="value" id="days">0</div>
+        <div class="label">Days</div>
+      </div>
+      <div class="box">
+        <div class="value" id="hours">0</div>
+        <div class="label">Hours</div>
+      </div>
+      <div class="box">
+        <div class="value" id="minutes">0</div>
+        <div class="label">Minutes</div>
+      </div>
+      <div class="box">
+        <div class="value" id="seconds">0</div>
+        <div class="label">Seconds</div>
+      </div>
+    </div>
+    <button class="start-btn animated-button" onclick="startHackathon()">Click to Participate</button>
+  </div>
+
+  <script>
+    // JavaScript for countdown functionality
+    const COUNTDOWN_TARGET = new Date("2024-08-14T08:59:59");
+
+    function getTimeLeft() {
+      const totalTimeLeft = COUNTDOWN_TARGET - new Date();
+      const days = Math.floor(totalTimeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((totalTimeLeft / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((totalTimeLeft / (1000 * 60)) % 60);
+      const seconds = Math.floor((totalTimeLeft / 1000) % 60);
+      return { days, hours, minutes, seconds };
+    }
+
+    function updateCountdown() {
+      const timeLeft = getTimeLeft();
+      document.getElementById('days').textContent = timeLeft.days;
+      document.getElementById('hours').textContent = timeLeft.hours;
+      document.getElementById('minutes').textContent = timeLeft.minutes;
+      document.getElementById('seconds').textContent = timeLeft.seconds;
+    }
+
+    // Initial call to update countdown
+    updateCountdown();
+
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+
+    // Function to handle participation button click
+    function startHackathon() {
+      window.location.href = '/bootcamp/home'; // Replace with your desired URL
+    }
+  </script>
+</body>
+</html>

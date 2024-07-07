@@ -68,5 +68,13 @@
       "type": "image/jpg",
       "platform": "wide"
     }
+  ],
+  "widgets": [
+    {
+      "name": "Hackathon Countdown",
+      "description": "Countdown for Vedic Vision Hackathon.",
+      "src": "/widgets/count-down-widget.html",
+      "sizes": "4x3"
+    }
   ]
 }

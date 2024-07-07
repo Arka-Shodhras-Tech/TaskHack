@@ -18,7 +18,7 @@ import { FeedbackForm } from '../feedbackform/feedbackform'
 import { MostusedMaterials } from '../mostusedmaterials/mostusedmaterials'
 import Performance from '../performance/performance'
 
-export const BootcampRoutes = ({data}) => {
+export const BootcampRoutes = ({data,offline}) => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user?.update)
     const [check,setCheck]=useState(false)
@@ -31,7 +31,7 @@ export const BootcampRoutes = ({data}) => {
         }).catch((e)=>console.log(e))
     },[check.auth,auth])
     return (
-        load?<>
+        load|| offline ?<>
             <BootcampNav />
             <Routes>
                 <Route path="/login" element={check?.auth?<Home/>:<LoginForm />} />
