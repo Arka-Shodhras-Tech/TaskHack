@@ -6,10 +6,11 @@ import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
 import { ProblemStatements } from '../hackathon/problemstatements/problemstatements.js';
 import { HackthonDayRoute } from '../hackathon/router/hackathonroutes.js';
 import { TeamLoginForm } from '../hackathon/teams/teamlogin.js';
-import { socket } from '../socket.js';
+import { socket } from '../services/socket.js';
 import './App.css';
 import { LandingRoute } from './allroutes/landingroute.js';
-import EnhancedNetworkChecker from '../NetworkChecker.js';
+import EnhancedNetworkChecker from '../services/NetworkChecker.js'
+
 function App() {
   const [start, setStart] = useState(true);
   const [team, setTeam] = useState(false)
@@ -26,7 +27,7 @@ function App() {
           setTeam(res?.data)
         }
       })
-      .catch((e) => {})
+      .catch((e) => { })
   }
 
   const CheckHackathon = async () => {
@@ -35,10 +36,10 @@ function App() {
         setStart(res?.data)
         setLoad(true)
       })
-      .catch((e) => {})
+      .catch((e) => { })
   }
 
-  const Refresh=()=>{
+  const Refresh = () => {
     checkTeam(teamcode)
   }
 
@@ -49,13 +50,13 @@ function App() {
 
   return (
     <>
-            <EnhancedNetworkChecker/>
+      <EnhancedNetworkChecker />
 
       {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={start?.start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> :  <BootcampRoutes data={start?.data} offline={offline}/>} />
-          <Route path='/problemstatements' element={team?.message?<ProblemStatements data={team?.data} reload={Refresh}/>:<TeamLoginForm/>} />
+          <Route path="/*" element={start?.start ? <HackthonDayRoute socket={socket} /> : <LandingRoute />} />
+          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute socket={socket} /> : <BootcampRoutes data={start?.data} offline={offline} />} />
+          <Route path='/problemstatements' element={team?.message ? <ProblemStatements data={team?.data} reload={Refresh} /> : <TeamLoginForm />} />
         </Routes>
       </BrowserRouter> :
         <div className='ast'>AST TEAM</div>}

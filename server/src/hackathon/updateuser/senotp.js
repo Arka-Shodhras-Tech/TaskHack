@@ -1,6 +1,6 @@
 import { db1 } from "../../db.js";
 import { message } from "../message/message.js";
-export const SendOtp = async (req,resend, res) => {
+export const SendOtp = async (req, resend, res) => {
     const { regd } = req.body;
     try {
         const user = await db1.collection('Hackathondata').findOne({ Reg_No: regd });
@@ -19,7 +19,7 @@ export const SendOtp = async (req,resend, res) => {
             res.status(200).json({ message: "OTP successfully sent to your email" });
         }
         if (error) {
-            res.status(200).json({ message:error?.message });
+            res.status(200).json({ message: error?.message });
         }
     } catch (e) {
         console.error(e);

@@ -19,7 +19,7 @@ export const BootcampNav = () => {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center',height:'25vh', alignItems: 'center' }}>
             {window.history.length > 2 && (
                 <Button onClick={handleBackClick} variant="link" mr={2} className="navigate-back-button" size="xl">
                     <ArrowBackIcon />

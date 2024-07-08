@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Timer from "./userSideTimer/Timer"; // Assume Timer is your previously created Timer component
 import TimerListSidebar from "./userSideTimer/TimerList";
-import { URL } from "../../socket";
+import { URL } from "../../services/socket";
 import { useToast } from "@chakra-ui/react";
 
 const DisplayTimer = ({ socket }) => {
@@ -12,25 +12,25 @@ const DisplayTimer = ({ socket }) => {
 
   function notifyMe(message, options) {
     if (!("Notification" in window)) {
- 
+
       alert("This browser does not support desktop notification");
     } else if (Notification.permission === "granted") {
-  
+
       const notification = new Notification(message, options);
       notification.onclick = (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         window.open("./", "_blank");
       };
-     
+
     } else if (Notification.permission !== "denied") {
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
           const notification = new Notification(message, options);
           notification.onclick = (event) => {
-            event.preventDefault(); 
+            event.preventDefault();
             window.open("./", "_blank");
           };
-          
+
         }
       });
     }
@@ -45,10 +45,10 @@ const DisplayTimer = ({ socket }) => {
       };
       toast({
         title: "New Timer Added",
-        description :`${timer.title} ends at ${timer.endTime}`,
-        status:"info",
-        isClosable:true,
-        duration:3600
+        description: `${timer.title} ends at ${timer.endTime}`,
+        status: "info",
+        isClosable: true,
+        duration: 3600
       })
 
       notifyMe("New Timer Added", options);
@@ -63,21 +63,21 @@ const DisplayTimer = ({ socket }) => {
     socket.on("alert", (alert) => {
       console.log(alert);
       const options = {
-      body: `${alert.notification}`,
-    };
+        body: `${alert.notification}`,
+      };
 
 
-    toast({
-      title: "Tech Team Sent you a Alert Message",
-      description :`${alert.notification}`,
-      status:"info",
-      isClosable:true,
-      duration:3600
-    })
-    notifyMe("admin sent you a message", options);
+      toast({
+        title: "Tech Team Sent you a Alert Message",
+        description: `${alert.notification}`,
+        status: "info",
+        isClosable: true,
+        duration: 3600
+      })
+      notifyMe("admin sent you a message", options);
 
-  }
-)
+    }
+    )
     // Cleanup the socket connection when the component unmounts
     return () => {
       socket.disconnect();
@@ -100,7 +100,7 @@ const DisplayTimer = ({ socket }) => {
     fetchTimers();
   }, [URL]);
   const toggleSidebar = () => {
-    setIsSidebarOpen( !isSidebarOpen);
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
 

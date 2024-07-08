@@ -32,16 +32,14 @@ const Performance = ({ perfom, student }) => {
     const filteredData = data.filter(student => student.Tasks);
     const marks = filteredData.map(student => {
       let totalMarks = 0;
-      Object.values(student.Tasks).forEach(tasks =>
-        Object.values(tasks).forEach(task => {
-          totalMarks += parseInt(task.GetMarks || 0);
-        })
-      );
+      Object.values(student?.Tasks)?.forEach(tasks => {
+        Object.values(tasks)?.forEach(task => {
+          totalMarks += parseInt(task?.GetMarks || 0);
+        });
+      });
       return {
-        Name: student.Name,
-        Marks: totalMarks,
-        Attendance: ((student.AttendDays || 0) / perfom.Count * 100).toFixed(0),
-        Total: (parseInt(student.AttendDays || 0) + parseInt(totalMarks)) / 2
+        Name: student?.Name, Marks: totalMarks, Attendance: ((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0), Total: (parseInt(student?.AttendDays || 0) + parseInt(totalMarks || 0)
+          + parseInt(student?.ActivityMarks || 0) + parseInt(student?.InternalMarks || 0)) / 4
       };
     });
     return marks.sort((a, b) => b.Total - a.Total);
@@ -50,15 +48,17 @@ const Performance = ({ perfom, student }) => {
   useEffect(() => {
     Actions.Students()
       .then(res => {
+        // const filteredData = res?.data?.filter(student => student.AttendDays !== undefined);
+        // console.log(filteredData)
+        // const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
+        // console.log(sortedData)
 
-console.log(res.data)
-
-        const filteredData = res?.data?.filter(student => student.AttendDays !== undefined);
-        console.log(filteredData)
-        const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
-        console.log(sortedData)
-
-        setData(sortedData);
+        handleStudents(res?.data)
+          .then((res) => {
+            console.log(res)
+            setData(res);
+          })
+          .catch((e) => console.log(e))
       })
       .catch(e => console.log(e));
   }, []);
@@ -110,8 +110,8 @@ console.log(res.data)
                 <tr key={student._id}>
                   <td>{index + 1}</td>
                   <td>{student.Name}</td>
-                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}%</td>
-                  <td>{calculateMarks(student?.Tasks ? student : 0)}</td>
+                  <td>{student?.Attendance}%</td>
+                  <td>{student?.Marks}</td>
                 </tr>
               ))}
             </tbody>

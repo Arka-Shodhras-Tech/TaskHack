@@ -108,8 +108,8 @@ export const Exam = () => {
             if (document.hidden) {
                 try
                 {
-                    // buttonref.current.click();
-                    // alert("Exam Submitted Sucessfully");
+                    buttonref.current.click();
+                    alert("Exam Submitted Sucessfully");
                 }
                 catch (e) {
                     console.log(e)
