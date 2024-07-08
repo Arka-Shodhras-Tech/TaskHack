@@ -8,9 +8,10 @@
 
 .main {
   width: 100%;
-  /* height: 70vh; */
+    /* height: 70vh; */
   display: grid;
   align-items: center;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .imgdiv{
@@ -33,12 +34,16 @@
   justify-content: center;
   align-items: center;
 }
+.person-name{
+  color: #34313d;
 
+}
 .hacthongrid-home{
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 
@@ -46,6 +51,8 @@
   height: 6vh;
   border-radius: 6px;
   border: none;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+
 }
 
 .hacthonlist {
@@ -54,10 +61,12 @@
   flex-direction: column;
   gap: 40px;
   justify-content: center;
+  
 }
 .buttonsgrid{
   padding: 10px;
   border-radius: 10px;
+  
 }
 
 .hacthonlist button:nth-child(1) {
@@ -65,6 +74,7 @@
   color: rgb(44, 44, 139);
   font-weight: bold;
   font-size:large;
+
 }
 .hacthonlist button:nth-child(2) {
   background-color: #3498DB;
@@ -88,10 +98,14 @@
 .hacthonlist button:hover{
   background-color: blue;
   color: white;
+  transform: scale(1.1);
+
 }
 
+
+
 .aboutgrid{
-  /* width: 10%; */
+    /* width: 10%; */
   display: flex;
   justify-content: center;
 }
@@ -101,7 +115,7 @@
   font-family: Arial, sans-serif;
   font-size: 3em;
   font-weight: 900;
-  /* Double bold */
+    /* Double bold */
   text-transform: uppercase;
   color: transparent;
   background-image: linear-gradient(to right,
