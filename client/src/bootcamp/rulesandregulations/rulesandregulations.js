@@ -1,17 +1,27 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import './rulesandregulations.css';
-import { FaClock, FaCalendarDay, FaBook ,FaHtml5, FaCss3Alt, FaJs, FaReact, FaNode, FaDatabase } from 'react-icons/fa';
+import { FaClock, FaCalendarDay, FaBook, FaHtml5, FaCss3Alt, FaJs, FaReact, FaNode, FaDatabase } from 'react-icons/fa';
 
 export const RulesAndRegulations = () => {
   return (
     <div className="rules-container">
+      <Helmet>
+        <title>12 Days Bootcamp - Rules and Regulations</title>
+        <meta name="description" content="Join our 12 days bootcamp to learn HTML, CSS, JavaScript, React, Node, and MongoDB. Find the complete schedule and timings here." />
+        <meta name="keywords" content="Bootcamp, HTML, CSS, JavaScript, React, Node, MongoDB, Coding, Programming, AST Team, Vedic Vision" />
+        <meta property="og:title" content="12 Days Bootcamp - Rules and Regulations" />
+        <meta property="og:description" content="Join our 12 days bootcamp to learn HTML, CSS, JavaScript, React, Node, and MongoDB. Find the complete schedule and timings here." />
+        <meta property="og:type" content="website" />
+       
+      </Helmet>
       <div className="flex-container">
         <div className='timings'>
-          <h2 style={{color:'ActiveBorder',color:'black'}}>12 days Bootcamp Timings</h2><br/>
+          <h2 style={{ color: 'ActiveBorder', color: 'black' }}>12 days Bootcamp Timings</h2><br />
           <ul>
             <li>
               <FaCalendarDay />
-              <strong>Monday to Friday</strong> 
+              <strong>Monday to Friday</strong>
             </li>
             <li><FaClock /> 4:30PM to 7:30 PM <FaBook /> 3hrs lesson</li>
           </ul>
@@ -27,7 +37,7 @@ export const RulesAndRegulations = () => {
             <li><FaClock /> 9:00AM to 12:00PM & 1:30PM to 4:30PM <FaBook /> Lessons</li>
           </ul>
         </div>
-        
+
         <div className="stack">
           <h2 className='rules'>Tech Stack</h2>
           <ul className="stack-list-icons">
@@ -41,7 +51,6 @@ export const RulesAndRegulations = () => {
         </div>
       </div><hr></hr>
 
-      
       <div className="schedule-container">
         <h2 className='schedule-head'>Schedule</h2>
         <table className="schedule-table">

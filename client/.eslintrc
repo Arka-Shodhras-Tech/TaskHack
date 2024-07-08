@@ -1,0 +1,15 @@
+{
+    "env": {
+      "browser": true,
+      "serviceworker": true
+    },
+    "overrides": [
+      {
+        "files": ["service-worker.js"],
+        "globals": {
+          "self": "readonly"
+        }
+      }
+    ]
+  }
+  

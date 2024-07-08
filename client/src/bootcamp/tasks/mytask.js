@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react"
+import { Button, Text, Tooltip } from "@chakra-ui/react";
 export const MyTasks = ({ tasks, day, unselect }) => {
     return (
         <div className="task-list">
