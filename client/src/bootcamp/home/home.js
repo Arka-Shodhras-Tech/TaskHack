@@ -1,38 +1,37 @@
 import {
   Box,
-  Flex,
-  Text,
-  Container,
-  Image,
-  Tooltip,
-  SimpleGrid,
   Button,
+  Container,
+  Flex,
   Heading,
+  Image,
+  SimpleGrid,
+  Text,
+  Tooltip,
 } from "@chakra-ui/react";
-import React, { useState, useEffect, useRef } from "react";
-import "../main/main.css";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HomeModel } from "../../models/hacthonhomemodel/hacthonhomemodel";
 import { PopOver } from "../../models/hacthonhomepopover/hacthonhomepopover";
-import tasksimage from "./tasks.png";
-import performanceimage from "./performance.png";
+import "../main/main.css";
+import aboutImage from "./about.png";
+import feedbackFormimage from "./feedback.png";
 import materialsimage from "./materials.png";
 import mostlyUsedMaterialsimage from "./most-used-materials.png";
-import feedbackFormimage from "./feedback.png";
-import aboutImage from "./about.png"; // Add appropriate image path
-import { useNavigate } from "react-router-dom";
-import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-import { light } from "@mui/material/styles/createPalette";
+import performanceimage from "./performance.png";
+import tasksimage from "./tasks.png";
+import { Overlay } from "./overlay";
 
 export const Home = ({ data }) => {
   const [openModel, setOpenModel] = useState(true);
   const [greeting, setGreeting] = useState("");
   const [showOverlay, setShowOverlay] = useState(false);
 
-  const overlayRef = useRef(null); // Ref for the overlay section
-  const stickyScrollViewRef = useRef(null); // Ref for the sticky-scroll-view section
+  const overlayRef = useRef(null);
+  const stickyScrollViewRef = useRef(null);
 
-  document.title =
-    "Home | Tasks | Performance | Feedback | Materials | BootCamp | Vedic Vision | AST TEAM";
+  // document.title =// "Home | Tasks | Performance | Feedback | Materials | BootCamp | Vedic Vision | AST TEAM";
   const nav = useNavigate();
 
   useEffect(() => {
@@ -61,6 +60,10 @@ export const Home = ({ data }) => {
   };
 
   useEffect(() => {
+    Overlay("overlay-bar")
+  })
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -81,10 +84,7 @@ export const Home = ({ data }) => {
           backgroundPosition="center"
           zIndex="1"
         >
-          <Container
-            maxW={{ base: "100%", md: "90%", lg: "90%", xl: "90%" }}
-            marginTop={{ base: "10vh" }}
-          >
+          <Container maxW={{ base: "100%", md: "90%", lg: "90%", xl: "90%" }} className="profile-pic">
             {!data?.Gender && (
               <HomeModel
                 open={openModel}
@@ -129,11 +129,12 @@ export const Home = ({ data }) => {
               </Box>
             </Flex>
           </Container>
+
           <Box minH="80vh" alignItems="center">
             <div className="hacthongrid-home">
               <div className="hacthonlist">
                 <div className="buttonsgrid">
-                  <SimpleGrid minChildWidth="220px" spacing="40px">
+                  <SimpleGrid minChildWidth="200px" spacing="40px">
                     <Button onClick={() => openPage("/bootcamp/tasks")}>
                       Tasks
                     </Button>
@@ -151,19 +152,20 @@ export const Home = ({ data }) => {
               display="flex"
               justifyContent="center"
               alignItems="end"
-              minH="300px"
+              maxH="200px"
             >
               <Button
                 onClick={() => window.scrollTo(0, window.innerHeight)}
                 className="more-info-button"
                 borderRadius={25}
               >
-                <KeyboardDoubleArrowDownIcon />
+                <KeyboardDoubleArrowDownIcon onClick={() => { document.getElementById("overlay-bar").style.display = 'block' }} />
               </Button>
             </Box>
           </Box>
         </Box>
-        <Box className="overlay-main-container" ref={overlayRef}>
+
+        <Box style={{ display: 'none' }} id="overlay-bar" className="overlay-main-container" ref={overlayRef}>
           <Box
             className={`sticky-scroll-view ${showOverlay ? "visible" : ""}`}
             minH="90vh"
@@ -175,6 +177,9 @@ export const Home = ({ data }) => {
             position="relative"
             marginTop="80vh"
           >
+            {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <KeyboardDoubleArrowDownIcon onClick={() => { document.getElementById("overlay-bar").style.display = 'none' }} />
+            </div> */}
             <Heading color="white">More Interactions</Heading>
 
             <Box overflow="auto" padding="50px" width="auto" id="style-4">

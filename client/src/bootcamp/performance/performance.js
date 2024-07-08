@@ -37,25 +37,50 @@ const Performance = ({ perfom, student }) => {
           totalMarks += parseInt(task?.GetMarks || 0);
         });
       });
-      return { Name: student?.Name, Marks: totalMarks, Attendance: ((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0), Total: (parseInt(student?.AttendDays || 0) + parseInt(totalMarks || 0)
-      + parseInt(student?.ActivityMarks || 0) + parseInt(student?.InternalMarks || 0)) / 4 };
+      return {
+        Name: student?.Name, Marks: totalMarks, Attendance: ((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0), Total: (parseInt(student?.AttendDays || 0) + parseInt(totalMarks || 0)
+          + parseInt(student?.ActivityMarks || 0) + parseInt(student?.InternalMarks || 0)) / 4
+      };
     });
     return marks.sort((a, b) => b.Total - a.Total);
   }
 
   useEffect(() => {
     Actions.Students()
-      .then((res) => {
-        // const filteredData = res?.data?.filter(student => student?.AttendDays !== undefined);
+      .then(res => {
+        // const filteredData = res?.data?.filter(student => student.AttendDays !== undefined);
+        // console.log(filteredData)
         // const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
-        handlestudents(res?.data)
-        .then((result)=>{
-          setData(result)
-        })
-        .catch((e)=>{})
-      }).catch((e) => {})
-  }, [])
+        // console.log(sortedData)
 
+        handleStudents(res?.data)
+          .then((res) => {
+            console.log(res)
+            setData(res);
+          })
+          .catch((e) => console.log(e))
+      })
+      .catch(e => console.log(e));
+  }, []);
+
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+
+    const sortedData = [...sdata].sort((a, b) => {
+      if (a[key] < b[key]) {
+        return direction === 'ascending' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+    setData(sortedData);
+  };
 
   const Others = () => {
     return (
@@ -85,8 +110,8 @@ const Performance = ({ perfom, student }) => {
                 <tr key={student._id}>
                   <td>{index + 1}</td>
                   <td>{student.Name}</td>
-                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}%</td>
-                  <td>{calculateMarks(student?.Tasks ? student : 0)}</td>
+                  <td>{student?.Attendance}%</td>
+                  <td>{student?.Marks}</td>
                 </tr>
               ))}
             </tbody>
