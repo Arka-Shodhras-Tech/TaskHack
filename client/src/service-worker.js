@@ -5,7 +5,7 @@ import { NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'workbox-strategi
 // Precache files
 precacheAndRoute(self.__WB_MANIFEST);
 
-// Cache all navigational routes with NetworkFirst strategy
+
 registerRoute(
   ({ request }) => request.mode === 'navigate',
   new NetworkFirst({
