@@ -18,7 +18,7 @@ export const UpdatePasswordLink = async (req,resend,res) => {
                 res.status(200).json({ message: "OTP successfully sent to your email" });
             }
             if (error) {
-                res.status(200).json({ message:error });
+                res.status(200).json({ message:error?.message });
             }
         } else {
             return res.json({ error: 'No email address found for this user.' });

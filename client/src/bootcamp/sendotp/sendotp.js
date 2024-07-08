@@ -16,7 +16,6 @@ export const OTPForm = () => {
         setLoad(true);
         try {
             const res = await axios.post(`${process.env.REACT_APP_Server}/updatepasswordlink`, { regd });
-            console.log(res.data)
             if (!res.data?.message) {
                 toast({
                     title: "try again",
