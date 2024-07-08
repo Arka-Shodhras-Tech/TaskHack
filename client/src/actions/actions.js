@@ -51,6 +51,10 @@ export const Actions = {
 
     UnSelectPS: async (code, number) => {
         return await axios.post(process.env.REACT_APP_Server + "/unselectps", { code, number })
-    }
+    },
+
+    FeedBack: async (user, techfeed, sitefeed) => {
+        return await axios.post(process.env.REACT_APP_Server + "/internalmarks", { user, techfeed, sitefeed })
+    },
 
 }

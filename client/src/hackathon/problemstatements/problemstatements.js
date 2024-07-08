@@ -6,7 +6,7 @@ import { Actions } from "../../actions/actions";
 import { HackathonNav } from "../hackathonnav/hackathonnav";
 import './ps.css';
 
-export const ProblemStatements = ({data,reload}) => {
+export const ProblemStatements = ({ data, reload }) => {
     const [dat, setDat] = useState([]);
     const [stmt, setStmt] = useState(true)
     const [select, setSelect] = useState("");
@@ -107,7 +107,7 @@ export const ProblemStatements = ({data,reload}) => {
                                         val?.Desc?.toLowerCase().includes(select) ||
                                         val?.Statement?.toLowerCase().includes(select))
                                     ).map((task) => (
-                                        task?.Users.length<3&&<Card>
+                                        task?.Users.length < 3 && <Card>
                                             <CardHeader>
                                                 <Heading size='md'>Problem Statement {task?.Number}</Heading>
                                             </CardHeader>
@@ -127,8 +127,8 @@ export const ProblemStatements = ({data,reload}) => {
                                                         </Text>} */}
 
                                                         {stmt && <Text textAlign={'center'}>
-                                                            {!data?.PS?<Button onClick={() =>{ SelectPS(task?.Number, task?.Statement, task?.Desc)}}>select</Button>:
-                                                            data?.PS?.Number===task?.Number&&<Button onClick={() => {UnSelectPS(task?.Number)}}>unselect</Button>}
+                                                            {!data?.PS ? <Button onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
+                                                                data?.PS?.Number === task?.Number && <Button onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
                                                         </Text>}
                                                     </Box>
                                                 </Stack>

@@ -33,7 +33,8 @@ export const Performance = ({ perfom, student }) => {
           totalMarks += parseInt(task?.GetMarks || 0);
         });
       });
-      return { Name: student?.Name, Marks: totalMarks,Attendance:((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0),Total:(parseInt(student?.AttendDays || 0)+parseInt(totalMarks))/2};
+      return { Name: student?.Name, Marks: totalMarks, Attendance: ((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0), Total: (parseInt(student?.AttendDays || 0) + parseInt(totalMarks || 0)
+      + parseInt(student?.ActivityMarks || 0) + parseInt(student?.InternalMarks || 0)) / 4 };
     });
     return marks.sort((a, b) => b.Total - a.Total);
   }
@@ -44,11 +45,11 @@ export const Performance = ({ perfom, student }) => {
         // const filteredData = res?.data?.filter(student => student?.AttendDays !== undefined);
         // const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
         handlestudents(res?.data)
-        .then((result)=>{
-          setData(result)
-        })
-        .catch((e)=>{})
-      }).catch((e) => {})
+          .then((result) => {
+            setData(result)
+          })
+          .catch((e) => { })
+      }).catch((e) => { })
   }, [])
 
 

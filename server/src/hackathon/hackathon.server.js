@@ -7,8 +7,6 @@ import { CreateTeam } from "./Teams/createteams.js";
 import { SelectTask, UnSelectTask } from "./bootcamp/tasks/selecttask.js";
 import { StudentTasks, Tasks } from "./bootcamp/tasks/tasks.js";
 import { CheckHackathon } from "./hacthonday/checkhackathon.js";
-import { EndHackathon } from "./hacthonday/hackathonend.js";
-import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { FileByName, Materials } from "./materials/material.js";
 import { LikeMati, ViewMati } from "./materials/updatematerials.js";
 import { PSS } from "./problemstatements/pss.js";
@@ -37,15 +35,6 @@ app.use(session({
     saveUninitialized: false,
     cookie: { secure: false }
 }));
-
-
-app.post('/start-hackathon', async (req, res) => {
-    await StartHackathon(req.body, res);
-})
-
-app.post('/end-hackathon', async (req, res) => {
-    await EndHackathon(req.body, res);
-})
 
 app.post('/check-hackathon', async (req, res) => {
     await CheckHackathon("hackathon@gmail.com", res);

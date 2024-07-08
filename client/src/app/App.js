@@ -23,7 +23,7 @@ function App() {
           setTeam(res?.data)
         }
       })
-      .catch((e) => {})
+      .catch((e) => { })
   }
 
   const CheckHackathon = async () => {
@@ -32,10 +32,10 @@ function App() {
         setStart(res?.data)
         setLoad(true)
       })
-      .catch((e) => {})
+      .catch((e) => { })
   }
 
-  const Refresh=()=>{
+  const Refresh = () => {
     checkTeam(teamcode)
   }
 
@@ -48,9 +48,9 @@ function App() {
     <>
       {load ? <BrowserRouter>
         <Routes>
-          <Route path="/*" element={start?.start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes data={start?.data} />} />
-          <Route path='/problemstatements' element={team?.message?<ProblemStatements data={team?.data} reload={Refresh}/>:<TeamLoginForm/>} />
+          <Route path="/*" element={start?.start ? <HackthonDayRoute socket={socket} /> : <LandingRoute />} />
+          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute socket={socket} /> : <BootcampRoutes data={start?.data} />} />
+          <Route path='/problemstatements' element={team?.message ? <ProblemStatements data={team?.data} reload={Refresh} /> : <TeamLoginForm />} />
         </Routes>
       </BrowserRouter> :
         <div className='ast'>AST TEAM</div>}
