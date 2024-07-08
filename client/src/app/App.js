@@ -9,10 +9,13 @@ import { TeamLoginForm } from '../hackathon/teams/teamlogin.js';
 import { socket } from '../socket.js';
 import './App.css';
 import { LandingRoute } from './allroutes/landingroute.js';
+import EnhancedNetworkChecker from '../NetworkChecker.js';
 function App() {
   const [start, setStart] = useState(true);
   const [team, setTeam] = useState(false)
-  const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(localStorage.load || false)
+  const [offline, setOffline] = useState(localStorage.load || false)
+
   const teamcode = useSelector((state) => state.user?.Teamcode)
   const teamname = useSelector((state) => state.user?.Teamname)
 
@@ -46,10 +49,12 @@ function App() {
 
   return (
     <>
+            <EnhancedNetworkChecker/>
+
       {load ? <BrowserRouter>
         <Routes>
           <Route path="/*" element={start?.start ? <HackthonDayRoute socket={socket}/> : <LandingRoute />} />
-          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> : <BootcampRoutes data={start?.data} />} />
+          <Route path="/bootcamp/*" element={start?.start ? <HackthonDayRoute  socket={socket}/> :  <BootcampRoutes data={start?.data} offline={offline}/>} />
           <Route path='/problemstatements' element={team?.message?<ProblemStatements data={team?.data} reload={Refresh}/>:<TeamLoginForm/>} />
         </Routes>
       </BrowserRouter> :
@@ -58,3 +63,5 @@ function App() {
   );
 }
 export default App;
+
+

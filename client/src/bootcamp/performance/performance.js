@@ -1,56 +1,86 @@
 import React, { useEffect, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Actions } from '../../actions/actions';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Text, Button } from '@chakra-ui/react';
+import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
 import './performance.css';
+import { Actions } from '../../actions/actions';
 
-export const Performance = ({ perfom, student }) => {
-  const [view, setView] = useState(sessionStorage.view || 'score');
-  const [sdata, setData] = useState([])
-  sessionStorage.student = student?.AttendDays
-  sessionStorage.admin = perfom?.Count
+const Performance = ({ perfom, student }) => {
+  const [view, setView] = useState(sessionStorage.getItem('view') || 'score');
+  const [sdata, setData] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: 'AttendDays', direction: 'descending' });
 
-  const CalMarks = (student) => {
+  sessionStorage.setItem('student', student?.AttendDays);
+  sessionStorage.setItem('admin', perfom?.Count);
+
+  const calculateMarks = (student) => {
     let marks = 0;
-    student?.Tasks && Object.values(student?.Tasks)?.map((val) => (
-      val && Object.values(val)?.map((val1) => (
-        marks = marks + parseInt(val1?.GetMarks || 0)
-      ))
-    ))
-    return marks
-  }
+    student?.Tasks && Object.values(student.Tasks).forEach(val =>
+      val && Object.values(val).forEach(val1 => {
+        marks += parseInt(val1.GetMarks || 0);
+      })
+    );
+    return marks;
+  };
 
   const handleViewChange = (newView) => {
     setView(newView);
-    sessionStorage.view = newView
+    sessionStorage.setItem('view', newView);
   };
 
-  const handlestudents = async (data) => {
-    const filterData = data?.filter(student => student?.Tasks);
-    const marks = filterData?.map(student => {
+  const handleStudents = async (data) => {
+    const filteredData = data.filter(student => student.Tasks);
+    const marks = filteredData.map(student => {
       let totalMarks = 0;
-      Object.values(student?.Tasks)?.forEach(tasks => {
-        Object.values(tasks)?.forEach(task => {
-          totalMarks += parseInt(task?.GetMarks || 0);
-        });
-      });
-      return { Name: student?.Name, Marks: totalMarks,Attendance:((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0),Total:(parseInt(student?.AttendDays || 0)+parseInt(totalMarks))/2};
+      Object.values(student.Tasks).forEach(tasks =>
+        Object.values(tasks).forEach(task => {
+          totalMarks += parseInt(task.GetMarks || 0);
+        })
+      );
+      return {
+        Name: student.Name,
+        Marks: totalMarks,
+        Attendance: ((student.AttendDays || 0) / perfom.Count * 100).toFixed(0),
+        Total: (parseInt(student.AttendDays || 0) + parseInt(totalMarks)) / 2
+      };
     });
     return marks.sort((a, b) => b.Total - a.Total);
   }
 
   useEffect(() => {
     Actions.Students()
-      .then((res) => {
-        // const filteredData = res?.data?.filter(student => student?.AttendDays !== undefined);
-        // const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
-        handlestudents(res?.data)
-        .then((result)=>{
-          setData(result)
-        })
-        .catch((e)=>{})
-      }).catch((e) => {})
-  }, [])
+      .then(res => {
 
+console.log(res.data)
+
+        const filteredData = res?.data?.filter(student => student.AttendDays !== undefined);
+        console.log(filteredData)
+        const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
+        console.log(sortedData)
+
+        setData(sortedData);
+      })
+      .catch(e => console.log(e));
+  }, []);
+
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+
+    const sortedData = [...sdata].sort((a, b) => {
+      if (a[key] < b[key]) {
+        return direction === 'ascending' ? -1 : 1;
+      }
+      if (a[key] > b[key]) {
+        return direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+    setData(sortedData);
+  };
 
   const Others = () => {
     return (
@@ -60,19 +90,28 @@ export const Performance = ({ perfom, student }) => {
           <table className='table-align'>
             <thead>
               <tr>
-                <th>S.No</th>
-                <th>Name</th>
-                <th>Attendance</th>
-                <th>Score</th>
+                <th onClick={() => sortData('_id')}>
+                  S.No
+                  {sortConfig.key === '_id' && (sortConfig.direction === 'ascending' ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />)}
+                </th>
+                <th onClick={() => sortData('Name')}>
+                  Name {sortConfig.key === 'Name' && (sortConfig.direction === 'ascending' ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />)}
+                </th>
+                <th onClick={() => sortData('AttendDays')}>
+                  Attendance {sortConfig.key === 'AttendDays' && (sortConfig.direction === 'ascending' ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />)}
+                </th>
+                <th onClick={() => sortData('Tasks')}>
+                  Score
+                </th>
               </tr>
             </thead>
             <tbody>
-              {sdata?.map((student, index) => (
-                <tr key={student?._id}>
+              {sdata.map((student, index) => (
+                <tr key={student._id}>
                   <td>{index + 1}</td>
-                  <td>{student?.Name}</td>
-                  <td>{student?.Attendance}%</td>
-                  <td>{student?.Marks}</td>
+                  <td>{student.Name}</td>
+                  <td>{((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0)}%</td>
+                  <td>{calculateMarks(student?.Tasks ? student : 0)}</td>
                 </tr>
               ))}
             </tbody>
@@ -86,23 +125,23 @@ export const Performance = ({ perfom, student }) => {
     <div className="score">
       <h2>Score</h2>
       <div className="score-details">
-        <p className="label">Name:</p>
-        <p className="value">{student?.Name}</p>
-        <p className="label">Your Score:</p>
-        <p className="value">{CalMarks(student)}</p>
+        <Text className="label" fontSize={['sm', 'md', 'lg']}>Name:</Text>
+        <Text className="value" fontSize={['sm', 'md', 'lg']}>{student?.Name}</Text>
+        <Text className="label" fontSize={['sm', 'md', 'lg']}>Your Score:</Text>
+        <Text className="value" fontSize={['sm', 'md', 'lg']}>{calculateMarks(student)}</Text>
       </div>
     </div>
   );
 
   const data = [
-    { name: 'Present', days: sessionStorage.student },
-    { name: 'Absent', days: parseInt(sessionStorage.admin) - parseInt(sessionStorage.student) },
+    { name: 'Present', days: sessionStorage.getItem('student') },
+    { name: 'Absent', days: parseInt(sessionStorage.getItem('admin')) - parseInt(sessionStorage.getItem('student')) },
   ];
 
   const Attendance = () => (
     <div className="attendance">
-      <h2>Attendance</h2>
       <div className="chart">
+        <h2>Attendance</h2>
         <ResponsiveContainer className='chart-position' height={300}>
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -119,11 +158,10 @@ export const Performance = ({ perfom, student }) => {
 
   return (
     <div className="performance-container">
-      <h1>Performance</h1>
       <div className="button-group">
-        <button onClick={() => handleViewChange('attendance')}>Attendance</button>
-        <button onClick={() => handleViewChange('score')}>Score</button>
-        <button onClick={() => handleViewChange('others')}>Others</button>
+        <Button onClick={() => handleViewChange('attendance')}>Attendance</Button>
+        <Button onClick={() => handleViewChange('score')}>Score</Button>
+        <Button onClick={() => handleViewChange('others')}>Others</Button>
       </div>
       <div className="content">
         {view === 'attendance' && <Attendance />}
@@ -132,7 +170,6 @@ export const Performance = ({ perfom, student }) => {
       </div>
     </div>
   );
-
-
 };
+
 export default Performance;
