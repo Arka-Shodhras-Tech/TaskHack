@@ -7,6 +7,7 @@ import App from './app/App';
 import {store,persistor} from '../src/redux/store/configurestore'
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import { register } from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,3 +20,4 @@ root.render(
   </Provider>
 );
 reportWebVitals();
+register();;

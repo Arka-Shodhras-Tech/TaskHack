@@ -4,7 +4,6 @@ import Countdown from '../../hackathon/countdown/countdown'
 import { BootcampNav } from '../bootcampnav/bootcampnav'
 import { Home } from '../home/home'
 import { LoginForm } from '../login/login'
-import { Performance } from '../performance/performance'
 import { RegistrationForm } from '../register/register'
 import { HackStudentscore } from '../score/score'
 import { OTPForm } from '../sendotp/sendotp'
@@ -17,8 +16,9 @@ import { Materials } from '../materials/materials'
 import {RulesAndRegulations} from '../rulesandregulations/rulesandregulations'
 import { FeedbackForm } from '../feedbackform/feedbackform'
 import { MostusedMaterials } from '../mostusedmaterials/mostusedmaterials'
+import Performance from '../performance/performance'
 
-export const BootcampRoutes = ({data}) => {
+export const BootcampRoutes = ({data,offline}) => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user?.update)
     const [check,setCheck]=useState(false)
@@ -31,23 +31,24 @@ export const BootcampRoutes = ({data}) => {
         }).catch((e)=>console.log(e))
     },[check.auth,auth])
     return (
-        load?<>
+        load|| offline ?<>
             <BootcampNav />
             <Routes>
                 <Route path="/login" element={check?.auth?<Home/>:<LoginForm />} />
                 <Route path="/update" element={<OTPForm />} />
                 <Route path='/updateform' element={update?<UpdateForm />:<PageNotFound/>} />
-                <Route path='/tasks' element={check?.auth?<Tasks />:<LoginForm />} />
-                <Route path='/performance' element={check?.auth ? <Performance perfom={data} student={check?.data}/> : <LoginForm />} />
-                <Route path='/materials' element={check?.auth ?<Materials/>: <LoginForm />}/>
                 <Route path="/score" element={check?.auth ? <HackStudentscore /> : <LoginForm />} />
                 <Route path="/" element={<Countdown />} />
-                <Route path='/home' element={check?.auth ? <Home data={check?.data}/> : <LoginForm />} />
+                <Route path='/home' element={check?.auth ? <Home data={check?.data}  perfom={data} student={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
                 <Route path='/register' element={<RegistrationForm/>}/>
                 <Route path='/rulesandregulations' element={<RulesAndRegulations/>}/>
                 <Route path='/about' element={<RulesAndRegulations/>}/>
                 <Route path='/feedbackform' element={<FeedbackForm/>}/>
+                <Route path='/tasks' element={check?.auth?<Tasks />:<LoginForm />} />
+                <Route path='/performance' element={check?.auth ? <Performance perfom={data} student={check?.data}/> : <LoginForm />} />
+                <Route path='/materials' element={check?.auth ?<Materials/>: <LoginForm />}/>
+
                 <Route path='/mostlyused' element={<MostusedMaterials/>} />
 
             </Routes>
