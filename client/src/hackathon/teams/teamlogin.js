@@ -1,3 +1,8 @@
+// components/TeamLoginForm.js
+
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Actions } from "../../actions/actions";
 import {
   Badge,
   Box,
@@ -8,11 +13,7 @@ import {
   Flex,
   Heading,
   Text,
-  Modal,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Actions } from "../../actions/actions";
 import { CreateTeam } from "./create-team-model";
 import "./teamlogin.css";
 
@@ -33,60 +34,32 @@ export const TeamLoginForm = () => {
     if (ishtr) {
       if (htrId && htrPassword) {
         setLoad(true);
-        await Actions.CheckHTR(htrId)
-          .then((res) => {
-            if (res?.data?.data?.HtrCode) {
-              if (res?.data?.data?.Password === htrPassword) {
-                if (res?.data?.data?.Status === "active") { // Check if HTR is active
-                  setLoad(false);
-                  dispatch({
-                    type: "HTR",
-                    payload: {
-                      HtrCode: res?.data?.data?.HtrCode,
-                      HtrName: res?.data?.data?.Password,
-                    },
-                  });
-                  toast({
-                    title: res?.data?.message,
-                    status: "success",
-                    position: "top-right",
-                    isClosable: true,
-                  });
-                  setHtrId("");
-                  setHtrPassword("");
-                  setHtrAuth(true);
-                } else {
-                  setLoad(false);
-                  toast({
-                    title: "HTR account is inactive",
-                    status: "error",
-                    position: "bottom-right",
-                    isClosable: true,
-                  });
-                }
-              } else {
-                setLoad(false);
-                toast({
-                  title: "Incorrect password",
-                  status: "error",
-                  position: "bottom-right",
-                  isClosable: true,
-                });
-              }
-            } else {
-              setLoad(false);
-              toast({
-                title: "User not found",
-                status: "error",
-                position: "bottom-right",
-                isClosable: true,
-              });
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-            setLoad(false);
-          });
+        try {
+          const res = await Actions.CheckHTR(htrId, htrPassword);
+
+          if (res?.data?.error) {
+            toast({
+              title: res?.data?.message,
+              status: "error",
+              position: "top-right",
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: res?.data?.message,
+              status: "success",
+              position: "top-right",
+              isClosable: true,
+            });
+            setHtrId("");
+            setHtrPassword("");
+            setHtrAuth(true);
+          }
+        } catch (error) {
+          console.error("Error checking HTR:", error);
+        } finally {
+          setLoad(false);
+        }
       } else {
         toast({
           title: "All fields are required",
@@ -96,26 +69,64 @@ export const TeamLoginForm = () => {
         });
       }
     } else {
-      // Team Login - This part is not executed for HTR login
-      toast({
-        title: "Switch to HTR Login to proceed",
-        status: "info",
-        position: "bottom-right",
-        isClosable: true,
-      });
+      if (regd && password) {
+        setLoad(true);
+        try {
+          const res = await Actions.CheckTeam(regd, password);
+          if (res?.data?.error) {
+            toast({
+              title: res?.data?.message,
+              status: "error",
+              position: "top-right",
+              isClosable: true,
+            });
+          } else {
+            console.log(data)
+            dispatch({
+              type: "TEAM",
+              payload: {
+                Teamcode: res?.data?.data?.TeamCode,
+                Teamname: res?.data?.data?.Password,
+              },
+            });
+            window.location.href = "/problemstatements";
+            toast({
+              title: res?.data?.message,
+              status: "success",
+              position: "top-right",
+              isClosable: true,
+            });
+          }
+
+
+
+
+         
+        } catch (error) {
+          console.error("Error checking Team:", error);
+          setLoad(false);
+        }
+      } else {
+        toast({
+          title: "All fields are required",
+          status: "error",
+          position: "bottom-right",
+          isClosable: true,
+        });
+      }
     }
   };
 
   const fetchData = async () => {
-    await Actions.TeamsCodes()
-      .then((res) => {
-        if (res?.data) {
-          setData(res?.data);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    try {
+      const res = await Actions.TeamsCodes();
+   
+      if (res?.data) {
+        setData(res?.data);
+      }
+    } catch (error) {
+      console.error("Error fetching team codes:", error);
+    }
   };
 
   const handelLoginChange = () => {
@@ -186,7 +197,15 @@ export const TeamLoginForm = () => {
             </Badge>
           </Box>
 
-          {!isHtrAuth ? (
+          {isHtrAuth ? (
+            ishtr && (
+              <Box textAlign="center" mt={4}>
+                <Button variant="link" onClick={() => setShow(true)}>
+                  Create Team
+                </Button>
+              </Box>
+            )
+          ) : (
             <Box my={4} w="100%">
               <Text fontSize="lg" mb={2}>
                 Enter your credentials to login
@@ -237,14 +256,6 @@ export const TeamLoginForm = () => {
                 {load ? <Spinner size="sm" /> : "Login"}
               </Button>
             </Box>
-          ) : (
-            ishtr && (
-              <Box textAlign="center" mt={4}>
-                <Button variant="link" onClick={() => setShow(true)}>
-                  Create Team
-                </Button>
-              </Box>
-            )
           )}
         </Box>
       </Flex>

@@ -108,18 +108,22 @@ app.post('/views', async (req, res) => {
 
 // ***************************************** Hacthon *********************************************** //
 app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req, res) => {
+  
     await CreateTeam(req, res);
 })
 
 app.post('/checkteam', async (req, res) => {
-    await checkTeam(req.body.code, res)
-});
-app.post('/checkhtr', async (req, res) => {
-    await checkHtr(req.body.code, res)
-});
+    const { code, password } = req.body;
+    await checkTeam(code, password, res);
+  });
+  
+  app.post('/checkhtr', async (req, res) => {
+    const { code, password } = req.body;
+    await checkHtr(code, password, res);
+  });
 
 app.post('/teamscodes', async (req, res) => {
-    await AllTeamCodes(res)
+    await AllTeamCodes(req,res)
 })
 
 app.post('/selectps', async (req, res) => {

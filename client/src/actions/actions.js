@@ -29,11 +29,12 @@ export const Actions = {
         return await axios.post(process.env.REACT_APP_Server + "/views", { theme, index })
     },
 
-    CheckTeam: async (code) => {
-        return await axios.post(process.env.REACT_APP_Server + "/checkteam", { code })
+    CheckTeam: async (code,password) => {
+        return await axios.post(process.env.REACT_APP_Server + "/checkteam", { code,password })
     },
-    CheckHTR: async (code) => {
-        return await axios.post(process.env.REACT_APP_Server + "/checkhtr", { code })
+    CheckHTR: async (code,password) => {
+       
+        return await axios.post(process.env.REACT_APP_Server + "/checkhtr", { code ,password})
     },
 
     checkHacthon: async () => {
