@@ -18,6 +18,7 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
+import { checkHtr } from "./Teams/checkhtr.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -112,6 +113,9 @@ app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req,
 
 app.post('/checkteam', async (req, res) => {
     await checkTeam(req.body.code, res)
+});
+app.post('/checkhtr', async (req, res) => {
+    await checkHtr(req.body.code, res)
 });
 
 app.post('/teamscodes', async (req, res) => {
