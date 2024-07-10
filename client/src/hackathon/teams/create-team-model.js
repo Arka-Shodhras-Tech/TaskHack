@@ -164,7 +164,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
               ))}
             </Select>
             <Select
-            
+              placeholder="Select Number of Members"
               value={members}
               onChange={(e) => {
                 setMembers(e.target.value);
@@ -174,7 +174,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
             >
               {[4, 5, 6].map((num) => (
                 <option key={num} value={num}>
-                Team of  {num}
+                  Team of {num}
                 </option>
               ))}
             </Select>
@@ -201,19 +201,18 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
             </Text>
             <Tooltip
               label="By creating a team, you agree that the team details are genuine. Once created, the team cannot be modified or deleted."
-              aria-label="Terms and Conditions" hasArrow placement='top-end'
+              aria-label="Terms and Conditions"
+              hasArrow
+              placement="top-end"
               isDisabled={termsAccepted}
             >
               <Checkbox
                 isChecked={termsAccepted}
                 onChange={(e) => setTermsAccepted(e.target.checked)}
                 mb={2}
-             colorScheme="green"
+                colorScheme="green"
               >
-                <Badge    colorScheme="green">
                 I accept the terms and conditions
-                </Badge>
-          
               </Checkbox>
             </Tooltip>
           </Box>

@@ -1,7 +1,7 @@
 import { db1 } from "../../db.js";
 import { message } from "../message/message.js";
 
-export const CreateTeam = async (req, res,resend) => {
+export const CreateTeam = async (req, res, resend) => {
   const { team, gmail, phone, code, members, password } = req.params;
 
   try {
@@ -14,10 +14,22 @@ export const CreateTeam = async (req, res,resend) => {
     // Split the members into an array of registration numbers
     const memberDetailsArray = members.split(',').map(detail => detail.trim());
 
-    // Check if any registration number already exists in the database
-    const existingMembers = await db1.collection('Teams').find({
-      Members: { $in: memberDetailsArray }
+    // Check if all members exist in Hackathondata collection
+    const students = await db1.collection("Hackathondata").find({
+      Reg_No: { 
+        $in: memberDetailsArray.map(regNo => new RegExp(`^${regNo}$`, 'i')) 
+      }
     }).toArray();
+    
+    if (students.length !== memberDetailsArray.length) {
+      // If some member details do not match
+      const existingMembers = students.map(student => student.Reg_No);
+      const missingMembers = memberDetailsArray.filter(member => !existingMembers.includes(member));
+      return res.json({ error: "One or more registration numbers are invalid or not found in Hackathon Registrations", matchingNumbers:missingMembers });
+    }
+
+    // Check if any member is already part of another team
+    const existingMembers = await db1.collection('Teams').find({ Members: { $in: memberDetailsArray } }).toArray();
 
     if (existingMembers.length > 0) {
       // Collect matching registration numbers
@@ -53,9 +65,9 @@ export const CreateTeam = async (req, res,resend) => {
           from: 'Vedic Vision <hackathon@ast-admin.in>',
           to: [gmail],
           subject: 'Your Team Login Details for Vedic Vision Hackathon',
-          html:  message.sendTeamLoginDetails(team, parseInt(code), password, memberDetailsArray),
+          html: message.sendTeamLoginDetails(team, parseInt(code), password, memberDetailsArray),
         });
-console.log(data,error)
+
         if (error) {
           console.log("Error sending email:", error);
           return res.json({ message: "Team created but failed to send email", data: newTeam });
