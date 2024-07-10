@@ -68,5 +68,34 @@ export const message = {
         <p style="text-align: center;font-family:Georgia;margin-top:20px">For any queries, contact us at <a href="mailto:hackathon@ast-admin.in">hackathon@ast-admin.in</a> or call us at +91 6302423327 </p>
         <p style="text-align:center;color:">Team AST</p>
 
+    </div>`,
+    sendTeamLoginDetails:  (name, teamid, password, members) => `
+    <div style="border: 5px #be94de solid; width: 100%; border-radius: 25px; padding: 20px; font-family: Arial, sans-serif;">
+      <p style="text-align: center;">
+        <h4>New <b>Message</b> From Team AST</h4>
+      </p>
+      <p style="text-align: center;">
+        <h1>VEDIC VISION HACKATHON</h1>
+      </p>
+      <div style="text-align: center;">
+        Welcome to Vedic Vision Hackathon, Team ${name}!
+        <br />
+        <h3>Your login details</h3>
+      </div>
+      <div style="text-align: center;">
+        <h1>Your ID: ${teamid}</h1>
+        <h1>Your Password: ${password}</h1>
+        <ul style="list-style-type: none; padding: 0;">
+          ${members.map(member => `<li>${member}</li>`).join('')}
+        </ul>
+      </div>
+      <br />
+      <p style="text-align: center; margin-top: 20px;">
+        For any queries, contact us at <a href="mailto:hackathon@ast-admin.in">hackathon@ast-admin.in</a> or call us at +91 6302423327
+      </p>
+      <p style="text-align: center;">
+        Team AST
+      </p>
     </div>`
+  
 }

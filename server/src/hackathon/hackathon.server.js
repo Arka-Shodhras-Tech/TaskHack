@@ -19,6 +19,7 @@ import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
 import { checkHtr } from "./Teams/checkhtr.js";
+import { JoinHackathon } from "./joinhackathon/joinhackathon.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -109,7 +110,7 @@ app.post('/views', async (req, res) => {
 // ***************************************** Hacthon *********************************************** //
 app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req, res) => {
   
-    await CreateTeam(req, res);
+    await CreateTeam(req, res,resend);
 })
 
 app.post('/checkteam', async (req, res) => {
@@ -124,6 +125,9 @@ app.post('/checkteam', async (req, res) => {
 
 app.post('/teamscodes', async (req, res) => {
     await AllTeamCodes(req,res)
+})
+app.post("/joinhackathon", async (req, res) => {
+    await JoinHackathon(req,res)
 })
 
 app.post('/selectps', async (req, res) => {

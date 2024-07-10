@@ -56,6 +56,10 @@
 
 
 }
+th {
+    background-color: gray !important;
+    color: black !important;
+}
 
 .task-select {
     text-align: end;

@@ -44,6 +44,9 @@ export const Actions = {
     CreateTeam: async (team, gmail, phone, code, members, password) => {
         return await axios.post(process.env.REACT_APP_Server + "/createteam/" + team + "/" + gmail + "/" + phone + "/" + code + "/" + members + "/" + password)
     },
+    JoinHackathon: async (teamCode,registrationNumber,password) => {
+        return await axios.post(process.env.REACT_APP_Server + "/joinhackathon",{teamCode,registrationNumber,password})
+    },
 
     TeamsCodes: async () => {
         return await axios.post(process.env.REACT_APP_Server + "/teamscodes")

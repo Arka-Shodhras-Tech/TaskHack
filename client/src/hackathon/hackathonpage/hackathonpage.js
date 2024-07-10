@@ -24,47 +24,74 @@ import "./hackathonpage.css";
 import axios from "axios";
 import DisplayTimer from "../timers/displayTimer";
 import { useNavigate } from "react-router-dom";
+import TeamJoinModal from "./joinhackathonmodal";
+import { Actions } from "../../actions/actions";
+import { useDispatch } from "react-redux";
+import Logout from "@mui/icons-material/Logout";
 
-const calculateTimeLeft = (endTime) => {
-    const difference = endTime - new Date().getTime();
-    let timeLeft = {};
+
+
+
+
+export const Hackathonpage = ({ isAuth = false, socket }) => {
+  const nav = useNavigate();
+  document.title = "Hackathon | Vedic Vision | Team Ast";
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+  const [teamCode, setTeamCode] = useState("");
+  const [registrationNumber, setRegistrationNumber] = useState("");
+  const [password, setPassword] = useState("");
+
+
+  const dispatch = useDispatch();
   
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    } else {
-      timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  const handleJoin = async () => {
+  
+  
+  
+    try {
+      const response = await Actions.JoinHackathon(teamCode, registrationNumber, password);
+
+  
+      if (response?.data?.error) {
+        toast({
+          title: "Error joining team.",
+          description: response.data.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        dispatch({
+          type: "JOINHACK",
+          payload: {
+            TeamCode: response?.data?.data?.TeamCode,
+            TeamPassword: response?.data?.data?.Password,
+            TeamMember: registrationNumber,
+          },
+        });
+        onClose();
+        toast({
+          title: "Team joined.",
+          description: "You have successfully joined the team.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast({
+        title: "Error joining team.",
+        description: error.message || "An error occurred.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
-  
-    return timeLeft;
   };
   
-  
-  const getTargetTime = () => {
-    // August 14, 2024, 9:00 AM
-    const targetDate = new Date('2024-08-14T09:00:00');
-    return targetDate.getTime();
-  };
-
-export const Hackathonpage = ({isAuth = false,socket}) => {
- const nav = useNavigate();
-  // document.title = "Hackathon | Vedic Vision | Team Ast"
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(getTargetTime()));
-  const [targetTime] = useState(getTargetTime);
-  const JoinTeam = () => {}
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft(targetTime));
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [targetTime]);
 
 
 
@@ -88,58 +115,77 @@ export const Hackathonpage = ({isAuth = false,socket}) => {
       endTime: "1:30 PM",
     },
   ];
+  const handleLogout = ()=>{
+    dispatch({
+      type: "JOINHACK",
+      payload: {
+        TeamCode: "",
+        TeamPassword: "",
+        TeamMember: "",
+      },
+    });
+  }
 
   return (
     <Center p={8} className="hackathon-container">
       <DisplayTimer socket={socket} />
       <Stack spacing={8} maxW="5xl" w="full">
         <div className="text-center">
-      
-         { isAuth && <Button className="join-button" onClick={JoinTeam}>
-            Join Team
-          </Button>
-          
-          }
+          {!isAuth && (
+            <Button className="join-button" onClick={onOpen}>
+              Join Hackathon
+            </Button>
+          )}
 
-          {!isAuth &&  <div>
-            <Button className="join-button" onClick={()=>window.location.href="/games"}>games </Button>
-      </div>}
+          {isAuth && (
+            <>
+         
+            <Button className="join-button" onClick={() => window.location.href = "/games"}>
+              Games
+            </Button>
+
+            <Button onClick={handleLogout} colorScheme="red">
+              <Logout />
+            </Button>
+            </>
+          )}
         </div>
-        <Box textAlign="center" className="d-none">
-          <Heading size="lg" className="timer-text">
-            Time Left: {timeLeft.days}D {timeLeft.hours}H {timeLeft.minutes}M {timeLeft.seconds}S
-          </Heading>
-        </Box>
         <div>
-          {isAuth && tasks.map((task, index) => (
-            <Card key={index} className="task-card">
-              <CardHeader className="task-header">
-                <Heading
-                  textAlign="center"
-                  fontSize="2xl"
-                  className="task-title-color"
-                >
-                  {task.taskName}
-                </Heading>
-              </CardHeader>
-              <CardBody className="task-body">
-                <Text className="task-content">{task.content}</Text>
-                <Box
-                  style={{ display: "flex", justifyContent: "space-evenly" }}
-                >
-                  <Text className="task-time" style={{ color: "green" }}>
-                    Start Time: {task.startTime}
-                  </Text>
-                  <Text className="task-time" style={{ color: "red" }}>
-                    End Time: {task.endTime}
-                  </Text>
-                </Box>
-              </CardBody>
-            </Card>
-          ))}
+          {isAuth &&
+            tasks.map((task, index) => (
+              <Card key={index} className="task-card">
+                <CardHeader className="task-header">
+                  <Heading textAlign="center" fontSize="2xl" className="task-title-color">
+                    {task.taskName}
+                  </Heading>
+                </CardHeader>
+                <CardBody className="task-body">
+                  <Text className="task-content">{task.content}</Text>
+                  <Box style={{ display: "flex", justifyContent: "space-evenly" }}>
+                    <Text className="task-time" style={{ color: "green" }}>
+                      Start Time: {task.startTime}
+                    </Text>
+                    <Text className="task-time" style={{ color: "red" }}>
+                      End Time: {task.endTime}
+                    </Text>
+                  </Box>
+                </CardBody>
+              </Card>
+            ))}
         </div>
       </Stack>
-     
+
+      <TeamJoinModal
+        isOpen={isOpen}
+        onClose={onClose}
+        teamCode={teamCode}
+        setTeamCode={setTeamCode}
+        registrationNumber={registrationNumber}
+        setRegistrationNumber={setRegistrationNumber}
+        password={password}
+        setPassword={setPassword}
+        handleJoin={handleJoin}
+      />
     </Center>
   );
 };

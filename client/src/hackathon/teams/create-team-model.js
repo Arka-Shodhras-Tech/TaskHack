@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   Input,
   Modal,
   ModalBody,
@@ -11,7 +12,9 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Tooltip,
   useToast,
+  Badge,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Actions } from "../../actions/actions";
@@ -25,6 +28,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
   const [members, setMembers] = useState("");
   const [memberDetails, setMemberDetails] = useState([]);
   const [password, setPassword] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleMemberDetailsChange = (index, value) => {
     const newMemberDetails = [...memberDetails];
@@ -33,6 +37,17 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
   };
 
   const handleSubmit = async () => {
+    if (!termsAccepted) {
+      toast({
+        title: "Terms and Conditions",
+        description: "You must accept the terms and conditions to create a team.",
+        status: "error",
+        position: "bottom-right",
+        isClosable: true,
+      });
+      return;
+    }
+
     if (team && gmail && code && phone && members && memberDetails.length === parseInt(members) && password) {
       if (new Set(memberDetails).size !== memberDetails.length) {
         toast({
@@ -78,7 +93,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
             status: "error",
             position: "bottom-right",
             isClosable: true,
-            duration:10000
+            duration: 10000,
           });
         } else {
           toast({
@@ -149,7 +164,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
               ))}
             </Select>
             <Select
-              placeholder="Number of Team Members"
+            
               value={members}
               onChange={(e) => {
                 setMembers(e.target.value);
@@ -159,7 +174,7 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
             >
               {[4, 5, 6].map((num) => (
                 <option key={num} value={num}>
-                  {num}
+                Team of  {num}
                 </option>
               ))}
             </Select>
@@ -184,6 +199,23 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
             <Text color={"red"}>
               Remember your <strong>password</strong>, no chance to reset <strong>it</strong>
             </Text>
+            <Tooltip
+              label="By creating a team, you agree that the team details are genuine. Once created, the team cannot be modified or deleted."
+              aria-label="Terms and Conditions" hasArrow placement='top-end'
+              isDisabled={termsAccepted}
+            >
+              <Checkbox
+                isChecked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                mb={2}
+             colorScheme="green"
+              >
+                <Badge    colorScheme="green">
+                I accept the terms and conditions
+                </Badge>
+          
+              </Checkbox>
+            </Tooltip>
           </Box>
         </ModalBody>
         <ModalFooter>

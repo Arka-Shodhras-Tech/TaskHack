@@ -10,15 +10,21 @@ import { socket } from "../services/socket.js";
 import "./App.css";
 import { LandingRoute } from "./allroutes/landingroute.js";
 import EnhancedNetworkChecker from "../services/NetworkChecker.js";
+import { ProblemStatementsListView } from "../hackathon/problemstatements/listps.js";
 
 function App() {
-  const [start, setStart] = useState(true);
+  const [start, setStart] = useState(false);
   const [team, setTeam] = useState(false);
   const [load, setLoad] = useState(localStorage.load || false);
   const [offline, setOffline] = useState(localStorage.load || false);
+  const [ishackAuth, setAuth] = useState(false)
 
   const teamcode = useSelector((state) => state.user?.Teamcode);
   const teamname = useSelector((state) => state.user?.Teamname);
+  const member = useSelector((state) => state.user?.TeamMember);
+  const password = useSelector((state) => state.user?.TeamPassword);
+
+
 
   const checkTeam = async (teamcode) => {
     await Actions.CheckTeam(teamcode, teamname)
@@ -30,9 +36,25 @@ function App() {
       .catch((e) => {});
   };
 
+
+
+  const checkhackJoin = async () => {
+    await Actions.JoinHackathon(teamcode, member,password)
+      .then((res) => {
+        if (res?.data?.message === "Login successful") {
+          setAuth(true)
+         
+        }else{
+          setAuth(false)
+        }
+      })
+      .catch((e) => {});
+  };
+
   const CheckHackathon = async () => {
     await Actions.checkHacthon()
       .then((res) => {
+        console.log("Check");
         setStart(res?.data);
         setLoad(true);
       })
@@ -41,12 +63,17 @@ function App() {
 
   const Refresh = () => {
     checkTeam(teamcode);
+    checkhackJoin()
   };
 
   useEffect(() => {
     checkTeam(teamcode);
     CheckHackathon();
+    checkhackJoin()
   }, []);
+  useEffect(()=>{
+    checkhackJoin()
+  },[teamcode,member,password]);
 
   return (
     <>
@@ -59,7 +86,7 @@ function App() {
               path="/*"
               element={
                 start?.start ? (
-                  <HackthonDayRoute socket={socket} />
+                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
                 ) : (
                   <LandingRoute />
                 )
@@ -69,20 +96,27 @@ function App() {
               path="/bootcamp/*"
               element={
                 start?.start ? (
-                  <HackthonDayRoute socket={socket} />
+                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
                 ) : (
                   <BootcampRoutes data={start?.data} offline={offline} />
                 )
               }
             />
             <Route
-              path="/problemstatements"
+              path="/registerps"
               element={
                 team?.message ? (
                   <ProblemStatements data={team?.data} reload={Refresh} />
                 ) : (
                   <TeamLoginForm />
                 )
+              }
+            />
+             <Route
+              path="/problemstatements"
+              element={
+              
+                  <ProblemStatementsListView/>
               }
             />
           </Routes>

@@ -12,6 +12,7 @@ import {
   ModalFooter,
   useDisclosure,
   Kbd,
+  Badge,
 } from "@chakra-ui/react";
 import "./PigBatter.css";
 import hitSound from "./pig-sound.mp3";
@@ -19,8 +20,7 @@ import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import InfoIcon from "@mui/icons-material/Info";
 
-const PigBatter = ({ socket }) => {
-  var userid = "anil reddy kota";
+const PigBatter = ({ socket ,userid }) => {
   const nav = useNavigate();
   const [holes, setHoles] = useState(Array(8).fill(false));
   const [score, setScore] = useState(0);
@@ -141,8 +141,11 @@ const PigBatter = ({ socket }) => {
           <a href="/"> Home </a>/<a href="/games"> Games </a> / Pig Batter
         </h3>
         <div className="game-score">
-          <h4>Score: {score}</h4>
-          <h4>High Score: {highScore}</h4>
+          <h6>Player Id : <Badge variant='outline' fontSize='1em'>
+           {userid} </Badge></h6>
+          <h6>Score: <Badge variant='solid' colorScheme='green' fontSize='1em'>{score}</Badge></h6>
+          <h6>High Score:<Badge colorScheme='purple' fontSize='1em' >
+           {highScore} </Badge> </h6>
         </div>
       </div>
       <div className="info-div">
