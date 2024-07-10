@@ -47,6 +47,10 @@ export const Actions = {
     JoinHackathon: async (teamCode,registrationNumber,password) => {
         return await axios.post(process.env.REACT_APP_Server + "/joinhackathon",{teamCode,registrationNumber,password})
     },
+    AllTeamRegistrers: async ()=>{
+        return await axios.post(process.env.REACT_APP_Server + "/teamregistrers")
+
+    },
 
     TeamsCodes: async () => {
         return await axios.post(process.env.REACT_APP_Server + "/teamscodes")

@@ -5,12 +5,14 @@ import { Actions } from "../actions/actions.js";
 import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
 import { ProblemStatements } from "../hackathon/problemstatements/problemstatements.js";
 import { HackthonDayRoute } from "../hackathon/router/hackathonroutes.js";
-import { TeamLoginForm } from "../hackathon/teams/teamlogin.js";
 import { socket } from "../services/socket.js";
 import "./App.css";
 import { LandingRoute } from "./allroutes/landingroute.js";
 import EnhancedNetworkChecker from "../services/NetworkChecker.js";
 import { ProblemStatementsListView } from "../hackathon/problemstatements/listps.js";
+import TeamLoginform from "../hackathon/teams/teamlogin.js"
+import HTRLoginForm from "../hackathon/teams/htrLogin.js";
+import { HtrsContactList } from "../hackathon/teams/htrs.js";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -108,8 +110,24 @@ function App() {
                 team?.message ? (
                   <ProblemStatements data={team?.data} reload={Refresh} />
                 ) : (
-                  <TeamLoginForm />
+                  <TeamLoginform  />
                 )
+              }
+            />
+             <Route
+              path="/htrlogin"
+              element={
+                
+                  <HTRLoginForm />
+               
+              }
+            />
+             <Route
+              path="/htrs"
+              element={
+                
+                  <HtrsContactList />
+               
               }
             />
              <Route

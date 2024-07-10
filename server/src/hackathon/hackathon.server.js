@@ -20,6 +20,7 @@ import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
 import { checkHtr } from "./Teams/checkhtr.js";
 import { JoinHackathon } from "./joinhackathon/joinhackathon.js";
+import { AllTeamRegistrers } from "./Teams/allteamregistrers.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -125,6 +126,9 @@ app.post('/checkteam', async (req, res) => {
 
 app.post('/teamscodes', async (req, res) => {
     await AllTeamCodes(req,res)
+})
+app.post('/teamregistrers', async (req, res) => {
+    await AllTeamRegistrers(req,res)
 })
 app.post("/joinhackathon", async (req, res) => {
     await JoinHackathon(req,res)

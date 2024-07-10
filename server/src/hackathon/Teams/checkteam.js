@@ -17,12 +17,20 @@ export const checkTeam = async (code, password, res) => {
     }
   };
 
+
+
   export const AllTeamCodes = async (req, res) => {
     try {
-        const allTeams = await db1.collection("Teams").find({ Team: { $exists: false }, Members: { $exists: false } }).toArray();
-        res.json(allTeams);
+      const allTeams = await db1.collection("Teams").find({
+        Team: { $exists: true, $ne: null },
+        Members: { $exists: true, $ne: null }
+      }, {
+        projection: { Password: 0 }  
+      }).toArray();
+      res.json(allTeams);
     } catch (error) {
-        console.error("Error fetching teams:", error);
-        res.json({ message: "Error fetching teams", error });
+      console.error("Error fetching teams:", error);
+      res.json({ message: "Error fetching teams", error });
     }
-};
+  };
+  

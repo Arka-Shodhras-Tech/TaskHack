@@ -14,6 +14,7 @@ import {
   Select,
   Tooltip,
   useToast,
+  TableContainer,
 } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import * as XLSX from 'xlsx'; // Import all exports from 'xlsx'
@@ -198,7 +199,7 @@ const toast = useToast()
           <Button onClick={() => (window.location.href = '/registerps')} fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
             Select Problem Statement
           </Button>
-          <Button onClick={() => (window.location.href = '/registerps')}  fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
+          <Button onClick={() => (window.location.href = '/htrs')}  fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
             Create Team
           </Button>
           <Button onClick={handleDownloadAllExcel}>
@@ -245,9 +246,11 @@ const toast = useToast()
         ) : (
           <Box display="flex" justifyContent="center" mb={6}>
             <Box overflow="auto" maxH="100vh">
-              <Table variant="striped" >
-                <Thead backgroundColor="gray.600">
-                  <Tr color="white">
+              <TableContainer>
+
+              <Table variant="striped" colorScheme='gray'>
+                <Thead >
+                  <Tr >
                     <Th>Number</Th>
                     <Th>Theme</Th>
                     <Th>Title</Th>
@@ -279,6 +282,8 @@ const toast = useToast()
                   ))}
                 </Tbody>
               </Table>
+              </TableContainer>
+
             </Box>
           </Box>
         )}
