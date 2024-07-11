@@ -8,7 +8,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// Define game code to image mapping (replace with actual image imports or URLs)
+import { useSelector } from "react-redux";
+
 const gameCodeToImage = {
   "game-001": "./game-banner.png",
 };
@@ -18,6 +19,10 @@ const gameCodeToName = {
 };
 
 const GameManager = ({ socket }) => {
+
+
+  const member = useSelector((state) => state.user?.TeamMember);
+
   const [games, setGames] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -34,7 +39,6 @@ const GameManager = ({ socket }) => {
         });
         navigate("/");
       } else {
-        console.log(data);
         setGames([data]);
       }
       setLoading(false);
@@ -52,14 +56,13 @@ const GameManager = ({ socket }) => {
   }, [socket, navigate, toast]);
 
   const handleGameClick = (gameCode) => {
-    navigate(`/game/${gameCode}`, { state: { games } });
+    navigate(`/game/${gameCode}`, { state: { games ,member} });
   };
 
   const handleBackClick = () => {
     navigate('/'); 
   };
 
-  console.log(games);
   return (
     <Box p={4} textAlign="center">
       {loading ? (

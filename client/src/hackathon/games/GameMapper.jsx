@@ -13,7 +13,7 @@ const GameMapper = ({socket}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [gameExists, setGameExists] = useState(true);
-  const { games } = location.state || { games: [] };
+  const { games,member } = location.state || { games: [],member:"admin" };
 
   useEffect(() => {
     const game = games.find((g) => g?.code === name);
@@ -28,7 +28,7 @@ const GameMapper = ({socket}) => {
   return (
     <Box p={4}>
       {gameExists && GameComponent ? (
-        <GameComponent socket={socket}/>
+        <GameComponent socket={socket} userid={member}/>
       ) : (
         <Heading as="h2">Game not found</Heading>
       )}
