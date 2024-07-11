@@ -22,8 +22,7 @@ export const checkTeam = async (code, password, res) => {
   export const AllTeamCodes = async (req, res) => {
     try {
       const allTeams = await db1.collection("Teams").find({
-        Team: { $exists: true, $ne: null },
-        Members: { $exists: true, $ne: null }
+        Team: { $exists: false, $eq: null }
       }, {
         projection: { Password: 0 }  
       }).toArray();
