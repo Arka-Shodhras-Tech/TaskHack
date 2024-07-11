@@ -17,15 +17,15 @@ import {
 import { CreateTeam } from "./create-team-model";
 import Logout from "@mui/icons-material/Logout";
 
-const HTRLoginForm = () => {
+const HTRLoginForm = ({isAuth}) => {
   const toast = useToast();
   const [load, setLoad] = useState(false);
   const [htrId, setHtrId] = useState("");
   const [data, setData] = useState([])
   const [show, setShow] = useState(false)
   const [htrPassword, setHtrPassword] = useState("");
-  const [isHtrAuth, setHtrAuth] = useState(false);
-
+  const [isHtrAuth, setHtrAuth] = useState(isAuth);
+const dispatch = useDispatch()
 
   const Login = async () => {
     if (htrId && htrPassword) {
@@ -47,6 +47,15 @@ const HTRLoginForm = () => {
             position: "top-right",
             isClosable: true,
           });
+
+          dispatch({
+            type: "HTRLOGIN",
+            payload: {
+              HtrLoginState: true,
+            },
+          });
+
+
           setHtrId("");
           setHtrPassword("");
           setHtrAuth(true);
@@ -84,6 +93,24 @@ const HTRLoginForm = () => {
   useEffect(() => {
     fetchData()
   }, [])
+
+
+  const handleLogout = ()=>{
+    dispatch({
+      type: "HTRLOGIN",
+      payload: {
+        HtrLoginState: false,
+      },
+    });
+    toast(
+      {
+        title:"logout successfully",
+        status:"success"
+      }
+    )
+    window.location.reload();
+
+  }
   return (
     <Flex align="center" justify="center" minH="100vh" bg="gray.50">
       <CreateTeam
@@ -105,9 +132,10 @@ const HTRLoginForm = () => {
       >
         <Box textAlign="center" mb={[4, 4, 0]} mr={[0, 0, 4]} flexShrink={0}>
           <img
-            src={process.env.PUBLIC_URL + "/hackathon (1).jpg"}
+           src="login-hackathon-banner.jpg"
             alt="Hackathon Logo"
             style={{ maxWidth: "300px", borderRadius: "8px" }}
+            loading="lazy"
           />
         </Box>
         <Box>
@@ -121,7 +149,7 @@ const HTRLoginForm = () => {
               <Button onClick={() => setShow(true)} m={2}>
                 Create Team
               </Button>
-              <Button onClick={() => window.location.reload()} m={2} colorScheme="red">
+              <Button onClick={handleLogout} m={2} colorScheme="red">
 
                 <Logout />
               </Button>

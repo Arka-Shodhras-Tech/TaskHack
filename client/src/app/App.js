@@ -25,6 +25,8 @@ function App() {
   const teamname = useSelector((state) => state.user?.Teamname);
   const member = useSelector((state) => state.user?.TeamMember);
   const password = useSelector((state) => state.user?.TeamPassword);
+  const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
+
 
 
 
@@ -118,7 +120,7 @@ function App() {
               path="/htrlogin"
               element={
                 
-                  <HTRLoginForm />
+                  <HTRLoginForm isAuth={HtrAuth}/>
                
               }
             />
