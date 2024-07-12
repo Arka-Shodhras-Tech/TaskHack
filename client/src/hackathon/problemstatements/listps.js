@@ -15,6 +15,7 @@ import {
   Tooltip,
   useToast,
   TableContainer,
+  Badge,
 } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import * as XLSX from 'xlsx'; // Import all exports from 'xlsx'
@@ -259,7 +260,7 @@ const toast = useToast()
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {sortedData?.map((task) => (
+                  { sortedData.length >0 ? sortedData?.map((task) => (
                     (task?.Users?.length < 3 || !task?.Users) && (
                       <Tr key={task?.Number}>
                         <Td>{task?.Number}</Td>
@@ -279,7 +280,11 @@ const toast = useToast()
                         </Td>
                       </Tr>
                     )
-                  ))}
+                  )):
+                  <Tr>
+                    <Td colSpan={5} textAlign="center" fontWeight="bold">
+                    No data matches your search <Badge colorScheme='orange' >{select}</Badge>, filter <Badge colorScheme='green' >{filter}</Badge> and Sort <Badge colorScheme='teal' >{sort}</Badge> criteria. Click  <Badge colorScheme='red' >Reset</Badge> to view all problem statements.                    </Td>
+                    </Tr>}
                 </Tbody>
               </Table>
               </TableContainer>
