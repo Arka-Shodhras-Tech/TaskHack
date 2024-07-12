@@ -1,5 +1,8 @@
 const initialState = {
     username: null,
+    TeamCode:"",
+    TeamMember:"",
+    TeamPassword:""
 };
 
 const userReducer = (state = initialState, action) => {
@@ -25,6 +28,13 @@ const userReducer = (state = initialState, action) => {
                 Teamcode:action.payload.Teamcode,
                 Teamname:action.payload.Teamname
             }
+        case 'JOINHACK':
+                return {
+                    ...state,
+                    Teamcode:action.payload.TeamCode,
+                    TeamMember:action.payload.TeamMember,
+                    TeamPassword:action.payload.TeamPassword
+                }
         default:
             return state;
     }

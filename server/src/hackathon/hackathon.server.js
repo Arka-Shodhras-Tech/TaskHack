@@ -7,8 +7,6 @@ import { CreateTeam } from "./Teams/createteams.js";
 import { SelectTask, UnSelectTask } from "./bootcamp/tasks/selecttask.js";
 import { StudentTasks, Tasks } from "./bootcamp/tasks/tasks.js";
 import { CheckHackathon } from "./hacthonday/checkhackathon.js";
-import { EndHackathon } from "./hacthonday/hackathonend.js";
-import { StartHackathon } from "./hacthonday/hackathonstart.js";
 import { FileByName, Materials } from "./materials/material.js";
 import { LikeMati, ViewMati } from "./materials/updatematerials.js";
 import { PSS } from "./problemstatements/pss.js";
@@ -20,6 +18,9 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
+import { checkHtr } from "./Teams/checkhtr.js";
+import { JoinHackathon } from "./joinhackathon/joinhackathon.js";
+import { AllTeamRegistrers } from "./Teams/allteamregistrers.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -37,15 +38,6 @@ app.use(session({
     saveUninitialized: false,
     cookie: { secure: false }
 }));
-
-
-app.post('/start-hackathon', async (req, res) => {
-    await StartHackathon(req.body, res);
-})
-
-app.post('/end-hackathon', async (req, res) => {
-    await EndHackathon(req.body, res);
-})
 
 app.post('/check-hackathon', async (req, res) => {
     await CheckHackathon("hackathon@gmail.com", res);
@@ -118,15 +110,28 @@ app.post('/views', async (req, res) => {
 
 // ***************************************** Hacthon *********************************************** //
 app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req, res) => {
-    await CreateTeam(req, res);
+  
+    await CreateTeam(req, res,resend);
 })
 
 app.post('/checkteam', async (req, res) => {
-    await checkTeam(req.body.code, res)
-});
+    const { code, password } = req.body;
+    await checkTeam(code, password, res);
+  });
+  
+  app.post('/checkhtr', async (req, res) => {
+    const { code, password } = req.body;
+    await checkHtr(code, password, res);
+  });
 
 app.post('/teamscodes', async (req, res) => {
-    await AllTeamCodes(res)
+    await AllTeamCodes(req,res)
+})
+app.post('/teamregistrers', async (req, res) => {
+    await AllTeamRegistrers(req,res)
+})
+app.post("/joinhackathon", async (req, res) => {
+    await JoinHackathon(req,res)
 })
 
 app.post('/selectps', async (req, res) => {

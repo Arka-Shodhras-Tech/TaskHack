@@ -29,8 +29,12 @@ export const Actions = {
         return await axios.post(process.env.REACT_APP_Server + "/views", { theme, index })
     },
 
-    CheckTeam: async (code) => {
-        return await axios.post(process.env.REACT_APP_Server + "/checkteam", { code })
+    CheckTeam: async (code,password) => {
+        return await axios.post(process.env.REACT_APP_Server + "/checkteam", { code,password })
+    },
+    CheckHTR: async (code,password) => {
+       
+        return await axios.post(process.env.REACT_APP_Server + "/checkhtr", { code ,password})
     },
 
     checkHacthon: async () => {
@@ -39,6 +43,13 @@ export const Actions = {
 
     CreateTeam: async (team, gmail, phone, code, members, password) => {
         return await axios.post(process.env.REACT_APP_Server + "/createteam/" + team + "/" + gmail + "/" + phone + "/" + code + "/" + members + "/" + password)
+    },
+    JoinHackathon: async (teamCode,registrationNumber,password) => {
+        return await axios.post(process.env.REACT_APP_Server + "/joinhackathon",{teamCode,registrationNumber,password})
+    },
+    AllTeamRegistrers: async ()=>{
+        return await axios.post(process.env.REACT_APP_Server + "/teamregistrers")
+
     },
 
     TeamsCodes: async () => {
@@ -51,6 +62,10 @@ export const Actions = {
 
     UnSelectPS: async (code, number) => {
         return await axios.post(process.env.REACT_APP_Server + "/unselectps", { code, number })
-    }
+    },
+
+    FeedBack: async (user, techfeed, sitefeed) => {
+        return await axios.post(process.env.REACT_APP_Server + "/internalmarks", { user, techfeed, sitefeed })
+    },
 
 }

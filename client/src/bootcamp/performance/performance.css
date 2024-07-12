@@ -177,6 +177,11 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
+.value{
+  color: #7a4296 !important;
+  font-weight: bold;
+
+}
   
   .button-group button:hover {
     background-color: #7a4296;
@@ -318,10 +323,8 @@
 }
 
 .others .table-align {
-    margin-top: 20px;
     width: 100%;
     margin: auto;
-    max-width: 71%;
     box-sizing: border-box;
     border-collapse: collapse; /* Ensures border spacing is consistent */
 }
@@ -333,7 +336,7 @@
     white-space: nowrap; /* Prevents text from wrapping */
 }
 
-.others .table-align th {
+.others th {
     background-color: #ac7df1;
     color: white;
 }

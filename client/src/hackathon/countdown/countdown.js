@@ -13,8 +13,20 @@ const getTimeLeft = () => {
 	const seconds = Math.floor((totalTimeLeft / 1000) % 60);
 	return { days, hours, minutes, seconds };
 };
+const formatTimeLeft = (time) => {
+	const totalTimeLeft = COUNTDOWN_TARGET - new Date();
+	const days = Math.floor(totalTimeLeft / (1000 * 60 * 60 * 24));
+	const hours = Math.floor((totalTimeLeft / (1000 * 60 * 60)) % 24);
+	const minutes = Math.floor((totalTimeLeft / (1000 * 60)) % 60);
+	const seconds = Math.floor((totalTimeLeft / 1000) % 60);
+	return `${days}D ${hours}H ${minutes}M ${seconds}S`;
+};
+
+
+
 const Countdown = () => {
 	const [timeLeft, setTimeLeft] = useState(() => getTimeLeft());
+
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTimeLeft(getTimeLeft());
@@ -24,6 +36,13 @@ const Countdown = () => {
 			clearInterval(timer);
 		};
 	}, []);
+
+
+	useEffect(() => {
+		document.title = ` ${formatTimeLeft(timeLeft)} left to Vedic Vision Hackathon`;
+	}, [timeLeft]);
+
+
 
 	return (
 		<div className='countdown'>

@@ -1,19 +1,20 @@
-import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, Tooltip, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Actions } from "../../actions/actions";
 import { HackathonNav } from "../hackathonnav/hackathonnav";
 import './ps.css';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-export const ProblemStatements = ({data,reload}) => {
+export const ProblemStatements = ({ data, reload }) => {
     const [dat, setDat] = useState([]);
     const [stmt, setStmt] = useState(true)
     const [select, setSelect] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const teamcode = useSelector((state) => state.user?.Teamcode)
     const toast = useToast();
-
+const dispatch = useDispatch();
     useEffect(() => {
         fetchTasks();
     }, []);
@@ -77,13 +78,28 @@ export const ProblemStatements = ({data,reload}) => {
         return dat.map(student => (student?.TeamCode === user && student?.PS?.Statement));
     }
 
-    console.log(SelectedStmt(teamcode))
+   const handleLogOut = ()=>{
+    dispatch({
+        type: "TEAM",
+        payload: {
+          Teamcode: "",
+          Teamname: "",
+        },
+      });
+      window.location.reload();
+   }
 
     return (
         <>
             <HackathonNav />
             <Box display="flex" justifyContent="center" mb={6}>
                 <Input id="search" value={select} placeholder="Enter problem statement name or number" onChange={(e) => setSelect(e.target.value)} width="70%" />
+                <Button colorScheme="red" onClick={handleLogOut}>
+                    <Tooltip label="Logout">
+                    <LogoutIcon />
+                    </Tooltip>
+                  
+                </Button>
             </Box>
             {
                 isLoading ?
@@ -107,7 +123,7 @@ export const ProblemStatements = ({data,reload}) => {
                                         val?.Desc?.toLowerCase().includes(select) ||
                                         val?.Statement?.toLowerCase().includes(select))
                                     ).map((task) => (
-                                        task?.Users.length<3&&<Card>
+                                        task?.Users.length < 3 && <Card>
                                             <CardHeader>
                                                 <Heading size='md'>Problem Statement {task?.Number}</Heading>
                                             </CardHeader>
@@ -127,8 +143,8 @@ export const ProblemStatements = ({data,reload}) => {
                                                         </Text>} */}
 
                                                         {stmt && <Text textAlign={'center'}>
-                                                            {!data?.PS?<Button onClick={() =>{ SelectPS(task?.Number, task?.Statement, task?.Desc)}}>select</Button>:
-                                                            data?.PS?.Number===task?.Number&&<Button onClick={() => {UnSelectPS(task?.Number)}}>unselect</Button>}
+                                                            {!data?.PS ? <Button onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
+                                                                data?.PS?.Number === task?.Number && <Button onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
                                                         </Text>}
                                                     </Box>
                                                 </Stack>

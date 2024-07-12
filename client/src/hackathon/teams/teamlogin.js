@@ -1,135 +1,137 @@
-import { Button, useToast } from '@chakra-ui/react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Actions } from '../../actions/actions';
-import { CreateTeam } from './create-team-model';
-import './teamlogin.css';
+// components/TeamLoginForm.js
 
-export const TeamLoginForm = () => {
-    const toast = useToast();
-    const [show, setShow] = useState(false);
-    const [load, setLoad] = useState(false);
-    const [data, setData] = useState();
-    const [regd, setRegd] = useState('');
-    const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Actions } from "../../actions/actions";
+import {
+  Badge,
+  Box,
+  Button,
+  Input,
+  useToast,
+  Spinner,
+  Flex,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
+import "./teamlogin.css";
 
-    const Login = async () => {
-        if (regd && password) {
-            setLoad(true);
-            await Actions.CheckTeam(regd)
-                .then((res) => {
-                    if (res?.data?.data?.TeamCode) {
-                        if (res?.data?.data?.Password === password) {
-                            setLoad(false)
-                            dispatch({ type: 'TEAM', payload: { Teamcode: res?.data?.data?.TeamCode, Teamname: res?.data?.data?.Password } })
-                            window.location.href='/problemstatements'
-                            toast({ title: res?.data?.message, status: 'success', position: 'top-right', isClosable: true })
-                        } else {
-                            setLoad(false)
-                            toast({ title: "incorrect password", status: 'error', position: 'bottom-right', isClosable: true })
-                        }
-                    } else {
-                        setLoad(false)
-                        toast({ title: "user not found", status: 'error', position: 'bottom-right', isClosable: true })
-                    }
-                })
-                .catch((e) => {
-                    console.log(e);
-                    setLoad(false);
-                });
+const TeamLoginForm = () => {
+  const toast = useToast();
+  const [load, setLoad] = useState(false);
+  const [regd, setRegd] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  const Login = async () => {
+    if (regd && password) {
+      setLoad(true);
+      try {
+        const res = await Actions.CheckTeam(regd, password);
+        if (res?.data?.error) {
+          toast({
+            title: res?.data?.message,
+            status: "error",
+            position: "top-right",
+            isClosable: true,
+          });
         } else {
-            toast({ title: "All fields are required", status: 'error', position: 'bottom-right', isClosable: true });
+          dispatch({
+            type: "TEAM",
+            payload: {
+              Teamcode: res?.data?.data?.TeamCode,
+              Teamname: res?.data?.data?.Password,
+            },
+          });
+          window.location.href = "/registerps";
+          toast({
+            title: res?.data?.message,
+            status: "success",
+            position: "top-right",
+            isClosable: true,
+          });
         }
-    };
+      } catch (error) {
+        console.error("Error checking Team:", error);
+        setLoad(false);
+      }
+    } else {
+      toast({
+        title: "All fields are required",
+        status: "error",
+        position: "bottom-right",
+        isClosable: true,
+      });
+    }
+  };
 
-    const fetchData = async () => {
-        await Actions.TeamsCodes()
-            .then((res) => {
-                if (res?.data) {
-                    setData(res?.data);
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      Login();
+    }
+  };
 
-    data || fetchData();
 
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            Login();
-        }
-    };
 
-    return (
-        <section className="login-section-pss">
-            <CreateTeam isOpen={show} onClose={() => { setShow(false); fetchData(); }} data={data} />
-            <div className="login-container">
-                <div className="card">
-                    <div className="image-container">
-                        <img
-                            className="image"
-                            loading="lazy"
-                            src={process.env.PUBLIC_URL + '/hackathon (1).jpg'}
-                            alt="Hackathon Logo"
-                        />
-                    </div>
-                    <div className="form-container">
-                        <div className="form-header">
-                            <h2>Login</h2>
-                            <h3>Enter your credentials to login</h3>
-                        </div>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="registrationNum">
-                                    Team Code <span style={{ color: 'red' }}>*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="registrationNum"
-                                    id="registrationNum"
-                                    placeholder="Enter Team Code"
-                                    value={regd}
-                                    onChange={(e) => setRegd(e.target.value)}
-                                    onKeyPress={handleKeyPress}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password">
-                                    Password <span style={{ color: 'red' }}>*</span>
-                                </label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    name="password"
-                                    id="password"
-                                    placeholder="Enter password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    onKeyPress={handleKeyPress}
-                                    required
-                                />
-                            </div>
-                            <div className="form-actions">
-                                <div className="d-grid">
-                                    <button onClick={Login} className="btn bsb-btn-xl btn-primary" type="button">
-                                        {load ? "Please wait.." : "Login"}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <hr className="hr" />
-                        <div className="text-center">
-                            <Button className="link-button-pss" onClick={() => setShow(true)}>Create Team</Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+  return (
+    <Flex align="center" justify="center" minH="100vh" bg="gray.50">
+      <Flex
+        p={8}
+        maxW="800px"
+        borderWidth={1}
+        borderRadius={8}
+        boxShadow="lg"
+        bg="white"
+        direction={["column", "column", "row"]}
+        align="center"
+        justify="space-between"
+      >
+        <Box textAlign="center" mb={[4, 4, 0]} mr={[0, 0, 4]} flexShrink={0}>
+          <img
+            src={process.env.PUBLIC_URL + "/hackathon (1).jpg"}
+            alt="Hackathon Logo"
+            style={{ maxWidth: "300px", borderRadius: "8px" }}
+          />
+        </Box>
+        <Box>
+          <Box textAlign="center">
+            <Heading as="h2" size="lg" mb={4}>
+              Team Login
+            </Heading>
+          </Box>
+          <Box my={4} w="100%">
+            <Text fontSize="lg" mb={2}>
+              Enter your credentials to login
+            </Text>
+            <Input
+              placeholder="Enter Team Code"
+              value={regd}
+              onChange={(e) => setRegd(e.target.value)}
+              onKeyPress={handleKeyPress}
+              mb={4}
+            />
+            <Input
+              placeholder="Enter Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={handleKeyPress}
+              mb={4}
+            />
+            <Button
+              colorScheme="blue"
+              onClick={Login}
+              isFullWidth
+              disabled={load}
+            >
+              {load ? <Spinner size="sm" /> : "Login"}
+            </Button>
+          </Box>
+        </Box>
+      </Flex>
+    </Flex>
+  );
 };
+
+
+export default TeamLoginForm;

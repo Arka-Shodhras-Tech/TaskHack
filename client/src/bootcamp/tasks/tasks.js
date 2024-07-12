@@ -1,4 +1,4 @@
-import { Button, useToast } from '@chakra-ui/react';
+import { Button, useToast, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -107,23 +107,23 @@ export const Tasks = () => {
         const result = student?.Tasks?.[day]?.some((val12) => val12?.Task === tasks && val12?.GetMarks)
         return result;
     }
+
     return (
         <div className="tasks-align">
-            <h1 className="h1-heading">Tasks in Bootcamp</h1>
-            <div style={{ width: "70%", display: 'flex', justifyContent: 'right' }}>
+            <div style={{ width: "100%", display: 'flex', justifyContent: 'right' }}>
                 <Button style={{ backgroundColor: "black", color: 'white' }} onClick={() => setMytasks(mytasks ? false : true)}>{!mytasks ? "My Tasks" : "View All "}</Button>
             </div>
             <div className="task-list">
                 {tasks?.map((val) => (
-                    val?.Show && <div>
+                    val?.Show && <div key={val?.Day}>
                         <h3 style={{ display: 'flex', justifyContent: 'center' }}>Day {val?.Day}</h3>
                         {
                             !mytasks ? val?.Tasks?.map((task, index) => (
                                 task?.Show && <div key={index} className="task-item">
-                                    <div>
-                                        <div className="task-title">Task : {task?.Task}</div>
-                                        <div className="task-description"><strong>Description</strong> : {task?.Desc}</div>
-                                        <div >Marks : {task?.Marks}</div>
+                                    <div style={{textAlign:"left"}}>
+                                        <Text className="task-title" fontSize={['sm', 'md', 'lg']}>Task : {task?.Task}</Text>
+                                        <Text className="task-description" fontSize={['sm', 'md', 'lg']}><strong>Description</strong> : {task?.Desc}</Text>
+                                        <Text fontSize={['sm', 'md', 'lg']}>Marks : {task?.Marks}</Text>
                                     </div>
                                     {select && <div className='task-select'>
                                         {!checkTask(val?.Day, task?.Task) ? <Button bg={"blanchedalmond"} onClick={() => TaskSelect(task?.Task, task?.Desc, task?.Marks, val?.Day)}>Select</Button> :
