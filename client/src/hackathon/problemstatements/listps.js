@@ -202,11 +202,11 @@ const toast = useToast()
           <Button onClick={() => (window.location.href = '/htrs')}  fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
             Create Team
           </Button>
-          <Button onClick={handleDownloadAllExcel}>
+          {dat.length > 0 &&<Button onClick={handleDownloadAllExcel}>
             <Tooltip label="Download all problem statements">
               <GridOnIcon />
             </Tooltip>
-          </Button>
+          </Button>}
           
         
         </Box>
