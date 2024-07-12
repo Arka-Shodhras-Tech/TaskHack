@@ -14,10 +14,9 @@ import { useEffect, useState } from 'react'
 import { Actions } from '../../actions/actions'
 import { Materials } from '../materials/materials'
 import {RulesAndRegulations} from '../rulesandregulations/rulesandregulations'
-import { FeedbackForm } from '../feedbackform/feedbackform'
 import { MostusedMaterials } from '../mostusedmaterials/mostusedmaterials'
 import Performance from '../performance/performance'
-
+import { FeedbackForm } from '../feedbackform/feedbackform'
 export const BootcampRoutes = ({data,offline}) => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user?.update)

@@ -22,6 +22,7 @@ import mostlyUsedMaterialsimage from "./most-used-materials.png";
 import performanceimage from "./performance.png";
 import tasksimage from "./tasks.png";
 import { Overlay } from "./overlay";
+import { FeedbackForm } from "../feedbackform/feedbackform";
 
 export const Home = ({ data }) => {
   const [openModel, setOpenModel] = useState(true);
@@ -164,6 +165,7 @@ export const Home = ({ data }) => {
             </Box>
           </Box>
         </Box>
+
 
         <Box style={{ display: 'none' }} id="overlay-bar" className="overlay-main-container" ref={overlayRef}>
           <Box
@@ -359,7 +361,7 @@ export const Home = ({ data }) => {
                   </Box>
                 </Box>
                 <Box
-                  onClick={() => openPage("/bootcamp/feedback-form")}
+                  onClick={() => openPage("/bootcamp/feedbackform")}
                   cursor="pointer"
                   maxW="sm"
                   borderWidth="1px"
@@ -454,5 +456,6 @@ export const Home = ({ data }) => {
         </Box>
       </Box>
     </>
+    
   );
 };

@@ -55,6 +55,7 @@ app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, r
     await SignUp(req, res)
 })
 
+
 app.post('/login', async (req, res) => {
     await SignIn(req, resend, res)
 });
