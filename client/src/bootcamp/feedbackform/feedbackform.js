@@ -83,6 +83,7 @@ export const FeedbackForm = () => {
   };
 
   const ratingNames = ["Bad", "Okay", "Good", "Very Good", "Excellent"];
+  const interactivites = {"tech":"bootcamp", 'site':"Website"}
 
   return (
     <Box
@@ -106,23 +107,10 @@ export const FeedbackForm = () => {
       ) : (
         <>
           <Heading as="h2" size="lg" mb={6}>
-            Write To Us
+            Write to Us...
           </Heading>
           <form onSubmit={handleSubmit}>
-            <FormControl id="isInteractive" mb={4}>
-              <FormLabel>Is bootcamp interactive?</FormLabel>
-              <RadioGroup onChange={setIsInteractive} value={isInteractive}>
-                <Stack direction="row">
-                  <Radio value="Yes" required>
-                    Yes
-                  </Radio>
-                  <Radio value="No" required>
-                    No
-                  </Radio>
-                </Stack>
-              </RadioGroup>
-            </FormControl>
-            <FormControl id="type" mb={4}>
+          <FormControl id="type" mb={4}>
               <FormLabel>For (Tech stack / Site)</FormLabel>
               <Select
                 placeholder="Select type"
@@ -134,6 +122,20 @@ export const FeedbackForm = () => {
                 <option value="site">Site</option>
               </Select>
             </FormControl>
+            <FormControl id="isInteractive" mb={4}>
+              <FormLabel>Is {interactivites[type] || "this"} interactive?</FormLabel>
+              <RadioGroup onChange={setIsInteractive} value={isInteractive}>
+                <Stack direction="row">
+                  <Radio value="Yes" required>
+                    Yes
+                  </Radio>
+                  <Radio value="No" required>
+                    No
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+        
             <FormControl id="rating" mb={4}>
               <FormLabel>Rating</FormLabel>
               <HStack spacing={12}>
