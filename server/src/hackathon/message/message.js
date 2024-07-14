@@ -80,20 +80,21 @@ export const message = {
       <div style="text-align: center;">
         Welcome to Vedic Vision Hackathon, Team ${name}!
         <br />
-        <h3>Your login details</h3>
+        <h3>Your login details for problem statement Registration and for Hackathon </h3>
       </div>
       <div style="text-align: center;">
-        <h1>Your ID: ${teamid}</h1>
+        <h1>Your Registered Team Name: ${name}</h1>
+        <h2>Your ID: ${teamid}</h2>
         <h1>Your Password: ${password}</h1>
-        <ul style="list-style-type: none; padding: 0;">
+        <h2> your team members registration numbers </h2>
+        <ol padding: 0;">
           ${members.map(member => `<li>${member}</li>`).join('')}
-        </ul>
+        </ol>
       </div>
       <br />
       <p style="text-align: center; margin-top: 20px;">
         For any queries, contact us at <a href="mailto:hackathon@ast-admin.in">hackathon@ast-admin.in</a> or call us at +91 6302423327
-      </p>
-      <p style="text-align: center;">
+      <br>
         Team AST
       </p>
     </div>`
