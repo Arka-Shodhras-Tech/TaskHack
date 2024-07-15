@@ -35,6 +35,7 @@ const userReducer = (state = initialState, action) => {
         Teamcode: action.payload.TeamCode,
         TeamMember: action.payload.TeamMember,
         TeamPassword: action.payload.TeamPassword,
+        TeamData: action.payload.TeamData,
       };
     case "HTRLOGIN":
       return {

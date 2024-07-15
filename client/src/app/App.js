@@ -43,7 +43,7 @@ function App() {
 
 
   const checkhackJoin = async () => {
-    await Actions.JoinHackathon(teamcode, member,password)
+    await Actions.JoinHackathon(teamcode, member,password,true)
       .then((res) => {
         if (res?.data?.message === "Login successful") {
           setAuth(true)

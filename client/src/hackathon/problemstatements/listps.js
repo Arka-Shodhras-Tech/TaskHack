@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
   Box,
@@ -32,7 +32,8 @@ export const ProblemStatementsListView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-const toast = useToast()
+const toast = useToast();
+const searchref = useRef("null")
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setSelect(params.get('search') || '');
@@ -54,6 +55,19 @@ const toast = useToast()
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+        if (event.shiftKey&& event.key.toLowerCase() === 'f'  ) {
+          event.preventDefault();
+            searchref.current.focus();
+        }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+    };
+}, []);
   const updateQueryParams = (key, value) => {
     const params = new URLSearchParams(location.search);
     if (value) {
@@ -158,7 +172,6 @@ const toast = useToast()
         isClosable:true,
         position: "top-right"
       });
-      // Fallback or inform the user that sharing is not supported
     }
   };
 
@@ -218,6 +231,7 @@ const toast = useToast()
             placeholder="Search problem statement name or number"
             onChange={handleSearchChange}
             width="70%"
+            ref={searchref}
           />
             <Button onClick={handleShare}>
             <Tooltip label="Share problem statements">
