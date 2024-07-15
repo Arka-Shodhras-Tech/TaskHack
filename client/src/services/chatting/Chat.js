@@ -125,7 +125,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
                 alignItems="center"
               >
                 <HStack spacing={2} alignItems="center">
-                  <Avatar name={teamname||` Team ${teamId}'s chat`} src="" size="sm" />
+                  <Avatar name={teamname||`Team ${teamId}'s chat`} src="" size="sm" />
                   <Text fontSize="xl" fontWeight="bold" mb={0} color="white">
                    {teamname||` Team ${teamId}'s chat`}
                   </Text>
@@ -191,7 +191,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
                           }
                           color="white"
                           borderRadius="md"
-                          p={2}
+                          p={1}
                           maxW="70%"
                           alignSelf={
                             msg.participantId === participantId
@@ -202,6 +202,9 @@ function Chat({ socket, participantId, teamId,teamname }) {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.3 }}
                         >
+                            {msg.participantId !== participantId  && <Text color={"white"} fontWeight={"bold"} mb={0} p={0}>
+                            {msg.participantId}
+                          </Text>}
                           <Text color={"gray.900"} mb={0}>
                             {msg.text}
                           </Text>
@@ -209,9 +212,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
                             {formatTimestamp(msg.timestamp)}
                           </Text>
                         </MotionBox>
-                        {msg.participantId === participantId && (
-                          <Avatar name={msg.participantId} src="" size="sm" />
-                        )}
+                       
                       </HStack>
                     </VStack>
                   </React.Fragment>
@@ -255,7 +256,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
               height="50px"
               p={2}
             >
-              <Avatar name={teamname||` Team ${teamId}'s chat`} src={teamId} size="sm" />
+              <Avatar name={teamname||`Team ${teamId}'s chat`} src={teamId} size="sm" />
               <Text
                 fontSize="xl"
                 fontWeight="bold"
