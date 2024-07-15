@@ -1,6 +1,6 @@
 // components/HTRLoginForm.js
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Actions } from "../../actions/actions";
 import {
@@ -17,15 +17,15 @@ import {
 import { CreateTeam } from "./create-team-model";
 import Logout from "@mui/icons-material/Logout";
 
-const HTRLoginForm = () => {
+const HTRLoginForm = ({isAuth}) => {
   const toast = useToast();
   const [load, setLoad] = useState(false);
   const [htrId, setHtrId] = useState("");
   const [data, setData] = useState([])
-  const [show,setShow] = useState(false)
+  const [show, setShow] = useState(false)
   const [htrPassword, setHtrPassword] = useState("");
-  const [isHtrAuth, setHtrAuth] = useState(false);
- 
+  const [isHtrAuth, setHtrAuth] = useState(isAuth);
+const dispatch = useDispatch()
 
   const Login = async () => {
     if (htrId && htrPassword) {
@@ -47,6 +47,15 @@ const HTRLoginForm = () => {
             position: "top-right",
             isClosable: true,
           });
+
+          dispatch({
+            type: "HTRLOGIN",
+            payload: {
+              HtrLoginState: true,
+            },
+          });
+
+
           setHtrId("");
           setHtrPassword("");
           setHtrAuth(true);
@@ -74,7 +83,6 @@ const HTRLoginForm = () => {
   const fetchData = async () => {
     try {
       const res = await Actions.TeamsCodes();
-   
       if (res?.data) {
         setData(res?.data);
       }
@@ -82,13 +90,34 @@ const HTRLoginForm = () => {
       console.error("Error fetching team codes:", error);
     }
   };
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+
+  const handleLogout = ()=>{
+    dispatch({
+      type: "HTRLOGIN",
+      payload: {
+        HtrLoginState: false,
+      },
+    });
+    toast(
+      {
+        title:"logout successfully",
+        status:"success"
+      }
+    )
+    window.location.reload();
+
+  }
   return (
     <Flex align="center" justify="center" minH="100vh" bg="gray.50">
       <CreateTeam
         isOpen={show}
-      onClose={()=>setShow(false)}
+        onClose={() => setShow(false)}
         data={data}
-       
+
       />
       <Flex
         p={8}
@@ -103,9 +132,10 @@ const HTRLoginForm = () => {
       >
         <Box textAlign="center" mb={[4, 4, 0]} mr={[0, 0, 4]} flexShrink={0}>
           <img
-            src={process.env.PUBLIC_URL + "/hackathon (1).jpg"}
+           src="login-hackathon-banner.jpg"
             alt="Hackathon Logo"
             style={{ maxWidth: "300px", borderRadius: "8px" }}
+            loading="lazy"
           />
         </Box>
         <Box>
@@ -116,12 +146,12 @@ const HTRLoginForm = () => {
           </Box>
           {isHtrAuth ? (
             <Box textAlign="center" mt={4} >
-              <Button  onClick={() => setShow(true)} m={2}>
+              <Button onClick={() => setShow(true)} m={2}>
                 Create Team
               </Button>
-              <Button  onClick={() => window.location.reload()}m={2} colorScheme="red">
-                
-                <Logout/>
+              <Button onClick={handleLogout} m={2} colorScheme="red">
+
+                <Logout />
               </Button>
             </Box>
           ) : (

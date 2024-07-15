@@ -37,7 +37,7 @@
     margin-right: 0.5rem;
   }
   
-  .feedback-form button {
+  .feedback-form  button.submit {
     display: block;
     width: 100%;
     padding: 0.5rem;

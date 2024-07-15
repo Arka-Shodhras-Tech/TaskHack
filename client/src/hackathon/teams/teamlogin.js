@@ -88,8 +88,8 @@ const TeamLoginForm = () => {
       >
         <Box textAlign="center" mb={[4, 4, 0]} mr={[0, 0, 4]} flexShrink={0}>
           <img
-            src={process.env.PUBLIC_URL + "/hackathon (1).jpg"}
-            alt="Hackathon Logo"
+           src="login-hackathon-banner.jpg"
+           alt="Hackathon Logo"
             style={{ maxWidth: "300px", borderRadius: "8px" }}
           />
         </Box>

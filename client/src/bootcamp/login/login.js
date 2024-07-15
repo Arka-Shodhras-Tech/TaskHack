@@ -87,7 +87,7 @@ export const LoginForm = () => {
                         <img
                             className="image"
                             loading="lazy"
-                            src={process.env.PUBLIC_URL + '/hackathon (1).jpg'}
+                            src='../login-hackathon-banner.jpg'
                             alt="Hackathon Logo"
                         />
                     </div>

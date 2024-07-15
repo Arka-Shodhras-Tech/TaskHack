@@ -21,6 +21,7 @@ import { UpdateGender } from "./user/updategender.js";
 import { checkHtr } from "./Teams/checkhtr.js";
 import { JoinHackathon } from "./joinhackathon/joinhackathon.js";
 import { AllTeamRegistrers } from "./Teams/allteamregistrers.js";
+import { AddFeedback } from "./feedback/addfeedback.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -141,4 +142,10 @@ app.post('/selectps', async (req, res) => {
 app.post('/unselectps', async (req, res) => {
     await UnSelectProStmt(req.body.code, req.body.number, res)
 })
+
+app.post("/addfeedback", async (req, res) => {
+  await AddFeedback(req,res)
+
+    }
+)
 export default app

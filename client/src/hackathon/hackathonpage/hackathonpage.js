@@ -26,8 +26,9 @@ import DisplayTimer from "../timers/displayTimer";
 import { useNavigate } from "react-router-dom";
 import TeamJoinModal from "./joinhackathonmodal";
 import { Actions } from "../../actions/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Logout from "@mui/icons-material/Logout";
+import Chat from "../../services/chatting/Chat";
 
 
 
@@ -42,7 +43,9 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
   const [teamCode, setTeamCode] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [password, setPassword] = useState("");
-
+  const teamcode = useSelector((state) => state.user?.Teamcode);
+  const teamname = useSelector((state) => state.user?.Teamname);
+  const member = useSelector((state) => state.user?.TeamMember);
 
   const dispatch = useDispatch();
   
@@ -91,7 +94,7 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
       });
     }
   };
-  
+
 
 
 
@@ -174,6 +177,10 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
             ))}
         </div>
       </Stack>
+      {
+        isAuth&&<Chat socket={socket} teamId={teamcode} participantId={member} teamname={teamname}/>
+      }
+      
 
       <TeamJoinModal
         isOpen={isOpen}

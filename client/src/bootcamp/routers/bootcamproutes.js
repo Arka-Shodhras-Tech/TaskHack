@@ -44,11 +44,10 @@ export const BootcampRoutes = ({data,offline}) => {
                 <Route path='/register' element={<RegistrationForm/>}/>
                 <Route path='/rulesandregulations' element={<RulesAndRegulations/>}/>
                 <Route path='/about' element={<RulesAndRegulations/>}/>
-                <Route path='/feedbackform' element={<FeedbackForm/>}/>
+                <Route path='/feedbackform' element={check?.auth ?<FeedbackForm/>: <LoginForm />}/>
                 <Route path='/tasks' element={check?.auth?<Tasks />:<LoginForm />} />
                 <Route path='/performance' element={check?.auth ? <Performance perfom={data} student={check?.data}/> : <LoginForm />} />
                 <Route path='/materials' element={check?.auth ?<Materials/>: <LoginForm />}/>
-
                 <Route path='/mostlyused' element={<MostusedMaterials/>} />
 
             </Routes>

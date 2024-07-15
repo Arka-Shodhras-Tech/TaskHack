@@ -359,7 +359,7 @@ export const Home = ({ data }) => {
                   </Box>
                 </Box>
                 <Box
-                  onClick={() => openPage("/bootcamp/feedback-form")}
+                  onClick={() => openPage("/bootcamp/feedbackform")}
                   cursor="pointer"
                   maxW="sm"
                   borderWidth="1px"

@@ -67,5 +67,8 @@ export const Actions = {
     FeedBack: async (user, techfeed, sitefeed) => {
         return await axios.post(process.env.REACT_APP_Server + "/internalmarks", { user, techfeed, sitefeed })
     },
+    AddFeedBack: async ({ user, isInteractive, rating, feedbackmessage, date, type }) => {
+        return await axios.post(process.env.REACT_APP_Server + "/addfeedback", { user, isInteractive, rating, feedbackmessage, date, type });
+      },
 
 }
