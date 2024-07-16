@@ -32,10 +32,10 @@ export const FeedbackForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const date = new Date().toISOString().split("T")[0]; // current date in YYYY-MM-DD format
+    const date = new Date().toISOString().split("T")[0]; 
     try {
       const response = await Actions.AddFeedBack({
-        user: auth.user,
+        user: auth,
         isInteractive,
         rating,
         feedbackmessage: feedback,
