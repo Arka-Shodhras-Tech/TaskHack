@@ -201,9 +201,8 @@ const searchref = useRef("null")
   });
 
   return (
-    <>
+    <div>
       <HackathonNav />
-
       <Box margin={5} boxShadow="base" p="6" rounded="md" bg="white">
       
         <Box display="flex" justifyContent="right" mb={6} gap={6} m={4}>
@@ -221,9 +220,14 @@ const searchref = useRef("null")
               <GridOnIcon />
             </Tooltip>
           </Button>}
-          
-        
+
+          <Button onClick={handleShare}>
+            <Tooltip label="Share problem statement">
+              <ShareIcon />
+            </Tooltip>
+          </Button>
         </Box>
+        <Box>
         <Box display="flex" justifyContent="center" mb={6}>
           <Input
             id="search"
@@ -239,6 +243,8 @@ const searchref = useRef("null")
             </Tooltip>
           </Button>
         </Box>
+        </Box>
+
         <Box display="flex" justifyContent="center" mb={6}>
           <Select width="30%" value={filter} onChange={handleFilterChange}>
             <option value="all">All Themes</option>
@@ -254,59 +260,52 @@ const searchref = useRef("null")
             Reset
           </Button>
         </Box>
+
         {isLoading ? (
-          <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+          <Box display="flex" justifyContent="center" alignItems="center" height="200px">
             <Spinner size="xl" />
           </Box>
         ) : (
-          <Box display="flex" justifyContent="center" mb={6}>
-            <Box overflow="auto" maxH="100vh">
+          <>
+            {sortedData.length === 0 ? (
+              <Box textAlign="center" p={4}>
+                No data available for the selected search, filter, and sort criteria.
+              </Box>
+            ) : (
               <TableContainer>
-
-              <Table variant="striped" colorScheme='gray'>
-                <Thead >
-                  <Tr >
-                    <Th>Number</Th>
-                    <Th>Theme</Th>
-                    <Th>Title</Th>
-                    <Th>Description</Th>
-                    <Th>Download</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  { sortedData.length >0 ? sortedData?.map((task) => (
-                    (task?.Users?.length < 3 || !task?.Users) && (
-                      <Tr key={task?.Number}>
-                        <Td>{task?.Number}</Td>
-                        <Td>{task?.Theme}</Td>
-                        <Td>{task?.Statement}</Td>
+                <Table size="md" variant="simple" overflowX="scroll">
+                  <Thead>
+                    <Tr>
+                      <Th>Number</Th>
+                      <Th>Theme</Th>
+                      <Th>Title</Th>
+                      <Th>Description</Th>
+                      <Th>Download</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {sortedData.map((task, index) => (
+                      <Tr key={index}>
+                        <Td>{task.Number}</Td>
+                        <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'health' ? 'green' : task?.Theme?.toLowerCase() === 'education' ? 'blue' : task?.Theme?.toLowerCase() === 'environment' ? 'orange' : 'gray'}>{task.Theme}</Badge></Td>
+                        <Td>{task.Statement}</Td>
+                        <Td className='limitText'>{task.Desc}</Td>
                         <Td>
-                          <Tooltip label={task?.Desc}>
-                            {task?.Desc?.substring(0, 200)}
-                          </Tooltip>
-                        </Td>
-                        <Td>
-                          <Button onClick={() => handleDownloadExcel(task)}>
-                            <Tooltip label="Download this problem statement">
+                          <Button onClick={() => handleDownloadExcel(task)} size="sm">
+                            <Tooltip label="Download problem statement">
                               <GridOnIcon />
                             </Tooltip>
                           </Button>
                         </Td>
                       </Tr>
-                    )
-                  )):
-                  <Tr>
-                    <Td colSpan={5} textAlign="center" fontWeight="bold">
-                    No data matches your search <Badge colorScheme='orange' >{select}</Badge>, filter <Badge colorScheme='green' >{filter}</Badge> and Sort <Badge colorScheme='teal' >{sort}</Badge> criteria. Click  <Badge colorScheme='red' >Reset</Badge> to view all problem statements.                    </Td>
-                    </Tr>}
-                </Tbody>
-              </Table>
+                    ))}
+                  </Tbody>
+                </Table>
               </TableContainer>
-
-            </Box>
-          </Box>
+            )}
+          </>
         )}
       </Box>
-    </>
+    </div>
   );
 };
