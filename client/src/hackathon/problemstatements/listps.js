@@ -1,29 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import {
+  Badge,
   Box,
   Button,
   Input,
+  Select,
   Spinner,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Th,
   Thead,
-  Tr,
-  Select,
   Tooltip,
+  Tr,
   useToast,
-  TableContainer,
-  Badge,
 } from '@chakra-ui/react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import * as XLSX from 'xlsx'; // Import all exports from 'xlsx'
-import './ps.css';
-import { HackathonNav } from '../hackathonnav/hackathonnav';
 import GridOnIcon from '@mui/icons-material/GridOn';
-import ShareIcon from '@mui/icons-material/Share'; // Import ShareIcon
 import HomeIcon from '@mui/icons-material/Home';
+import ShareIcon from '@mui/icons-material/Share';
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+import { HackathonNav } from '../hackathonnav/hackathonnav';
+import './ps.css';
 export const ProblemStatementsListView = () => {
   const [dat, setDat] = useState([]);
   const [select, setSelect] = useState('');
@@ -32,8 +32,8 @@ export const ProblemStatementsListView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-const toast = useToast();
-const searchref = useRef("null")
+  const toast = useToast();
+  const searchref = useRef("null")
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setSelect(params.get('search') || '');
@@ -57,17 +57,17 @@ const searchref = useRef("null")
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-        if (event.shiftKey&& event.key.toLowerCase() === 'f'  ) {
-          event.preventDefault();
-            searchref.current.focus();
-        }
+      if (event.shiftKey && event.key.toLowerCase() === 'f') {
+        event.preventDefault();
+        searchref.current.focus();
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-        window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-}, []);
+  }, []);
   const updateQueryParams = (key, value) => {
     const params = new URLSearchParams(location.search);
     if (value) {
@@ -102,39 +102,38 @@ const searchref = useRef("null")
 
   const handleDownloadExcel = async (rowData) => {
     try {
-      // Extract only required fields from rowData
       const dataToExport = {
         Number: rowData.Number,
         Theme: rowData.Theme,
         Statement: rowData.Statement,
         Desc: rowData.Desc
       };
-  
+
       const worksheet = XLSX.utils.json_to_sheet([dataToExport]);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Problem Statement');
-  
+
       const time = new Date().toLocaleDateString().replaceAll('/', '-');
       XLSX.writeFile(workbook, `problem_statement_${rowData.Number}_down_on_${time}.xlsx`);
     } catch (error) {
       console.error('Error downloading Excel:', error);
     }
   };
-  
+
   const handleDownloadAllExcel = async () => {
     try {
-      const dataToExport = sortedData.map(task => ({
-        Number: task.Number,
-        Theme: task.Theme,
-        Statement: task.Statement,
-        Desc: task.Desc
+      const dataToExport = sortedData?.map(task => ({
+        Number: task?.Number,
+        Theme: task?.Theme,
+        Statement: task?.Statement,
+        Desc: task?.Desc
       }));
-  
+
       const workbook = XLSX.utils.book_new();
       const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-  
+
       XLSX.utils.book_append_sheet(workbook, worksheet, 'All Problem Statements');
-  
+
       const time = new Date().toLocaleDateString().replaceAll('/', '-');
       XLSX.writeFile(workbook, `all_problem_statements_on_${time}.xlsx`);
     } catch (error) {
@@ -149,17 +148,17 @@ const searchref = useRef("null")
         text: 'Check out these problem statements!',
         url: window.location.href
       }).then(() => {
-      toast({
-        title:'Shared successfully',
-        status:"success",
-        isClosable:true,
-        position: "top-right"
-      });
+        toast({
+          title: 'Shared successfully',
+          status: "success",
+          isClosable: true,
+          position: "top-right"
+        });
       }).catch((error) => {
         toast({
-          title:'Not shared',
-          status:"error",
-          isClosable:true,
+          title: 'Not shared',
+          status: "error",
+          isClosable: true,
           position: "top-right"
         });
         console.error('Error sharing:', error);
@@ -167,19 +166,18 @@ const searchref = useRef("null")
     } else {
       console.log('Web Share API not supported');
       toast({
-        title:'Sharing Not Supported',
-        status:"error",
-        isClosable:true,
+        title: 'Sharing Not Supported',
+        status: "error",
+        isClosable: true,
         position: "top-right"
       });
     }
   };
 
-  const filteredData = dat
-    .filter((val) => {
-      if (filter === 'all') return true;
-      return val?.Theme?.toLowerCase() === filter;
-    })
+  const filteredData = dat.filter((val) => {
+    if (filter === 'all') return true;
+    return val?.Theme?.toLowerCase() === filter;
+  })
     .filter(
       (val) =>
         val?.Theme?.toLowerCase() === filter || // Filter by theme if selected
@@ -205,24 +203,22 @@ const searchref = useRef("null")
       <HackathonNav />
 
       <Box margin={5} boxShadow="base" p="6" rounded="md" bg="white">
-      
+
         <Box display="flex" justifyContent="right" mb={6} gap={6} m={4}>
-        <Button onClick={()=>window.location.href="/bootcamp"}>
-          <HomeIcon />
-        </Button>
-          <Button onClick={() => (window.location.href = '/registerps')} fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
+          <Button onClick={() => window.location.href = "/bootcamp"}>
+            <HomeIcon />
+          </Button>
+          <Button onClick={() => (window.location.href = '/problemstatement-selection')} fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
             Select Problem Statement
           </Button>
-          <Button onClick={() => (window.location.href = '/htrs')}  fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
+          <Button onClick={() => (window.location.href = '/htrs')} fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
             Create Team
           </Button>
-          {dat.length > 0 &&<Button onClick={handleDownloadAllExcel}>
+          {dat?.length > 0 && <Button onClick={handleDownloadAllExcel}>
             <Tooltip label="Download all problem statements">
               <GridOnIcon />
             </Tooltip>
           </Button>}
-          
-        
         </Box>
         <Box display="flex" justifyContent="center" mb={6}>
           <Input
@@ -233,7 +229,7 @@ const searchref = useRef("null")
             width="70%"
             ref={searchref}
           />
-            <Button onClick={handleShare}>
+          <Button onClick={handleShare}>
             <Tooltip label="Share problem statements">
               <ShareIcon />
             </Tooltip>
@@ -263,46 +259,45 @@ const searchref = useRef("null")
             <Box overflow="auto" maxH="100vh">
               <TableContainer>
 
-              <Table variant="striped" colorScheme='gray'>
-                <Thead >
-                  <Tr >
-                    <Th>Number</Th>
-                    <Th>Theme</Th>
-                    <Th>Title</Th>
-                    <Th>Description</Th>
-                    <Th>Download</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  { sortedData.length >0 ? sortedData?.map((task) => (
-                    (task?.Users?.length < 3 || !task?.Users) && (
-                      <Tr key={task?.Number}>
-                        <Td>{task?.Number}</Td>
-                        <Td>{task?.Theme}</Td>
-                        <Td>{task?.Statement}</Td>
-                        <Td>
-                          <Tooltip label={task?.Desc}>
-                            {task?.Desc?.substring(0, 200)}
-                          </Tooltip>
-                        </Td>
-                        <Td>
-                          <Button onClick={() => handleDownloadExcel(task)}>
-                            <Tooltip label="Download this problem statement">
-                              <GridOnIcon />
+                <Table variant="striped" colorScheme='gray'>
+                  <Thead >
+                    <Tr >
+                      <Th>Number</Th>
+                      <Th>Theme</Th>
+                      <Th>Title</Th>
+                      <Th>Description</Th>
+                      <Th>Download</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {sortedData?.length > 0 ? sortedData?.map((task) => (
+                      (task?.Users?.length < 3 || !task?.Users) && task?.Number && (
+                        <Tr key={task?.Number}>
+                          <Td>{task?.Number}</Td>
+                          <Td>{task?.Theme}</Td>
+                          <Td>{task?.Statement}</Td>
+                          <Td>
+                            <Tooltip label={task?.Desc}>
+                              {task?.Desc?.substring(0, 200)}
                             </Tooltip>
-                          </Button>
-                        </Td>
-                      </Tr>
-                    )
-                  )):
-                  <Tr>
-                    <Td colSpan={5} textAlign="center" fontWeight="bold">
-                    No data matches your search <Badge colorScheme='orange' >{select}</Badge>, filter <Badge colorScheme='green' >{filter}</Badge> and Sort <Badge colorScheme='teal' >{sort}</Badge> criteria. Click  <Badge colorScheme='red' >Reset</Badge> to view all problem statements.                    </Td>
-                    </Tr>}
-                </Tbody>
-              </Table>
+                          </Td>
+                          <Td>
+                            <Button onClick={() => handleDownloadExcel(task)}>
+                              <Tooltip label="Download this problem statement">
+                                <GridOnIcon />
+                              </Tooltip>
+                            </Button>
+                          </Td>
+                        </Tr>
+                      )
+                    )) :
+                      <Tr>
+                        <Td colSpan={5} textAlign="center" fontWeight="bold">
+                          No data matches your search <Badge colorScheme='orange' >{select}</Badge>, filter <Badge colorScheme='green' >{filter}</Badge> and Sort <Badge colorScheme='teal' >{sort}</Badge> criteria. Click  <Badge colorScheme='red' >Reset</Badge> to view all problem statements.                    </Td>
+                      </Tr>}
+                  </Tbody>
+                </Table>
               </TableContainer>
-
             </Box>
           </Box>
         )}
