@@ -25,6 +25,8 @@ function App() {
   const teamname = useSelector((state) => state.user?.Teamname);
   const member = useSelector((state) => state.user?.TeamMember);
   const password = useSelector((state) => state.user?.TeamPassword);
+  const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
+
 
 
 
@@ -41,7 +43,7 @@ function App() {
 
 
   const checkhackJoin = async () => {
-    await Actions.JoinHackathon(teamcode, member,password)
+    await Actions.JoinHackathon(teamcode, member,password,true)
       .then((res) => {
         if (res?.data?.message === "Login successful") {
           setAuth(true)
@@ -118,7 +120,7 @@ function App() {
               path="/htrlogin"
               element={
                 
-                  <HTRLoginForm />
+                  <HTRLoginForm isAuth={HtrAuth}/>
                
               }
             />

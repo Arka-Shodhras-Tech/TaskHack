@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
   Box,
@@ -15,6 +15,7 @@ import {
   Tooltip,
   useToast,
   TableContainer,
+  Badge,
 } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import * as XLSX from 'xlsx'; // Import all exports from 'xlsx'
@@ -31,7 +32,8 @@ export const ProblemStatementsListView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-const toast = useToast()
+const toast = useToast();
+const searchref = useRef("null")
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setSelect(params.get('search') || '');
@@ -53,6 +55,19 @@ const toast = useToast()
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+        if (event.shiftKey&& event.key.toLowerCase() === 'f'  ) {
+          event.preventDefault();
+            searchref.current.focus();
+        }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+    };
+}, []);
   const updateQueryParams = (key, value) => {
     const params = new URLSearchParams(location.search);
     if (value) {
@@ -157,7 +172,6 @@ const toast = useToast()
         isClosable:true,
         position: "top-right"
       });
-      // Fallback or inform the user that sharing is not supported
     }
   };
 
@@ -202,11 +216,11 @@ const toast = useToast()
           <Button onClick={() => (window.location.href = '/htrs')}  fontSize={{ base: '0.6em', md: '0.9em' }} overflow="hidden">
             Create Team
           </Button>
-          <Button onClick={handleDownloadAllExcel}>
+          {dat.length > 0 &&<Button onClick={handleDownloadAllExcel}>
             <Tooltip label="Download all problem statements">
               <GridOnIcon />
             </Tooltip>
-          </Button>
+          </Button>}
           
         
         </Box>
@@ -217,6 +231,7 @@ const toast = useToast()
             placeholder="Search problem statement name or number"
             onChange={handleSearchChange}
             width="70%"
+            ref={searchref}
           />
             <Button onClick={handleShare}>
             <Tooltip label="Share problem statements">
@@ -259,7 +274,7 @@ const toast = useToast()
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {sortedData?.map((task) => (
+                  { sortedData.length >0 ? sortedData?.map((task) => (
                     (task?.Users?.length < 3 || !task?.Users) && (
                       <Tr key={task?.Number}>
                         <Td>{task?.Number}</Td>
@@ -279,7 +294,11 @@ const toast = useToast()
                         </Td>
                       </Tr>
                     )
-                  ))}
+                  )):
+                  <Tr>
+                    <Td colSpan={5} textAlign="center" fontWeight="bold">
+                    No data matches your search <Badge colorScheme='orange' >{select}</Badge>, filter <Badge colorScheme='green' >{filter}</Badge> and Sort <Badge colorScheme='teal' >{sort}</Badge> criteria. Click  <Badge colorScheme='red' >Reset</Badge> to view all problem statements.                    </Td>
+                    </Tr>}
                 </Tbody>
               </Table>
               </TableContainer>

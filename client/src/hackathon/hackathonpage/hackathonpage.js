@@ -26,34 +26,30 @@ import DisplayTimer from "../timers/displayTimer";
 import { useNavigate } from "react-router-dom";
 import TeamJoinModal from "./joinhackathonmodal";
 import { Actions } from "../../actions/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Logout from "@mui/icons-material/Logout";
-
-
-
-
+import Chat from "../../services/chatting/Chat";
 
 export const Hackathonpage = ({ isAuth = false, socket }) => {
   const nav = useNavigate();
-  document.title = "Hackathon | Vedic Vision | Team Ast";
+  document.title = "Hackathon | Team Ast";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [teamCode, setTeamCode] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [password, setPassword] = useState("");
-
+  const teamcode = useSelector((state) => state.user?.Teamcode);
+  const teamname = useSelector((state) => state.user?.Teamname);
+  const member = useSelector((state) => state.user?.TeamMember);
+  const RoundData = useSelector((state) => state.user?.TeamData);
+  const [tasks, setTasks] = useState(Object.values(RoundData?.Rounds || {}));
 
   const dispatch = useDispatch();
-  
   const handleJoin = async () => {
-  
-  
-  
     try {
-      const response = await Actions.JoinHackathon(teamCode, registrationNumber, password);
-
-  
+      const response = await Actions.JoinHackathon(teamCode, registrationNumber, password,false);
+      console.log(response.data.data);
       if (response?.data?.error) {
         toast({
           title: "Error joining team.",
@@ -69,9 +65,11 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
             TeamCode: response?.data?.data?.TeamCode,
             TeamPassword: response?.data?.data?.Password,
             TeamMember: registrationNumber,
+            TeamData:response?.data?.data,
           },
         });
         onClose();
+        setTasks(Object.values(response?.data?.data?.Rounds || {}));
         toast({
           title: "Team joined.",
           description: "You have successfully joined the team.",
@@ -88,43 +86,23 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
         status: "error",
         duration: 5000,
         isClosable: true,
+        
       });
     }
   };
-  
 
-
-
-  const tasks = [
-    {
-      taskName: "Round 1",
-      content: "Description for Task 1",
-      startTime: "10:00 AM",
-      endTime: "11:00 AM",
-    },
-    {
-      taskName: "Round 2",
-      content: "Description for Task 2",
-      startTime: "11:15 AM",
-      endTime: "12:15 PM",
-    },
-    {
-      taskName: "Round 3",
-      content: "Description for Task 3",
-      startTime: "12:30 PM",
-      endTime: "1:30 PM",
-    },
-  ];
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     dispatch({
       type: "JOINHACK",
       payload: {
         TeamCode: "",
         TeamPassword: "",
         TeamMember: "",
+        TeamData:""
       },
     });
-  }
+    window.location.reload();
+  };
 
   return (
     <Center p={8} className="hackathon-container">
@@ -136,17 +114,14 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
               Join Hackathon
             </Button>
           )}
-
           {isAuth && (
             <>
-         
-            <Button className="join-button" onClick={() => window.location.href = "/games"}>
-              Games
-            </Button>
-
-            <Button onClick={handleLogout} colorScheme="red">
-              <Logout />
-            </Button>
+              <Button className="join-button" onClick={() => window.location.href = "/games"}>
+                Games
+              </Button>
+              <Button onClick={handleLogout} colorScheme="red">
+                <Logout />
+              </Button>
             </>
           )}
         </div>
@@ -156,25 +131,19 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
               <Card key={index} className="task-card">
                 <CardHeader className="task-header">
                   <Heading textAlign="center" fontSize="2xl" className="task-title-color">
-                    {task.taskName}
+                   Round {index+1}: {task.Task}
                   </Heading>
                 </CardHeader>
                 <CardBody className="task-body">
-                  <Text className="task-content">{task.content}</Text>
-                  <Box style={{ display: "flex", justifyContent: "space-evenly" }}>
-                    <Text className="task-time" style={{ color: "green" }}>
-                      Start Time: {task.startTime}
-                    </Text>
-                    <Text className="task-time" style={{ color: "red" }}>
-                      End Time: {task.endTime}
-                    </Text>
-                  </Box>
+                  <Text className="task-content">{task.Desc}</Text>
                 </CardBody>
               </Card>
             ))}
         </div>
       </Stack>
-
+      {isAuth && (
+        <Chat socket={socket} teamId={teamcode} participantId={member} teamname={teamname} />
+      )}
       <TeamJoinModal
         isOpen={isOpen}
         onClose={onClose}
