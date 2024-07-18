@@ -219,14 +219,10 @@ export const ProblemStatementsListView = () => {
             </Tooltip>
           </Button>}
 
-          <Button onClick={handleShare}>
-            <Tooltip label="Share problem statement">
-              <ShareIcon />
-            </Tooltip>
-          </Button>
+         
         </Box>
         <Box>
-        <Box display="flex" justifyContent="center" mb={6}>
+        <Box display="flex" justifyContent="center" mb={6} gap={4}>
           <Input
             id="search"
             value={select}
