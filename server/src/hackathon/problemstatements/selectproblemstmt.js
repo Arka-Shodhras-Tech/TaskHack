@@ -48,3 +48,12 @@ export const UnSelectProStmt = async (code, number, res) => {
         console.log(error)
     }
 }
+
+export const PSSC = async (res) => {
+    try {
+        const pss = await db1.collection("ProblemStatements").findOne({ Statement: "Problem Satement" })
+        res.json({ message: "insert sucessfully", data: pss })
+    } catch (error) {
+        console.log(error)
+    }
+}

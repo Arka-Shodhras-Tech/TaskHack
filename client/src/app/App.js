@@ -37,22 +37,22 @@ function App() {
           setTeam(res?.data);
         }
       })
-      .catch((e) => {});
+      .catch((e) => { });
   };
 
 
 
   const checkhackJoin = async () => {
-    await Actions.JoinHackathon(teamcode, member,password,true)
+    await Actions.JoinHackathon(teamcode, member, password, true)
       .then((res) => {
         if (res?.data?.message === "Login successful") {
           setAuth(true)
-         
-        }else{
+
+        } else {
           setAuth(false)
         }
       })
-      .catch((e) => {});
+      .catch((e) => { });
   };
 
   const CheckHackathon = async () => {
@@ -62,7 +62,7 @@ function App() {
         setStart(res?.data);
         setLoad(true);
       })
-      .catch((e) => {});
+      .catch((e) => { });
   };
 
   const Refresh = () => {
@@ -75,14 +75,13 @@ function App() {
     CheckHackathon();
     checkhackJoin()
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     checkhackJoin()
-  },[teamcode,member,password]);
+  }, [teamcode, member, password]);
 
   return (
     <>
       <EnhancedNetworkChecker />
-
       {load ? (
         <BrowserRouter>
           <Routes>
@@ -107,38 +106,24 @@ function App() {
               }
             />
             <Route
-              path="/registerps"
+              path="/problemstatement-selection"
               element={
                 team?.message ? (
                   <ProblemStatements data={team?.data} reload={Refresh} />
                 ) : (
-                  <TeamLoginform  />
+                  <TeamLoginform />
                 )
               }
             />
-             <Route
+            <Route
               path="/htrlogin"
-              element={
-                
-                  <HTRLoginForm isAuth={HtrAuth}/>
-               
-              }
+              element={<HTRLoginForm isAuth={HtrAuth} />}
             />
-             <Route
+            <Route
               path="/htrs"
-              element={
-                
-                  <HtrsContactList />
-               
-              }
+              element={HtrAuth?<HTRLoginForm isAuth={HtrAuth} />:<HtrsContactList/>}
             />
-             <Route
-              path="/problemstatements"
-              element={
-              
-                  <ProblemStatementsListView/>
-              }
-            />
+            <Route path="/problemstatements" element={<ProblemStatementsListView />}/>
           </Routes>
         </BrowserRouter>
       ) : (

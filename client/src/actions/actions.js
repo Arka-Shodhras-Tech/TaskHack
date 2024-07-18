@@ -29,12 +29,13 @@ export const Actions = {
         return await axios.post(process.env.REACT_APP_Server + "/views", { theme, index })
     },
 
-    CheckTeam: async (code,password) => {
-        return await axios.post(process.env.REACT_APP_Server + "/checkteam", { code,password })
+    CheckTeam: async (code, password) => {
+        return await axios.post(process.env.REACT_APP_Server + "/checkteam", { code, password })
     },
-    CheckHTR: async (code,password) => {
-       
-        return await axios.post(process.env.REACT_APP_Server + "/checkhtr", { code ,password})
+
+    CheckHTR: async (code, password) => {
+
+        return await axios.post(process.env.REACT_APP_Server + "/checkhtr", { code, password })
     },
 
     checkHacthon: async () => {
@@ -44,10 +45,12 @@ export const Actions = {
     CreateTeam: async (team, gmail, phone, code, members, password) => {
         return await axios.post(process.env.REACT_APP_Server + "/createteam/" + team + "/" + gmail + "/" + phone + "/" + code + "/" + members + "/" + password)
     },
-    JoinHackathon: async (teamCode,registrationNumber,password,isCheck) => {
-        return await axios.post(process.env.REACT_APP_Server + `/joinhackathon?ischeck=${isCheck}`,{teamCode,registrationNumber,password})
+
+    JoinHackathon: async (teamCode, registrationNumber, password, isCheck) => {
+        return await axios.post(process.env.REACT_APP_Server + `/joinhackathon?ischeck=${isCheck}`, { teamCode, registrationNumber, password })
     },
-    AllTeamRegistrers: async ()=>{
+
+    AllTeamRegistrers: async () => {
         return await axios.post(process.env.REACT_APP_Server + "/teamregistrers")
 
     },
@@ -67,8 +70,13 @@ export const Actions = {
     FeedBack: async (user, techfeed, sitefeed) => {
         return await axios.post(process.env.REACT_APP_Server + "/internalmarks", { user, techfeed, sitefeed })
     },
+
     AddFeedBack: async ({ user, isInteractive, rating, feedbackmessage, date, type }) => {
         return await axios.post(process.env.REACT_APP_Server + "/addfeedback", { user, isInteractive, rating, feedbackmessage, date, type });
-      },
+    },
+
+    PSSC: async () => {
+        return await axios.post(process.env.REACT_APP_Server + "/pssc")
+    },
 
 }
