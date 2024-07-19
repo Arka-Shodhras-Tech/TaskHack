@@ -17,7 +17,10 @@ const LandingPage = () => {
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <img src="./ast-logo-no-name.png" alt="AST Logo" className="logo-rotate" />
+          <div class="logo-container">
+  <img src="./logo-gif.gif" alt="AST Logo" class="logo-rotate" />
+</div>
+
           <span>
             <h4>AST</h4> <p>TEAM INC .</p>
           </span>
