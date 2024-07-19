@@ -2,15 +2,19 @@ import cors from "cors";
 import express from 'express';
 import session from 'express-session';
 import { Resend } from 'resend';
+import { AllTeamRegistrers } from "./Teams/allteamregistrers.js";
+import { checkHtr } from "./Teams/checkhtr.js";
 import { AllTeamCodes, checkTeam } from "./Teams/checkteam.js";
 import { CreateTeam } from "./Teams/createteams.js";
 import { SelectTask, UnSelectTask } from "./bootcamp/tasks/selecttask.js";
 import { StudentTasks, Tasks } from "./bootcamp/tasks/tasks.js";
+import { AddFeedback } from "./feedback/addfeedback.js";
 import { CheckHackathon } from "./hacthonday/checkhackathon.js";
+import { JoinHackathon } from "./joinhackathon/joinhackathon.js";
 import { FileByName, Materials } from "./materials/material.js";
 import { LikeMati, ViewMati } from "./materials/updatematerials.js";
 import { PSS } from "./problemstatements/pss.js";
-import { SelectProStmt, UnSelectProStmt } from "./problemstatements/selectproblemstmt.js";
+import { PSSC, SelectProStmt, UnSelectProStmt } from "./problemstatements/selectproblemstmt.js";
 import { SendOtp } from "./updateuser/senotp.js";
 import { UpdatePasswordLink } from "./updateuser/updatelink.js";
 import { UpdatePassword } from "./updateuser/updatepassword.js";
@@ -18,9 +22,6 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
-import { checkHtr } from "./Teams/checkhtr.js";
-import { JoinHackathon } from "./joinhackathon/joinhackathon.js";
-import { AllTeamRegistrers } from "./Teams/allteamregistrers.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -111,35 +112,47 @@ app.post('/views', async (req, res) => {
 
 // ***************************************** Hacthon *********************************************** //
 app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req, res) => {
-  
-    await CreateTeam(req, res,resend);
+
+    await CreateTeam(req, res, resend);
 })
 
 app.post('/checkteam', async (req, res) => {
     const { code, password } = req.body;
     await checkTeam(code, password, res);
-  });
-  
-  app.post('/checkhtr', async (req, res) => {
+});
+
+app.post('/checkhtr', async (req, res) => {
     const { code, password } = req.body;
     await checkHtr(code, password, res);
-  });
+});
 
 app.post('/teamscodes', async (req, res) => {
-    await AllTeamCodes(req,res)
+    await AllTeamCodes(req, res)
 })
+
 app.post('/teamregistrers', async (req, res) => {
-    await AllTeamRegistrers(req,res)
+    await AllTeamRegistrers(req, res)
 })
+
 app.post("/joinhackathon", async (req, res) => {
-    await JoinHackathon(req,res)
+    await JoinHackathon(req, res)
 })
 
 app.post('/selectps', async (req, res) => {
     await SelectProStmt(req.body.code, req.body.number, req.body.stmt, req.body.desc, res)
 })
 
+app.post('/pssc', async (req, res) => {
+    await PSSC(res)
+})
+
 app.post('/unselectps', async (req, res) => {
     await UnSelectProStmt(req.body.code, req.body.number, res)
 })
+
+app.post("/addfeedback", async (req, res) => {
+    await AddFeedback(req, res)
+
+}
+)
 export default app

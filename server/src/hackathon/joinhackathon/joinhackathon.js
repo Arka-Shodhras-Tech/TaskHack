@@ -1,18 +1,32 @@
-import { db1 } from "../../db.js"
+import { db1 } from "../../db.js";
 
 export const JoinHackathon = async (req, res) => {
     const { teamCode, registrationNumber, password } = req.body;
+const {ischeck} = req.query; 
 
     try {
         const team = await db1.collection("Teams").findOne({ TeamCode: parseInt(teamCode) });
 
         if (team) {
-          
             const member = team.Members.find(member => member === registrationNumber?.toLowerCase());
 
             if (member) {
                 if (team.Password === password) {
-                    res.send({ message: "Login successful", data: team });
+                    // Exclude specific fields from Rounds
+                    const filteredRounds = Object.entries(team.Rounds || {}).reduce((acc, [roundKey, roundValue]) => {
+                        const { Marks, ...rest } = roundValue;
+                        acc[roundKey] = rest;
+                        return acc;
+                    }, {});
+
+                    // Create a new team object excluding the unwanted fields
+                    const { HackActivityMarks, HackInternalMarks, ...filteredTeam } = team;
+                    filteredTeam.Rounds = filteredRounds;
+                    if(ischeck==="true"){
+                        filteredTeam.Password = "no password for this"
+                    }
+
+                    res.send({ message: "Login successful", data: filteredTeam });
                 } else {
                     res.send({ message: "Incorrect password", error: true });
                 }
