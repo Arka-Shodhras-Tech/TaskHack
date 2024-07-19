@@ -230,9 +230,35 @@ section#page-1 h1 {
   }
 }
 
-img.logo-rotate {
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-container::before {
+  content: 'AST';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px; /* Adjust as needed */
+  height: 30px; /* Adjust as needed */
+  background-color: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1; 
+  font-weight: bold;
+  font-size: 10px; 
+  color: #c0aa7b; 
+}
+
+.logo-rotate {
+  transform: scale(2) !important;
   animation: rotate 15s linear infinite;
 }
+
 
 
 .com-features {
