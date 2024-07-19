@@ -126,7 +126,7 @@ const HTRLoginForm = ({ isAuth }) => {
       >
         <Box textAlign="center" mb={[4, 4, 0]} mr={[0, 0, 4]} flexShrink={0}>
           <img
-            src="login-hackathon-banner.jpg"
+            src="../login-hackathon-banner.jpg"
             alt="Hackathon Logo"
             style={{ maxWidth: "300px", borderRadius: "8px" }}
             loading="lazy"
