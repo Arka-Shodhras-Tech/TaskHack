@@ -9,13 +9,13 @@ export const SelectProStmt = async (code, number, stmt, desc, res) => {
                 if (team?.Team) {
                     const updateuser = await db1.collection("Teams").findOneAndUpdate({ TeamCode: parseInt(code) }, { $set: { PS: { Statement: stmt, Number: number, Desc: desc } } })
                     if (updateuser?._id) {
-                        res.json({ message: "slected" })
+                        res.json({ message: "selected" })
                     } else {
                         await db1.collection("ProblemStatements").findOneAndUpdate({ Number: number }, { $pull: { Users: [code] } })
                     }
                 }
                 else {
-                    res.send({ error: 'please create team' })
+                    res.json({ error: 'please create team' })
                 }
             } else {
                 res.json({ error: 'try again' })
@@ -44,6 +44,15 @@ export const UnSelectProStmt = async (code, number, res) => {
         } else {
             res.json({ error: 'statement not found' })
         }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const PSSC = async (res) => {
+    try {
+        const pss = await db1.collection("ProblemStatements").findOne({ Statement: "Problem Satement" })
+        res.json({ message: "insert sucessfully", data: pss })
     } catch (error) {
         console.log(error)
     }

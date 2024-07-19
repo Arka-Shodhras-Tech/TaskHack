@@ -24,6 +24,7 @@ const MotionBox = motion(Box);
 function Chat({ socket, participantId, teamId,teamname }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [unreadCount, setUnreadCount] = useState(0);
   const [isChatOpen, setIsChatOpen] = useState(
     JSON.parse(localStorage.getItem("isChatOpen")) || false
   );
@@ -59,9 +60,14 @@ function Chat({ socket, participantId, teamId,teamname }) {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    setUnreadCount(0)
   };
 
   const handleIncomingMessage = (msg) => {
+
+    if(!isChatOpen){
+      setUnreadCount((prev)=>prev+1)
+    }
     setMessages((prevMessages) => [...prevMessages, msg]);
   };
 
@@ -267,6 +273,12 @@ function Chat({ socket, participantId, teamId,teamname }) {
                 {" "}
                 AST TEAM CHATS{" "}
               </Text>
+              {
+                unreadCount >0 &&
+                <Badge ml='1' colorScheme='green'>
+                New {unreadCount}
+              </Badge>
+              }
               <IconButton
                 aria-label="Open chat"
                 icon={<ChevronDownIcon />}

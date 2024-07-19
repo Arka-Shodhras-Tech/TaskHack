@@ -1,23 +1,20 @@
-// components/HTRLoginForm.js
-
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Spinner,
+  Text,
+  useToast
+} from "@chakra-ui/react";
+import Logout from "@mui/icons-material/Logout";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Actions } from "../../actions/actions";
-import {
-  Badge,
-  Box,
-  Button,
-  Input,
-  useToast,
-  Spinner,
-  Flex,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
 import { CreateTeam } from "./create-team-model";
-import Logout from "@mui/icons-material/Logout";
 
-const HTRLoginForm = ({isAuth}) => {
+const HTRLoginForm = ({ isAuth }) => {
   const toast = useToast();
   const [load, setLoad] = useState(false);
   const [htrId, setHtrId] = useState("");
@@ -25,7 +22,7 @@ const HTRLoginForm = ({isAuth}) => {
   const [show, setShow] = useState(false)
   const [htrPassword, setHtrPassword] = useState("");
   const [isHtrAuth, setHtrAuth] = useState(isAuth);
-const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const Login = async () => {
     if (htrId && htrPassword) {
@@ -59,6 +56,8 @@ const dispatch = useDispatch()
           setHtrId("");
           setHtrPassword("");
           setHtrAuth(true);
+
+          window.location.href = "htrs"
         }
       } catch (error) {
         console.error("Error checking HTR:", error);
@@ -95,7 +94,7 @@ const dispatch = useDispatch()
   }, [])
 
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     dispatch({
       type: "HTRLOGIN",
       payload: {
@@ -104,8 +103,8 @@ const dispatch = useDispatch()
     });
     toast(
       {
-        title:"logout successfully",
-        status:"success"
+        title: "logout successfully",
+        status: "success"
       }
     )
     window.location.reload();
@@ -113,12 +112,7 @@ const dispatch = useDispatch()
   }
   return (
     <Flex align="center" justify="center" minH="100vh" bg="gray.50">
-      <CreateTeam
-        isOpen={show}
-        onClose={() => setShow(false)}
-        data={data}
-
-      />
+      <CreateTeam isOpen={show} onClose={() => setShow(false)} data={data} />
       <Flex
         p={8}
         maxW="800px"
@@ -132,7 +126,7 @@ const dispatch = useDispatch()
       >
         <Box textAlign="center" mb={[4, 4, 0]} mr={[0, 0, 4]} flexShrink={0}>
           <img
-           src="login-hackathon-banner.jpg"
+            src="login-hackathon-banner.jpg"
             alt="Hackathon Logo"
             style={{ maxWidth: "300px", borderRadius: "8px" }}
             loading="lazy"

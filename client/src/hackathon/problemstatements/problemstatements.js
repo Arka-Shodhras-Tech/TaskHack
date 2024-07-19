@@ -1,23 +1,28 @@
 import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, Tooltip, useToast } from "@chakra-ui/react";
+import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Actions } from "../../actions/actions";
 import { HackathonNav } from "../hackathonnav/hackathonnav";
 import './ps.css';
-import LogoutIcon from '@mui/icons-material/Logout';
 
 export const ProblemStatements = ({ data, reload }) => {
     const [dat, setDat] = useState([]);
     const [stmt, setStmt] = useState(true)
     const [select, setSelect] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [count, setCount] = useState()
+    const [my, setMy] = useState(false)
     const teamcode = useSelector((state) => state.user?.Teamcode)
     const toast = useToast();
-const dispatch = useDispatch();
+    const dispatch = useDispatch();
+
     useEffect(() => {
         fetchTasks();
+        CountPss()
     }, []);
+
     const fetchTasks = async () => {
         try {
             const response = await axios.post(process.env.REACT_APP_Server + '/statements');
@@ -27,6 +32,19 @@ const dispatch = useDispatch();
             console.error('Error fetching tasks:', error);
         }
     };
+
+    console.log(dat)
+
+    const CountPss = async () => {
+        await Actions.PSSC()
+            .then((res) => {
+                if (res?.data?.data?.Members && res?.data?.data?.Statements) {
+                    setCount((res?.data?.data?.Members / res?.data?.data?.Statements).toFixed(0))
+                } else {
+                    setCount('')
+                }
+            }).catch((e) => console.log(e))
+    }
 
     const SelectPS = async (number, stmt, desc) => {
         setStmt(false)
@@ -78,27 +96,26 @@ const dispatch = useDispatch();
         return dat.map(student => (student?.TeamCode === user && student?.PS?.Statement));
     }
 
-   const handleLogOut = ()=>{
-    dispatch({
-        type: "TEAM",
-        payload: {
-          Teamcode: "",
-          Teamname: "",
-        },
-      });
-      window.location.reload();
-   }
+    const handleLogOut = () => {
+        dispatch({
+            type: "TEAM",
+            payload: {
+                Teamcode: "",
+                Teamname: "",
+            },
+        });
+        window.location.reload();
+    }
 
     return (
         <>
             <HackathonNav />
             <Box display="flex" justifyContent="center" mb={6}>
-                <Input id="search" value={select} placeholder="Enter problem statement name or number" onChange={(e) => setSelect(e.target.value)} width="70%" />
+                {my || <Input id="search" value={select} placeholder="Enter problem statement name or number" onChange={(e) => setSelect(e.target.value)} width="70%" />}
                 <Button colorScheme="red" onClick={handleLogOut}>
                     <Tooltip label="Logout">
-                    <LogoutIcon />
+                        <LogoutIcon />
                     </Tooltip>
-                  
                 </Button>
             </Box>
             {
@@ -110,24 +127,24 @@ const dispatch = useDispatch();
                     <div className="problemstatements">
                         <div className="task-form">
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', margin: '2% 0%' }}>
-                                <Button bg="#3AA6B9" onClick={() => setSelect('sports')}>Sports</Button>
-                                <Button bg="#3AA6B9" onClick={() => setSelect('yoga')}>Yoga</Button>
+                                {my || <Button bg="#3AA6B9" onClick={() => setSelect('sports')}>Sports</Button>}
+                                {my || <Button bg="#3AA6B9" onClick={() => setSelect('yoga')}>Yoga</Button>}
+                                <Button bg="#3AA6B9" onClick={() => { setMy(my ? false : true); setSelect(teamcode) }}>{my ? "View all statements" : "My Statement"}</Button>
                             </div>
-
                             <Box mt={8}>
                                 <div className='task-box'>
-                                    <h1 className='h1-tasks'>Problem Statements</h1>
+                                    <h1 className='h1-tasks'>{my ? "My " : "All "}Problem Statements</h1>
                                     {dat?.filter(val =>
-                                    (val?.Theme?.toLowerCase().includes(select) ||
-                                        val?.Number?.includes(select) ||
-                                        val?.Desc?.toLowerCase().includes(select) ||
-                                        val?.Statement?.toLowerCase().includes(select))
-                                    ).map((task) => (
-                                        task?.Users.length < 3 && <Card>
+                                        (val?.Theme?.toLowerCase().includes(select) ||
+                                            val?.Number?.includes(select) ||
+                                            val?.Desc?.toLowerCase().includes(select) ||
+                                            val?.Statement?.toLowerCase().includes(select)) ||
+                                        val?.Users?.some(state => state.includes(parseInt(select)))
+                                    )?.map((task) => (
+                                        !my ? (task?.Users?.length || 0) <= count && task?.Number && <Card>
                                             <CardHeader>
                                                 <Heading size='md'>Problem Statement {task?.Number}</Heading>
                                             </CardHeader>
-
                                             <CardBody>
                                                 <Stack divider={<StackDivider />} spacing='4'>
                                                     <Box>
@@ -141,7 +158,6 @@ const dispatch = useDispatch();
                                                             {!checkStmt(task?.Number)? <Button onClick={() => SelectPS(task?.Number, task?.Statement, task?.Desc)}>select</Button>:
                                                             <Button onClick={() => UnSelectPS(task?.Number)}>unselect</Button>}
                                                         </Text>} */}
-
                                                         {stmt && <Text textAlign={'center'}>
                                                             {!data?.PS ? <Button onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
                                                                 data?.PS?.Number === task?.Number && <Button onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
@@ -150,12 +166,36 @@ const dispatch = useDispatch();
                                                 </Stack>
                                             </CardBody>
                                         </Card>
+                                            : task?.Number && <Card>
+                                                <CardHeader>
+                                                    <Heading size='md'>Problem Statement {task?.Number}</Heading>
+                                                </CardHeader>
+                                                <CardBody>
+                                                    <Stack divider={<StackDivider />} spacing='4'>
+                                                        <Box>
+                                                            <Heading size='xs' textTransform='uppercase'>
+                                                                {task?.Statement}
+                                                            </Heading>
+                                                            <Text pt='2' fontSize='sm'>
+                                                                {task?.Desc}
+                                                            </Text>
+                                                            {/* {stmt && <Text textAlign={'center'}>
+                                                        {!checkStmt(task?.Number)? <Button onClick={() => SelectPS(task?.Number, task?.Statement, task?.Desc)}>select</Button>:
+                                                        <Button onClick={() => UnSelectPS(task?.Number)}>unselect</Button>}
+                                                    </Text>} */}
+                                                            {stmt && <Text textAlign={'center'}>
+                                                                {!data?.PS ? <Button onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
+                                                                    data?.PS?.Number === task?.Number && <Button onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
+                                                            </Text>}
+                                                        </Box>
+                                                    </Stack>
+                                                </CardBody>
+                                            </Card>
                                     ))}
                                 </div>
                             </Box>
                         </div>
-                    </div>
-            }
+                    </div>}
         </>
     );
 };
