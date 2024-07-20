@@ -39,13 +39,13 @@ export const Actions = {
     },
     CheckTechTeam: async (code, password) => {
 
-        return await axios.post("http://localhost:9899" + "/checktechteammemberlogin", { code, password })
+        return await axios.post(process.env.REACT_APP_Server + "/checktechteammemberlogin", { code, password })
     },
     UpdateTechTeamMemberStatus: async (id, status) => {
-        return await axios.put("http://localhost:9899" + `/updatetechteammemberstatus/${id}`, { status });
+        return await axios.put(process.env.REACT_APP_Server + `/updatetechteammemberstatus/${id}`, { status });
     },
     TeamMembers: async () => {
-        return await axios.post("http://localhost:9899" + "/techteammembers");
+        return await axios.post(process.env.REACT_APP_Server + "/techteammembers");
     },
     checkHacthon: async () => {
         return await axios.post(process.env.REACT_APP_Server + "/check-hackathon")
