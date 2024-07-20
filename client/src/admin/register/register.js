@@ -1,129 +1,178 @@
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { NavBar } from '../../navbar/navbar';
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  VStack,
+  useToast,
+  HStack,
+} from '@chakra-ui/react';
 import "./register.css";
-export const Register = ()=>
-{
-  const[name,sname]=useState()
-  const[mail,smail]=useState()
-  const[number,snumber]=useState()
-  const[regd,sregd]=useState()
-  const[sec,ssec]=useState()
-  const[branch,sbranch]=useState()
-  const[data,sdata]=useState([]);
-  const[teamname,steamname]=useState()
-  const[load,sload]=useState(false)
-  const Registers=async()=>
-  {
-    if(name && mail && number && regd && branch && sec && teamname)
-    {
-      sload(true)
-      await axios.post(`${process.env.REACT_APP_Server}/verifyregister/`+regd)
-      .then(async(res)=>
-      {
-        if(res.data)
-        {
-          alert("Already register")
-          sload(false)
-          window.location.reload(5);
-        }
-        else
-        {
-          await axios.post(`${process.env.REACT_APP_Server}/studentregister/` + name + "/" + mail + "/" + number + "/" + regd + "/" + branch + "/" + sec + "/" + teamname)
-            .then((res) => {
-              if (res.data) {
-                alert("Register Sucessfully");
-                window.location.reload(5);
-              }
-              else {
-                alert("Try again");
-              }
-            })
-        }
-      })
-    }
-    else
-    {
-      alert("Fill all details")
-    }
-  }
-  useEffect(()=>
-  {
-    axios.post(`${process.env.REACT_APP_Server}/studentdata`)
-    .then((res)=>
-    {
-      sdata(res.data)
-    })
-    .catch((e)=>console.log(e))
-  },[])
-    return(
-        <>
-        <NavBar/>
-        <div className="container register-container">
-          <div className="p-4 p-md-5 border rounded-3 bg-body-tertiary">
-          <div className=' form-floating d-flex justify-content-between mb-3 align-items-center'>
-              <div className="form-floating  w-100">
-                <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" fdprocessedid="yohq1" onChange={(e)=>smail(e.target.value)}/>
-                <label htmlFor="floatingInput">Email Address</label>
-              </div>
-            
-              {/* <div className='w-25 text-center'>
-                <button type="button" class="btn btn-primary  verify-button" >Verfiy</button>
-              </div> */}
-            </div>
-            <div className="form-floating mb-3">
-              <input type="text" className="form-control" id="floatingInput" placeholder="Enter your first name" fdprocessedid="yohq1"  onChange={(e)=>sname(e.target.value.toUpperCase())}/>
-              <label htmlFor="floatingInput">Full Name</label>
-            </div>
 
-            <div className=' form-floating mb-3'>
-              <input type="text" className="form-control" id="floatingInput" placeholder="Enter your phone number" fdprocessedid="yohq1" onChange={(e)=>snumber(e.target.value.toUpperCase())}/>
-              <label htmlFor="floatingInput">Phone Number</label>
-            </div>
+export const Register = () => {
+  const [name, setName] = useState('');
+  const [mail, setMail] = useState('');
+  const [number, setNumber] = useState('');
+  const [regd, setRegd] = useState('');
+  const [sec, setSec] = useState('');
+  const [branch, setBranch] = useState('');
+  const [data, setData] = useState([]);
+  const [teamname, setTeamname] = useState('');
+  const [load, setLoad] = useState(false);
+  const toast = useToast();
 
-            <div className="form-floating mb-3">
-              <input type="text" className="form-control" id="floatingInput" placeholder="Enter your registration number" fdprocessedid="fname1" onChange={(e)=>sregd(e.target.value.toUpperCase())}/>
-              <label htmlFor="floatingInput">Registration number</label>
-            </div>
-            <div className="form-floating mb-3">
-          <input type="text" className="form-control" id="floatingPassword" placeholder="Branch" onChange={(e)=>sbranch(e.target.value.toUpperCase())} />
-          <label htmlFor="floatingPassword">Branch</label>
-        </div>
-            <div className="form-floating mb-3">
-              <select className="form-control " id="inputGroupSelect01" onChange={(e)=>ssec(e.target.value)}>
-                <option >Select your section...</option>
-                <option value={"A"}>A</option>
-                <option value={"B"}>B</option>
-                <option value={"C"}>C</option>
-                <option value={"D"}>D</option>
-                <option value={"E"}>E</option>
-              </select>
-              <label htmlFor="floatingInput">Section</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input type="text" className="form-control" id="floatingPassword" placeholder="Team Name" onChange={(e)=>steamname(e.target.value.toUpperCase())}/>
-              <label htmlFor="floatingPassword">Team Name</label>
-            </div>
-            <h6 style={{display:'flex',justifyContent:'center'}}>OR</h6>
-            <div className="form-floating mb-3">
-              <select type="text" className="form-control" id="floatingPassword" placeholder="Team Name" onChange={(e)=>steamname(e.target.value.toUpperCase())}>
-                <option>Select Your Team</option>
-                {
-                  data.map((val)=>
-                  (
-                    <option val={val.Teamname}>{val.Teamname}</option>
-                  ))
+  const Registers = async () => {
+    if (name && mail && number && regd && branch && sec && teamname) {
+      setLoad(true);
+      await axios.post(`${process.env.REACT_APP_Server}/verifyregister/` + regd)
+        .then(async (res) => {
+          if (res.data) {
+            toast({
+              title: "Already registered",
+              status: "warning",
+              duration: 3000,
+              isClosable: true,
+            });
+            setLoad(false);
+            window.location.reload(5);
+          } else {
+            await axios.post(`${process.env.REACT_APP_Server}/studentregister/` + name + "/" + mail + "/" + number + "/" + regd + "/" + branch + "/" + sec + "/" + teamname)
+              .then((res) => {
+                if (res.data) {
+                  toast({
+                    title: "Registered Successfully",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                  window.location.reload(5);
+                } else {
+                  toast({
+                    title: "Try again",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
                 }
-              </select>
-              <label htmlFor="floatingPassword">Team Name</label>
-            </div>
-            <hr className="my-2" />
-            <div className="d-flex justify-content-between">
-              <button className="w-100 btn btn-lg btn-primary" fdprocessedid="ft8f" onClick={Registers}>{load?"Please Wait":"Register"}</button>
-            </div>
-          </div>
-        </div>
-        </>
-    );
-}
+              });
+          }
+        });
+    } else {
+      toast({
+        title: "Fill all details",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    axios.post(`${process.env.REACT_APP_Server}/studentdata`)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((e) => console.log(e));
+  }, []);
+
+  return (
+    <>
+      <NavBar />
+      <Container  centerContent>
+        <Box p={5} borderWidth="1px" borderRadius="lg" bg="gray.50" width={{base:"90%",md:"90%"}}>
+          <VStack spacing={4}>
+            <FormControl id="email">
+              <FormLabel>Email Address</FormLabel>
+              <Input
+                type="email"
+                placeholder="name@example.com"
+                onChange={(e) => setMail(e.target.value)}
+              />
+            </FormControl>
+            <FormControl id="name">
+              <FormLabel>Full Name</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter your full name"
+                onChange={(e) => setName(e.target.value.toUpperCase())}
+              />
+            </FormControl>
+            <FormControl id="phone">
+              <FormLabel>Phone Number</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter your phone number"
+                onChange={(e) => setNumber(e.target.value)}
+              />
+            </FormControl>
+            <FormControl id="regd">
+              <FormLabel>Registration Number</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter your registration number"
+                onChange={(e) => setRegd(e.target.value.toUpperCase())}
+              />
+            </FormControl>
+            <FormControl id="branch">
+              <FormLabel>Branch</FormLabel>
+              <Input
+                type="text"
+                placeholder="Branch"
+                onChange={(e) => setBranch(e.target.value.toUpperCase())}
+              />
+            </FormControl>
+            <FormControl id="section">
+              <FormLabel>Section</FormLabel>
+              <Select
+                placeholder="Select your section..."
+                onChange={(e) => setSec(e.target.value)}
+              >
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+              </Select>
+            </FormControl>
+            <FormControl id="teamname">
+              <FormLabel>Team Name</FormLabel>
+              <Input
+                type="text"
+                placeholder="Team Name"
+                onChange={(e) => setTeamname(e.target.value.toUpperCase())}
+              />
+            </FormControl>
+            <HStack>
+              <Box>OR</Box>
+            </HStack>
+            <FormControl id="team">
+              <FormLabel>Team Name</FormLabel>
+              <Select
+                placeholder="Select Your Team"
+                onChange={(e) => setTeamname(e.target.value.toUpperCase())}
+              >
+                {data.map((val) => (
+                  <option key={val.Teamname} value={val.Teamname}>{val.Teamname}</option>
+                ))}
+              </Select>
+            </FormControl>
+            <Button
+              w="100%"
+              colorScheme="blue"
+              onClick={Registers}
+              isLoading={load}
+            >
+              {load ? "Please Wait" : "Register"}
+            </Button>
+          </VStack>
+        </Box>
+      </Container>
+    </>
+  );
+};
