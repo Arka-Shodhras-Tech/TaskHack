@@ -13,6 +13,7 @@ import { ProblemStatementsListView } from "../hackathon/problemstatements/listps
 import TeamLoginform from "../hackathon/teams/teamlogin.js"
 import HTRLoginForm from "../hackathon/teams/htrLogin.js";
 import { HtrsContactList } from "../hackathon/teams/htrs.js";
+import TechTeamLoginForm from "../hackathon/teams/techteamlogin.js";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -26,6 +27,8 @@ function App() {
   const member = useSelector((state) => state.user?.TeamMember);
   const password = useSelector((state) => state.user?.TeamPassword);
   const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
+  const TechTeamMemberAuth = useSelector((state) => state.user?.TechTeamLoginState);
+
 
 
 
@@ -58,7 +61,6 @@ function App() {
   const CheckHackathon = async () => {
     await Actions.checkHacthon()
       .then((res) => {
-        console.log("Check");
         setStart(res?.data);
         setLoad(true);
       })
@@ -118,6 +120,10 @@ function App() {
             <Route
               path="/htrlogin"
               element={<HTRLoginForm isAuth={HtrAuth} />}
+            />
+             <Route
+              path="/techlogin"
+              element={<TechTeamLoginForm isAuth={TechTeamMemberAuth} />}
             />
             <Route
               path="/htrs"
