@@ -99,7 +99,7 @@ function App() {
             <Route
               path="/*"
               element={
-                !start?.start ? (
+                start?.start ? (
                   <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
                 ) : (
                   <LandingRoute />
