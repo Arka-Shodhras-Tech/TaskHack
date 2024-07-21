@@ -4,6 +4,8 @@ const initialState = {
   TeamMember: "",
   TeamPassword: "",
   HtrLoginState: false,
+  TechTeamLoginState: false,
+  TechTeamMemberId: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -42,6 +44,13 @@ const userReducer = (state = initialState, action) => {
         ...state,
         HtrLoginState: action.payload.HtrLoginState,
       };
+      case "TECHTEAMLOGIN":
+        return {
+          ...state,
+          TechTeamLoginState: action.payload.TechTeamLoginState,
+          TechTeamMemberId:action.payload.TechTeamMemberId,
+          Status:action.payload.Status
+        };
     default:
       return state;
   }

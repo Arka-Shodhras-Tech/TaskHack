@@ -1,57 +1,86 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import CryptoAES from "crypto-js/aes";
 import { useState } from 'react';
+import CryptoAES from "crypto-js/aes";
 import { id, lock } from "../../api";
 import { NavBar } from '../../navbar/navbar';
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  VStack,
+  useToast,
+} from '@chakra-ui/react';
 import "./register.css";
-export const AdminLogin = ()=>
-{
-  const[name,sname]=useState()
-  const[mail,smail]=useState()
-  const[load,sload]=useState(false)
-  const Login=async()=>
-  {
-    if(id===`${name}`)
-    {
-      if(lock===`${mail}`)
-      {
-        sessionStorage.lock = CryptoAES.encrypt(lock,id).toString();
-        console.log(sessionStorage.lock)
-        sload(true);
-        window.location.reload(2);
-      }
-      else
-      {
-        alert("Password incorrect")
-      }
-    }
-    else
-    {
-      alert("Id incorrect")
-    }
-  }
-    return(
-        <>
-        <NavBar/>
-        <div className="container register-container" >
-          <div className="p- p-md-5 border rounded-3 bg-body-tertiary">
-            <div className="form-floating mb-3">
-              <input type="password" className="form-control" id="floatingInput" placeholder="Enter Id"  onChange={(e)=>sname(e.target.value)}/>
-              <label htmlFor="floatingInput">Enter Id</label>
-            </div>
-            <div className=' form-floating d-flex justify-content-between mb-3 align-items-center'>
-              <div className="form-floating  w-100">
-                <input type="password" className="form-control" id="floatingInput" placeholder="Password" fdprocessedid="yohq1" onChange={(e)=>smail(e.target.value)}/>
-                <label htmlFor="floatingInput">Enter Password</label>
-              </div>
-            </div>
 
-            
-            <div className="d-flex justify-content-between">
-              <button className="w-100 btn btn-lg btn-primary" fdprocessedid="ft8f" onClick={Login}>{load?"Please Wait":"Login"}</button>
-            </div>
-          </div>
-        </div>
-        </>
-    );
-}
+export const AdminLogin = () => {
+  const [name, setName] = useState('');
+  const [mail, setMail] = useState('');
+  const [load, setLoad] = useState(false);
+  const toast = useToast();
+
+  const Login = async () => {
+    if (id === `${name}`) {
+      if (lock === `${mail}`) {
+        sessionStorage.lock = CryptoAES.encrypt(lock, id).toString();
+        console.log(sessionStorage.lock);
+        setLoad(true);
+        window.location.reload(2);
+      } else {
+        toast({
+          title: "Password incorrect",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    } else {
+      toast({
+        title: "Id incorrect",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  return (
+    <>
+      <NavBar />
+      <Container  centerContent>
+        <Box p={5} borderWidth="1px" borderRadius="lg" bg="gray.50">
+          <VStack spacing={4}>
+            <FormControl id="id">
+              <FormLabel>Enter Id</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter Id"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Enter Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="Password"
+                onChange={(e) => setMail(e.target.value)}
+              />
+            </FormControl>
+            <Flex w="100%" justify="space-between">
+              <Button
+                w="100%"
+                colorScheme="blue"
+                onClick={Login}
+                isLoading={load}
+              >
+                {load ? "Please Wait" : "Login"}
+              </Button>
+            </Flex>
+          </VStack>
+        </Box>
+      </Container>
+    </>
+  );
+};

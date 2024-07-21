@@ -49,6 +49,7 @@ export const ProblemStatementsListView = () => {
         process.env.REACT_APP_Server + '/statements'
       );
       setIsLoading(false);
+      console.log(response.data);
       setDat(response.data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -267,7 +268,7 @@ export const ProblemStatementsListView = () => {
               </Box>
             ) : (
               <TableContainer>
-                <Table size="md" variant="simple" overflowX="scroll">
+                <Table size="md" variant="simple" colorScheme='gray' overflowX="scroll" className='list-ps'>
                   <Thead>
                     <Tr>
                       <Th>Number</Th>
@@ -280,10 +281,10 @@ export const ProblemStatementsListView = () => {
                   <Tbody>
                     {sortedData.map((task, index) => (
                       <Tr key={index}>
-                        <Td>{task.Number}</Td>
-                        <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'health' ? 'green' : task?.Theme?.toLowerCase() === 'education' ? 'blue' : task?.Theme?.toLowerCase() === 'environment' ? 'orange' : 'gray'}>{task.Theme}</Badge></Td>
-                        <Td>{task.Statement}</Td>
-                        <Td className='limitText'>{task.Desc}</Td>
+                        <Td>{task?.Number}</Td>
+                        <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'yoga' ? 'green' :  'blue' }>{task.Theme}</Badge></Td>
+                        <Td>{task?.Statement}</Td>
+                        <Td className='limitText'>{task?.Desc}</Td>
                         <Td>
                           <Button onClick={() => handleDownloadExcel(task)} size="sm">
                             <Tooltip label="Download problem statement">
