@@ -29,7 +29,6 @@ function Chat({ socket, participantId, teamId,teamname }) {
     JSON.parse(localStorage.getItem("isChatOpen")) || false
   );
   const messagesEndRef = useRef(null);
-
   useEffect(() => {
     socket.emit("joinTeam", teamId, participantId);
 
@@ -41,6 +40,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
   }, []);
 
   useEffect(() => {
+  
     localStorage.setItem("isChatOpen", JSON.stringify(isChatOpen));
   }, [isChatOpen]);
 
@@ -55,22 +55,41 @@ function Chat({ socket, participantId, teamId,teamname }) {
   }, [socket]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
+    if (isChatOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isChatOpen]);
+  
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     setUnreadCount(0)
   };
 
   const handleIncomingMessage = (msg) => {
-
-    if(!isChatOpen){
-      setUnreadCount((prev)=>prev+1)
+    if (!isChatOpen) {
+      setUnreadCount((prev) => prev + 1);
+      notifyUser(msg); // Function to handle notifications
     }
     setMessages((prevMessages) => [...prevMessages, msg]);
   };
-
+  
+  const notifyUser = (msg) => {
+    
+    if (Notification.permission === "granted" && msg.participantId!==participantId  ) {
+      new Notification(`New chat from ${msg.participantId} `, {
+        body: msg.text, 
+    icon :"https://asthack.me/ast-logo.png"
+      });
+    }
+  };
+  
+  // Request notification permission
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+  
   const handleSendMessage = () => {
     if (message.trim()) {
       const newMessage = {
@@ -208,10 +227,10 @@ function Chat({ socket, participantId, teamId,teamname }) {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                            {msg.participantId !== participantId  && <Text color={"white"} fontWeight={"bold"} mb={0} p={0}>
+                            {msg.participantId !== participantId  && <Text color={"white"}  mb={0} p={0}>
                             {msg.participantId}
                           </Text>}
-                          <Text color={"gray.900"} mb={0}>
+                          <Text color={"gray.900"} mb={0} fontWeight={2}>
                             {msg.text}
                           </Text>
                           <Text fontSize="9px" color="gray.300" m={0}>
@@ -274,7 +293,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
                 AST TEAM CHATS{" "}
               </Text>
               {
-                unreadCount >0 &&
+                unreadCount > 0 &&
                 <Badge ml='1' colorScheme='green'>
                 New {unreadCount}
               </Badge>

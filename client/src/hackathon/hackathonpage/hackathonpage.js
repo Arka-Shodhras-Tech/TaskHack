@@ -52,7 +52,6 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
   const handleJoin = async () => {
     try {
       const response = await Actions.JoinHackathon(teamCode, registrationNumber, password,false);
-      console.log(response.data.data);
       if (response?.data?.error) {
         toast({
           title: "Error joining team.",
