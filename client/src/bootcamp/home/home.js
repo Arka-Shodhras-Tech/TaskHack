@@ -19,9 +19,9 @@ import aboutImage from "./about.png";
 import feedbackFormimage from "./feedback.png";
 import materialsimage from "./materials.png";
 import mostlyUsedMaterialsimage from "./most-used-materials.png";
+import { Overlay } from "./overlay";
 import performanceimage from "./performance.png";
 import tasksimage from "./tasks.png";
-import { Overlay } from "./overlay";
 
 export const Home = ({ data }) => {
   const [openModel, setOpenModel] = useState(true);

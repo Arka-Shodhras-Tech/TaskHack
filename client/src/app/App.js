@@ -13,6 +13,7 @@ import { ProblemStatementsListView } from "../hackathon/problemstatements/listps
 import TeamLoginform from "../hackathon/teams/teamlogin.js"
 import HTRLoginForm from "../hackathon/teams/htrLogin.js";
 import { HtrsContactList } from "../hackathon/teams/htrs.js";
+import { ShowGallery } from "../hackathon/gallery/showphotos.js";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -105,25 +106,17 @@ function App() {
                 )
               }
             />
-            <Route
-              path="/problemstatement-selection"
-              element={
-                team?.message ? (
-                  <ProblemStatements data={team?.data} reload={Refresh} />
-                ) : (
-                  <TeamLoginform />
-                )
-              }
-            />
+            <Route path="/problemstatement-selection" element={team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />)} />
             <Route
               path="/htrlogin"
               element={<HTRLoginForm isAuth={HtrAuth} />}
             />
             <Route
               path="/htrs"
-              element={HtrAuth?<HTRLoginForm isAuth={HtrAuth} />:<HtrsContactList/>}
+              element={HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList />}
             />
-            <Route path="/problemstatements" element={<ProblemStatementsListView />}/>
+            <Route path="/gallery" element={<ShowGallery />} />
+            <Route path="/problemstatements" element={<ProblemStatementsListView />} />
           </Routes>
         </BrowserRouter>
       ) : (

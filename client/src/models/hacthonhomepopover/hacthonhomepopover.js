@@ -32,7 +32,7 @@ export const PopOver = ({ data }) => {
           src={
             data?.Gender
               ? data.Gender === "male"
-                ? ManImage
+                ? data?.Photo
                 : WomanImage
               : Image
           }

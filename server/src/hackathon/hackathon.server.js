@@ -4,7 +4,7 @@ import session from 'express-session';
 import { Resend } from 'resend';
 import { AllTeamRegistrers } from "./Teams/allteamregistrers.js";
 import { checkHtr } from "./Teams/checkhtr.js";
-import { AllTeamCodes, checkTeam } from "./Teams/checkteam.js";
+import { AllTeamCodes, checkTeam, TeamPhotos } from "./Teams/checkteam.js";
 import { CreateTeam } from "./Teams/createteams.js";
 import { SelectTask, UnSelectTask } from "./bootcamp/tasks/selecttask.js";
 import { StudentTasks, Tasks } from "./bootcamp/tasks/tasks.js";
@@ -129,6 +129,14 @@ app.post('/teamscodes', async (req, res) => {
     await AllTeamCodes(req, res)
 })
 
+app.post('/teamphotos', async (req, res) => {
+    await TeamPhotos(req.body.teamcode, res)
+})
+
+app.post('/teamscodes', async (req, res) => {
+    await AllTeamCodes(req, res)
+})
+
 app.post('/teamregistrers', async (req, res) => {
     await AllTeamRegistrers(req, res)
 })
@@ -151,7 +159,6 @@ app.post('/unselectps', async (req, res) => {
 
 app.post("/addfeedback", async (req, res) => {
     await AddFeedback(req, res)
+})
 
-}
-)
 export default app
