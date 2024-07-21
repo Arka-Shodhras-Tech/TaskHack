@@ -126,11 +126,29 @@ app.post('/checkhtr', async (req, res) => {
     const { code, password } = req.body;
     await checkHtr(code, password, res);
 });
+app.post('/checktechteammemberlogin', async (req, res) => {
+    const { code, password } = req.body;
+    await checkTechTeam(code, password, res);
+});
+app.put('/updatetechteammemberstatus/:id', async (req, res) => {
+    await UpdateTechTeamMemberStatus(req, res);
+});
 
 app.post('/teamscodes', async (req, res) => {
     await AllTeamCodes(req, res)
 })
 
+app.post('/teamphotos', async (req, res) => {
+    await TeamPhotos(req.body.teamcode, res)
+})
+
+app.post('/teamscodes', async (req, res) => {
+    await AllTeamCodes(req, res)
+})
+
+app.post('/techteammembers', async (req, res) => {
+    await AllTechTeamMembers(res);
+});
 app.post('/teamregistrers', async (req, res) => {
     await AllTeamRegistrers(req, res)
 })
