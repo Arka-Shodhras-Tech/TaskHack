@@ -49,7 +49,6 @@ export const ProblemStatementsListView = () => {
         process.env.REACT_APP_Server + '/statements?teamcode=admin'
       );
       setIsLoading(false);
-      console.log(response.data);
       setDat(response.data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
