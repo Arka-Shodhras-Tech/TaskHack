@@ -25,7 +25,7 @@ export const ProblemStatements = ({ data, reload }) => {
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.post(process.env.REACT_APP_Server + '/statements');
+            const response = await axios.post(process.env.REACT_APP_Server + '/statements?teamcode=' + teamcode);
             setIsLoading(false)
             setDat(response.data);
         } catch (error) {

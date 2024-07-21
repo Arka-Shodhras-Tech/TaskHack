@@ -107,7 +107,8 @@ export const ProblemStatementsListView = () => {
         Number: rowData.Number,
         Theme: rowData.Theme,
         Statement: rowData.Statement,
-        Desc: rowData.Desc
+        Desc: rowData.Desc,
+        IdealFor: rowData?.IdealFor,
       };
 
       const worksheet = XLSX.utils.json_to_sheet([dataToExport]);
@@ -127,7 +128,8 @@ export const ProblemStatementsListView = () => {
         Number: task?.Number,
         Theme: task?.Theme,
         Statement: task?.Statement,
-        Desc: task?.Desc
+        Desc: task?.Desc,
+        IdealFor: task?.IdealFor,
       }));
 
       const workbook = XLSX.utils.book_new();
@@ -181,10 +183,10 @@ export const ProblemStatementsListView = () => {
   })
     .filter(
       (val) =>
-        val?.Theme?.toLowerCase() === filter || // Filter by theme if selected
-        val?.Number?.includes(select) || // Filter by number
-        val?.Statement?.toLowerCase().includes(select.toLowerCase()) || // Filter by title
-        val?.Desc?.toLowerCase().includes(select.toLowerCase()) // Filter by description
+        val?.Theme?.toLowerCase() === filter || 
+        val?.Number?.includes(select) || 
+        val?.Statement?.toLowerCase().includes(select.toLowerCase()) || 
+        val?.Desc?.toLowerCase().includes(select.toLowerCase()) 
     );
 
   const sortedData = filteredData.sort((a, b) => {
@@ -275,6 +277,7 @@ export const ProblemStatementsListView = () => {
                       <Th>Theme</Th>
                       <Th>Title</Th>
                       <Th>Description</Th>
+                      <Th>IdealFor</Th>
                       <Th>Download</Th>
                     </Tr>
                   </Thead>
@@ -285,6 +288,7 @@ export const ProblemStatementsListView = () => {
                         <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'yoga' ? 'green' :  'blue' }>{task.Theme}</Badge></Td>
                         <Td>{task?.Statement}</Td>
                         <Td className='limitText'>{task?.Desc}</Td>
+                        <Td className='limitText'>{task?.IdealFor}</Td>
                         <Td>
                           <Button onClick={() => handleDownloadExcel(task)} size="sm">
                             <Tooltip label="Download problem statement">

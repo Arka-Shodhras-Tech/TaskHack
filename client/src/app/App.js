@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Actions } from "../actions/actions.js";
 import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
@@ -28,7 +28,7 @@ function App() {
   const password = useSelector((state) => state.user?.TeamPassword);
   const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
   const TechTeamMemberAuth = useSelector((state) => state.user?.TechTeamLoginState);
-
+   const dispatch = useDispatch()
 
 
 
@@ -37,6 +37,7 @@ function App() {
     await Actions.CheckTeam(teamcode, teamname)
       .then((res) => {
         if (res?.data?.message === "Login successful") {
+     
           setTeam(res?.data);
         }
       })
@@ -48,8 +49,16 @@ function App() {
   const checkhackJoin = async () => {
     await Actions.JoinHackathon(teamcode, member, password, true)
       .then((res) => {
+     
         if (res?.data?.message === "Login successful") {
           setAuth(true)
+          dispatch({
+            type: "UPDATE_TEAM_DATA",
+            payload: {
+              TeamData: res?.data?.data,
+            },
+          });
+        
 
         } else {
           setAuth(false)
