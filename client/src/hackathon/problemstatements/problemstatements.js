@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Badge, Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, Tooltip, useToast } from "@chakra-ui/react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -147,7 +147,9 @@ export const ProblemStatements = ({ data, reload }) => {
                                     )?.map((task) => (
                                         !my ? (task?.Users?.length || 0) <= count && task?.Number && <Card m={2}>
                                             <CardHeader>
-                                                <Heading size='md'>Problem Statement {task?.Number}</Heading>
+                                                <Heading size='md'>Problem Statement Number : {task?.Number}</Heading>
+                                                <Badge colorScheme={task.Theme === "sports"?"blue":"green"}>{task?.Theme}</Badge>
+
                                             </CardHeader>
                                             <CardBody>
                                                 <Stack divider={<StackDivider />} spacing='4'>
