@@ -46,7 +46,7 @@ export const ProblemStatementsListView = () => {
   const fetchTasks = async () => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_Server + '/statements'
+        process.env.REACT_APP_Server + '/statements?teamcode=admin'
       );
       setIsLoading(false);
       console.log(response.data);
@@ -277,18 +277,18 @@ export const ProblemStatementsListView = () => {
                       <Th>Theme</Th>
                       <Th>Title</Th>
                       <Th>Description</Th>
-                      <Th>IdealFor</Th>
+                      <Th>Ideal For</Th>
                       <Th>Download</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
                     {sortedData.map((task, index) => (
-                      <Tr key={index}>
+                      <Tr key={index}>  
                         <Td>{task?.Number}</Td>
                         <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'yoga' ? 'green' :  'blue' }>{task.Theme}</Badge></Td>
                         <Td>{task?.Statement}</Td>
                         <Td className='limitText'>{task?.Desc}</Td>
-                        <Td className='limitText'>{task?.IdealFor}</Td>
+                        <Td className='limitText'>{task?.IdealFor=="2"?`2nd`: "All"} years</Td>
                         <Td>
                           <Button onClick={() => handleDownloadExcel(task)} size="sm">
                             <Tooltip label="Download problem statement">
