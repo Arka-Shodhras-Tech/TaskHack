@@ -33,7 +33,7 @@ import TechTeamList from "./techteamlist";
 
 export const Hackathonpage = ({ isAuth = false, socket }) => {
   const nav = useNavigate();
-  document.title = "Hackathon | Team Ast";
+  document.title = "Hackathon | Team AST";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
