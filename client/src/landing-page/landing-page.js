@@ -6,7 +6,7 @@ const LandingPage = () => {
   // document.title = "Vedic Vision | Team Ast"
   return (
     <main>
-         <section className="section" id="page-1">
+      <section className="section" id="page-1">
         <video autoPlay muted loop className="background-video">
           <source src="./back-ground-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -18,8 +18,8 @@ const LandingPage = () => {
           transition={{ duration: 1.5 }}
         >
           <div class="logo-container">
-  <img src="./logo-gif.gif" alt="AST Logo" class="logo-rotate" />
-</div>
+            <img src="./logo-gif.gif" alt="AST Logo" class="logo-rotate" />
+          </div>
 
           <span>
             <h4>AST</h4> <p>TEAM INC .</p>
@@ -38,6 +38,18 @@ const LandingPage = () => {
           </motion.h1>
         </div>
       </section>
+      {/* <div className="rotation-logo">
+        <motion.div
+          className="logo-image1"
+          initial={{ scale: 4, translateX: "-50%", translateY: "-1%" }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5 }}
+        >
+          <div class="logo-container">
+            <img src="./logo-gif.gif" alt="AST Logo" class="logo-rotate" />
+          </div>
+        </motion.div>
+      </div> */}
       <section className="section" id="page-2">
         <div className="com-info">
           <motion.div

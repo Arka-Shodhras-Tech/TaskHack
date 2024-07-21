@@ -88,4 +88,8 @@ export const Actions = {
         return await axios.post(process.env.REACT_APP_Server + "/pssc")
     },
 
+    TeamsPhotos: async (teamcode) => {
+        return await axios.post(process.env.REACT_APP_Server + "/teamphotos",{teamcode})
+    },
+
 }

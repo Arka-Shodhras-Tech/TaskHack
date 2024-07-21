@@ -17,11 +17,11 @@ export const Materials = () => {
   const [image, setImage] = useState();
   const [show, setShow] = useState(false)
   const [type, setType] = useState()
-  const [load,setLoad]=useState(false)
+  const [load, setLoad] = useState(false)
   const user = useSelector((state) => state.user?.auth)
 
   const fecthData = async () => {
-    await Actions.AllMaterials().then((res) => {setData(res?.data);setLoad(true)}).catch((e) => console.log(e))
+    await Actions.AllMaterials().then((res) => { setData(res?.data); setLoad(true) }).catch((e) => console.log(e))
   }
 
   const fetchImageURL = async (link) => {
@@ -54,7 +54,7 @@ export const Materials = () => {
       <MaterialModel open={show} close={() => { setShow(false); setImage('') }} fileType={type} fileUrl={image} imageContent={image} />
       <ThemeProvider theme={theme}>
         <Container>
-          {load?<Grid container spacing={2}>
+          {load ? <Grid container spacing={2}>
             {data?.map((card, index) => (
               card?.Show && <React.Fragment key={index}>
                 <Grid item xs={12}>
@@ -99,7 +99,7 @@ export const Materials = () => {
                 ))}
               </React.Fragment>
             ))}
-          </Grid>:<p>loading.....</p>}
+          </Grid> : <p>loading.....</p>}
         </Container>
       </ThemeProvider>
     </>

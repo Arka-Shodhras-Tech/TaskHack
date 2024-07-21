@@ -7,7 +7,7 @@ export const OpenFile = async (filename) => {
         if (fileType.startsWith('image/')) {
             const imageBlob = new Blob([response.data], { type: fileType });
             const imageUrl = URL.createObjectURL(imageBlob);
-            return { url: imageUrl, type: "pdf" }
+            return { url: imageUrl, type: "image" }
         }
         else if (fileType === 'image/svg+xml') {
             const reader = new FileReader();

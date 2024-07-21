@@ -13,6 +13,8 @@ import {
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Actions } from "../../actions/actions";
+import TechTeamList from "../../hackathon/hackathonpage/techteamlist";
 import { HomeModel } from "../../models/hacthonhomemodel/hacthonhomemodel";
 import { PopOver } from "../../models/hacthonhomepopover/hacthonhomepopover";
 import "../main/main.css";
@@ -20,11 +22,9 @@ import aboutImage from "./about.png";
 import feedbackFormimage from "./feedback.png";
 import materialsimage from "./materials.png";
 import mostlyUsedMaterialsimage from "./most-used-materials.png";
+import { Overlay } from "./overlay";
 import performanceimage from "./performance.png";
 import tasksimage from "./tasks.png";
-import { Overlay } from "./overlay";
-import TechTeamList from "../../hackathon/hackathonpage/techteamlist";
-import { Actions } from "../../actions/actions";
 
 export const Home = ({ data }) => {
   const [openModel, setOpenModel] = useState(true);
