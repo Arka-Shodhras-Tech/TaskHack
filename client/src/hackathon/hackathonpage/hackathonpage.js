@@ -33,7 +33,7 @@ import TechTeamList from "./techteamlist";
 
 export const Hackathonpage = ({ isAuth = false, socket }) => {
   const nav = useNavigate();
-  document.title = "Hackathon | Team Ast";
+  document.title = "Hackathon | Team AST";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -52,7 +52,6 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
   const handleJoin = async () => {
     try {
       const response = await Actions.JoinHackathon(teamCode, registrationNumber, password,false);
-      console.log(response.data.data);
       if (response?.data?.error) {
         toast({
           title: "Error joining team.",
