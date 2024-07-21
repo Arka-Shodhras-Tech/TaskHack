@@ -22,6 +22,8 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
+import { checkTechTeam } from "./Teams/techteam.js";
+import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -49,7 +51,7 @@ app.post('/updategender/:regd/:gender', async (req, res) => {
 })
 
 app.post('/statements', async (req, res) => {
-    await PSS(res);
+    await PSS(req,res);
 })
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
@@ -124,14 +126,6 @@ app.post('/checkhtr', async (req, res) => {
     const { code, password } = req.body;
     await checkHtr(code, password, res);
 });
-
-app.post('/teamscodes', async (req, res) => {
-    await AllTeamCodes(req, res)
-})
-
-app.post('/teamphotos', async (req, res) => {
-    await TeamPhotos(req.body.teamcode, res)
-})
 
 app.post('/teamscodes', async (req, res) => {
     await AllTeamCodes(req, res)

@@ -36,6 +36,16 @@
       "name": "problem statements",
       "url": "/problemstatements",
       "description": "where you can find problems statements related to your project on sports, yoga and health"
+    },
+    {
+      "name": "HTR LOGIN",
+      "url": "/htrlogin",
+      "description": "Htrs can create teams and and group them together"
+    },
+    {
+      "name": "TECH TEAM LOGIN",
+      "url": "/teamlogin",
+      "description": "tech team members can login and update their activity Status"
     }
   ],
   "categories": [

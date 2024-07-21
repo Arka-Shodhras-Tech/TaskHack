@@ -56,7 +56,7 @@
 
 
 }
-th {
+.list-ps thead tr {
     background-color: lightgreen !important;
     color: black !important;
 }

@@ -8,7 +8,7 @@ const {ischeck} = req.query;
         const team = await db1.collection("Teams").findOne({ TeamCode: parseInt(teamCode) });
 
         if (team) {
-            const member = team.Members.find(member => member === registrationNumber?.toLowerCase());
+            const member = team.Members.find(member => member?.toUpperCase() === registrationNumber?.toUpperCase());
 
             if (member) {
                 if (team.Password === password) {

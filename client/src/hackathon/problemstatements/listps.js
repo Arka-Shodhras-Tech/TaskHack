@@ -49,6 +49,7 @@ export const ProblemStatementsListView = () => {
         process.env.REACT_APP_Server + '/statements'
       );
       setIsLoading(false);
+      console.log(response.data);
       setDat(response.data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -106,7 +107,8 @@ export const ProblemStatementsListView = () => {
         Number: rowData.Number,
         Theme: rowData.Theme,
         Statement: rowData.Statement,
-        Desc: rowData.Desc
+        Desc: rowData.Desc,
+        IdealFor: rowData?.IdealFor,
       };
 
       const worksheet = XLSX.utils.json_to_sheet([dataToExport]);
@@ -126,7 +128,8 @@ export const ProblemStatementsListView = () => {
         Number: task?.Number,
         Theme: task?.Theme,
         Statement: task?.Statement,
-        Desc: task?.Desc
+        Desc: task?.Desc,
+        IdealFor: task?.IdealFor,
       }));
 
       const workbook = XLSX.utils.book_new();
@@ -180,10 +183,10 @@ export const ProblemStatementsListView = () => {
   })
     .filter(
       (val) =>
-        val?.Theme?.toLowerCase() === filter || // Filter by theme if selected
-        val?.Number?.includes(select) || // Filter by number
-        val?.Statement?.toLowerCase().includes(select.toLowerCase()) || // Filter by title
-        val?.Desc?.toLowerCase().includes(select.toLowerCase()) // Filter by description
+        val?.Theme?.toLowerCase() === filter || 
+        val?.Number?.includes(select) || 
+        val?.Statement?.toLowerCase().includes(select.toLowerCase()) || 
+        val?.Desc?.toLowerCase().includes(select.toLowerCase()) 
     );
 
   const sortedData = filteredData.sort((a, b) => {
@@ -267,23 +270,25 @@ export const ProblemStatementsListView = () => {
               </Box>
             ) : (
               <TableContainer>
-                <Table size="md" variant="simple" overflowX="scroll">
+                <Table size="md" variant="simple" colorScheme='gray' overflowX="scroll" className='list-ps'>
                   <Thead>
                     <Tr>
                       <Th>Number</Th>
                       <Th>Theme</Th>
                       <Th>Title</Th>
                       <Th>Description</Th>
+                      <Th>IdealFor</Th>
                       <Th>Download</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
                     {sortedData.map((task, index) => (
                       <Tr key={index}>
-                        <Td>{task.Number}</Td>
-                        <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'health' ? 'green' : task?.Theme?.toLowerCase() === 'education' ? 'blue' : task?.Theme?.toLowerCase() === 'environment' ? 'orange' : 'gray'}>{task.Theme}</Badge></Td>
-                        <Td>{task.Statement}</Td>
-                        <Td className='limitText'>{task.Desc}</Td>
+                        <Td>{task?.Number}</Td>
+                        <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'yoga' ? 'green' :  'blue' }>{task.Theme}</Badge></Td>
+                        <Td>{task?.Statement}</Td>
+                        <Td className='limitText'>{task?.Desc}</Td>
+                        <Td className='limitText'>{task?.IdealFor}</Td>
                         <Td>
                           <Button onClick={() => handleDownloadExcel(task)} size="sm">
                             <Tooltip label="Download problem statement">

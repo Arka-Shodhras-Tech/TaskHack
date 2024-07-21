@@ -1,43 +1,62 @@
 import axios from "axios";
 import React, { useState } from "react";
-import '../login/login.css';
-export const Login =()=>
-{
-  const[regd,sregd]=useState()
-  const[load,sload]=useState(false)
-  const Login=async()=>
-  {
-    sload(true)
-    await axios.post(`${process.env.REACT_APP_Server}/verifyregister/`+regd)
-    .then((res)=>
-    {
-      if(res.data)
-      {
-        sessionStorage.student=regd;
-        sload(false)
-        window.location='192.5264.27';
+import { Box, Button, Center, FormControl, FormLabel, Input, useToast } from "@chakra-ui/react";
+
+export const Login = () => {
+  const [regd, setRegd] = useState("");
+  const [load, setLoad] = useState(false);
+  const toast = useToast();
+
+  const Login = async () => {
+    setLoad(true);
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_Server}/verifyregister/${regd}`);
+      if (res.data) {
+        sessionStorage.student = regd;
+        setLoad(false);
+        window.location = "192.5264.27";
+      } else {
+        toast({
+          title: "No data found",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        setLoad(false);
       }
-      else
-      {
-        alert("No data found")
-      }
-    })
-    .catch((e)=>console.log(e))
-  }
-    return(
-    <>
-    <div className=" login-container" style={{display:'flex',justifyContent:'center '}}>
-    <div className="p-4 p-md-5 border rounded-3 bg-body-tertiary">
-        <div className="form-floating mb-3">
-          <input type="text" className="form-control" id="floatingInput" placeholder="Enter register number" fdprocessedid="yohq1" onChange={(e)=>{sregd(e.target.value.toUpperCase())}}/>
-          <label htmlFor="floatingInput">Enter register number</label>
-        </div>
-        <hr className="my-2" />
-        <div className="btndiv">
-        <button className=" btn btn-lg btn-success " fdprocessedid="ft8f" onClick={Login}>{!load?"Login":"Loading..."}</button>
-        </div>
-      </div>
-      </div>
-    </>
-    );
-}
+    } catch (e) {
+      console.log(e);
+      setLoad(false);
+      toast({
+        title: "An error occurred",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  return (
+    <Center h="100vh">
+      <Box p={4} borderWidth={1} borderRadius="lg" bg="gray.100" w="sm">
+        <FormControl id="register-number" mb={4}>
+          <FormLabel>Enter register number</FormLabel>
+          <Input
+            type="text"
+            placeholder="Enter register number"
+            onChange={(e) => setRegd(e.target.value.toUpperCase())}
+          />
+        </FormControl>
+        <Button
+          colorScheme="green"
+          size="lg"
+          width="full"
+          onClick={Login}
+          isLoading={load}
+        >
+          Login
+        </Button>
+      </Box>
+    </Center>
+  );
+};
