@@ -22,6 +22,8 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
+import { checkTechTeam } from "./Teams/techteam.js";
+import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -124,11 +126,20 @@ app.post('/checkhtr', async (req, res) => {
     const { code, password } = req.body;
     await checkHtr(code, password, res);
 });
+app.post('/checktechteammemberlogin', async (req, res) => {
+    const { code, password } = req.body;
+    await checkTechTeam(code, password, res);
+});
+app.put('/updatetechteammemberstatus/:id', async (req, res) => {
+    await UpdateTechTeamMemberStatus(req, res);
+});
 
 app.post('/teamscodes', async (req, res) => {
     await AllTeamCodes(req, res)
 })
-
+app.post('/techteammembers', async (req, res) => {
+    await AllTechTeamMembers(res);
+});
 app.post('/teamregistrers', async (req, res) => {
     await AllTeamRegistrers(req, res)
 })

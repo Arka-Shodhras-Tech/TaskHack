@@ -1,420 +1,306 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Container, Heading, Input, Select, Table, Tbody, Td, Th, Thead, Tr, Box, Text, FormControl, FormLabel, Radio, RadioGroup } from "@chakra-ui/react";
 import { Link } from 'react-router-dom';
+
 export const Exam = () => {
-    const pageparam=new URLSearchParams(window.location.search);
-    const page1=pageparam.get("questions")
-    const page2=pageparam.get("choose answer")
-    const page3=pageparam.get("fill in the blank")
-    const [data, sdata] = useState([])
-    const [data1, sdata1] = useState([]);
-    const [teamname, steamname] = useState()
-    const [regd, sregd] = useState()
-    const [ques, sques] = useState(page1)
-    const [blank, sblank] = useState(page3)
-    const [choose, schoose] = useState(page2)
-    const [ans, sans] = useState()
-    const [ans1, sans1] = useState()
-    const [marks, smarks] = useState(0)
-    const [btns, sbtns] = useState()
-    const [i, si] = useState(0)
-    const [j, sj] = useState(0);
-    const [load, sload] = useState(false)
-    const [all, sall] = useState(!page1 && !page2 && !page3)
-    const buttonref = useRef(null);
+    const pageparam = new URLSearchParams(window.location.search);
+    const page1 = pageparam.get("questions");
+    const page2 = pageparam.get("choose answer");
+    const page3 = pageparam.get("fill in the blank");
     
+    const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
+    const [teamname, setTeamname] = useState("");
+    const [regd, setRegd] = useState(null);
+    const [ques, setQues] = useState(page1);
+    const [blank, setBlank] = useState(page3);
+    const [choose, setChoose] = useState(page2);
+    const [ans, setAns] = useState("");
+    const [ans1, setAns1] = useState(null);
+    const [marks, setMarks] = useState(0);
+    const [btns, setBtns] = useState("");
+    const [i, setI] = useState(0);
+    const [j, setJ] = useState(0);
+    const [load, setLoad] = useState(false);
+    const [all, setAll] = useState(!page1 && !page2 && !page3);
+    const buttonref = useRef(null);
+
     const Request = async () => {
         const btn = document.getElementById(btns);
-        btn.innerHTML = "Please wait...."
-        await axios.post(`${process.env.REACT_APP_Server}/request/` + regd.index + "/" + regd.val.Registernumber)
-            .then((res) => {
+        btn.innerHTML = "Please wait....";
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_Server}/request/${regd.index}/${regd.val.Registernumber}`);
+            btn.innerHTML = res.data ? "Request sent" : "Request failed try again";
+        } catch (e) {
+            console.log(e);
+            btn.innerHTML = "Request failed try again";
+        }
+    };
+
+    const Submit = async () => {
+        setLoad(true);
+        if (JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`))?.question === ans1.val.Question ? JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`)).answer : ans) {
+            const student = sessionStorage.student;
+            const index = i;
+            const question = ans1.val.Question;
+            const answer = ans1.val.Answer;
+            try {
+                const res = await axios.post(`${process.env.REACT_APP_Server}/exam/`, { student, index, question, answer, ans: JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`))?.question === ans1.val.Question ? JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`)).answer : ans });
                 if (res.data) {
-                    btn.innerHTML = "Request sent";
-                }
-                else {
-                    btn.innerHTML = "Request failed try again";
-                }
-            })
-            .catch((e) => console.log(e))
-    }
-    const Submit = async () =>
-    {
-        sload(true)
-        if (JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`))?.question===ans1.val.Question?JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`)).answer:ans)
-        {
-            let student = sessionStorage.student;
-            let index = i;
-            let question = ans1.val.Question;
-            let answer = ans1.val.Answer;
-            await axios.post(`${process.env.REACT_APP_Server}/exam/`, { student, index, question, answer, ans:JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`))?.question===ans1.val.Question?JSON.parse(sessionStorage.getItem(`${ans1.val.Question}`)).answer:ans })
-                .then((res) => {
-                    if (res.data)
-                    {
-                        if(ans1.len===i)
-                        {
-                            document.getElementById("blank").click()
-                        }
-                        else
-                        {
-                            si(i + 1)
-                        }
-                        sans('')
-                        sload(false)
+                    if (ans1.len === i) {
+                        document.getElementById("blank").click();
+                    } else {
+                        setI(i + 1);
                     }
-                    else {
-                        alert("Try again")
-                        sload(false)
-                    }
-                })
-                .catch((e) => console.log(e))
-        }
-        else {
+                    setAns('');
+                    setLoad(false);
+                } else {
+                    alert("Try again");
+                    setLoad(false);
+                }
+            } catch (e) {
+                console.log(e);
+                setLoad(false);
+            }
+        } else {
             alert("Enter answer and submit");
-            sload(false)
+            setLoad(false);
         }
-    }
+    };
+
     const Choosesubmit = async () => {
         if (ans && ans1) {
             if (ans1.val.Answer === ans) {
-                smarks(marks + 1);
+                setMarks(marks + 1);
             }
-            si(i + 1)
-            sj(j + 1);
-            sans('')
+            setI(i + 1);
+            setJ(j + 1);
+            setAns('');
+        } else {
+            alert("Choose one option");
         }
-        else {
-            alert("Choose one option")
-        }
-    }
+    };
+
     const Submitexam = async () => {
         document.getElementById(ans1.index).innerHTML = "Please wait";
-        await axios.post(`${process.env.REACT_APP_Server}/sumitexam/` + ans1.index + "/" + ans1.val.Registernumber + "/" + marks)
-            .then((res) => {
-                if (res.data) {
-                    document.getElementById(ans1.index).innerHTML = "Submitted exam";
-                    sessionStorage.removeItem("student");
-                    window.location.reload(5)
-                }
-                else {
-                    document.getElementById(ans1.index).innerHTML = "please again submit";
-                }
-            })
-            .catch((e) => document.getElementById(ans1.index).innerHTML = "Network Error")
-    }
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_Server}/sumitexam/${ans1.index}/${ans1.val.Registernumber}/${marks}`);
+            if (res.data) {
+                document.getElementById(ans1.index).innerHTML = "Submitted exam";
+                sessionStorage.removeItem("student");
+                window.location.reload(5);
+            } else {
+                document.getElementById(ans1.index).innerHTML = "Please again submit";
+            }
+        } catch (e) {
+            document.getElementById(ans1.index).innerHTML = "Network Error";
+        }
+    };
 
     useEffect(() => {
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
-                try
-                {
+                try {
                     buttonref.current.click();
-                    alert("Exam Submitted Sucessfully");
-                }
-                catch (e) {
-                    console.log(e)
+                    alert("Exam Submitted Successfully");
+                } catch (e) {
+                    console.log(e);
                 }
             }
-            else { }
         });
-    },[])
+    }, []);
+
     useEffect(() => {
-        axios.post(`${process.env.REACT_APP_Server}/studentdata`)
-            .then((res) => {
-                sdata1(res.data)
-            })
-            .catch((e) => console.log(e))
-        axios.post(`${process.env.REACT_APP_Server}/examdata`)
-            .then((res) => {
-                sdata(res.data)
-            })
-            .catch((e) => console.log(e))
-    }, [])
+        const fetchData = async () => {
+            try {
+                const studentData = await axios.post(`${process.env.REACT_APP_Server}/studentdata`);
+                setData1(studentData.data);
+                const examData = await axios.post(`${process.env.REACT_APP_Server}/examdata`);
+                setData(examData.data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
-            <div className="container team-container">
-                <input className="my-dropdown1" placeholder="Enter Team Name" onChange={(e) => steamname(e.target.value.toUpperCase())} />
-                <div style={{ display: 'flex', justifyContent: "center" }}><h3>OR</h3></div>
-                <select className="my-dropdown" onChange={(e) => steamname(e.target.value)}>
-                    <option>Select Your Team</option>
-                    {data1.map((val) =>
-                    (
-                        <option>{val.Teamname}</option>
-                    ))}
-                </select>
-                <table className="table table-striped border">
-                    {
-                        data1.map((item) =>
-                        (
-                            item.Teamname === teamname ?
+            <Container centerContent>
+                <Box p={4} borderWidth={1} borderRadius="md">
+                    <Input 
+                        placeholder="Enter Team Name" 
+                        onChange={(e) => setTeamname(e.target.value.toUpperCase())} 
+                        mb={4}
+                    />
+                    <Text textAlign="center" mb={2}><b>OR</b></Text>
+                    <Select 
+                        placeholder="Select Your Team" 
+                        onChange={(e) => setTeamname(e.target.value)} 
+                        mb={4
+                    }>
+                        {data1.map((val) => (
+                            <option key={val.Teamname}>{val.Teamname}</option>
+                        ))}
+                    </Select>
+                    <Table variant="simple">
+                        <Thead>
+                            <Tr>
+                                <Th colSpan="4" textAlign="center">Team Name: {teamname}</Th>
+                            </Tr>
+                            <Tr>
+                                <Th textAlign="center">S.NO</Th>
+                                <Th textAlign="center">Students</Th>
+                                <Th textAlign="center">Confirm</Th>
+                                <Th textAlign="center">Action</Th>
+
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {data1.map((item) => (
+                                item.Teamname === teamname &&
                                 <>
-                                    <thead>
-                                        <tr>
-                                            <th colSpan="4" className="text-center">Team Name:{item.Teamname}</th>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col" className="text-center">S.NO</th>
-                                            <th scope="col" className="text-center">Students</th>
-                                            <th scope="col" className="text-center">Confirm</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            item.Teammembers.map((val, index) =>
-                                            (
-                                                <tr>
-                                                    <th scope="row" className="text-center">{index + 1}</th>
-                                                    <td className="text-center">{val.Name}</td>
-                                                    <td className="text-center">{val.Registernumber}</td>
-                                                    <td className="text-center">
-                                                        {
-                                                            val.Confirm ?
-                                                                <button id={val.Registernumber} type="button" className="btn btn-success" >Accepted</button> :
-                                                                <button id={val.Registernumber} type="button" className="btn btn-success" onClick={Request} onClickCapture={() => { sregd({ val, index }); sbtns(val.Registernumber) }}>{val.Confirm ? "Accepted" : "Request"}</button>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </> : <b />
+                                    {item.Teammembers.map((val, index) => (
+                                        <Tr key={val.Registernumber}>
+                                            <Td textAlign="center">{index + 1}</Td>
+                                            <Td textAlign="center">{val.Name}</Td>
+                                            <Td textAlign="center">{val.Registernumber}</Td>
+                                            <Td textAlign="center">
+                                                {val.Confirm ? (
+                                                    <Button colorScheme="green" disabled>Accepted</Button>
+                                                ) : (
+                                                    <Button 
+                                                        colorScheme="teal" 
+                                                        onClick={() => { setRegd({ val, index }); setBtns(val.Registernumber); Request(); }}
+                                                    >
+                                                        Request
+                                                    </Button>
+                                                )}
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </>
+                            ))}
+                        </Tbody>
+                    </Table>
+                </Box>
+            </Container>
 
-                        ))
-                    }
-                </table>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', color: 'red' }}>
-                <p><b>Note:</b>Submit your exam then your paper go to under verifaction, otherwise your lost your score</p>
-            </div>
-            <div className="container">
-                <div className="container team-container">
-                    <table className="table table-striped border">
-                        <thead>
-                            <tr>
-                                <td className="text-center">
-                                    <Link to="/192.5264.27?questions=true"  className="qtn-btns" id="ques" onClick={() => {sques(true); schoose(false); sblank(false); si(0); sall(false)}}>Questions</Link>
-                                </td>
-                                <td className="text-center">
-                                    <Link to="/192.5264.27?choose answer=true" className="qtn-btns2" id="choose" onClick={() => { sques(false); schoose(true); sblank(false); si(0); sall(false) }}>Choose the correct Answers</Link>
-                                </td>
-                                <td className="text-center">
-                                    <Link to="/192.5264.27?fill in the blank=true" className="qtn-btns1" id="blank" onClick={() => { sques(false); schoose(false); sblank(true); si(0); sall(false) }}>Fill in the blanks</Link>
-                                </td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    {
-                        data1.map((item) =>
-                        (
-                            item.Teammembers.map((val, index) =>
-                            (
-                                val.Registernumber === sessionStorage.student && val.Confirm ?
-                                    <table className="table1">
+            <Container centerContent my={4}>
+                <Text color="red" textAlign="center">
+                    <b>Note:</b> Submit your exam then your paper goes under verification, otherwise you lose your score.
+                </Text>
+            </Container>
 
-                                        <thead >
-                                            <tr >
-                                                <th>{val.Registernumber}</th>
-                                                <th>{val.Name}</th>
-                                                <th>{val.Branch}</th>
-                                                <th>{val.Section}</th>
-                                                <th>
-                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                        <Button id={index} ref={buttonref} style={{ background: "orange" }} onClick={Submitexam} onClickCapture={() => { sans1({ val, index }); sbtns(item.Theme) }}>{" Submit Exam"}</Button>
-                                                    </div>
-                                                </th>
-                                            </tr>
-                                        </thead>
+            <Container centerContent>
+                <Box p={4} borderWidth={1} borderRadius="md">
+                    <Table variant="simple">
+                        <Thead>
+                            <Tr>
+                                <Th textAlign="center">
+                                    <Link to="/192.5264.27?questions=true">
+                                        <Button 
+                                            colorScheme={ques ? "blue" : "gray"} 
+                                            onClick={() => { setQues(true); setChoose(false); setBlank(false); setI(0); setAll(false); }}
+                                        >
+                                            Questions
+                                        </Button>
+                                    </Link>
+                                </Th>
+                                <Th textAlign="center">
+                                    <Link to="/192.5264.27?choose answer=true">
+                                        <Button 
+                                            colorScheme={choose ? "blue" : "gray"} 
+                                            onClick={() => { setQues(false); setChoose(true); setBlank(false); setI(0); setAll(false); }}
+                                        >
+                                            Choose the correct Answers
+                                        </Button>
+                                    </Link>
+                                </Th>
+                                <Th textAlign="center">
+                                    <Link to="/192.5264.27?fill in the blank=true">
+                                        <Button 
+                                            colorScheme={blank ? "blue" : "gray"} 
+                                            onClick={() => { setQues(false); setChoose(false); setBlank(true); setI(0); setAll(false); }}
+                                        >
+                                            Fill in the blanks
+                                        </Button>
+                                    </Link>
+                                </Th>
+                            </Tr>
+                        </Thead>
+                    </Table>
+                </Box>
+            </Container>
 
-
-                                        {/* Fill in the blanks */}
-                                        {
-                                            data.map((item) =>
-                                            (
-                                                item.Theme === "fill in the blank" && blank && item.List[i]&& <>
-                                                    <thead>
-                                                        <th colSpan={5}>
-                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                                <label><b>{item.Theme}</b></label>
-                                                            </div>
-                                                        </th>
-                                                    </thead>
-                                                    <tbody>
-                                                        {item.Theme === "fill in the blank" &&
-                                                            <>
-                                                                <tr>
-                                                                    <td className="tdquestion"><b>Question {i+1}</b></td>
-                                                                    <td colSpan={5}>{item.List[i]?.Question}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><b>Answer</b></td>
-                                                                    <td colSpan={5}><textarea type="text" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer:ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => {sans(e.target.value);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:e.target.value})}} /></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colSpan={5}>
-                                                                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                                                            <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("ques").click() : sblank(true) }}>Previous</Button>
-                                                                            <Button id={item.Theme} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme)}}>{load ? "submitting..." : "Submit"}</Button>
-                                                                            <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("choose").click() : sblank(true) }}>Next</Button>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <br />
-                                                                <br />
-                                                            </>
-                                                        }
-                                                    </tbody>
-
-                                                </>
-                                            ))
-                                        }
-
-
-
-                                        {/* choose the correct answers */}
-                                        {
-                                            data.map((item) =>
-                                            (
-                                                item.Theme === "Choose the correct answer" && choose && item.List[i]&&
-                                                <>
-                                                    <thead>
-                                                        <th colSpan={5}>
-                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                                <label><b>{item.Theme}</b></label>
-                                                            </div>
-                                                        </th>
-                                                    </thead>
-                                                    <tr>
-                                                        <td className="tdquestion"><b>Question {i+1}</b></td>
-                                                        <td colSpan={5}>{item.List[i]?.Question}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input id={item.List[i]?.Answer1} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer === item.List[i]?.Answer1?item.List[i]?.Answer1:ans:ans} onClick={(e) => {sans(item.List[i]?.Answer1);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer1})}}/></td>
-                                                        <td colSpan={5}><label for={item.List[i]?.Answer1}>{item.List[i]?.Answer1}</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input id={item.List[i]?.Answer2} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer=== item.List[i]?.Answer1:ans} onClick={(e) => {sans(item.List[i]?.Answer2);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer2})}} /></td>
-                                                        <td colSpan={5}><label for={item.List[i]?.Answer2}>{item.List[i]?.Answer2}</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input id={item.List[i]?.Answer3} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer=== item.List[i]?.Answer1:ans} onClick={(e) => {sans(item.List[i]?.Answer3);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer3})}} /></td>
-                                                        <td colSpan={5}><label for={item.List[i]?.Answer3}>{item.List[i]?.Answer3}</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><input id={item.List[i]?.Answer4} name={item.List[i]?.Question} type="radio" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.answer === item.List[i]?.Answer1:ans} onClick={(e) => {sans(item.List[i]?.Answer4);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:item.List[i]?.Answer4})}} /></td>
-                                                        <td colSpan={5}><label for={item.List[i]?.Answer4}>{item.List[i]?.Answer4}</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colSpan={5}>
-                                                            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                                                <Button onClick={() => { si(i - 1);sans(''); i === -0 ? document.getElementById("blank").click() : schoose(true) }}>Previous</Button>
-                                                                <Button id={item.Theme + i} onClick={Choosesubmit} onClickCapture={() => { sans1({ val: item.List[i], index: i }); sbtns(item.Theme + i) }}>{load ? "submitting..." : "Submit"}</Button>
-                                                                <Button onClick={() => { si(i + 1);sans(''); i === item.List.length - 1 ? document.getElementById("ques").click() : schoose(true) }}>Next</Button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <br /><br />
-                                                </>
-                                            ))
-                                        }
-
-
-                                        {/* Questionn and answers */}
-                                        {
-                                            data.map((item) =>
-                                            (
-                                                item.Theme === "Question and Answer" && ques && <>
-                                                    <thead>
-                                                        <th colSpan={5}>
-                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                                <label><b>{item.Theme}</b></label>
-                                                            </div>
-                                                        </th>
-                                                    </thead>
-                                                    <tbody>
-                                                        {item.Theme === "Question and Answer" && item.List[i]&&
-                                                            <>
-                                                            <tr>
-                                                                <td className="tdquestion"><b>Question {i + 1} </b></td>
-                                                                <td colSpan={5}>{item.List[i]?.Question}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><b>Answer</b></td>
-                                                                <td colSpan={5}><textarea type="text" value={JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`))?.question===item.List[i]?.Question?JSON.parse(sessionStorage.getItem(`${item.List[i]?.Question}`)).answer:ans} style={{ border: 'none', borderBottom: 'black solid 2px', background: 'none' }} onChange={(e) => {sans(e.target.value);sessionStorage[`${item.List[i]?.Question}`]=JSON.stringify({question:item.List[i].Question,answer:e.target.value})}} /></td>
-                                                            </tr>
-                                                                <tr>
-                                                                    <td colSpan={5}>
-                                                                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                                                            <Button onClick={() => { si(i - 1); i === -0 ? document.getElementById("choose").click() : sques(true) }}>Previous</Button>
-                                                                            <Button id={item.List[i]} onClick={Submit} onClickCapture={() => { sans1({ val: item.List[i], index: i ,len: item.List.length - 1}); sbtns(item.List[i])}}>{load ? "submitting..." : "Submit"}</Button>
-                                                                            <Button onClick={() => { si(i + 1); i === item.List.length - 1 ? document.getElementById("blank").click() : sques(true);sans('') }}>Next</Button>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <br />
-                                                                <br />
-                                                            </>
-                                                        }
-                                                    </tbody>
-                                                </>
-                                            ))
-                                        }
-
-{
-                                            data.map((item) =>
-                                            (
-                                                all && item.Theme&&<>
-                                                    <thead>
-                                                        <th colSpan={5}>
-                                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                                <label><b>{item.List[i]?item.Theme:<b/>}</b></label>
-                                                            </div>
-                                                        </th>
-                                                    </thead>
-                                                    <tbody>
-                                                        {
-                                                            item.List.map((val, index) =>
-                                                            (
-                                                                <>
-                                                                    <tr>
-                                                                        <td className="tdquestion"><b>Question {index + 1}</b></td>
-                                                                        <td colSpan={5}>{val.Question}</td>
-                                                                    </tr>
-                                                                    {
-                                                                        val.Answer1  && 
-                                                                        <>
-                                                                            <tr>
-                                                                                <td><input id={val.Answer1} name="same" type="radio" value={val.Answer1} onChange={(e) => sans(e.target.value)} /></td>
-                                                                                <td colSpan={5}><label for={val.Answer1}>{val.Answer1}</label></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td><input id={val.Answer2} name="same" type="radio" value={val.Answer2} onChange={(e) => sans(e.target.value)} /></td>
-                                                                                <td colSpan={5}><label for={val.Answer2}>{val.Answer2}</label></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td><input id={val.Answer3} name="same" type="radio" value={val.Answer3} onChange={(e) => sans(e.target.value)} /></td>
-                                                                                <td colSpan={5}><label for={val.Answer3}>{val.Answer3}</label></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td><input id={val.Answer4} name="same" type="radio" value={val.Answer4} onChange={(e) => sans(e.target.value)} /></td>
-                                                                                <td colSpan={5}><label for={val.Answer4}>{val.Answer4}</label></td>
-                                                                            </tr>
-                                                                        </>
-                                                                    }
-                                                                </>
-                                                            ))
-                                                        }
-                                                    </tbody>
-                                                </>
-                                            ))
-                                        }
-                                    </table> : <b />
-                            ))
-                        ))
-                    }
-                </div>
-            </div>
+            <Container centerContent>
+                {load && <Text>Loading....</Text>}
+                {all && <Heading>Choose Your Exam</Heading>}
+                {ques && (
+                    data.map((val, index) => (
+                        <Box key={val.Question} p={4} borderWidth={1} borderRadius="md" mb={4}>
+                            {index === i && val.Type === "question" && (
+                                <>
+                                    <Heading size="md" mb={4}>Q.{i + 1} {val.Question}</Heading>
+                                    <FormControl>
+                                        <FormLabel>Enter Your Answer</FormLabel>
+                                        <Input 
+                                            placeholder="Enter Your Answer"
+                                            value={ans}
+                                            onChange={(e) => { setAns(e.target.value.toUpperCase()); setAns1({ val, index, len: data.length - 1 }); }}
+                                            mb={4}
+                                        />
+                                    </FormControl>
+                                    <Button colorScheme="teal" onClick={() => Submit()}>Submit</Button>
+                                </>
+                            )}
+                        </Box>
+                    ))
+                )}
+                {choose && (
+                    data.map((val, index) => (
+                        <Box key={val.Question} p={4} borderWidth={1} borderRadius="md" mb={4}>
+                            {index === i && val.Type === "choose answer" && (
+                                <>
+                                    <Heading size="md" mb={4}>Q.{j + 1} {val.Question}</Heading>
+                                    <FormControl>
+                                        <FormLabel>Choose the correct answer</FormLabel>
+                                        <RadioGroup onChange={(value) => { setAns(value); setAns1({ val, index, len: data.length - 1 }); }}>
+                                            <Radio value={val.Option1}>{val.Option1}</Radio>
+                                            <Radio value={val.Option2}>{val.Option2}</Radio>
+                                            <Radio value={val.Option3}>{val.Option3}</Radio>
+                                            <Radio value={val.Option4}>{val.Option4}</Radio>
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <Button colorScheme="teal" onClick={() => Choosesubmit()} mt={4}>Submit</Button>
+                                </>
+                            )}
+                        </Box>
+                    ))
+                )}
+                {blank && (
+                    data.map((val, index) => (
+                        <Box key={val.Question} p={4} borderWidth={1} borderRadius="md" mb={4}>
+                            {index === i && val.Type === "fill in the blank" && (
+                                <>
+                                    <Heading size="md" mb={4}>Q.{i + 1} {val.Question}</Heading>
+                                    <FormControl>
+                                        <FormLabel>Enter Your Answer</FormLabel>
+                                        <Input 
+                                            placeholder="Enter Your Answer"
+                                            value={ans}
+                                            onChange={(e) => { setAns(e.target.value.toUpperCase()); setAns1({ val, index, len: data.length - 1 }); }}
+                                            mb={4}
+                                        />
+                                    </FormControl>
+                                    <Button colorScheme="teal" onClick={() => Submit()} mt={4} ref={buttonref}>Submit</Button>
+                                </>
+                            )}
+                        </Box>
+                    ))
+                )}
+            </Container>
         </>
     );
-}
+};

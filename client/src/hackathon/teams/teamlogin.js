@@ -43,7 +43,7 @@ const TeamLoginForm = () => {
               Teamname: res?.data?.data?.Password,
             },
           });
-          window.location.href = "/registerps";
+          window.location.href = "/problemstatement-selection";
           toast({
             title: res?.data?.message,
             status: "success",
