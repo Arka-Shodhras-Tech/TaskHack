@@ -6,9 +6,9 @@ export const PSS = async (req, res) => {
     try {
         let IdealFor;
 
-        // Check if the teamcode is "admin"
+
         if (teamcode === "admin") {
-            IdealFor = "admin"; // Special case for admin to fetch all problem statements
+            IdealFor = "admin"; 
         } else {
             // Find the team using the provided team code
             const team = await db1.collection("Teams").findOne({ TeamCode: parseInt(teamcode) });
@@ -27,7 +27,7 @@ export const PSS = async (req, res) => {
             }
         }
 
-        // Fetch problem statements based on IdealFor value
+ 
         let tasks;
         if (IdealFor === "2" || IdealFor === "admin") {
             tasks = await db1.collection("ProblemStatements").find({}).toArray();  
