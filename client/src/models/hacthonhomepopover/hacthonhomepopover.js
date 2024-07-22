@@ -1,4 +1,7 @@
 import {
+  Avatar,
+  Badge,
+  Box,
   Button,
   Popover,
   PopoverArrow,
@@ -8,19 +11,16 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
-  Box,
-  Avatar,
-  VStack,
   Text,
-  useColorModeValue,
-  Badge,
   Tooltip,
+  useColorModeValue,
+  VStack,
 } from "@chakra-ui/react";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import ManImage from "./man.png";
 import Image from "./user.png";
 import WomanImage from "./woman.png";
-import LogoutIcon from "@mui/icons-material/Logout";
 export const PopOver = ({ data }) => {
   const dispatch = useDispatch();
   const popoverBg = useColorModeValue("white", "gray.700");
@@ -32,7 +32,7 @@ export const PopOver = ({ data }) => {
           src={
             data?.Gender
               ? data.Gender === "male"
-                ? data?.Photo
+                ? ManImage
                 : WomanImage
               : Image
           }

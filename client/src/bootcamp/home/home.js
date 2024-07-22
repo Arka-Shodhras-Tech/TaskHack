@@ -36,7 +36,7 @@ export const Home = ({ data }) => {
 
   // document.title =// "Home | Tasks | Performance | Feedback | Materials | BootCamp | Vedic Vision | AST TEAM";
   const nav = useNavigate();
-const toast = useToast()
+  const toast = useToast()
   useEffect(() => {
     const hours = new Date().getHours();
     if (hours < 12) {
@@ -62,25 +62,25 @@ const toast = useToast()
     }
   };
 
-  
+
   useEffect(() => {
     fetchData();
-}, []);
+  }, []);
 
-const fetchData = async () => {
+  const fetchData = async () => {
     try {
-        const res = await Actions.TeamMembers();
-        setTechTeamData(res?.data || []);
+      const res = await Actions.TeamMembers();
+      setTechTeamData(res?.data || []);
     } catch (error) {
-        console.error("Error fetching team members:", error);
-        toast({
-            title: "Failed to fetch team members.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-        });
-    } 
-};
+      console.error("Error fetching team members:", error);
+      toast({
+        title: "Failed to fetch team members.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
 
   useEffect(() => {
     Overlay("overlay-bar")
@@ -107,7 +107,7 @@ const fetchData = async () => {
           backgroundPosition="center"
           zIndex="1"
         >
-             <TechTeamList techTeamData={TechTeamData}/>
+          <TechTeamList techTeamData={TechTeamData} />
           <Container maxW={{ base: "100%", md: "90%", lg: "90%", xl: "90%" }} className="profile-pic">
             {!data?.Gender && (
               <HomeModel

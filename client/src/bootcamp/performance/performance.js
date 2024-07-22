@@ -29,7 +29,7 @@ const Performance = ({ perfom, student }) => {
   };
 
   const handleStudents = async (data) => {
-    const filteredData = data.filter(student => student.Tasks);
+    const filteredData = data.filter(student => student?.Tasks);
     const marks = filteredData.map(student => {
       let totalMarks = 0;
       Object.values(student?.Tasks)?.forEach(tasks => {
@@ -55,7 +55,6 @@ const Performance = ({ perfom, student }) => {
 
         handleStudents(res?.data)
           .then((res) => {
-            console.log(res)
             setData(res);
           })
           .catch((e) => console.log(e))
