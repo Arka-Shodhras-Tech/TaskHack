@@ -4,6 +4,9 @@ const initialState = {
   TeamMember: "",
   TeamPassword: "",
   HtrLoginState: false,
+  TechTeamLoginState: false,
+  TechTeamMemberId: null,
+  TeamData: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -42,6 +45,18 @@ const userReducer = (state = initialState, action) => {
         ...state,
         HtrLoginState: action.payload.HtrLoginState,
       };
+      case "TECHTEAMLOGIN":
+        return {
+          ...state,
+          TechTeamLoginState: action.payload.TechTeamLoginState,
+          TechTeamMemberId:action.payload.TechTeamMemberId,
+          Status:action.payload.Status
+        };
+       case "UPDATE_TEAM_DATA":
+          return {
+            ...state,
+            TeamData: action.payload.TeamData,
+          };
     default:
       return state;
   }

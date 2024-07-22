@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Actions } from "../actions/actions.js";
 import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
@@ -13,6 +13,8 @@ import { ProblemStatementsListView } from "../hackathon/problemstatements/listps
 import TeamLoginform from "../hackathon/teams/teamlogin.js"
 import HTRLoginForm from "../hackathon/teams/htrLogin.js";
 import { HtrsContactList } from "../hackathon/teams/htrs.js";
+import { ShowGallery } from "../hackathon/gallery/showphotos.js";
+import TechTeamLoginForm from "../hackathon/teams/techteamlogin.js";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -26,6 +28,8 @@ function App() {
   const member = useSelector((state) => state.user?.TeamMember);
   const password = useSelector((state) => state.user?.TeamPassword);
   const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
+  const TechTeamMemberAuth = useSelector((state) => state.user?.TechTeamLoginState);
+   const dispatch = useDispatch()
 
 
 
@@ -34,6 +38,7 @@ function App() {
     await Actions.CheckTeam(teamcode, teamname)
       .then((res) => {
         if (res?.data?.message === "Login successful") {
+     
           setTeam(res?.data);
         }
       })
@@ -45,8 +50,16 @@ function App() {
   const checkhackJoin = async () => {
     await Actions.JoinHackathon(teamcode, member, password, true)
       .then((res) => {
+     
         if (res?.data?.message === "Login successful") {
           setAuth(true)
+          dispatch({
+            type: "UPDATE_TEAM_DATA",
+            payload: {
+              TeamData: res?.data?.data,
+            },
+          });
+        
 
         } else {
           setAuth(false)
@@ -58,7 +71,6 @@ function App() {
   const CheckHackathon = async () => {
     await Actions.checkHacthon()
       .then((res) => {
-        console.log("Check");
         setStart(res?.data);
         setLoad(true);
       })
@@ -105,25 +117,21 @@ function App() {
                 )
               }
             />
-            <Route
-              path="/problemstatement-selection"
-              element={
-                team?.message ? (
-                  <ProblemStatements data={team?.data} reload={Refresh} />
-                ) : (
-                  <TeamLoginform />
-                )
-              }
-            />
+            <Route path="/problemstatement-selection" element={team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />)} />
             <Route
               path="/htrlogin"
               element={<HTRLoginForm isAuth={HtrAuth} />}
             />
+             <Route
+              path="/techlogin"
+              element={<TechTeamLoginForm isAuth={TechTeamMemberAuth} />}
+            />
             <Route
               path="/htrs"
-              element={HtrAuth?<HTRLoginForm isAuth={HtrAuth} />:<HtrsContactList/>}
+              element={HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList />}
             />
-            <Route path="/problemstatements" element={<ProblemStatementsListView />}/>
+            <Route path="/gallery" element={<ShowGallery />} />
+            <Route path="/problemstatements" element={<ProblemStatementsListView />} />
           </Routes>
         </BrowserRouter>
       ) : (

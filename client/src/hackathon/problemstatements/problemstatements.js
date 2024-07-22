@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Badge, Box, Button, Card, CardBody, CardHeader, Heading, Input, Spinner, Stack, StackDivider, Text, Tooltip, useToast } from "@chakra-ui/react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -25,9 +25,13 @@ export const ProblemStatements = ({ data, reload }) => {
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.post(process.env.REACT_APP_Server + '/statements');
+            const response = await axios.post(process.env.REACT_APP_Server + '/statements?teamcode=' + teamcode);
             setIsLoading(false)
-            setDat(response.data);
+            if (response.data.message === "No problem statements available") {
+                setDat([]);
+            } else {
+                setDat(response.data || []);
+            }
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
@@ -129,21 +133,23 @@ export const ProblemStatements = ({ data, reload }) => {
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', margin: '2% 0%' }}>
                                 {my || <Button bg="#3AA6B9" onClick={() => setSelect('sports')}>Sports</Button>}
                                 {my || <Button bg="#3AA6B9" onClick={() => setSelect('yoga')}>Yoga</Button>}
-                                <Button bg="#3AA6B9" onClick={() => { setMy(my ? false : true); setSelect(teamcode) }}>{my ? "View all statements" : "My Statement"}</Button>
+                                <Button bg="#3AA6B9" onClick={() => { setMy(my ? false : true);  }}>{my ? "View all statements" : "My Statement"}</Button>
                             </div>
                             <Box mt={8}>
                                 <div className='task-box'>
-                                    <h1 className='h1-tasks'>{my ? "My " : "All "}Problem Statements</h1>
-                                    {dat?.filter(val =>
+                                    <h1 className='h1-tasks'>{my ? "My " : "All Available " }Problem Statements</h1>
+                                    {dat && dat?.filter(val =>
                                         (val?.Theme?.toLowerCase().includes(select) ||
                                             val?.Number?.includes(select) ||
                                             val?.Desc?.toLowerCase().includes(select) ||
                                             val?.Statement?.toLowerCase().includes(select)) ||
                                         val?.Users?.some(state => state.includes(parseInt(select)))
                                     )?.map((task) => (
-                                        !my ? (task?.Users?.length || 0) <= count && task?.Number && <Card>
+                                        !my ? (task?.Users?.length || 0) <= count && task?.Number && <Card m={2}>
                                             <CardHeader>
-                                                <Heading size='md'>Problem Statement {task?.Number}</Heading>
+                                                <Heading size='md'>Problem Statement Number : {task?.Number}</Heading>
+                                                <Badge colorScheme={task.Theme === "sports"?"blue":"green"}>{task?.Theme}</Badge>
+
                                             </CardHeader>
                                             <CardBody>
                                                 <Stack divider={<StackDivider />} spacing='4'>
@@ -159,8 +165,8 @@ export const ProblemStatements = ({ data, reload }) => {
                                                             <Button onClick={() => UnSelectPS(task?.Number)}>unselect</Button>}
                                                         </Text>} */}
                                                         {stmt && <Text textAlign={'center'}>
-                                                            {!data?.PS ? <Button onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
-                                                                data?.PS?.Number === task?.Number && <Button onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
+                                                            {!data?.PS ? <Button colorScheme="green" onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
+                                                                data?.PS?.Number === task?.Number && <Button colorScheme="red" onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
                                                         </Text>}
                                                     </Box>
                                                 </Stack>
@@ -168,7 +174,7 @@ export const ProblemStatements = ({ data, reload }) => {
                                         </Card>
                                             : task?.Number && <Card>
                                                 <CardHeader>
-                                                    <Heading size='md'>Problem Statement {task?.Number}</Heading>
+                                                    <Heading size='md'>Problem Statement Number {task?.Number}</Heading>
                                                 </CardHeader>
                                                 <CardBody>
                                                     <Stack divider={<StackDivider />} spacing='4'>
@@ -184,8 +190,8 @@ export const ProblemStatements = ({ data, reload }) => {
                                                         <Button onClick={() => UnSelectPS(task?.Number)}>unselect</Button>}
                                                     </Text>} */}
                                                             {stmt && <Text textAlign={'center'}>
-                                                                {!data?.PS ? <Button onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
-                                                                    data?.PS?.Number === task?.Number && <Button onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
+                                                                {!data?.PS ? <Button colorScheme="green" onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc)  } }>select</Button> :
+                                                                    data?.PS?.Number === task?.Number && <Button colorScheme="red" onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
                                                             </Text>}
                                                         </Box>
                                                     </Stack>

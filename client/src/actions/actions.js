@@ -37,7 +37,16 @@ export const Actions = {
 
         return await axios.post(process.env.REACT_APP_Server + "/checkhtr", { code, password })
     },
+    CheckTechTeam: async (code, password) => {
 
+        return await axios.post(process.env.REACT_APP_Server + "/checktechteammemberlogin", { code, password })
+    },
+    UpdateTechTeamMemberStatus: async (id, status) => {
+        return await axios.put(process.env.REACT_APP_Server + `/updatetechteammemberstatus/${id}`, { status });
+    },
+    TeamMembers: async () => {
+        return await axios.post(process.env.REACT_APP_Server + "/techteammembers");
+    },
     checkHacthon: async () => {
         return await axios.post(process.env.REACT_APP_Server + "/check-hackathon")
     },
@@ -77,6 +86,10 @@ export const Actions = {
 
     PSSC: async () => {
         return await axios.post(process.env.REACT_APP_Server + "/pssc")
+    },
+
+    TeamsPhotos: async (teamcode) => {
+        return await axios.post(process.env.REACT_APP_Server + "/teamphotos",{teamcode})
     },
 
 }

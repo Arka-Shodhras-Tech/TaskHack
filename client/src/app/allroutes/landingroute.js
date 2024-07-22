@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import LandingPage from "../../landing-page/landing-page.js";
-import { Nav } from "../../navbar/nav.js";
 import { RoutesofASTeam } from "./examroutes.js";
 export const LandingRoute = () => {
     return (

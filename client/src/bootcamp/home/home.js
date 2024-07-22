@@ -8,10 +8,13 @@ import {
   SimpleGrid,
   Text,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Actions } from "../../actions/actions";
+import TechTeamList from "../../hackathon/hackathonpage/techteamlist";
 import { HomeModel } from "../../models/hacthonhomemodel/hacthonhomemodel";
 import { PopOver } from "../../models/hacthonhomepopover/hacthonhomepopover";
 import "../main/main.css";
@@ -19,22 +22,21 @@ import aboutImage from "./about.png";
 import feedbackFormimage from "./feedback.png";
 import materialsimage from "./materials.png";
 import mostlyUsedMaterialsimage from "./most-used-materials.png";
+import { Overlay } from "./overlay";
 import performanceimage from "./performance.png";
 import tasksimage from "./tasks.png";
-import { Overlay } from "./overlay";
-import { FeedbackForm } from "../feedbackform/feedbackform";
 
 export const Home = ({ data }) => {
   const [openModel, setOpenModel] = useState(true);
   const [greeting, setGreeting] = useState("");
   const [showOverlay, setShowOverlay] = useState(false);
-
+  const [TechTeamData, setTechTeamData] = useState([]);
   const overlayRef = useRef(null);
   const stickyScrollViewRef = useRef(null);
 
   // document.title =// "Home | Tasks | Performance | Feedback | Materials | BootCamp | Vedic Vision | AST TEAM";
   const nav = useNavigate();
-
+const toast = useToast()
   useEffect(() => {
     const hours = new Date().getHours();
     if (hours < 12) {
@@ -59,6 +61,26 @@ export const Home = ({ data }) => {
       setShowOverlay(false);
     }
   };
+
+  
+  useEffect(() => {
+    fetchData();
+}, []);
+
+const fetchData = async () => {
+    try {
+        const res = await Actions.TeamMembers();
+        setTechTeamData(res?.data || []);
+    } catch (error) {
+        console.error("Error fetching team members:", error);
+        toast({
+            title: "Failed to fetch team members.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+        });
+    } 
+};
 
   useEffect(() => {
     Overlay("overlay-bar")
@@ -85,6 +107,7 @@ export const Home = ({ data }) => {
           backgroundPosition="center"
           zIndex="1"
         >
+             <TechTeamList techTeamData={TechTeamData}/>
           <Container maxW={{ base: "100%", md: "90%", lg: "90%", xl: "90%" }} className="profile-pic">
             {!data?.Gender && (
               <HomeModel

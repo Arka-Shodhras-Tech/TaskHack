@@ -29,16 +29,19 @@ import { Actions } from "../../actions/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Logout from "@mui/icons-material/Logout";
 import Chat from "../../services/chatting/Chat";
+import TechTeamList from "./techteamlist";
 
 export const Hackathonpage = ({ isAuth = false, socket }) => {
   const nav = useNavigate();
-  document.title = "Hackathon | Team Ast";
+  document.title = "Hackathon | Team AST";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [teamCode, setTeamCode] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [TechTeamData, setTechTeamData] = useState([]);
+
   const teamcode = useSelector((state) => state.user?.Teamcode);
   const teamname = useSelector((state) => state.user?.Teamname);
   const member = useSelector((state) => state.user?.TeamMember);
@@ -49,7 +52,6 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
   const handleJoin = async () => {
     try {
       const response = await Actions.JoinHackathon(teamCode, registrationNumber, password,false);
-      console.log(response.data.data);
       if (response?.data?.error) {
         toast({
           title: "Error joining team.",
@@ -104,9 +106,30 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
     window.location.reload();
   };
 
+
+  useEffect(() => {
+    fetchData();
+}, []);
+
+const fetchData = async () => {
+    try {
+        const res = await Actions.TeamMembers();
+        setTechTeamData(res?.data || []);
+    } catch (error) {
+        console.error("Error fetching team members:", error);
+        toast({
+            title: "Failed to fetch team members.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+        });
+    } 
+};
+
   return (
     <Center p={8} className="hackathon-container">
       <DisplayTimer socket={socket} />
+      <TechTeamList techTeamData={TechTeamData}/>
       <Stack spacing={8} maxW="5xl" w="full">
         <div className="text-center">
           {!isAuth && (
