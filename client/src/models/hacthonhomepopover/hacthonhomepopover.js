@@ -95,7 +95,6 @@ export const PopOver = ({ data }) => {
                 </Text>
                 <Text marginBottom="1">{data?.Reg_No}</Text>
               </Box>
-
               <Box>
                 <Text fontWeight="bold" marginBottom="0">
                   Year:
