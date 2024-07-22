@@ -29,28 +29,23 @@ function App() {
   const password = useSelector((state) => state.user?.TeamPassword);
   const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
   const TechTeamMemberAuth = useSelector((state) => state.user?.TechTeamLoginState);
-   const dispatch = useDispatch()
-
-
-
+  const dispatch = useDispatch()
 
   const checkTeam = async (teamcode) => {
     await Actions.CheckTeam(teamcode, teamname)
       .then((res) => {
         if (res?.data?.message === "Login successful") {
-     
+
           setTeam(res?.data);
         }
       })
       .catch((e) => { });
   };
 
-
-
   const checkhackJoin = async () => {
     await Actions.JoinHackathon(teamcode, member, password, true)
       .then((res) => {
-     
+
         if (res?.data?.message === "Login successful") {
           setAuth(true)
           dispatch({
@@ -59,7 +54,7 @@ function App() {
               TeamData: res?.data?.data,
             },
           });
-        
+
 
         } else {
           setAuth(false)
@@ -122,7 +117,7 @@ function App() {
               path="/htrlogin"
               element={<HTRLoginForm isAuth={HtrAuth} />}
             />
-             <Route
+            <Route
               path="/techlogin"
               element={<TechTeamLoginForm isAuth={TechTeamMemberAuth} />}
             />
