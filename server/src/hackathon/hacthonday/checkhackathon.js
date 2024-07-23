@@ -8,9 +8,9 @@ export const CheckHackathon = async (data, res) => {
     }
 
     if (admin?.Start) {
-      return res.json({ start: true,data:admin});
+      return res.json({ start: true,data:admin?.Count});
     } else {
-      return res.json({ start: false,data:admin });
+      return res.json({ start: false,data:admin?.Count });
     }
   } catch (e) {
     console.error(e);
