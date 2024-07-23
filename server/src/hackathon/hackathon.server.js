@@ -51,7 +51,7 @@ app.post('/updategender/:regd/:gender', async (req, res) => {
 })
 
 app.post('/statements', async (req, res) => {
-    await PSS(req,res);
+    await PSS(req, res);
 })
 
 app.post('/signup/:email/:name/:regd/:num/:year/:branch/:section', async (req, res) => {
