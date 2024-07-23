@@ -38,7 +38,7 @@ const Performance = ({ perfom, student }) => {
         });
       });
       return {
-        Name: student?.Name, Marks: totalMarks, Attendance: ((student?.AttendDays || 0) / (perfom?.Count) * 100).toFixed(0), Total: (parseInt(student?.AttendDays || 0) + parseInt(totalMarks || 0)
+        Name: student?.Name, Marks: totalMarks, Attendance: ((student?.AttendDays || 0) / (perfom) * 100).toFixed(0), Total: (parseInt(student?.AttendDays || 0) + parseInt(totalMarks || 0)
           + parseInt(student?.ActivityMarks || 0) + parseInt(student?.InternalMarks || 0)) / 4
       };
     });
