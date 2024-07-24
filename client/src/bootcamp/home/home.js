@@ -154,38 +154,282 @@ export const Home = ({ data }) => {
             </Flex>
           </Container>
 
-          <Box minH="80vh" alignItems="center">
+          <Box minH="80vh" alignItems="center" marginTop={"70px"}>
             <div className="hacthongrid-home">
               <div className="hacthonlist">
                 <div className="buttonsgrid">
-                  <SimpleGrid minChildWidth="200px" spacing="40px">
-                    <Button onClick={() => openPage("/bootcamp/tasks")}>
-                      Tasks
-                    </Button>
-                    <Button onClick={() => openPage("/bootcamp/performance")}>
-                      Performance
-                    </Button>
-                    <Button onClick={() => openPage("/bootcamp/materials")}>
-                      Materials
-                    </Button>
-                  </SimpleGrid>
+                <Box overflow="auto" padding="50px" width="auto" id="style-4">
+              <Flex gap="15px" wrap="nowrap">
+                <Box
+                  onClick={() => openPage("/bootcamp/tasks")}
+                  cursor="pointer"
+                  maxW="sm"
+                  height="200px"
+                  borderWidth="1px"
+                  minW="200px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                  flex="1 1 200px"
+                  backgroundColor="white"
+                >
+                  <Image
+                    src={tasksimage}
+                    alt="Tasks image"
+                    width="100%"
+                    objectFit="cover"
+                    height="100px"
+                  />
+                  <Box p={5}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="baseline"
+                    >
+                      <Box
+                        mt="1"
+                        fontWeight="semibold"
+                        as="h6"
+                        lineHeight="tight"
+                        noOfLines={1}
+                      >
+                        Tasks
+                      </Box>
+                      <Box as="span" color="gray.600" fontSize="sm">
+                        Go to Tasks
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box
+                  onClick={() => openPage("/bootcamp/performance")}
+                  cursor="pointer"
+                  minW="200px"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  height="200px"
+                  overflow="hidden"
+                  flex="1 1 200px"
+                  backgroundColor="white"
+                >
+                  <Image
+                    src={performanceimage}
+                    alt="Performance image"
+                    width="100%"
+                    objectFit="cover"
+                    height="100px"
+                  />
+                  <Box p="6">
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="baseline"
+                    >
+                      <Box
+                        mt="1"
+                        fontWeight="semibold"
+                        as="h6"
+                        lineHeight="tight"
+                        noOfLines={1}
+                      >
+                        Performance
+                      </Box>
+                      <Box
+                        as="span"
+                        color="gray.600"
+                        fontSize="sm"
+                        noOfLines={1}
+                      >
+                        Go to Performance
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box
+                  onClick={() => openPage("/bootcamp/materials")}
+                  cursor="pointer"
+                  maxW="sm"
+                  height="200px"
+                  minW="200px"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                  flex="1 1 200px"
+                  backgroundColor="white"
+                >
+                  <Image
+                    src={materialsimage}
+                    alt="Materials image"
+                    width="100%"
+                    objectFit="cover"
+                    height="100px"
+                  />
+                  <Box p="5">
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="baseline"
+                    >
+                      <Box
+                        mt="1"
+                        fontWeight="semibold"
+                        as="h6"
+                        lineHeight="tight"
+                        noOfLines={1}
+                      >
+                        Materials
+                      </Box>
+                      <Box
+                        as="span"
+                        color="gray.600"
+                        fontSize="sm"
+                        noOfLines={1}
+                      >
+                        Go to Materials
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box
+                  onClick={() => openPage("/bootcamp/most-used-materials")}
+                  cursor="pointer"
+                  maxW="sm"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  height="200px"
+                  minW="200px"
+                  overflow="hidden"
+                  flex="1 1 200px"
+                  backgroundColor="white"
+                >
+                  <Image
+                    src={mostlyUsedMaterialsimage}
+                    alt="Mostly Used Materials image"
+                    width="100%"
+                    objectFit="cover"
+                    height="100px"
+                  />
+                  <Box p="5">
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="baseline"
+                    >
+                      <Box
+                        mt="1"
+                        fontWeight="semibold"
+                        as="h6"
+                        lineHeight="tight"
+                        noOfLines={1}
+                      >
+                        Mostly Used Materials
+                      </Box>
+                      <Box
+                        as="span"
+                        color="gray.600"
+                        fontSize="sm"
+                        noOfLines={1}
+                      >
+                        Go to Mostly Used Materials
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box
+                  onClick={() => openPage("/bootcamp/feedbackform")}
+                  cursor="pointer"
+                  maxW="sm"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  height="200px"
+                  minW="200px"
+                  overflow="hidden"
+                  flex="1 1 200px"
+                  backgroundColor="white"
+                >
+                  <Image
+                    src={feedbackFormimage}
+                    alt="Feedback Form image"
+                    width="100%"
+                    objectFit="cover"
+                    height="100px"
+                  />
+                  <Box p="5">
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="baseline"
+                    >
+                      <Box
+                        mt="1"
+                        fontWeight="semibold"
+                        as="h6"
+                        lineHeight="tight"
+                        noOfLines={1}
+                      >
+                        Feedback Form
+                      </Box>
+                      <Box
+                        as="span"
+                        color="gray.600"
+                        fontSize="sm"
+                        noOfLines={1}
+                      >
+                        Go to Feedback Form
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box
+                  onClick={() => openPage("/bootcamp/about")}
+                  cursor="pointer"
+                  maxW="sm"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  height="200px"
+                  minW="200px"
+                  overflow="hidden"
+                  flex="1 1 200px"
+                  backgroundColor="white"
+                >
+                  <Image
+                    src={aboutImage}
+                    alt="About image"
+                    width="100%"
+                    objectFit="cover"
+                    height="100px"
+                  />
+                  <Box p="5">
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="baseline"
+                    >
+                      <Box
+                        mt="1"
+                        fontWeight="semibold"
+                        as="h6"
+                        lineHeight="tight"
+                        noOfLines={1}
+                      >
+                        About
+                      </Box>
+                      <Box
+                        as="span"
+                        color="gray.600"
+                        fontSize="sm"
+                        noOfLines={1}
+                      >
+                        Learn More About Vedic Vision
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </Flex>
+            </Box>
                 </div>
               </div>
             </div>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="end"
-              maxH="200px"
-            >
-              <Button
-                onClick={() => window.scrollTo(0, window.innerHeight)}
-                className="more-info-button"
-                borderRadius={25}
-              >
-                <KeyboardDoubleArrowDownIcon onClick={() => { document.getElementById("overlay-bar").style.display = 'block' }} />
-              </Button>
-            </Box>
+       
           </Box>
         </Box>
 

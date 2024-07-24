@@ -19,7 +19,7 @@ import {
 import { useState } from "react";
 import { Actions } from "../../actions/actions";
 
-export const CreateTeam = ({ isOpen, onClose, data }) => {
+export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
   const toast = useToast();
   const [team, setTeam] = useState("");
   const [gmail, setGmail] = useState("");
@@ -40,7 +40,8 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
     if (!termsAccepted) {
       toast({
         title: "Terms and Conditions",
-        description: "You must accept the terms and conditions to create a team.",
+        description:
+          "You must accept the terms and conditions to create a team.",
         status: "error",
         position: "bottom-right",
         isClosable: true,
@@ -48,7 +49,15 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
       return;
     }
 
-    if (team && gmail && code && phone && members && memberDetails.length === parseInt(members) && password) {
+    if (
+      team &&
+      gmail &&
+      code &&
+      phone &&
+      members &&
+      memberDetails.length === parseInt(members) &&
+      password
+    ) {
       if (new Set(memberDetails).size !== memberDetails.length) {
         toast({
           title: "Duplicate team details found",
@@ -70,7 +79,14 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
       const memberDetailsString = memberDetails.join(",");
 
       try {
-        const res = await Actions.CreateTeam(team, gmail, phone, code, memberDetailsString, password);
+        const res = await Actions.CreateTeam(
+          team,
+          gmail,
+          phone,
+          code,
+          memberDetailsString,
+          password
+        );
         if (res?.data?.message === "Success") {
           toast({
             title: "Team created successfully!",
@@ -85,16 +101,23 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
           setMembers("");
           setMemberDetails([]);
           setPassword("");
+          refreshTeamCodes();
           onClose();
         } else if (res?.data?.error) {
           toast({
             title: res.data.error,
-            description: res.data.matchingNumbers?.length ? `Matching Numbers: ${res.data.matchingNumbers.join(", ")}` : "",
+            description: res.data.matchingNumbers?.length
+              ? `Matching Numbers: ${res.data.matchingNumbers.join(", ")}`
+              : "",
             status: "error",
             position: "bottom-right",
             isClosable: true,
             duration: 10000,
           });
+
+          if (res?.data?.type === "already-taken") {
+            refreshTeamCodes();
+          }
         } else {
           toast({
             title: "Failed to create team",
@@ -181,11 +204,15 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
             {Array.from({ length: parseInt(members || 0) }).map((_, index) => (
               <Input
                 key={index}
-                placeholder={`Team ${index + 1 === 1 ? "Leader" : "Member " + (index + 1)} Registration Number`}
+                placeholder={`Team ${
+                  index + 1 === 1 ? "Leader" : "Member " + (index + 1)
+                } Registration Number`}
                 type="text"
                 maxLength={10}
                 value={memberDetails[index] || ""}
-                onChange={(e) => handleMemberDetailsChange(index, e.target.value.toLowerCase())}
+                onChange={(e) =>
+                  handleMemberDetailsChange(index, e.target.value.toLowerCase())
+                }
                 mb={2}
               />
             ))}
@@ -197,7 +224,8 @@ export const CreateTeam = ({ isOpen, onClose, data }) => {
               mb={2}
             />
             <Text color={"red"}>
-              Remember your <strong>password</strong>, no chance to reset <strong>it</strong>
+              Remember your <strong>password</strong>, no chance to reset{" "}
+              <strong>it</strong>
             </Text>
             <Tooltip
               label="By creating a team, you agree that the team details are genuine. Once created, the team cannot be modified or deleted."

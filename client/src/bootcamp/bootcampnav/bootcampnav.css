@@ -32,7 +32,7 @@
     animation: fadeIn 2s ease-in-out, gradientBackground 8s ease infinite;
     transition: transform 0.3s ease-in-out;
     text-align: center;
-    margin-top:5%;
+    margin-top:3%;
     padding: 0;
     /* margin-bottom: 1%; */
     font-family:Georgia, 'Times New Roman', Times, serif;
@@ -45,7 +45,7 @@
 @media (max-width:500px) {
     .h1-animation{
         margin-top: 20%;
-      font-size: 1.5em;
+      font-size: 1.2em;
     }
   }
 .navigate-back-button{
@@ -54,9 +54,36 @@
     left: 40px;
     z-index: 9999;
 
+    
+
     @media (max-width:680px) {
         display: none !important;
         
     }
   
+}
+
+.college-name{
+    position:relative;
+
+  
+    top:35px;
+   
+    img{
+        height: 60px;
+    }
+
+  
+   
+}
+
+@media (max-width:680px) {
+    .collegename img{
+        height: 45px;
+    }
+    .college-name {
+        top:25px;
+    }
+ 
+    
 }

@@ -46,8 +46,7 @@ const Countdown = () => {
 
 	return (
 		<div className='countdown'>
-			<div className="count-icon">
-			</div>
+			
 			<h2 style={{ textAlign: 'center' }}>
 				<BsStopwatch style={{ marginLeft: '48%' }} />Hackathon Starts In</h2>
 			<div className='content'>
