@@ -117,7 +117,18 @@ function App() {
                 )
               }
             />
-            <Route path="/problemstatement-selection" element={team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />)} />
+            <Route path="/problemstatement-selection" element={
+              
+              
+              
+              
+              
+              
+              
+              routes?.problemstatementselection ?
+              
+              
+              team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />):<LandingRoute/>} />
             <Route
               path="/htrlogin"
               element={
