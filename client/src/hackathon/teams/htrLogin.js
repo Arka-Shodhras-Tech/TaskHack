@@ -57,7 +57,7 @@ const HTRLoginForm = ({ isAuth }) => {
           setHtrPassword("");
           setHtrAuth(true);
 
-          window.location.href = "htrs"
+          window.location.href = "/htrlogin"
         }
       } catch (error) {
         console.error("Error checking HTR:", error);
@@ -112,7 +112,9 @@ const HTRLoginForm = ({ isAuth }) => {
   }
   return (
     <Flex align="center" justify="center" minH="100vh" bg="gray.50">
-      <CreateTeam isOpen={show} onClose={() => setShow(false)} data={data} />
+      <CreateTeam isOpen={show} onClose={() => setShow(false)} data={data}  
+        refreshTeamCodes={()=>fetchData()}
+        />
       <Flex
         p={8}
         maxW="800px"

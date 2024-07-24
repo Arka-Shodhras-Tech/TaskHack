@@ -32,7 +32,7 @@ const LandingPage = () => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.5 }}
           >
-            ARKHA <br />
+            ARKA <br />
             SODHARA <br />
             TECH
           </motion.h1>

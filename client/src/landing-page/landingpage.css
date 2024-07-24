@@ -299,6 +299,10 @@ section#page-1 h1 {
   font-size: 10px;
   color: #c0aa7b;
 }
+.logo-container img{
+  height: 65px;
+  width: 60px;
+}
 
 .logo-rotate {
   transform: scale(2) !important;

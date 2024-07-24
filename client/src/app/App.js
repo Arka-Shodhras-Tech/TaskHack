@@ -15,6 +15,7 @@ import HTRLoginForm from "../hackathon/teams/htrLogin.js";
 import { HtrsContactList } from "../hackathon/teams/htrs.js";
 import { ShowGallery } from "../hackathon/gallery/showphotos.js";
 import TechTeamLoginForm from "../hackathon/teams/techteamlogin.js";
+import LandingPage from "../landing-page/landing-page.js";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -22,6 +23,7 @@ function App() {
   const [load, setLoad] = useState(localStorage.load || false);
   const [offline, setOffline] = useState(localStorage.load || false);
   const [ishackAuth, setAuth] = useState(false)
+  const [routes,setRoutes] = useState({})
 
   const teamcode = useSelector((state) => state.user?.Teamcode);
   const teamname = useSelector((state) => state.user?.Teamname);
@@ -67,6 +69,7 @@ function App() {
     await Actions.checkHacthon()
       .then((res) => {
         setStart(res?.data);
+        setRoutes(res?.data?.Routes)
         setLoad(true);
       })
       .catch((e) => { });
@@ -95,7 +98,7 @@ function App() {
             <Route
               path="/*"
               element={
-                start?.start ? (
+                routes?.main ? (
                   <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
                 ) : (
                   <LandingRoute />
@@ -105,28 +108,38 @@ function App() {
             <Route
               path="/bootcamp/*"
               element={
-                start?.start ? (
-                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
+                routes?.bootcamp ? (
+                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} routes={routes} />
                 ) : (
-                  <BootcampRoutes data={start?.data} offline={offline} />
+                  <BootcampRoutes data={start?.data} offline={offline} routes={routes} />
                 )
               }
             />
-            <Route path="/problemstatement-selection" element={team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />)} />
+            <Route path="/problemstatement-selection" element={
+              routes?.problemstatementselection ?
+              team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />):<LandingRoute/>} />
             <Route
               path="/htrlogin"
-              element={<HTRLoginForm isAuth={HtrAuth} />}
+              element={
+                routes?.htrlogin ? (
+              <HTRLoginForm isAuth={HtrAuth} />):<LandingRoute/>}
             />
             <Route
               path="/techlogin"
-              element={<TechTeamLoginForm isAuth={TechTeamMemberAuth} />}
+              element={
+              
+              routes?.techlogin ?
+              
+              <TechTeamLoginForm isAuth={TechTeamMemberAuth} />:
+            <LandingRoute/>
+            }
             />
             <Route
               path="/htrs"
-              element={HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList />}
+              element={ routes?.htrs? HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList />:<LandingRoute/>}
             />
-            <Route path="/gallery" element={<ShowGallery />} />
-            <Route path="/problemstatements" element={<ProblemStatementsListView />} />
+            <Route path="/gallery" element={routes?.gallery ?<ShowGallery />:<LandingRoute />} />
+            <Route path="/problemstatements" element={routes?.Problemstatements ?<ProblemStatementsListView />:<LandingRoute />} />
           </Routes>
         </BrowserRouter>
       ) : (
