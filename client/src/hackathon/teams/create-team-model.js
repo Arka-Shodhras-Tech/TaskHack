@@ -101,6 +101,7 @@ export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
           setMembers("");
           setMemberDetails([]);
           setPassword("");
+          refreshTeamCodes();
           onClose();
         } else if (res?.data?.error) {
           toast({

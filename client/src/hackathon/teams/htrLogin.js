@@ -112,11 +112,8 @@ const HTRLoginForm = ({ isAuth }) => {
   }
   return (
     <Flex align="center" justify="center" minH="100vh" bg="gray.50">
-      <CreateTeam isOpen={show} onClose={() => setShow(false)} data={data} 
-        
-        refreshTeamCodes={()=>fetchData()}}
-        
-        
+      <CreateTeam isOpen={show} onClose={() => setShow(false)} data={data}  
+        refreshTeamCodes={()=>fetchData()}
         />
       <Flex
         p={8}
