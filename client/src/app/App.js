@@ -100,10 +100,8 @@ function App() {
               element={
                 routes?.main ? (
                   <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
-
                 ) : (
                   <LandingRoute />
-
                 )
               }
             />
@@ -111,23 +109,14 @@ function App() {
               path="/bootcamp/*"
               element={
                 routes?.bootcamp ? (
-                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
+                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} routes={routes} />
                 ) : (
-                  <BootcampRoutes data={start?.data} offline={offline} />
+                  <BootcampRoutes data={start?.data} offline={offline} routes={routes} />
                 )
               }
             />
             <Route path="/problemstatement-selection" element={
-              
-              
-              
-              
-              
-              
-              
               routes?.problemstatementselection ?
-              
-              
               team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />):<LandingRoute/>} />
             <Route
               path="/htrlogin"
@@ -150,7 +139,7 @@ function App() {
               element={ routes?.htrs? HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList />:<LandingRoute/>}
             />
             <Route path="/gallery" element={routes?.gallery ?<ShowGallery />:<LandingRoute />} />
-            <Route path="/problemstatements" element={routes?.ProblemStatements ?<ProblemStatementsListView />:<LandingRoute />} />
+            <Route path="/problemstatements" element={routes?.Problemstatements ?<ProblemStatementsListView />:<LandingRoute />} />
           </Routes>
         </BrowserRouter>
       ) : (

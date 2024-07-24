@@ -18,7 +18,7 @@ import { FeedbackForm } from '../feedbackform/feedbackform'
 import { MostusedMaterials } from '../mostusedmaterials/mostusedmaterials'
 import Performance from '../performance/performance'
 
-export const BootcampRoutes = ({data,offline}) => {
+export const BootcampRoutes = ({data,offline,routes}) => {
     const auth =useSelector((state)=>state.user?.auth)
     const update=useSelector((state)=>state.user?.update)
     const [check,setCheck]=useState(false)
@@ -41,7 +41,7 @@ export const BootcampRoutes = ({data,offline}) => {
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}  perfom={data} student={check?.data}/> : <LoginForm />} />
                 <Route path='/*' element={<PageNotFound/>}/>
-                <Route path='/register' element={<RegistrationForm/>}/>
+                <Route path='/register' element={routes.register ?<RegistrationForm/>:<PageNotFound/>}/>
                 <Route path='/rulesandregulations' element={<RulesAndRegulations/>}/>
                 <Route path='/about' element={<RulesAndRegulations/>}/>
                 <Route path='/feedbackform' element={check?.auth ?<FeedbackForm/>: <LoginForm />}/>
