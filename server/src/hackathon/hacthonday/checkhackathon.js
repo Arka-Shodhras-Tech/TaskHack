@@ -7,8 +7,8 @@ export const CheckHackathon = async (data, res) => {
       return res.json({ error: 'Invalid admin' });
     }
 
-    if (admin?.Start) {
-      return res.json({ start: true,data:admin?.Count});
+    if (admin) {
+      return res.json({ start: true,data:admin?.Count, Routes:admin.Routes });
     } else {
       return res.json({ start: false,data:admin?.Count });
     }

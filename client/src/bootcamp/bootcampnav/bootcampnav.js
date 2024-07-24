@@ -25,7 +25,16 @@ export const BootcampNav = () => {
                     <ArrowBackIcon />
                 </Button>
             )}
+
+            <div className="head-nav h1-animation">
+            <p className="college-name">
+                <img src={"../srkr-name-banner.png"} alt="srkr name banner"/>
+            </p>
             <h1 className="h1-animation">VEDIC VISION BOOTCAMP</h1>
+            </div>
+        
         </div>
     );
 };
+
+
