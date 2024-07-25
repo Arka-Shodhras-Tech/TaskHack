@@ -3,7 +3,7 @@ import { message } from "../message/message.js";
 export const SendOtp = async (req, resend, res) => {
     const { regd } = req.body;
     try {
-        const user = await db1.collection('Hackathondata').findOne({ Reg_No: regd });
+        const user = await db1.collection('Hackathondata').findOne({  Reg_No: { $regex: new RegExp(`^${regd}$`, 'i')} });
         if (!user) {
             return res.json({ error: 'Invalid registration number.' });
         }
