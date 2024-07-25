@@ -23,7 +23,7 @@ function App() {
   const [load, setLoad] = useState(localStorage.load || false);
   const [offline, setOffline] = useState(localStorage.load || false);
   const [ishackAuth, setAuth] = useState(false)
-  const [routes,setRoutes] = useState({})
+  const [routes, setRoutes] = useState({})
 
   const teamcode = useSelector((state) => state.user?.Teamcode);
   const teamname = useSelector((state) => state.user?.Teamname);
@@ -56,8 +56,6 @@ function App() {
               TeamData: res?.data?.data,
             },
           });
-
-
         } else {
           setAuth(false)
         }
@@ -108,7 +106,7 @@ function App() {
             <Route
               path="/bootcamp/*"
               element={
-                routes?.bootcamp ? (
+                !routes?.bootcamp && routes?.main ? (
                   <HackthonDayRoute socket={socket} isAuth={ishackAuth} routes={routes} />
                 ) : (
                   <BootcampRoutes data={start?.data} offline={offline} routes={routes} />
@@ -117,29 +115,27 @@ function App() {
             />
             <Route path="/problemstatement-selection" element={
               routes?.problemstatementselection ?
-              team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />):<LandingRoute/>} />
+                team?.message ? (<ProblemStatements data={team?.data} reload={Refresh} />) : (<TeamLoginform />) : <LandingRoute />} />
             <Route
               path="/htrlogin"
               element={
                 routes?.htrlogin ? (
-              <HTRLoginForm isAuth={HtrAuth} />):<LandingRoute/>}
+                  <HTRLoginForm isAuth={HtrAuth} />) : <LandingRoute />}
             />
             <Route
               path="/techlogin"
               element={
-              
-              routes?.techlogin ?
-              
-              <TechTeamLoginForm isAuth={TechTeamMemberAuth} />:
-            <LandingRoute/>
-            }
+                routes?.techlogin ?
+                  <TechTeamLoginForm isAuth={TechTeamMemberAuth} /> :
+                  <LandingRoute />
+              }
             />
             <Route
               path="/htrs"
-              element={ routes?.htrs? HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList />:<LandingRoute/>}
+              element={routes?.htrs ? HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList /> : <LandingRoute />}
             />
-            <Route path="/gallery" element={routes?.gallery ?<ShowGallery />:<LandingRoute />} />
-            <Route path="/problemstatements" element={routes?.Problemstatements ?<ProblemStatementsListView />:<LandingRoute />} />
+            <Route path="/gallery" element={routes?.gallery ? <ShowGallery /> : <LandingRoute />} />
+            <Route path="/problemstatements" element={routes?.Problemstatements ? <ProblemStatementsListView /> : <LandingRoute />} />
           </Routes>
         </BrowserRouter>
       ) : (
