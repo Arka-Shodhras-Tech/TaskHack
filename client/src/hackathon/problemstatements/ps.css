@@ -123,3 +123,13 @@
         width: 100%;
     }
 }
+
+.limitText1{
+    width: 200px;
+    text-wrap: wrap;
+}
+.limitText2{
+    width: 600px;
+    justify-content:initial;
+    text-wrap: wrap;
+}
