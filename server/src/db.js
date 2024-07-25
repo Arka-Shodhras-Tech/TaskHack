@@ -9,7 +9,7 @@ async function connectToDB(cb) {
         const client = new MongoClient(url);
         await client.connect();
         db = client.db("ChemistryDepartment");
-        db1 = client.db("Hackathon");
+        db1 = client.db("VedicVision");
         bucket = new GridFSBucket(db1, { bucketName: 'uploads' });
         cb();
     } catch (error) {
