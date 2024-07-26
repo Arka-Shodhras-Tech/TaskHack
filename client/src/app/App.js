@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Actions } from "../actions/actions.js";
+import { Authentication } from "../actions/auth.js";
 import { BootcampRoutes } from "../bootcamp/routers/bootcamproutes.js";
+import { ShowGallery } from "../hackathon/gallery/showphotos.js";
+import { ProblemStatementsListView } from "../hackathon/problemstatements/listps.js";
 import { ProblemStatements } from "../hackathon/problemstatements/problemstatements.js";
 import { HackthonDayRoute } from "../hackathon/router/hackathonroutes.js";
+import HTRLoginForm from "../hackathon/teams/htrLogin.js";
+import { HtrsContactList } from "../hackathon/teams/htrs.js";
+import TeamLoginform from "../hackathon/teams/teamlogin.js";
+import TechTeamLoginForm from "../hackathon/teams/techteamlogin.js";
+import EnhancedNetworkChecker from "../services/NetworkChecker.js";
 import { socket } from "../services/socket.js";
 import "./App.css";
 import { LandingRoute } from "./allroutes/landingroute.js";
-import EnhancedNetworkChecker from "../services/NetworkChecker.js";
-import { ProblemStatementsListView } from "../hackathon/problemstatements/listps.js";
-import TeamLoginform from "../hackathon/teams/teamlogin.js"
-import HTRLoginForm from "../hackathon/teams/htrLogin.js";
-import { HtrsContactList } from "../hackathon/teams/htrs.js";
-import { ShowGallery } from "../hackathon/gallery/showphotos.js";
-import TechTeamLoginForm from "../hackathon/teams/techteamlogin.js";
-import LandingPage from "../landing-page/landing-page.js";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -24,13 +24,7 @@ function App() {
   const [offline, setOffline] = useState(localStorage.load || false);
   const [ishackAuth, setAuth] = useState(false)
   const [routes, setRoutes] = useState({})
-
-  const teamcode = useSelector((state) => state.user?.Teamcode);
-  const teamname = useSelector((state) => state.user?.Teamname);
-  const member = useSelector((state) => state.user?.TeamMember);
-  const password = useSelector((state) => state.user?.TeamPassword);
-  const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
-  const TechTeamMemberAuth = useSelector((state) => state.user?.TechTeamLoginState);
+  const { teamcode, teamname, member, password, HtrAuth, TechTeamMemberAuth } = Authentication()
   const dispatch = useDispatch()
 
   const checkTeam = async (teamcode) => {
@@ -104,8 +98,8 @@ function App() {
             <Route
               path="/bootcamp/*"
               element={
-                !routes?.bootcamp && routes?.main ? (
-                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} routes={routes} />
+                !routes?.bootcamp ? (
+                  <LandingRoute />
                 ) : (
                   <BootcampRoutes data={start?.data} offline={offline} routes={routes} />
                 )

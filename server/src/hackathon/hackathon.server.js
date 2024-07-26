@@ -24,6 +24,7 @@ import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
 import { checkTechTeam } from "./Teams/techteam.js";
 import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
+import { HtrTeamMiddlware } from "../middleware/htm.middleware.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -112,8 +113,7 @@ app.post('/views', async (req, res) => {
 });
 
 // ***************************************** Hacthon *********************************************** //
-app.post('/createteam/:team/:gmail/:phone/:code/:members/:password', async (req, res) => {
-
+app.post('/createteam/:team/:gmail/:phone/:code/:members/:password',HtrTeamMiddlware, async (req, res) => {
     await CreateTeam(req, res, resend);
 })
 
