@@ -36,7 +36,7 @@ export const BootcampRoutes = ({data,offline,routes}) => {
             <Routes>
                 <Route path="/login" element={check?.auth?<Home/>:<LoginForm />} />
                 <Route path="/update" element={<OTPForm />} />
-                <Route path='/updateform' element={update?<UpdateForm />:<PageNotFound/>} />
+                <Route path='/updateform' element={<UpdateForm />} />
                 <Route path="/score" element={check?.auth ? <HackStudentscore /> : <LoginForm />} />
                 <Route path="/" element={<Countdown />} />
                 <Route path='/home' element={check?.auth ? <Home data={check?.data}  perfom={data} student={check?.data}/> : <LoginForm />} />
