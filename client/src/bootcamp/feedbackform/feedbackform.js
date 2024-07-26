@@ -138,7 +138,7 @@ export const FeedbackForm = () => {
         
             <FormControl id="rating" mb={4}>
               <FormLabel>Rating</FormLabel>
-              <HStack spacing={12}>
+              <HStack spacing={{base:8, md:12}}>
                 {Array(5)
                   .fill("")
                   .map((_, i) => (
