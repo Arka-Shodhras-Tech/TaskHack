@@ -6,6 +6,8 @@ export const UpdateGender = async (regd, gender, res) => {
                 if (result?.Gender) {
                     res.json(result)
                 }
+
+                
             })
             .catch((e) => console.log(e))
     } catch (error) {
