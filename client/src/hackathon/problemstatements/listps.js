@@ -251,6 +251,8 @@ export const ProblemStatementsListView = () => {
             <option value="number">Sort by Number</option>
             <option value="theme">Sort by Theme</option>
             <option value="title">Sort by Title</option>
+            <option value="IdealFor">Sort by Ideal For</option>
+
           </Select>
           <Button ml={4} onClick={handleReset}>
             Reset
@@ -285,9 +287,9 @@ export const ProblemStatementsListView = () => {
                       <Tr key={index}>  
                         <Td>{task?.Number}</Td>
                         <Td><Badge colorScheme={task?.Theme?.toLowerCase() === 'yoga' ? 'green' :  'blue' }>{task.Theme}</Badge></Td>
-                        <Td>{task?.Statement}</Td>
-                        <Td className='limitText'>{task?.Desc}</Td>
-                        <Td className='limitText'>{task?.IdealFor=="2"?`2nd`: "All"} years</Td>
+                        <Td  className='limitText1'>{task?.Statement}</Td>
+                        <Td className='limitText2' >{task?.Desc}</Td>
+                        <Td >{task?.IdealFor=="2"?`2nd`: "All"} years</Td>
                         <Td>
                           <Button onClick={() => handleDownloadExcel(task)} size="sm">
                             <Tooltip label="Download problem statement">

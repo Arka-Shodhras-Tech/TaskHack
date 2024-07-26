@@ -37,7 +37,6 @@ function App() {
     await Actions.CheckTeam(teamcode, teamname)
       .then((res) => {
         if (res?.data?.message === "Login successful") {
-
           setTeam(res?.data);
         }
       })
@@ -47,7 +46,6 @@ function App() {
   const checkhackJoin = async () => {
     await Actions.JoinHackathon(teamcode, member, password, true)
       .then((res) => {
-
         if (res?.data?.message === "Login successful") {
           setAuth(true)
           dispatch({
