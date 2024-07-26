@@ -28,6 +28,7 @@ export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
   const [members, setMembers] = useState("");
   const [memberDetails, setMemberDetails] = useState([]);
   const [password, setPassword] = useState("");
+  const [loading,setLoading] = useState(false)
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleMemberDetailsChange = (index, value) => {
@@ -37,6 +38,8 @@ export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
   };
 
   const handleSubmit = async () => {
+
+   
     if (!termsAccepted) {
       toast({
         title: "Terms and Conditions",
@@ -77,7 +80,7 @@ export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
         return;
       }
       const memberDetailsString = memberDetails.join(",");
-
+      setLoading(true)
       try {
         const res = await Actions.CreateTeam(
           team,
@@ -134,6 +137,9 @@ export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
           position: "bottom-right",
           isClosable: true,
         });
+      }
+      finally{
+        setLoading(false)
       }
     } else {
       toast({
@@ -246,7 +252,7 @@ export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
           </Box>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+          <Button colorScheme="blue" mr={3} onClick={handleSubmit} disabled={loading}>
             Create Team
           </Button>
           <Button variant="ghost" onClick={onClose}>

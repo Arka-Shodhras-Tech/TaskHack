@@ -30,7 +30,7 @@ export const BootcampNav = () => {
             <p className="college-name">
                 <img src={"../srkr-name-banner.png"} alt="srkr name banner"/>
             </p>
-            <h1 className="h1-animation">VEDIC VISION BOOTCAMP</h1>
+            <h1 className="h1-animation-name">VEDIC VISION BOOTCAMP</h1>
             </div>
         
         </div>
