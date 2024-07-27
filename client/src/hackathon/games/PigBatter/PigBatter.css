@@ -69,9 +69,10 @@
 }
 .holes {
   display: grid;
+  width: 100%;
   justify-content: center;
   grid-template-columns: repeat(4, 250px);
-  grid-gap: calc(100% - 4 * 300px);
+  grid-gap: calc(100% - 5 * 300px);
 
   @media (max-width: 720px) {
     grid-template-columns: repeat(3, 200px);
@@ -80,6 +81,7 @@
 
     
   }
+
 }
 
 .hole {
