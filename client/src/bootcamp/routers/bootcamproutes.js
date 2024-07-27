@@ -26,6 +26,7 @@ export const BootcampRoutes = ({data,offline,routes}) => {
     useEffect(()=>{
         auth&&Actions.userAuth(auth)
         .then((res)=>{
+            console.log(res.data)
             setCheck(res?.data)
             setLoad(true)
         }).catch((e)=>console.log(e))
