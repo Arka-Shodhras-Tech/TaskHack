@@ -64,6 +64,10 @@
         margin-top: 20%;
       font-size: 1.2em;
     }
+    .h1-animation-name{
+        margin-top: 5%;
+      font-size: 1.2em;
+    }
   }
 .navigate-back-button{
     position: fixed !important;
