@@ -217,7 +217,7 @@ export const CreateTeam = ({ isOpen, onClose, data,refreshTeamCodes }) => {
                 maxLength={10}
                 value={memberDetails[index] || ""}
                 onChange={(e) =>
-                  handleMemberDetailsChange(index, e.target.value.toLowerCase())
+                  handleMemberDetailsChange(index, e.target.value.toUpperCase())
                 }
                 mb={2}
               />

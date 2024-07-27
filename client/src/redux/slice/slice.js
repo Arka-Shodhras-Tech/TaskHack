@@ -44,6 +44,8 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         HtrLoginState: action.payload.HtrLoginState,
+        Htr:action.payload.Htr,
+        Htrpass:action.payload.Htrpass
       };
       case "TECHTEAMLOGIN":
         return {

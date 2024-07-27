@@ -44,20 +44,17 @@ const HTRLoginForm = ({ isAuth }) => {
             position: "top-right",
             isClosable: true,
           });
-
           dispatch({
             type: "HTRLOGIN",
             payload: {
+              Htr: res?.data?.data?.HtrCode,
+              Htrpass: res?.data?.data?.Password,
               HtrLoginState: true,
             },
           });
-
-
           setHtrId("");
           setHtrPassword("");
           setHtrAuth(true);
-
-          window.location.href = "/htrlogin"
         }
       } catch (error) {
         console.error("Error checking HTR:", error);
@@ -79,6 +76,7 @@ const HTRLoginForm = ({ isAuth }) => {
       Login();
     }
   };
+
   const fetchData = async () => {
     try {
       const res = await Actions.TeamsCodes();
@@ -89,15 +87,17 @@ const HTRLoginForm = ({ isAuth }) => {
       console.error("Error fetching team codes:", error);
     }
   };
+
   useEffect(() => {
     fetchData()
   }, [])
-
 
   const handleLogout = () => {
     dispatch({
       type: "HTRLOGIN",
       payload: {
+        Htr:"",
+        Htrpass:"",
         HtrLoginState: false,
       },
     });
@@ -108,13 +108,12 @@ const HTRLoginForm = ({ isAuth }) => {
       }
     )
     window.location.reload();
-
   }
   return (
     <Flex align="center" justify="center" minH="100vh" bg="gray.50">
-      <CreateTeam isOpen={show} onClose={() => setShow(false)} data={data}  
-        refreshTeamCodes={()=>fetchData()}
-        />
+      <CreateTeam isOpen={show} onClose={() => setShow(false)} data={data}
+        refreshTeamCodes={() => fetchData()}
+      />
       <Flex
         p={8}
         maxW="800px"

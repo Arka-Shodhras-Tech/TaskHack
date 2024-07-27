@@ -71,8 +71,6 @@ const TeamLoginForm = () => {
     }
   };
 
-
-
   return (
     <Flex align="center" justify="center" minH="100vh" bg="gray.50">
       <Flex
