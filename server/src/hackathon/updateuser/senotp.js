@@ -3,7 +3,24 @@ import { message } from "../message/message.js";
 export const SendOtp = async (req, resend, res) => {
     const { regd } = req.body;
     try {
-        const user = await db1.collection('Hackathondata').findOne({  Reg_No: { $regex: new RegExp(`^${regd}$`, 'i')} });
+        const user = await db1.collection('Hackathondata').findOne({
+            $expr: {
+                $eq: [
+                    {
+                        $replaceAll: {
+                            input: {
+                                $toUpper: {
+                                    $replaceAll: { input: "$Reg_No", find: " ", replacement: "" }
+                                }
+                            },
+                            find: " ",
+                            replacement: ""
+                        }
+                    },
+                    regd.toUpperCase().replace(/\s+/g, '')
+                ]
+            }
+        });
         if (!user) {
             return res.json({ error: 'Invalid registration number.' });
         }
