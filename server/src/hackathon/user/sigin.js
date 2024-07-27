@@ -40,7 +40,24 @@ export const SignIn = async (req, resend, res) => {
             });
 
             await db1.collection('Hackathondata').findOneAndUpdate(
-                { Reg_No: user.Reg_No },  
+                {
+                    $expr: {
+                        $eq: [
+                            {
+                                $replaceAll: {
+                                    input: {
+                                        $toUpper: {
+                                            $replaceAll: { input: "$Reg_No", find: " ", replacement: "" }
+                                        }
+                                    },
+                                    find: " ",
+                                    replacement: ""
+                                }
+                            },
+                            regd.toUpperCase().replace(/\s+/g, '')
+                        ]
+                    }
+                },  
                 { $set: { Password: crepassword } }
             )
             .then((details) => res.json({ message: "Password successfully sent to your mail", data: details }))

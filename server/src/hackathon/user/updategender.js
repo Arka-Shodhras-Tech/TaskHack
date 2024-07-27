@@ -1,16 +1,37 @@
 import { db1 } from "../../db.js";
+
 export const UpdateGender = async (regd, gender, res) => {
     try {
-        await db1.collection('Hackathondata').findOneAndUpdate({  Reg_No: { $regex: new RegExp(`^${regd}$`, 'i') }}, { $set: { Gender: gender } })
-            .then((result) => {
-                if (result?.Gender) {
-                    res.json(result)
+        const result = await db1.collection('Hackathondata').findOneAndUpdate(
+            {
+                $expr: {
+                    $eq: [
+                        {
+                            $replaceAll: {
+                                input: {
+                                    $toUpper: {
+                                        $replaceAll: { input: "$Reg_No", find: " ", replacement: "" }
+                                    }
+                                },
+                                find: " ",
+                                replacement: ""
+                            }
+                        },
+                        regd.toUpperCase().replace(/\s+/g, '')
+                    ]
                 }
+            },
+            { $set: { Gender: gender } },
+            { returnOriginal: false } 
+        );
 
-                
-            })
-            .catch((e) => console.log(e))
+        if (result.value) { 
+            res.json(result.value);
+        } else {
+            res.status(404).json({ message: "Document not found" });
+        }
     } catch (error) {
-
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
-}
+};

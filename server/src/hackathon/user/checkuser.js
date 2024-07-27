@@ -1,14 +1,33 @@
 import { db1 } from "../../db.js";
+
 export const checkUser = async (regd, res) => {
     try {
-        await db1.collection('Hackathondata').findOne({ Reg_No:  { $regex: new RegExp(`^${regd}$`, 'i') }})
-            .then((result) => {
-                if (result?.Reg_No) {
-                    res.json({ auth: true, data: result })
-                }
-            })
-            .catch((e) => console.log(e))
-    } catch (error) {
+        const result = await db1.collection('Hackathondata').findOne({
+            $expr: {
+                $eq: [
+                    {
+                        $replaceAll: {
+                            input: {
+                                $toUpper: {
+                                    $replaceAll: { input: "$Reg_No", find: " ", replacement: "" }
+                                }
+                            },
+                            find: " ",
+                            replacement: ""
+                        }
+                    },
+                    regd.toUpperCase().replace(/\s+/g, '')
+                ]
+            }
+        });
 
+        if (result?.Reg_No) {
+            res.json({ auth: true, data: result });
+        } else {
+            res.status(404).json({ auth: false, message: "User not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
-}
+};
