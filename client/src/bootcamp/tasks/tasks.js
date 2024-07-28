@@ -107,7 +107,7 @@ export const Tasks = () => {
         const result = student?.Tasks?.[day]?.some((val12) => val12?.Task === tasks && val12?.GetMarks)
         return result;
     }
-
+console.log(tasks)
     return (
         <div className="tasks-align">
             <div style={{ width: "100%", display: 'flex', justifyContent: 'right' }}>
@@ -119,6 +119,7 @@ export const Tasks = () => {
                         <h3 style={{ display: 'flex', justifyContent: 'center' }}>Day {val?.Day}</h3>
                         {
                             !mytasks ? val?.Tasks?.map((task, index) => (
+                               
                                 task?.Show && <div key={index} className="task-item">
                                     <div style={{textAlign:"left"}}>
                                         <Text className="task-title" fontSize={['sm', 'md', 'lg']}>Task : {task?.Task}</Text>
