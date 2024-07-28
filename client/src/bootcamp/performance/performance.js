@@ -11,7 +11,7 @@ const Performance = ({ perfom, student }) => {
   const [sortConfig, setSortConfig] = useState({ key: 'AttendDays', direction: 'descending' });
 
   sessionStorage.setItem('student', student?.AttendDays);
-  sessionStorage.setItem('admin', perfom?.Count);
+  sessionStorage.setItem('admin', perfom);
 
   const calculateMarks = (student) => {
     let marks = 0;
@@ -29,8 +29,8 @@ const Performance = ({ perfom, student }) => {
   };
 
   const handleStudents = async (data) => {
-    const filteredData = data.filter(student => student?.Tasks);
-    const marks = filteredData.map(student => {
+    const filteredData = data?.filter(student => student?.Tasks);
+    const marks = filteredData?.map(student => {
       let totalMarks = 0;
       Object.values(student?.Tasks)?.forEach(tasks => {
         Object.values(tasks)?.forEach(task => {
@@ -48,6 +48,7 @@ const Performance = ({ perfom, student }) => {
   useEffect(() => {
     Actions.Students()
       .then(res => {
+        // console.log(res?.data)
         // const filteredData = res?.data?.filter(student => student.AttendDays !== undefined);
         // console.log(filteredData)
         // const sortedData = filteredData.sort((a, b) => b.AttendDays - a.AttendDays);
@@ -105,8 +106,8 @@ const Performance = ({ perfom, student }) => {
               </tr>
             </thead>
             <tbody>
-              {sdata.map((student, index) => (
-                <tr key={student._id}>
+              {sdata?.map((student, index) => (
+                <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{student.Name}</td>
                   <td>{student?.Attendance}%</td>
