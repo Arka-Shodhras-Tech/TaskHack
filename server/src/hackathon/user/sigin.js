@@ -63,7 +63,10 @@ export const SignIn = async (req, resend, res) => {
             .then((details) => res.json({ message: "Password successfully sent to your mail", data: details }))
             .catch((e) => res.json({ errmsg: "Required fields", error: e }));
         } else if (user.Password === password) {
-            res.status(200).json({ passmessage: "Login successful", data: user });
+            const { ActivityMarks,InternalMarks, HackActivityMarks, HackInternalMarks,Password, Score,...safeData } = user; 
+
+
+            res.status(200).json({ passmessage: "Login successful", data: safeData });
         } else {
             res.json({ passerror: "Incorrect password", data: "Data not found" });
         }

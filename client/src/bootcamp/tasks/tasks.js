@@ -119,6 +119,7 @@ export const Tasks = () => {
                         <h3 style={{ display: 'flex', justifyContent: 'center' }}>Day {val?.Day}</h3>
                         {
                             !mytasks ? val?.Tasks?.map((task, index) => (
+                               
                                 task?.Show && <div key={index} className="task-item">
                                     <div style={{textAlign:"left"}}>
                                         <Text className="task-title" fontSize={['sm', 'md', 'lg']}>Task : {task?.Task}</Text>

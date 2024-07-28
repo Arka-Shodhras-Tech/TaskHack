@@ -15,12 +15,23 @@ export const HomeModel = ({ open, close, data }) => {
   const [gender, setGender] = useState();
   const toast = useToast();
   const Save = async () => {
+
+    if(!gender){
+      toast({
+        title: "Select Your Gender",
+        position: "top-right",
+        status:"warning"
+      });
+      return;
+    }
     await Actions.updateGender(data?.Reg_No, gender)
       .then((res) => {
-        if (res) {
+        console.log(res)
+        if (res.message === "success") {
           toast({
             title: "Gender Updated Successfully",
             position: "top-right",
+            status:"success"
           });
           close();
           window.location.reload(5);
