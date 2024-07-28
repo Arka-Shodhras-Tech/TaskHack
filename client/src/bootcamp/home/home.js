@@ -10,7 +10,6 @@ import {
   Tooltip,
   useToast,
 } from "@chakra-ui/react";
-import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Actions } from "../../actions/actions";

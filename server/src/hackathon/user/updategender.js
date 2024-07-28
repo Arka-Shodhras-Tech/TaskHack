@@ -1,4 +1,5 @@
 import { db1 } from "../../db.js";
+import { message } from "../message/message.js";
 
 export const UpdateGender = async (regd, gender, res) => {
     try {
@@ -24,11 +25,12 @@ export const UpdateGender = async (regd, gender, res) => {
             { $set: { Gender: gender } },
             { returnOriginal: false } 
         );
+        console.log(result);
 
-        if (result.value) { 
-            res.json(result.value);
+        if (result) { 
+            res.json({message:"success"});
         } else {
-            res.status(404).json({ message: "Document not found" });
+            res.json({ message: "Document not found" });
         }
     } catch (error) {
         console.error(error);
