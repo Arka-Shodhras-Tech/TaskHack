@@ -107,7 +107,7 @@ export const Tasks = () => {
         const result = student?.Tasks?.[day]?.some((val12) => val12?.Task === tasks && val12?.GetMarks)
         return result;
     }
-console.log(tasks)
+
     return (
         <div className="tasks-align">
             <div style={{ width: "100%", display: 'flex', justifyContent: 'right' }}>
