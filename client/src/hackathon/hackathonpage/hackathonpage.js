@@ -51,7 +51,12 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
   const dispatch = useDispatch();
   const handleJoin = async () => {
     try {
-      const response = await Actions.JoinHackathon(teamCode, registrationNumber, password,false);
+      const response = await Actions.JoinHackathon(
+        teamCode,
+        registrationNumber,
+        password,
+        false
+      );
       if (response?.data?.error) {
         toast({
           title: "Error joining team.",
@@ -67,7 +72,7 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
             TeamCode: response?.data?.data?.TeamCode,
             TeamPassword: response?.data?.data?.Password,
             TeamMember: registrationNumber,
-            TeamData:response?.data?.data,
+            TeamData: response?.data?.data,
           },
         });
         onClose();
@@ -88,7 +93,6 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
         status: "error",
         duration: 5000,
         isClosable: true,
-        
       });
     }
   };
@@ -100,36 +104,35 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
         TeamCode: "",
         TeamPassword: "",
         TeamMember: "",
-        TeamData:""
+        TeamData: "",
       },
     });
     window.location.reload();
   };
 
-
   useEffect(() => {
     fetchData();
-}, []);
+  }, []);
 
-const fetchData = async () => {
+  const fetchData = async () => {
     try {
-        const res = await Actions.TeamMembers();
-        setTechTeamData(res?.data || []);
+      const res = await Actions.TeamMembers();
+      setTechTeamData(res?.data || []);
     } catch (error) {
-        console.error("Error fetching team members:", error);
-        toast({
-            title: "Failed to fetch team members.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-        });
-    } 
-};
+      console.error("Error fetching team members:", error);
+      toast({
+        title: "Failed to fetch team members.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <Center p={8} className="hackathon-container">
       <DisplayTimer socket={socket} />
-      <TechTeamList techTeamData={TechTeamData}/>
+      <TechTeamList techTeamData={TechTeamData} />
       <Stack spacing={8} maxW="5xl" w="full">
         <div className="text-center">
           {!isAuth && (
@@ -139,7 +142,10 @@ const fetchData = async () => {
           )}
           {isAuth && (
             <>
-              <Button className="join-button" onClick={() => window.location.href = "/games"}>
+              <Button
+                className="join-button"
+                onClick={() => (window.location.href = "/games")}
+              >
                 Games
               </Button>
               <Button onClick={handleLogout} colorScheme="red">
@@ -149,12 +155,36 @@ const fetchData = async () => {
           )}
         </div>
         <div>
+          {isAuth && (
+            <Card key="ps" className="task-card">
+              <CardHeader className="task-header">
+                <Heading
+                  textAlign="center"
+                  fontSize="2xl"
+                  className="task-title-color"
+                >
+                  Your Problem Statement {RoundData?.PS?.Number} title:{" "}
+                  {RoundData?.PS?.Statement}
+                </Heading>
+              </CardHeader>
+              <CardBody className="task-body">
+                <Text className="task-content" as="p">
+                  {" "}
+                  {RoundData?.PS?.Statement}
+                </Text>
+              </CardBody>
+            </Card>
+          )}
           {isAuth &&
             tasks.map((task, index) => (
               <Card key={index} className="task-card">
                 <CardHeader className="task-header">
-                  <Heading textAlign="center" fontSize="2xl" className="task-title-color">
-                   Round {index+1}: {task.Task}
+                  <Heading
+                    textAlign="center"
+                    fontSize="2xl"
+                    className="task-title-color"
+                  >
+                    Round {index + 1}: {task.Task}
                   </Heading>
                 </CardHeader>
                 <CardBody className="task-body">
@@ -165,7 +195,12 @@ const fetchData = async () => {
         </div>
       </Stack>
       {isAuth && (
-        <Chat socket={socket} teamId={teamcode} participantId={member} teamname={teamname} />
+        <Chat
+          socket={socket}
+          teamId={teamcode}
+          participantId={member}
+          teamname={teamname}
+        />
       )}
       <TeamJoinModal
         isOpen={isOpen}

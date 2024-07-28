@@ -160,7 +160,7 @@ export const message = {
                         <h1
                             style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">
                             Welcome to Vedic Vision Hackathon, ${name}!</h1>
-                            <h3>Your password update OTP</h3>
+                          
                     </td>
                 </tr>
             </table>
@@ -178,8 +178,12 @@ export const message = {
                 <tr>
                     <td align="left" bgcolor="#ffffff"
                         style="padding: 15px 13px 15px;text-align: center; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                        <p style="margin: 0; padding-top: 10px; font-size:14px;">Updateform Link: <a href="https://asthack.me/bootcamp/updateform"
-                                target="_blank">Click Here</a></p>
+                        <p style="margin: 0; padding-top: 10px; font-size:14px;">Password update Link: <br>
+                        <button style="background-color:blue;padding:5px;border-radius:20px">
+                        <a href="https://asthack.me/bootcamp/updateform"
+                       style="color:white; text-decoration: none" target="_blank">Click Here</a>
+                       </button>     
+                        </p>
                     </td>
                 </tr>
                 <tr>

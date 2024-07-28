@@ -7,7 +7,25 @@ export const SignIn = async (req, resend, res) => {
 
     try {
         // Create a case-insensitive regex pattern for the registration number
-        const user = await db1.collection('Hackathondata').findOne({ Reg_No: { $regex: new RegExp(`^${regd}$`, 'i') } });
+        const user = await db1.collection("Hackathondata").findOne({
+            $expr: {
+              $eq: [
+                {
+                  $replaceAll: {
+                    input: {
+                      $toUpper: {
+                        $replaceAll: { input: "$Reg_No", find: " ", replacement: "" }
+                      }
+                    },
+                    find: " ",
+                    replacement: ""
+                  }
+                },
+                regd.toUpperCase().replace(/\s+/g, '')
+              ]
+            }
+          });
+          
         if (!user) {
             return res.json({ error: 'Invalid registration number.' });
         }
@@ -22,7 +40,24 @@ export const SignIn = async (req, resend, res) => {
             });
 
             await db1.collection('Hackathondata').findOneAndUpdate(
-                { Reg_No: user.Reg_No },  
+                {
+                    $expr: {
+                        $eq: [
+                            {
+                                $replaceAll: {
+                                    input: {
+                                        $toUpper: {
+                                            $replaceAll: { input: "$Reg_No", find: " ", replacement: "" }
+                                        }
+                                    },
+                                    find: " ",
+                                    replacement: ""
+                                }
+                            },
+                            regd.toUpperCase().replace(/\s+/g, '')
+                        ]
+                    }
+                },  
                 { $set: { Password: crepassword } }
             )
             .then((details) => res.json({ message: "Password successfully sent to your mail", data: details }))
