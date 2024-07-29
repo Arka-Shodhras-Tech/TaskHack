@@ -22,7 +22,8 @@ export const checkUser = async (regd, res) => {
         });
 
         if (result?.Reg_No) {
-            res.json({ auth: true, data: result });
+            const { ActivityMarks,InternalMarks, HackActivityMarks, HackInternalMarks,Password, Score,...safeData } = result; 
+            res.json({ auth: true, data: safeData });
         } else {
             res.status(404).json({ auth: false, message: "User not found" });
         }
