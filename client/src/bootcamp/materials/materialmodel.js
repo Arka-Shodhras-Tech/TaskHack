@@ -4,7 +4,6 @@ import {
     ModalBody,
     ModalCloseButton,
     ModalContent,
-    ModalHeader,
     ModalOverlay
 } from '@chakra-ui/react'
 export const MaterialModel = ({ open, close, fileType, fileUrl, imageContent }) => {
@@ -12,7 +11,7 @@ export const MaterialModel = ({ open, close, fileType, fileUrl, imageContent }) 
         <Modal onClose={close} size={"full"} isOpen={open}>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader style={{display:'flex',justifyContent:'right',margin:'1% 2% 0 0'}}><ModalCloseButton /></ModalHeader>
+            <ModalCloseButton backgroundColor={"red"} color={"white"}/>
                 <ModalBody>
                     {fileType === 'image' && fileUrl && (
                         <Box mt={4} textAlign="center">
