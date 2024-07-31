@@ -16,6 +16,7 @@ import EnhancedNetworkChecker from "../services/NetworkChecker.js";
 import { socket } from "../services/socket.js";
 import "./App.css";
 import { LandingRoute } from "./allroutes/landingroute.js";
+import { PageNotFound } from "../pagenotfound/pagenotfound.js";
 
 function App() {
   const [start, setStart] = useState(false);
@@ -89,7 +90,7 @@ function App() {
               path="/*"
               element={
                 routes?.main ? (
-                  <HackthonDayRoute socket={socket} isAuth={ishackAuth} />
+                  <HackthonDayRoute routes={routes} socket={socket} isAuth={ishackAuth} />
                 ) : (
                   <LandingRoute />
                 )
@@ -126,7 +127,7 @@ function App() {
               path="/htrs"
               element={routes?.htrs ? HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList /> : <LandingRoute />}
             />
-            <Route path="/gallery" element={routes?.gallery ? <ShowGallery /> : <LandingRoute />} />
+            <Route path="/gallery" element={routes?.gallery ? <ShowGallery /> : <PageNotFound/>} />
             <Route path="/problemstatements" element={routes?.Problemstatements ? <ProblemStatementsListView /> : <LandingRoute />} />
           </Routes>
         </BrowserRouter>

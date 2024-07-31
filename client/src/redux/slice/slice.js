@@ -30,7 +30,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         Teamcode: action.payload.Teamcode,
-        Teamname: action.payload.Teamname,
+        Teamname: action.payload.Teamname
       };
     case "JOINHACK":
       return {
@@ -38,6 +38,7 @@ const userReducer = (state = initialState, action) => {
         Teamcode: action.payload.TeamCode,
         TeamMember: action.payload.TeamMember,
         TeamPassword: action.payload.TeamPassword,
+        TeamName:action.payload.TeamName,
         TeamData: action.payload.TeamData,
       };
     case "HTRLOGIN":

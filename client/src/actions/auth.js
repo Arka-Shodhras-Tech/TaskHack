@@ -5,6 +5,7 @@ export const Authentication = () => {
 
     const teamcode = useSelector((state) => state.user?.Teamcode);
     const teamname = useSelector((state) => state.user?.Teamname);
+    const teamName = useSelector((state) => state.user?.TeamName);
     const member = useSelector((state) => state.user?.TeamMember);
     const password = useSelector((state) => state.user?.TeamPassword);
     const HtrAuth = useSelector((state) => state.user?.HtrLoginState);
@@ -15,5 +16,5 @@ export const Authentication = () => {
     axios.defaults.headers.common['code'] = Htr
     axios.defaults.headers.common['password'] = Htrpass
 
-    return { teamcode, teamname, member, password, HtrAuth, TechTeamMemberAuth, Htr, Htrpass };
+    return { teamcode, teamname,teamName, member, password, HtrAuth, TechTeamMemberAuth, Htr, Htrpass };
 };
