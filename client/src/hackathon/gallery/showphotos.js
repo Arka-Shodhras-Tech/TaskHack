@@ -32,7 +32,7 @@ export const ShowGallery = () => {
     return (
         images.length > 0 ? (
             <>
-                <h2 align="center">Hello Team {teamName}</h2>
+                <h2 align="center">Hello Team, {teamName}</h2>
                 <div className="collage-container">
                     {images.map((image) => {
                         const randomWidth = possibleWidths[Math.floor(Math.random() * possibleWidths.length)];
