@@ -21,7 +21,7 @@ import SendIcon from "@mui/icons-material/Send";
 import "./Chat.css";
 const MotionBox = motion(Box);
 
-function Chat({ socket, participantId, teamId,teamname }) {
+function Chat({ socket, participantId, teamId, teamname }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
@@ -40,7 +40,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
   }, []);
 
   useEffect(() => {
-  
+
     localStorage.setItem("isChatOpen", JSON.stringify(isChatOpen));
   }, [isChatOpen]);
 
@@ -59,7 +59,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
       scrollToBottom();
     }
   }, [messages, isChatOpen]);
-  
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     setUnreadCount(0)
@@ -72,24 +72,24 @@ function Chat({ socket, participantId, teamId,teamname }) {
     }
     setMessages((prevMessages) => [...prevMessages, msg]);
   };
-  
+
   const notifyUser = (msg) => {
-    
-    if (Notification.permission === "granted" && msg.participantId!==participantId  ) {
+
+    if (Notification.permission === "granted" && msg.participantId !== participantId) {
       new Notification(`New chat from ${msg.participantId} `, {
-        body: msg.text, 
-    icon :"https://asthack.me/ast-logo.png"
+        body: msg.text,
+        icon: "https://asthack.me/ast-logo.png"
       });
     }
   };
-  
+
   // Request notification permission
   useEffect(() => {
     if (Notification.permission !== "granted") {
       Notification.requestPermission();
     }
   }, []);
-  
+
   const handleSendMessage = () => {
     if (message.trim()) {
       const newMessage = {
@@ -150,9 +150,9 @@ function Chat({ socket, participantId, teamId,teamname }) {
                 alignItems="center"
               >
                 <HStack spacing={2} alignItems="center">
-                  <Avatar name={teamname||`Team ${teamId}'s chat`} src="" size="sm" />
+                  <Avatar name={teamname || `Team ${teamId}'s chat`} src="" size="sm" />
                   <Text fontSize="xl" fontWeight="bold" mb={0} color="white">
-                   {teamname||` Team ${teamId}'s chat`}
+                    {teamname || ` Team ${teamId}'s chat`}
                   </Text>
                 </HStack>
                 <IconButton
@@ -175,19 +175,19 @@ function Chat({ socket, participantId, teamId,teamname }) {
                   <React.Fragment key={index}>
                     {(index === 0 ||
                       new Date(msg.timestamp).toDateString() !==
-                        new Date(messages[index - 1].timestamp).toDateString()) && (
-                      <Box
-                        position="sticky"
-                        justifyContent="center"
-                        display="flex"
-                        top="0"
-                        zIndex={50}
-                      >
-                        <Badge colorScheme="green">
-                          {formatMessageDate(msg.timestamp)}
-                        </Badge>
-                      </Box>
-                    )}
+                      new Date(messages[index - 1].timestamp).toDateString()) && (
+                        <Box
+                          position="sticky"
+                          justifyContent="center"
+                          display="flex"
+                          top="0"
+                          zIndex={50}
+                        >
+                          <Badge colorScheme="green">
+                            {formatMessageDate(msg.timestamp)}
+                          </Badge>
+                        </Box>
+                      )}
                     <VStack
                       align={
                         msg.participantId === participantId
@@ -227,7 +227,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                            {msg.participantId !== participantId  && <Text color={"white"}  mb={0} p={0}>
+                          {msg.participantId !== participantId && <Text color={"white"} mb={0} p={0}>
                             {msg.participantId}
                           </Text>}
                           <Text color={"gray.900"} mb={0} fontWeight={2}>
@@ -237,7 +237,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
                             {formatTimestamp(msg.timestamp)}
                           </Text>
                         </MotionBox>
-                       
+
                       </HStack>
                     </VStack>
                   </React.Fragment>
@@ -281,7 +281,7 @@ function Chat({ socket, participantId, teamId,teamname }) {
               height="50px"
               p={2}
             >
-              <Avatar name={teamname||`Team ${teamId}'s chat`} src={teamId} size="sm" />
+              <Avatar name={teamname || `Team ${teamId}'s chat`} src={teamId} size="sm" />
               <Text
                 fontSize="xl"
                 fontWeight="bold"
@@ -295,8 +295,8 @@ function Chat({ socket, participantId, teamId,teamname }) {
               {
                 unreadCount > 0 &&
                 <Badge ml='1' colorScheme='green'>
-                New {unreadCount}
-              </Badge>
+                  New {unreadCount}
+                </Badge>
               }
               <IconButton
                 aria-label="Open chat"

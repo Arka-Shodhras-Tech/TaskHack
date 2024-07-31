@@ -1,22 +1,49 @@
-body {
-    background: #000;
-    margin: 18px;
+iframe {    
+    border-radius: 20px;
+    transition: transform 0.2s;
+    background-color: #313131;
 }
 
-.lg-react-element {
-    column-count: 3;
-    column-gap: 10px;
+/* iframe:hover {
+    filter: opacity(.9);
+    transform: scale(1.01);
+} */
+
+.collage-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* background-color:#313131; */
+    /* margin: -5px; */
+}
+
+.collage-item {
+    margin: 5px;
+    width: 200%;
+    object-fit: fill;
+    background: #313131;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    transition: transform 0.2s ease-in-out;
+    flex-shrink: 0;
 }
 
 img {
-    max-width: 100%;
+    width: 200%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire area */
+  }
+
+/* .collage-item:hover {
+    transform: scale(1.05);
+} */
+
+.collage-item iframe {
+    border-radius: 10px;
     display: block;
-    padding: 5px 0px;
-    border-radius: 20px;
-    transition: transform 0.2s;
+    border: none;
 }
 
-img:hover {
-    filter: opacity(.9);
-    transform: scale(1.01);
-}

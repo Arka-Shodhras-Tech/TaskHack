@@ -1,37 +1,28 @@
 import {
-  Box,
+  Button,
   Card,
   CardBody,
   CardHeader,
   Center,
   Heading,
-  Input,
-  Button,
   Stack,
   Text,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import "./hackathonpage.css";
-import axios from "axios";
-import DisplayTimer from "../timers/displayTimer";
-import { useNavigate } from "react-router-dom";
-import TeamJoinModal from "./joinhackathonmodal";
-import { Actions } from "../../actions/actions";
-import { useDispatch, useSelector } from "react-redux";
 import Logout from "@mui/icons-material/Logout";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Actions } from "../../actions/actions";
 import Chat from "../../services/chatting/Chat";
+import DisplayTimer from "../timers/displayTimer";
+import "./hackathonpage.css";
+import TeamJoinModal from "./joinhackathonmodal";
 import TechTeamList from "./techteamlist";
+import Galley from './gallery.jpeg'
 
-export const Hackathonpage = ({ isAuth = false, socket }) => {
+export const Hackathonpage = ({route, isAuth = false, socket }) => {
   const nav = useNavigate();
   document.title = "Hackathon | Team AST";
 
@@ -72,6 +63,7 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
             TeamCode: response?.data?.data?.TeamCode,
             TeamPassword: response?.data?.data?.Password,
             TeamMember: registrationNumber,
+            TeamName: response?.data?.data?.Team,
             TeamData: response?.data?.data,
           },
         });
@@ -148,6 +140,7 @@ export const Hackathonpage = ({ isAuth = false, socket }) => {
               >
                 Games
               </Button>
+              {route?.gallery&&<Button backgroundImage={Galley} onClick={()=>nav('/gallery')}>Show Gallery</Button>}
               <Button onClick={handleLogout} colorScheme="red">
                 <Logout />
               </Button>

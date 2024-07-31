@@ -1,67 +1,64 @@
-import LightGallery from 'lightgallery/react';
 import React, { useEffect, useState } from 'react';
-
-import 'lightgallery/css/lg-autoplay.css';
-import 'lightgallery/css/lg-fullscreen.css';
-import 'lightgallery/css/lg-rotate.css';
-import 'lightgallery/css/lg-share.css';
-import 'lightgallery/css/lg-thumbnail.css';
-import 'lightgallery/css/lg-zoom.css';
-import 'lightgallery/css/lightgallery.css';
-import lgAutoplay from 'lightgallery/plugins/autoplay';
-import lgFullscreen from 'lightgallery/plugins/fullscreen';
-import lgRotate from 'lightgallery/plugins/rotate';
-import lgShare from 'lightgallery/plugins/share';
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgZoom from 'lightgallery/plugins/zoom';
 import { Actions } from '../../actions/actions';
-import { OpenFile } from '../../actions/openfile';
 import './showphotos.css';
+import { Authentication } from '../../actions/auth';
 
 export const ShowGallery = () => {
     const [images, setImages] = useState([]);
-    const teamcode = 1209;
+    const fixedHeight = 500;
+    const possibleWidths = [600, 500, 800, 550, 750];
+    const { teamName } = Authentication()
 
-    const fetchTeamPhotos = async () => {
+    const ShowPhotos = async () => {
         try {
-            const res = await Actions.TeamsPhotos(teamcode);
-            const photoUrls = await Promise.all(res?.data?.map(photo => OpenFile(photo)));
-            setImages(photoUrls.map((url, index) => ({
-                id: index,
-                src: url,
-                alt: `Photo ${index + 1}`
-            })));
-            if(!images){
-                fetchTeamPhotos()
-            }
+            const res = await Actions.ShowPhotos(teamName);
+            const allPhotos = res?.data?.flatMap((val) =>
+                val?.Links?.map((photo) => ({
+                    id: photo?.id,
+                    src: photo?.webViewLink,
+                    alt: photo?.name,
+                }))
+            );
+            setImages(allPhotos);
         } catch (error) {
-            console.error('Error fetching team photos:', error);
+            console.error('Failed to fetch photos', error);
         }
     };
 
-    if(!images){
-        return(
-            <h1>Please wait...</h1>
-        )
-    }
-
     useEffect(() => {
-        fetchTeamPhotos();
-    },[]);
+        ShowPhotos();
+    }, []);
 
     return (
-        images?<div className="App">
-            <LightGallery
-                speed={500}
-                plugins={[lgThumbnail, lgZoom, lgAutoplay, lgFullscreen, lgRotate, lgShare]}
-            >
-                {images.map((image) => (
-                    <a href={image?.src?.url} key={image.id}>
-                        <img alt={image.alt} src={image?.src?.url} />
-                    </a>
-                ))}
-            </LightGallery>
-        </div>:
-        <h1>Please wait...</h1>
+        images.length > 0 ? (
+            <>
+                <h2 align="center">Hello Team {teamName}</h2>
+                <div className="collage-container">
+                    {images.map((image) => {
+                        const randomWidth = possibleWidths[Math.floor(Math.random() * possibleWidths.length)];
+                        return (
+                            <iframe
+                                key={image.id}
+                                title={image.alt}
+                                src={`https://drive.google.com/file/d/${image.id}/preview`}
+                                width="200%"
+                                height="100vh"
+                                frameBorder="0"
+                                allowFullScreen
+                                className="collage-item"
+                                style={{
+                                    width: `${randomWidth}px`,
+                                    height: `${fixedHeight}px`,
+                                    margin: '5px',
+                                    objectFit: 'cover'
+                                }}
+                            />
+                        );
+                    })}
+                </div>
+            </>
+        ) : (
+            <h1>Please wait...</h1>
+        )
     );
 };
