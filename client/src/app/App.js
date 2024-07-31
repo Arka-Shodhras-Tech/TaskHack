@@ -127,7 +127,7 @@ function App() {
               path="/htrs"
               element={routes?.htrs ? HtrAuth ? <HTRLoginForm isAuth={HtrAuth} /> : <HtrsContactList /> : <LandingRoute />}
             />
-            <Route path="/gallery" element={!routes?.gallery ? <ShowGallery /> : <PageNotFound/>} />
+            <Route path="/gallery" element={routes?.gallery ? <ShowGallery /> : <PageNotFound/>} />
             <Route path="/problemstatements" element={routes?.Problemstatements ? <ProblemStatementsListView /> : <LandingRoute />} />
           </Routes>
         </BrowserRouter>
