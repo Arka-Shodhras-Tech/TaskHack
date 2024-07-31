@@ -25,6 +25,7 @@ import { UpdateGender } from "./user/updategender.js";
 import { checkTechTeam } from "./Teams/techteam.js";
 import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
 import { HtrTeamMiddlware } from "../middleware/htm.middleware.js";
+import exportLowAttendanceStudents from "../sample.js"
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -172,5 +173,11 @@ app.post('/unselectps', async (req, res) => {
 app.post("/addfeedback", async (req, res) => {
     await AddFeedback(req, res)
 })
+
+// app.get('/lowattendance', async (req, res) => {
+//       await exportLowAttendanceStudents(req.query.days,res);
+   
+   
+//   });
 
 export default app

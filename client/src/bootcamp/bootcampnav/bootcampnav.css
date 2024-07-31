@@ -92,6 +92,7 @@
    
     img{
         height: 60px;
+        width: fit-content;
     }
 
   
@@ -100,7 +101,8 @@
 
 @media (max-width:680px) {
     .collegename img{
-        height: 45px;
+        height: 30px;
+        width: fit-content;
     }
     .college-name {
         top:25px;
