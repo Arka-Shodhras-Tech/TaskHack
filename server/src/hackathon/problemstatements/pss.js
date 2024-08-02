@@ -54,7 +54,6 @@ export const PSS = async (req, res) => {
         }
       ]).toArray();
     }
-console.log(typeof(teamcode));
     const filteredTasks = tasks.map((task) => {
       if (task.Desc && (!task.Users || task.Users.length < 2 || task.Users.includes(teamcode))) {
         const { Users, ...rest } = task;
