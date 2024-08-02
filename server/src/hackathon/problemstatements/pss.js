@@ -48,13 +48,13 @@ export const PSS = async (req, res) => {
             $or: [
               { Users: { $exists: false } },
               { $expr: { $lt: [{ $size: "$Users" }, 2] } },
-              { Users: teamcode }
+              { Users: parseInt(teamcode) }
             ]
           }
         }
       ]).toArray();
     }
-
+console.log(typeof(teamcode));
     const filteredTasks = tasks.map((task) => {
       if (task.Desc && (!task.Users || task.Users.length < 2 || task.Users.includes(teamcode))) {
         const { Users, ...rest } = task;
