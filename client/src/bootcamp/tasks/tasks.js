@@ -114,7 +114,7 @@ export const Tasks = () => {
                 <Button style={{ backgroundColor: "black", color: 'white' }} onClick={() => setMytasks(mytasks ? false : true)}>{!mytasks ? "My Tasks" : "View All "}</Button>
             </div>
             <div className="task-list">
-                {tasks?.map((val) => (
+                {tasks?.sort((task1, task2) => task2.Day - task1.Day).map((val) => (
                     val?.Show && <div key={val?.Day}>
                         <h3 style={{ display: 'flex', justifyContent: 'center' }}>Day {val?.Day}</h3>
                         {
