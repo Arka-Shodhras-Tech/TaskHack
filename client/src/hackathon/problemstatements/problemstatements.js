@@ -12,7 +12,7 @@ export const ProblemStatements = ({ data, reload }) => {
     const [stmt, setStmt] = useState(true)
     const [select, setSelect] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    const [count, setCount] = useState()
+    const [count, setCount] = useState(2)
     const [my, setMy] = useState(false)
     const teamcode = useSelector((state) => state.user?.Teamcode)
     const toast = useToast();
@@ -20,7 +20,7 @@ export const ProblemStatements = ({ data, reload }) => {
 
     useEffect(() => {
         fetchTasks();
-        CountPss()
+        // CountPss()
     }, []);
 
     const fetchTasks = async () => {
@@ -37,18 +37,16 @@ export const ProblemStatements = ({ data, reload }) => {
         }
     };
 
-    console.log(dat)
-
-    const CountPss = async () => {
-        await Actions.PSSC()
-            .then((res) => {
-                if (res?.data?.data?.Members && res?.data?.data?.Statements) {
-                    setCount((res?.data?.data?.Members / res?.data?.data?.Statements).toFixed(0))
-                } else {
-                    setCount('')
-                }
-            }).catch((e) => console.log(e))
-    }
+    // const CountPss = async () => {
+    //     await Actions.PSSC()
+    //         .then((res) => {
+    //             if (res?.data?.data?.Members && res?.data?.data?.Statements) {
+    //                 setCount((res?.data?.data?.Members / res?.data?.data?.Statements).toFixed(0))
+    //             } else {
+    //                 setCount('')
+    //             }
+    //         }).catch((e) => console.log(e))
+    // }
 
     const SelectPS = async (number, stmt, desc) => {
         setStmt(false)
@@ -133,11 +131,11 @@ export const ProblemStatements = ({ data, reload }) => {
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', margin: '2% 0%' }}>
                                 {my || <Button bg="#3AA6B9" onClick={() => setSelect('sports')}>Sports</Button>}
                                 {my || <Button bg="#3AA6B9" onClick={() => setSelect('yoga')}>Yoga</Button>}
-                                <Button bg="#3AA6B9" onClick={() => { setMy(my ? false : true);  }}>{my ? "View all statements" : "My Statement"}</Button>
+                                <Button bg="#3AA6B9" onClick={() => { setMy(my ? false : true); }}>{my ? "View all statements" : "My Statement"}</Button>
                             </div>
                             <Box mt={8}>
                                 <div className='task-box'>
-                                    <h1 className='h1-tasks'>{my ? "My " : "All Available " }Problem Statements</h1>
+                                    <h1 className='h1-tasks'>{my ? "My " : "All Available "}Problem Statements</h1>
                                     {dat && dat?.filter(val =>
                                         (val?.Theme?.toLowerCase().includes(select) ||
                                             val?.Number?.includes(select) ||
@@ -145,11 +143,10 @@ export const ProblemStatements = ({ data, reload }) => {
                                             val?.Statement?.toLowerCase().includes(select)) ||
                                         val?.Users?.some(state => state.includes(parseInt(select)))
                                     )?.map((task) => (
-                                        !my ? (task?.Users?.length || 0) <= count && task?.Number && <Card m={2}>
+                                        !my ? (task?.Users?.length || 0)<2 &&<Card m={2}>
                                             <CardHeader>
                                                 <Heading size='md'>Problem Statement Number : {task?.Number}</Heading>
-                                                <Badge colorScheme={task.Theme === "sports"?"blue":"green"}>{task?.Theme}</Badge>
-
+                                                <Badge colorScheme={task.Theme === "sports" ? "blue" : "green"}>{task?.Theme}</Badge>
                                             </CardHeader>
                                             <CardBody>
                                                 <Stack divider={<StackDivider />} spacing='4'>
@@ -172,7 +169,7 @@ export const ProblemStatements = ({ data, reload }) => {
                                                 </Stack>
                                             </CardBody>
                                         </Card>
-                                            : task?.Number && <Card>
+                                            : task?.Number && task?.Users?.includes(teamcode) && <Card>
                                                 <CardHeader>
                                                     <Heading size='md'>Problem Statement Number {task?.Number}</Heading>
                                                 </CardHeader>
@@ -190,7 +187,7 @@ export const ProblemStatements = ({ data, reload }) => {
                                                         <Button onClick={() => UnSelectPS(task?.Number)}>unselect</Button>}
                                                     </Text>} */}
                                                             {stmt && <Text textAlign={'center'}>
-                                                                {!data?.PS ? <Button colorScheme="green" onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc)  } }>select</Button> :
+                                                                {!data?.PS ? <Button colorScheme="green" onClick={() => { SelectPS(task?.Number, task?.Statement, task?.Desc) }}>select</Button> :
                                                                     data?.PS?.Number === task?.Number && <Button colorScheme="red" onClick={() => { UnSelectPS(task?.Number) }}>unselect</Button>}
                                                             </Text>}
                                                         </Box>

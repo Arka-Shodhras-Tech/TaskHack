@@ -33,9 +33,7 @@ export const PSS = async (req, res) => {
         {
           $match: {
             $or: [
-              { Users: { $exists: false } },
-              { $expr: { $lt: [{ $size: "$Users" }, 2] } },
-              { Users: teamcode }
+              { Desc: { $exists: true } },
             ]
           }
         }
@@ -46,16 +44,15 @@ export const PSS = async (req, res) => {
           $match: {
             IdealFor,
             $or: [
-              { Users: { $exists: false } },
-              { $expr: { $lt: [{ $size: "$Users" }, 2] } },
-              { Users: parseInt(teamcode) }
+              { Desc: { $exists: true } }
             ]
           }
         }
       ]).toArray();
     }
-    const filteredTasks = tasks.map((task) => {
-      if (task.Desc && (!task.Users || task.Users.length < 2 || task.Users.includes(teamcode))) {
+
+    const filteredTasks = tasks?.map((task) => {
+      if (task?.Desc && (!task.Users || task?.Users?.length < 2 || task?.Users?.includes(teamcode))) {
         const { Users, ...rest } = task;
         return rest;
       }
