@@ -92,7 +92,7 @@ app.post('/bootcamptasks', async (req, res) => {
     await Tasks(res)
 });
 
-app.post('/Students', async (req, res) => {
+app.post('/Students1', async (req, res) => {
     await StudentTasks(res)
 });
 
