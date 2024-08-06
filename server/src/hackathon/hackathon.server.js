@@ -25,9 +25,6 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
-import { checkTechTeam } from "./Teams/techteam.js";
-import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
-import { HtrTeamMiddlware } from "../middleware/htm.middleware.js";
 import exportLowAttendanceStudents from "./services/sample.js"
 import { exportUsersToExcel } from "./services/cerificates_data.js";
 
