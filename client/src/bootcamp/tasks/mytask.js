@@ -3,7 +3,7 @@ export const MyTasks = ({ tasks, day, unselect }) => {
   return (
     <div className="task-list">
       {
-        tasks.Tasks?.[day]?.map((task, index) => (
+        tasks?.Tasks?.[day]?.map((task, index) => (
           <div key={index} className="task-item">
             <div>
               <div className="task-title">Task : {task?.Task}</div>
