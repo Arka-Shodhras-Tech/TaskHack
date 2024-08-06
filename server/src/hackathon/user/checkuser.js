@@ -25,7 +25,7 @@ export const checkUser = async (regd, res) => {
             const { ActivityMarks,InternalMarks, HackActivityMarks, HackInternalMarks,Password, Score,...safeData } = result; 
             res.json({ auth: true, data: safeData });
         } else {
-            res.status(404).json({ auth: false, message: "User not found" });
+            res.status(404).json({ auth: false, message: "User not found" ,data:result});
         }
     } catch (error) {
         console.error(error);

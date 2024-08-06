@@ -167,7 +167,7 @@ export const ProblemStatements = ({ data, reload }) => {
                                                 </Stack>
                                             </CardBody>
                                         </Card>
-                                            : task?.Number && task?.Users?.includes(teamcode) && <Card>
+                                            : task?.Number && task?.Users?.includes(parseInt(teamcode)) && <Card>
                                                 <CardHeader>
                                                     <Heading size='md'>Problem Statement Number {task?.Number}</Heading>
                                                 </CardHeader>
