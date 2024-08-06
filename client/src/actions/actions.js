@@ -6,7 +6,7 @@ export const Actions = {
     },
 
     Students: async () => {
-        return await axios.post(process.env.REACT_APP_Server + "/Students1")
+        return await axios.post(process.env.React_App_Students + "/Students")
     },
 
     updateGender: async (id, gender) => {

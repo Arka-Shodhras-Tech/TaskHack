@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Text, Button } from '@chakra-ui/react';
+import { Text, Button, Spinner } from '@chakra-ui/react';
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
 import './performance.css';
 import { Actions } from '../../actions/actions';
@@ -15,7 +15,7 @@ const Performance = ({ perfom, student }) => {
 
   const calculateMarks = (student) => {
     let marks = 0;
-    student?.Tasks && Object.values(student.Tasks).forEach(val =>
+    student?.Tasks && Object.values(student?.Tasks).forEach(val =>
       val && Object.values(val).forEach(val1 => {
         marks += parseInt(val1.GetMarks || 0);
       })
@@ -84,7 +84,7 @@ const Performance = ({ perfom, student }) => {
 
   const Others = () => {
     return (
-      <div className="others">
+      sdata?.length>0?<div className="others">
         <h2>Others</h2>
         <div className='table-container'>
           <table className='table-align'>
@@ -117,7 +117,7 @@ const Performance = ({ perfom, student }) => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div>:<Spinner size="xl" />
     );
   };
 
