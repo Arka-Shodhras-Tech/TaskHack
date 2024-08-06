@@ -25,7 +25,8 @@ import { UpdateGender } from "./user/updategender.js";
 import { checkTechTeam } from "./Teams/techteam.js";
 import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
 import { HtrTeamMiddlware } from "../middleware/htm.middleware.js";
-import exportLowAttendanceStudents from "../sample.js"
+import exportLowAttendanceStudents from "./services/sample.js"
+import { exportUsersToExcel } from "./services/cerificates_data.js";
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -179,5 +180,11 @@ app.post("/addfeedback", async (req, res) => {
    
    
 //   });
+
+// app.get('/alldata', async (req, res) => {
+
+// exportUsersToExcel(res)
+
+// });
 
 export default app
