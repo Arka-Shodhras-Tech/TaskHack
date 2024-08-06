@@ -2,10 +2,13 @@ import cors from "cors";
 import express from 'express';
 import session from 'express-session';
 import { Resend } from 'resend';
+import { HtrTeamMiddlware } from "../middleware/htm.middleware.js";
 import { AllTeamRegistrers } from "./Teams/allteamregistrers.js";
 import { checkHtr } from "./Teams/checkhtr.js";
 import { AllTeamCodes, checkTeam, TeamPhotos } from "./Teams/checkteam.js";
 import { CreateTeam } from "./Teams/createteams.js";
+import { checkTechTeam } from "./Teams/techteam.js";
+import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
 import { SelectTask, UnSelectTask } from "./bootcamp/tasks/selecttask.js";
 import { StudentTasks, Tasks } from "./bootcamp/tasks/tasks.js";
 import { AddFeedback } from "./feedback/addfeedback.js";
@@ -22,10 +25,6 @@ import { checkUser } from "./user/checkuser.js";
 import { SignIn } from "./user/sigin.js";
 import { SignUp } from "./user/signup.js";
 import { UpdateGender } from "./user/updategender.js";
-import { checkTechTeam } from "./Teams/techteam.js";
-import { AllTechTeamMembers, UpdateTechTeamMemberStatus } from "./Teams/techteamactions.js";
-import { HtrTeamMiddlware } from "../middleware/htm.middleware.js";
-import exportLowAttendanceStudents from "../sample.js"
 
 const resend = new Resend(process.env.Resend_Key);
 const app = express()
@@ -92,7 +91,7 @@ app.post('/bootcamptasks', async (req, res) => {
     await Tasks(res)
 });
 
-app.post('/Students1', async (req, res) => {
+app.post('/Students', async (req, res) => {
     await StudentTasks(res)
 });
 
