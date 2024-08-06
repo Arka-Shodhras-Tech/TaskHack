@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { MyTasks } from './mytask';
 import './tasks.css';
+import { Actions } from '../../actions/actions';
 
 export const Tasks = () => {
     const [tasks, setTasks] = useState([]);
@@ -24,11 +25,9 @@ export const Tasks = () => {
 
     const fetchStudentTasks = async () => {
         try {
-            const response = await axios.post(process.env.REACT_APP_Server + '/Students');
-            if (response.data) {
-                response?.data?.map((res) => (
-                    res?.Reg_No === user && setStudent(res)
-                ))
+            const response = await Actions.userAuth(user)
+            if (response?.data) {
+                setStudent(response?.data?.data)
             }
         } catch (error) {
             console.error('Error fetching tasks:', error);
